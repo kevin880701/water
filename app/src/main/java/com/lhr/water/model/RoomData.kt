@@ -1,0 +1,45 @@
+package com.lhr.water.model
+
+
+object RoomData {
+    val targetEntities = arrayListOf(
+    TargetData("2F", 0, "A201", 200001, 110f, 110f, "mark", 0),
+    TargetData("2F", 0, "A202", 200002, 420f, 110f, "mark", 0),
+    TargetData("2F", 0, "A203", 200003, 790f, 110f, "mark", 0),
+    TargetData("2F", 0, "A204", 200004, 1220f, 110f, "mark", 0),
+    TargetData("2F", 0, "A205", 200005, 1550f, 110f, "mark", 0),
+    TargetData("2F", 0, "A206", 200006, 1750f, 110f, "mark", 0),
+    TargetData("2F", 0, "A207", 200007, 1970f, 110f, "mark", 0),
+    TargetData("2F", 0, "A208", 200008, 2190f, 110f, "mark", 0),
+    TargetData("2F", 0, "A209", 200009, 270f, 550f, "mark", 0),
+    TargetData("2F", 0, "A210", 200010, 800f, 550f, "mark", 0),
+    TargetData( "2F", 0, "A211", 200011, 1650f, 550f, "mark", 0),
+    TargetData( "2F", 0, "A212", 200012, 2070f, 550f, "mark", 0),
+    TargetData( "2F", 0, "A213", 200013, 270f, 1050f, "mark", 0),
+    TargetData( "2F", 0, "A214", 200014, 700f, 1050f, "mark", 0),
+    TargetData( "2F", 0, "A215", 200015, 950f, 1050f, "mark", 0),
+    TargetData( "2F", 0, "A216", 200016, 1520f, 1050f, "mark", 0),
+    TargetData( "2F", 0, "A217", 200017, 1800f, 1050f, "mark", 0),
+    TargetData( "2F", 0, "A218", 200018, 2120f, 1050f, "mark", 0),
+    TargetData( "2F", 0, "樓梯", 200019, 1250f, 1100f, "stairs", 3),
+    TargetData( "1F", 1, "A101", 100001, 580f, 150f, "office", 1),
+    TargetData( "1F", 1, "A102", 100002, 1175f, 150f, "office", 1),
+    TargetData( "1F", 1, "A103", 100003, 2000f, 150f, "office", 1),
+    TargetData( "1F", 1, "A104", 100004, 300f, 560f, "office", 1),
+    TargetData( "1F", 1, "廁所", 100005, 800f, 560f, "wc", 5),
+    TargetData( "1F", 1, "A106", 100006, 2000f, 560f, "office", 1),
+    TargetData( "1F", 1, "樓梯", 100007, 1450f, 70f, "stairs", 3),
+    TargetData( "1F", 1, "大門", 100008, 1300f, 720f, "door", 2),
+    TargetData( "B1", 2, "B101", 1001, 130f, 180f, "parking", 6),
+    TargetData( "B1", 2, "B102", 1002, 380f, 180f, "parking", 6),
+    TargetData( "B1", 2, "B103", 1003, 640f, 180f, "parking", 6),
+    TargetData( "B1", 2, "B104", 1004, 1950f, 180f, "parking", 6),
+    TargetData( "B1", 2, "B105", 1005, 2200f, 180f, "parking", 6),
+    TargetData( "B1", 2, "B101", 1006, 130f, 940f, "parking", 6),
+    TargetData( "B1", 2, "B102", 1007, 380f, 940f, "parking", 6),
+    TargetData( "B1", 2, "B103", 1008, 640f, 940f, "parking", 6),
+    TargetData( "B1", 2, "B104", 1009, 1950f, 940f, "parking", 6),
+    TargetData( "B1", 2, "B105", 1010, 2200f, 940f, "parking", 6),
+    TargetData( "B1", 2, "電梯", 1011, 1300f, 1390f, "elevator", 4)
+    )
+}

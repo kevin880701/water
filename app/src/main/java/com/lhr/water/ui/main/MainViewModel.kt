@@ -1,0 +1,16 @@
+package com.lhr.water.ui.main
+
+import android.app.Application
+import androidx.lifecycle.AndroidViewModel
+import androidx.lifecycle.MutableLiveData
+
+class MainViewModel(application: Application) : AndroidViewModel(application) {
+
+    companion object {
+        var currentCategoryIds: MutableLiveData<String> =
+            MutableLiveData<String>().apply { postValue("") }
+    }
+    var title: MutableLiveData<String> = MutableLiveData<String>().apply { value = "Water" }
+    var userName: MutableLiveData<String> = MutableLiveData<String>().apply { value = "Hi XXXXX" }
+
+}
