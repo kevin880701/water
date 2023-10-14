@@ -1,12 +1,14 @@
 package com.lhr.water.ui.form
 
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
+import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.lhr.water.R
@@ -34,9 +36,10 @@ class FormFragment : Fragment(), View.OnClickListener {
         binding.viewModel = viewModel
 
         binding.lifecycleOwner = this
-        viewModel.title.postValue(this.requireContext().resources.getString(R.string.form))
+        binding.textUser.text = "Hello, Anna"
+//        viewModel.title.postValue(this.requireContext().resources.getString(R.string.form))
 
-        initRecyclerView(binding.recyclerForm)
+//        initRecyclerView(binding.recyclerForm)
 
         return view
     }
@@ -49,10 +52,19 @@ class FormFragment : Fragment(), View.OnClickListener {
 
     fun initRecyclerView(recyclerView: RecyclerView) {
 
-        val formList = ArrayList(resources.getStringArray(R.array.form_array).toList())
-        recyclerView.layoutManager = LinearLayoutManager(this.context)
-        formAdapter = FormAdapter(formList)
-        recyclerView.adapter = formAdapter
+
+//        binding.recyclerPurchase.adapter = lockerAdapter
+//        binding.recyclerPurchase.layoutManager = GridLayoutManager(requireContext(), 3)
+//        binding.recyclerPurchase.addItemDecoration(GridSpacingItemDecoration(3, ScreenUtils.dp2px(requireContext(), 8), true))
+//
+//        binding.recyclerShipping.adapter = camAdapter
+//        binding.recyclerShipping.layoutManager = GridLayoutManager(requireContext(), 3)
+//        binding.recyclerShipping.addItemDecoration(GridSpacingItemDecoration(3, ScreenUtils.dp2px(requireContext(), 8), true))
+//
+//        binding.recyclerOthers.adapter = plugAdapter
+//        binding.recyclerOthers.layoutManager = GridLayoutManager(requireContext(), 3)
+//        binding.recyclerOthers.addItemDecoration(GridSpacingItemDecoration(3, ScreenUtils.dp2px(requireContext(), 8), true))
+
     }
 
     override fun onClick(v: View?) {
