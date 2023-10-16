@@ -48,13 +48,19 @@
             app:layout_constraintLeft_toRightOf="@id/imageViewUser" />
 
 
-        <androidx.constraintlayout.widget.ConstraintLayout
+        <androidx.core.widget.NestedScrollView
+            android:id="@+id/scrollViewForm"
+            android:layout_width="match_parent"
             android:layout_height="0dp"
-            android:layout_width="0dp"
+            android:fillViewport="true"
             app:layout_constraintTop_toBottomOf="@+id/viewUserBackground"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintLeft_toLeftOf="parent"
-            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintRight_toRightOf="parent">
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_height="wrap_content"
+            android:layout_width="match_parent"
+            app:layout_constraintTop_toBottomOf="@+id/viewUserBackground"
             android:background="@drawable/bg_round_up_f1f1f1" >
 
             <TextView
@@ -67,6 +73,7 @@
                 android:layout_marginLeft="17dp"
                 android:includeFontPadding="false"
                 android:text="@string/purchase"
+                android:textColor="@color/seed"
                 android:textAppearance="@style/TextAppearance.Astec.HeadLine5" />
 
             <androidx.recyclerview.widget.RecyclerView
@@ -89,6 +96,7 @@
                 android:layout_marginLeft="17dp"
                 android:includeFontPadding="false"
                 android:text="@string/shipping"
+                android:textColor="@color/seed"
                 android:textAppearance="@style/TextAppearance.Astec.HeadLine5" />
 
             <androidx.recyclerview.widget.RecyclerView
@@ -111,6 +119,7 @@
                 android:layout_marginLeft="17dp"
                 android:includeFontPadding="false"
                 android:text="@string/others"
+                android:textColor="@color/seed"
                 android:textAppearance="@style/TextAppearance.Astec.HeadLine5" />
 
             <androidx.recyclerview.widget.RecyclerView
@@ -124,6 +133,7 @@
                 tools:listitem="@layout/item_form2" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>
+        </androidx.core.widget.NestedScrollView>
 
 <!--        <androidx.recyclerview.widget.RecyclerView-->
 <!--            android:id="@+id/recyclerForm"-->
