@@ -3,6 +3,10 @@ plugins {
     id("org.jetbrains.kotlin.android")
     id ("kotlin-android")
     id ("kotlin-kapt")
+    // Add the Google services Gradle plugin
+    id("com.google.gms.google-services")
+    // Add the Crashlytics Gradle plugin
+    id("com.google.firebase.crashlytics")
 }
 
 android {
@@ -43,8 +47,11 @@ android {
         viewBinding = true
     }
 }
-
 dependencies {
+    val activity_version = "1.2.3"
+    val lifecycle = "2.2.0"
+    val room = "2.2.1"
+    val fragment_version = "1.3.5"
 
     implementation("androidx.core:core-ktx:1.9.0")
     implementation("androidx.appcompat:appcompat:1.6.1")
@@ -53,17 +60,30 @@ dependencies {
     testImplementation("junit:junit:4.13.2")
     androidTestImplementation("androidx.test.ext:junit:1.1.5")
     androidTestImplementation("androidx.test.espresso:espresso-core:3.5.1")
-    // LiveData
-    implementation ("androidx.lifecycle:lifecycle-extensions:2.2.0")
-    implementation ("androidx.lifecycle:lifecycle-livedata-ktx:2.2.0")
+    // viewModel
+    implementation ("androidx.lifecycle:lifecycle-extensions:$lifecycle")
+    implementation ("androidx.lifecycle:lifecycle-livedata-ktx:$lifecycle")
+    implementation ("androidx.lifecycle:lifecycle-viewmodel-savedstate:$lifecycle")
     implementation ("androidx.lifecycle:lifecycle-viewmodel-ktx:2.5.1")
-    implementation ("androidx.lifecycle:lifecycle-viewmodel-savedstate:2.2.0")
+    implementation ("androidx.activity:activity-ktx:$activity_version")
+    implementation ("androidx.fragment:fragment-ktx:$fragment_version")
     //room
-    implementation ("androidx.room:room-runtime:2.2.1")
-    annotationProcessor ("androidx.room:room-compiler:2.2.1")
-    testImplementation ("androidx.room:room-testing:2.2.1")
-    kapt ("androidx.room:room-compiler:2.2.1")
-    implementation ("androidx.room:room-ktx:2.2.1")
+    implementation ("androidx.room:room-runtime:$room")
+    annotationProcessor ("androidx.room:room-compiler:$room")
+    testImplementation ("androidx.room:room-testing:$room")
+    kapt ("androidx.room:room-compiler:$room")
+    implementation ("androidx.room:room-ktx:$room")
     //CircleImageView
     implementation ("de.hdodenhof:circleimageview:3.1.0")
+    // Firebase BoM
+    implementation(platform("com.google.firebase:firebase-bom:32.3.1"))
+    // 如有使用BoM，皆不需要指定版本
+    implementation("com.google.firebase:firebase-analytics-ktx")
+    implementation("com.google.firebase:firebase-crashlytics-ktx")
+    implementation("com.google.firebase:firebase-analytics-ktx")
+    // Timber
+    implementation ("com.jakewharton.timber:timber:5.0.1")
+    //rxjava2
+    implementation ("io.reactivex.rxjava2:rxjava:2.2.10")
+    implementation ("io.reactivex.rxjava2:rxandroid:2.1.1")
 }

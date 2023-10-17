@@ -11,7 +11,7 @@
     android:background="@drawable/bg_form_list_item">
 
     <com.google.android.material.imageview.ShapeableImageView
-        android:id="@+id/iv_status"
+        android:id="@+id/imageForm"
         android:layout_width="8dp"
         android:layout_height="8dp"
         android:background="#38D58A"
@@ -32,7 +32,7 @@
         app:layout_constraintBottom_toBottomOf="parent" />
 
     <TextView
-        android:id="@+id/tv_name"
+        android:id="@+id/textFormName"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:textAppearance="@style/TextAppearance.Astec.HeadLine4"
@@ -44,7 +44,7 @@
         android:layout_marginBottom="10dp"
         android:gravity="center_horizontal"
         android:textStyle="normal"
-        tools:text="大門攝影機"
+        tools:text="表單"
         android:maxLines="1"
         android:ellipsize="end"
         android:textColor="@color/seed"

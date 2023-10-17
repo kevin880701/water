@@ -35,10 +35,7 @@ class MapActivity(): AppCompatActivity() {
         super.onCreate(savedInstanceState)
 
         binding = DataBindingUtil.setContentView(this, R.layout.activity_map)
-        viewModel = ViewModelProvider(
-            this,
-            MapViewModelFactory(this.application)
-        )[MapViewModel::class.java]
+
         binding.viewModel = viewModel
         region = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
             intent.getParcelableExtra("region", String::class.java) as String

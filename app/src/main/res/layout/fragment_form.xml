@@ -13,7 +13,7 @@
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="@color/white">
+        android:background="@color/background">
 
         <View
             android:id="@+id/viewUserBackground"
@@ -64,84 +64,28 @@
             android:background="@drawable/bg_round_up_f1f1f1" >
 
             <TextView
-                android:id="@+id/textPurchase"
+                android:id="@+id/textForm"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 app:layout_constraintTop_toTopOf="parent"
                 app:layout_constraintLeft_toLeftOf="parent"
-                android:layout_marginTop="17dp"
-                android:layout_marginLeft="17dp"
+                android:layout_marginTop="18dp"
+                android:layout_marginLeft="18dp"
                 android:includeFontPadding="false"
-                android:text="@string/purchase"
+                android:text="@string/form"
                 android:textColor="@color/seed"
                 android:textAppearance="@style/TextAppearance.Astec.HeadLine5" />
 
             <androidx.recyclerview.widget.RecyclerView
-                android:id="@+id/recyclerPurchase"
+                android:id="@+id/recyclerForm"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                app:layout_constraintTop_toBottomOf="@id/textPurchase"
+                app:layout_constraintTop_toBottomOf="@id/textForm"
                 app:layout_constraintLeft_toLeftOf="parent"
                 android:layout_marginTop="8dp"
                 tools:itemCount="1"
                 tools:listitem="@layout/item_form2" />
-
-            <TextView
-                android:id="@+id/textShipping"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                app:layout_constraintTop_toBottomOf="@+id/recyclerPurchase"
-                app:layout_constraintLeft_toLeftOf="parent"
-                android:layout_marginTop="17dp"
-                android:layout_marginLeft="17dp"
-                android:includeFontPadding="false"
-                android:text="@string/shipping"
-                android:textColor="@color/seed"
-                android:textAppearance="@style/TextAppearance.Astec.HeadLine5" />
-
-            <androidx.recyclerview.widget.RecyclerView
-                android:id="@+id/recyclerShipping"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                app:layout_constraintTop_toBottomOf="@id/textShipping"
-                app:layout_constraintLeft_toLeftOf="parent"
-                android:layout_marginTop="8dp"
-                tools:itemCount="1"
-                tools:listitem="@layout/item_form2" />
-
-            <TextView
-                android:id="@+id/textOthers"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                app:layout_constraintTop_toBottomOf="@+id/recyclerShipping"
-                app:layout_constraintLeft_toLeftOf="parent"
-                android:layout_marginTop="17dp"
-                android:layout_marginLeft="17dp"
-                android:includeFontPadding="false"
-                android:text="@string/others"
-                android:textColor="@color/seed"
-                android:textAppearance="@style/TextAppearance.Astec.HeadLine5" />
-
-            <androidx.recyclerview.widget.RecyclerView
-                android:id="@+id/recyclerOthers"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                app:layout_constraintTop_toBottomOf="@id/textOthers"
-                app:layout_constraintLeft_toLeftOf="parent"
-                android:layout_marginTop="8dp"
-                tools:itemCount="1"
-                tools:listitem="@layout/item_form2" />
-
         </androidx.constraintlayout.widget.ConstraintLayout>
         </androidx.core.widget.NestedScrollView>
-
-<!--        <androidx.recyclerview.widget.RecyclerView-->
-<!--            android:id="@+id/recyclerForm"-->
-<!--            android:layout_width="match_parent"-->
-<!--            android:layout_height="0dp"-->
-<!--            app:layout_constraintTop_toBottomOf="@id/viewUserBackground"-->
-<!--            app:layout_constraintBottom_toBottomOf="parent"-->
-<!--            app:layout_constraintLeft_toLeftOf="parent"-->
-<!--            app:layout_constraintRight_toRightOf="parent"/>-->
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

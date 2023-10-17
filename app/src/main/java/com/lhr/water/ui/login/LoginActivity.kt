@@ -11,11 +11,13 @@ import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.ViewModelProvider
 import com.lhr.water.R
 import com.lhr.water.databinding.ActivityLoginBinding
+import com.lhr.water.ui.base.APP
 import com.lhr.water.ui.main.MainActivity
 
 
 class LoginActivity : AppCompatActivity(), View.OnClickListener {
 
+//    private val viewModel: LoginViewModel by viewModels{(applicationContext as APP).appContainer.viewModelFactory}
     lateinit var viewModel: LoginViewModel
     lateinit var binding: ActivityLoginBinding
 

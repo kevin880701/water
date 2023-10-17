@@ -5,19 +5,24 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.animation.AlphaAnimation
 import android.view.animation.Animation
+import androidx.activity.viewModels
 import androidx.constraintlayout.widget.ConstraintLayout
+import androidx.core.content.res.ResourcesCompat
 import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.ViewModelProvider
 import com.lhr.water.room.SqlDatabase
 import com.lhr.water.room.TargetEntity
 import com.lhr.water.R
 import com.lhr.water.databinding.ActivityCoverBinding
+import com.lhr.water.databinding.ActivityLoginBinding
 import com.lhr.water.model.Model
 import com.lhr.water.model.Model.Companion.allTargetDataArrayList
 import com.lhr.water.model.Model.Companion.allTargetEntityArrayList
 import com.lhr.water.model.Model.Companion.regionNameArrayList
 import com.lhr.water.model.RoomData
 import com.lhr.water.model.TargetData
+import com.lhr.water.ui.base.APP
+import com.lhr.water.ui.login.LoginViewModel
 import com.lhr.water.ui.main.MainActivity
 import com.lhr.water.ui.map.MapActivity
 import kotlinx.coroutines.GlobalScope
@@ -25,18 +30,16 @@ import kotlinx.coroutines.launch
 
 class CoverActivity : AppCompatActivity() {
 
-    lateinit var viewModel: CoverViewModel
-    lateinit var binding: ActivityCoverBinding
+    private val viewModel: LoginViewModel by viewModels{(applicationContext as APP).appContainer.viewModelFactory}
+
+    private var _binding: ActivityCoverBinding? = null
+    private val binding get() = _binding!!
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-
-        binding = DataBindingUtil.setContentView(this, R.layout.activity_cover)
-        viewModel = ViewModelProvider(
-            this,
-            CoverViewModelFactory(this.application)
-        )[CoverViewModel::class.java]
-        binding.viewModel = viewModel
+        _binding = ActivityCoverBinding.inflate(layoutInflater)
+        setContentView(binding.root)
+        window.statusBarColor = ResourcesCompat.getColor(resources, R.color.seed, null)
 
         // 創建Model
         Model

@@ -7,31 +7,23 @@
     <string name="scanner">掃描</string>
     <string name="scanner_barcode">掃描條碼</string>
     <string name="ok">確認</string>
-    <string name="purchase">進貨</string>
-    <string name="shipping">出貨</string>
-    <string name="others">其他</string>
-    <string-array name="purchase_array">
+    <string name="delivery">交貨</string>
+    <string name="check">驗收</string>
+    <string name="take_goods">領料</string>
+    <string name="allocate">調撥</string>
+    <string name="return_goods">退料</string>
+    <string-array name="form_array">
         <item>交貨</item>
         <item>驗收</item>
-        <item>請撥</item>
-        <item>請撥</item>
-    </string-array>
-    <string-array name="shipping_array">
         <item>領料</item>
         <item>調撥</item>
         <item>退料</item>
-        <item>退料</item>
-        <item>退料</item>
-        <item>退料</item>
-        <item>退料</item>
     </string-array>
-
-    <string-array name="others_array">
-        <item>堪用品/整修</item>
-        <item>讓售</item>
-        <item>捐贈</item>
+    <string-array name="region_array">
+        <item>2F</item>
+        <item>1F</item>
+        <item>B1</item>
     </string-array>
-
     <string-array name="map_array">
         <item>2F</item>
         <item>1F</item>
