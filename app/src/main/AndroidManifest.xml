@@ -32,6 +32,10 @@
             android:launchMode="singleTask"
             android:theme="@style/Theme.Water"/>
 
+        <activity android:name="com.lhr.water.ui.login.LoginActivity"
+            android:launchMode="singleTask"
+            android:theme="@style/Theme.Water"/>
+
         <activity android:name="com.lhr.water.ui.mapChoose.MapChooseActivity"
             android:launchMode="singleTask"
             android:theme="@style/Theme.Water"/>

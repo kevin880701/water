@@ -49,9 +49,10 @@ class QrcodeActivity : BaseActivity(), OnPermissionListener {
     private fun initView() {
         beepManager = BeepManager(this)
         val formats: Collection<BarcodeFormat> = Arrays.asList(BarcodeFormat.QR_CODE)
-        binding.scanner.barcodeView.decoderFactory = DefaultDecoderFactory(formats)
+        // 使用<com.journeyapps.barcodescanner.DecoratedBarcodeView>才會用到
+//        binding.scanner.barcodeView.decoderFactory = DefaultDecoderFactory(formats)
         binding.scanner.decodeContinuous(callback)
-        binding.scanner.statusView.text = ""
+//        binding.scanner.statusView.text = ""
         binding.scanner.resume()
     }
 

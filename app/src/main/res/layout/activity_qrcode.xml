@@ -50,7 +50,7 @@
             android:src="@drawable/qrcode_frame">
         </ImageView>
 
-        <com.journeyapps.barcodescanner.DecoratedBarcodeView
+        <com.journeyapps.barcodescanner.BarcodeView
             android:id="@+id/scanner"
             android:layout_width="match_parent"
             android:layout_height="0dp"
@@ -61,7 +61,7 @@
             android:layout_marginLeft="44dp"
             android:layout_marginRight="44dp">
 
-        </com.journeyapps.barcodescanner.DecoratedBarcodeView>
+        </com.journeyapps.barcodescanner.BarcodeView>
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>
