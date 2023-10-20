@@ -37,7 +37,7 @@ class MapView @JvmOverloads constructor(context: Context?, attrs: AttributeSet? 
     private var layers // all layers
             : MutableList<MapBaseLayer>? = null
     private var mapLayer: MapLayer? = null
-    private var minZoom = 0.35f //圖片最多縮多小 (預設0.5f)
+    private var minZoom = 0.1f //圖片最多縮多小 (預設0.5f)
     private var maxZoom = 5.0f //圖片最多放多大
     private val startTouch = PointF()
     private val lastMove = PointF()

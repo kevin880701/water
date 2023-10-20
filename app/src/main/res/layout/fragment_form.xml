@@ -84,7 +84,7 @@
                 app:layout_constraintLeft_toLeftOf="parent"
                 android:layout_marginTop="8dp"
                 tools:itemCount="1"
-                tools:listitem="@layout/item_form2" />
+                tools:listitem="@layout/item_form" />
         </androidx.constraintlayout.widget.ConstraintLayout>
         </androidx.core.widget.NestedScrollView>
     </androidx.constraintlayout.widget.ConstraintLayout>

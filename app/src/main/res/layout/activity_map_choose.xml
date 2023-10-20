@@ -1,16 +1,19 @@
 <?xml version="1.0" encoding="utf-8"?>
-<layout xmlns:android="http://schemas.android.com/apk/res/android"
+<layout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools">
+    xmlns:tools="http://schemas.android.com/tools" >
 
     <data>
+        <variable
+            name="viewModel"
+            type="com.lhr.water.ui.mapChoose.MapChooseViewModel" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
-
-
+        android:layout_height="match_parent"
+        android:background="@color/background">
         <androidx.constraintlayout.widget.ConstraintLayout
             android:id="@+id/constraintTitleBar"
             android:layout_width="match_parent"
@@ -36,25 +39,34 @@
                 app:layout_constraintLeft_toLeftOf="parent"
                 app:layout_constraintRight_toRightOf="parent"
                 android:gravity="center"
-                android:text="@string/map"
+                android:text="@string/map_choose"
                 android:textColor="@color/seed"
                 android:textAppearance="@style/TextAppearance.Astec.HeadLine1"/>
 
         </androidx.constraintlayout.widget.ConstraintLayout>
 
-        <com.lhr.water.mapView.MapView
-            android:id="@+id/mapView"
-            android:layout_width="0dp"
+        <androidx.core.widget.NestedScrollView
+            android:id="@+id/scrollViewForm"
+            android:layout_width="match_parent"
             android:layout_height="0dp"
+            android:fillViewport="true"
+            app:layout_constraintTop_toBottomOf="@+id/constraintTitleBar"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintLeft_toLeftOf="parent"
-            app:layout_constraintRight_toRightOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/constraintTitleBar" />
-
-
-        <RelativeLayout
-            android:id="@+id/relativeLayoutBackView"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"/>
+            app:layout_constraintRight_toRightOf="parent">
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:layout_height="wrap_content"
+                android:layout_width="match_parent" >
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/recyclerMap"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintLeft_toLeftOf="parent"
+                    android:layout_marginTop="8dp"
+                    tools:itemCount="1"
+                    tools:listitem="@layout/item_choose_map" />
+            </androidx.constraintlayout.widget.ConstraintLayout>
+        </androidx.core.widget.NestedScrollView>
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

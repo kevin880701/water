@@ -5,7 +5,7 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
-import com.lhr.water.databinding.ItemForm2Binding
+import com.lhr.water.databinding.ItemFormBinding
 import com.lhr.water.model.FormData
 
 class FormAdapter(val listener: Listener): ListAdapter<FormData, FormAdapter.ViewHolder>(LOCK_DIFF_UTIL) {
@@ -32,7 +32,7 @@ class FormAdapter(val listener: Listener): ListAdapter<FormData, FormAdapter.Vie
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
-        val binding = ItemForm2Binding.inflate(LayoutInflater.from(parent.context), parent, false)
+        val binding = ItemFormBinding.inflate(LayoutInflater.from(parent.context), parent, false)
         return ViewHolder(binding)
     }
 
@@ -40,7 +40,7 @@ class FormAdapter(val listener: Listener): ListAdapter<FormData, FormAdapter.Vie
         holder.bind(getItem(position))
     }
 
-    inner class ViewHolder(private val binding: ItemForm2Binding): RecyclerView.ViewHolder(binding.root){
+    inner class ViewHolder(private val binding: ItemFormBinding): RecyclerView.ViewHolder(binding.root){
 
         init {
             // bindingAdapterPosition無法使用，所以用adapterPosition替代
@@ -56,6 +56,7 @@ class FormAdapter(val listener: Listener): ListAdapter<FormData, FormAdapter.Vie
 
         fun bind(formData: FormData){
             binding.textFormName.text = formData.formName
+            binding.imageForm.setImageResource(formData.formImage)
         }
     }
 }

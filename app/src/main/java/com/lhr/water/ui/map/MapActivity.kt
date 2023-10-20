@@ -1,73 +1,97 @@
 package com.lhr.water.ui.map
 
+import android.content.Context
 import android.graphics.Bitmap
 import android.graphics.BitmapFactory
+import android.graphics.Color
 import android.os.Build
 import android.os.Bundle
+import android.transition.Slide
+import android.transition.Transition
+import android.transition.TransitionManager
 import android.view.Gravity
-import android.view.LayoutInflater
 import android.view.View
-import android.widget.PopupWindow
-import androidx.appcompat.app.AppCompatActivity
-import androidx.databinding.DataBindingUtil
-import androidx.lifecycle.ViewModelProvider
-import com.lhr.water.mapView.layer.MarkLayer
-import com.lhr.water.model.Model.Companion.allTargetDataArrayList
+import android.widget.RelativeLayout
+import androidx.activity.OnBackPressedCallback
+import androidx.activity.viewModels
+import androidx.core.content.res.ResourcesCompat
 import com.lhr.water.R
 import com.lhr.water.databinding.ActivityMapBinding
+import com.lhr.water.mapView.layer.MarkLayer
 import com.lhr.water.model.TargetData
+import com.lhr.water.ui.base.APP
+import com.lhr.water.ui.base.BaseActivity
 import com.lhr.water.util.mapView.MapViewListener
-import com.lhr.water.util.popupWindow.MarkInformationPopupWindow
+import com.lhr.water.util.widget.InfoDetailBottom
+import timber.log.Timber
 import java.io.IOException
-import java.lang.reflect.Field
 
 
-class MapActivity(): AppCompatActivity() {
+class MapActivity(): BaseActivity(), View.OnClickListener {
+    private val viewModel: MapViewModel by viewModels{(applicationContext as APP).appContainer.viewModelFactory}
+    private var _binding: ActivityMapBinding? = null
+    private val binding get() = _binding!!
 
-    lateinit var viewModel: MapViewModel
-    lateinit var binding: ActivityMapBinding
-
+    var backView: RelativeLayout? = null
     private var markLayer: MarkLayer? = null
-    lateinit var targetDataArrayList: ArrayList<TargetData>
     lateinit var region: String
+    lateinit var map: String
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        _binding = ActivityMapBinding.inflate(layoutInflater)
+        setContentView(binding.root)
+        window.statusBarColor = ResourcesCompat.getColor(resources, R.color.seed, null)
 
-        binding = DataBindingUtil.setContentView(this, R.layout.activity_map)
-
-        binding.viewModel = viewModel
-        region = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
-            intent.getParcelableExtra("region", String::class.java) as String
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
+            region = intent.getParcelableExtra("region", String::class.java) as String
+            map = intent.getParcelableExtra("map", String::class.java) as String
         } else {
-            intent.getSerializableExtra("region") as String
+            region = intent.getSerializableExtra("region") as String
+            map = intent.getSerializableExtra("map") as String
         }
+        initView()
+    }
 
-        targetDataArrayList = allTargetDataArrayList.filter { it.targetRegion == region } as ArrayList<TargetData>
+    private fun initView() {
+        binding.textTitle.text = map
+        backView = binding.relativeLayoutBackView
+        initMapView()
+    }
+
+    private fun bindViewModel() {
+
+    }
+    private fun initMapView() {
+//        targetDataArrayList = allTargetDataArrayList.filter { it.targetRegion == region } as ArrayList<TargetData>
+        viewModel.setTargetDataArrayList(region, map)
+        Timber.d(map)
         var bitmap: Bitmap? = null
         try {
-            bitmap = BitmapFactory.decodeStream(this.assets.open(region + ".png"))
+            bitmap = BitmapFactory.decodeStream(this.assets.open(map + ".png"))
         } catch (e: IOException) {
             e.printStackTrace()
         }
         binding.mapView.loadMap(bitmap)
         binding.mapView.setMapViewListener(object : MapViewListener {
             override fun onMapLoadSuccess() {
-                markLayer = MarkLayer(binding.mapView, targetDataArrayList)
+                markLayer = MarkLayer(binding.mapView, viewModel.targetDataArrayList.value)
                 markLayer!!.setMarkIsClickListener(object : MarkLayer.MarkIsClickListener {
                     override fun markIsClick(num: Int) {
                         if(markLayer!!.MARK_ALLOW_CLICK){
-                            val choose = MarkInformationPopupWindow(this@MapActivity, targetDataArrayList[num])
-                            val mLayoutInScreen: Field =
-                                PopupWindow::class.java.getDeclaredField("mLayoutInScreen")
-                            mLayoutInScreen.isAccessible = true
-                            mLayoutInScreen.set(choose, true)
-                            choose.isClippingEnabled = false
-                            val view: View = LayoutInflater.from(this@MapActivity).inflate(
-                                R.layout.popup_mark_name,
-                                null
-                            )
-                            choose.showAtLocation(view, Gravity.NO_GRAVITY, 0, 0)
+//                            val choose = MarkInformationPopupWindow(this@MapActivity, viewModel.targetDataArrayList.value!![num])
+//                            val mLayoutInScreen: Field =
+//                                PopupWindow::class.java.getDeclaredField("mLayoutInScreen")
+//                            mLayoutInScreen.isAccessible = true
+//                            mLayoutInScreen.set(choose, true)
+//                            choose.isClippingEnabled = false
+//                            val view: View = LayoutInflater.from(this@MapActivity).inflate(
+//                                R.layout.popup_mark_name,
+//                                null
+//                            )
+//                            choose.showAtLocation(view, Gravity.NO_GRAVITY, 0, 0)
+
+                            showStorageInfo(viewModel.targetDataArrayList.value!![num])
                         }
                     }})
                 binding.mapView.addLayer(markLayer)
@@ -78,5 +102,62 @@ class MapActivity(): AppCompatActivity() {
         })
     }
 
+    fun showStorageInfo(targetData: TargetData, ) {
+        val infoDetailBottom = InfoDetailBottom(this, targetData)
+        showBottomSheet(infoDetailBottom)
+    }
+    fun showBottomSheet(view: View?) {
+        if (backView == null) {
+            return
+        }
+        backView!!.setBackgroundColor(Color.parseColor("#9e000000"))
+        val t: Transition = Slide(Gravity.BOTTOM)
+        TransitionManager.beginDelayedTransition(backView, t)
+        backView!!.addView(view)
+    }
 
+    fun cancelBottomSheet() {
+        if (backView == null) {
+            return
+        }
+
+        val t: Transition = Slide(Gravity.BOTTOM)
+        t.addListener(object : Transition.TransitionListener {
+            override fun onTransitionStart(transition: Transition) {}
+            override fun onTransitionEnd(transition: Transition) {
+                TransitionManager.endTransitions(backView)
+                if (backView!!.childCount <= 0) {
+                    backView!!.setBackgroundColor(Color.parseColor("#00000000"))
+                }
+            }
+
+            override fun onTransitionCancel(transition: Transition) {}
+            override fun onTransitionPause(transition: Transition) {}
+            override fun onTransitionResume(transition: Transition) {}
+        })
+        TransitionManager.beginDelayedTransition(backView, t)
+        if (backView!!.childCount > 0) {
+            backView!!.removeViewAt(backView!!.childCount - 1)
+        }
+        onBackPressedDispatcher.addCallback(
+            this, // LifecycleOwner
+            onBackPressedCallback
+        )
+    }
+
+    val onBackPressedCallback: OnBackPressedCallback = object : OnBackPressedCallback(true) {
+        override fun handleOnBackPressed() {
+            if (backView!!.childCount > 0) {
+                cancelBottomSheet()
+            }else{
+                finish()
+            }
+        }
+    }
+
+
+    override fun onClick(v: View?) {
+        when (v?.id) {
+        }
+    }
 }

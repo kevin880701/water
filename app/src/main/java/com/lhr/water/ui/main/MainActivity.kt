@@ -6,26 +6,22 @@ import android.os.Bundle
 import androidx.activity.viewModels
 import androidx.core.content.ContextCompat
 import androidx.core.content.res.ResourcesCompat
-import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
-import androidx.lifecycle.ViewModelProvider
 import androidx.viewpager2.widget.ViewPager2
 import com.google.android.material.tabs.TabLayout
 import com.google.android.material.tabs.TabLayoutMediator
 import com.lhr.water.R
-import com.lhr.water.databinding.ActivityCoverBinding
 import com.lhr.water.databinding.ActivityMainBinding
 import com.lhr.water.ui.base.APP
+import com.lhr.water.ui.base.BaseActivity
 import com.lhr.water.ui.form.FormFragment
-import com.lhr.water.ui.login.LoginViewModel
-import com.lhr.water.ui.mapChoose.MapChooseFragment
+import com.lhr.water.ui.regionChoose.RegionChooseFragment
 import com.lhr.water.util.viewPager.MainViewPageAdapter
+import timber.log.Timber
 
-class MainActivity : AppCompatActivity() {
+class MainActivity : BaseActivity() {
 
-//    lateinit var viewModel: MainViewModel
     private val viewModel: MainViewModel by viewModels{(applicationContext as APP).appContainer.viewModelFactory}
-
     private var _binding: ActivityMainBinding? = null
     private val binding get() = _binding!!
     lateinit var pageAdapter: MainViewPageAdapter
@@ -34,7 +30,6 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         _binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
-
         window.statusBarColor = ResourcesCompat.getColor(resources, R.color.seed, null)
         initTabLayout(binding.tabLayoutMain)
     }
@@ -48,7 +43,7 @@ class MainActivity : AppCompatActivity() {
             )
             var fragments = arrayListOf(
                 FormFragment(),
-                MapChooseFragment(),
+                RegionChooseFragment(),
             ) as ArrayList<Fragment>
             pageAdapter = MainViewPageAdapter(supportFragmentManager, lifecycle, fragments)
             binding.viewPager.adapter = pageAdapter

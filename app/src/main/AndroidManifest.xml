@@ -3,6 +3,7 @@
     xmlns:tools="http://schemas.android.com/tools">
 
     <application
+        android:name=".ui.base.APP"
         android:allowBackup="true"
         android:dataExtractionRules="@xml/data_extraction_rules"
         android:fullBackupContent="@xml/backup_rules"
@@ -11,6 +12,7 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.Water"
+        android:usesCleartextTraffic="true"
         tools:targetApi="31">
         <activity
             android:name=".ui.cover.CoverActivity"
@@ -27,6 +29,14 @@
             android:theme="@style/Theme.Water"/>
 
         <activity android:name="com.lhr.water.ui.main.MainActivity"
+            android:launchMode="singleTask"
+            android:theme="@style/Theme.Water"/>
+
+        <activity android:name="com.lhr.water.ui.mapChoose.MapChooseActivity"
+            android:launchMode="singleTask"
+            android:theme="@style/Theme.Water"/>
+
+        <activity android:name="com.lhr.water.ui.qrCode.QrcodeActivity"
             android:launchMode="singleTask"
             android:theme="@style/Theme.Water"/>
     </application>

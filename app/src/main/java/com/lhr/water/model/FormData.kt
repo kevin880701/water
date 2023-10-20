@@ -6,11 +6,13 @@ import android.os.Parcelable
 data class FormData(
     val id: String,
     val formName: String,
-    val formNumber: Int
+    val formNumber: Int,
+    val formImage: Int
 ) : Parcelable {
     constructor(parcel: Parcel) : this(
         parcel.readString()!!,
         parcel.readString()!!,
+        parcel.readInt()!!,
         parcel.readInt()!!
     ) {
     }
@@ -24,6 +26,7 @@ data class FormData(
         if (id != other.id) return false
         if (formName != other.formName) return false
         if (formNumber != other.formNumber) return false
+        if (formImage != other.formImage) return false
 
         return true
     }
@@ -32,6 +35,7 @@ data class FormData(
         var result = id.hashCode()
         result = 31 * result + formName.hashCode()
         result = 31 * result + formNumber.hashCode()
+        result = 31 * result + formImage.hashCode()
         return result
     }
 
@@ -39,6 +43,7 @@ data class FormData(
         parcel.writeString(id)
         parcel.writeString(formName)
         parcel.writeInt(formNumber)
+        parcel.writeInt(formImage)
     }
 
     override fun describeContents(): Int {

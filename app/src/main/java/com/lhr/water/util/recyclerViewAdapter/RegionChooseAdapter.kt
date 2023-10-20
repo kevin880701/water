@@ -5,21 +5,19 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
-import com.lhr.water.databinding.ItemForm2Binding
-import com.lhr.water.databinding.ItemMapBinding
-import com.lhr.water.model.FormData
+import com.lhr.water.databinding.ItemChooseRegionBinding
 
-class MapChooseAdapter2(val listener: Listener): ListAdapter<FormData, MapChooseAdapter2.ViewHolder>(LOCK_DIFF_UTIL) {
+class RegionChooseAdapter(val listener: Listener): ListAdapter<String, RegionChooseAdapter.ViewHolder>(LOCK_DIFF_UTIL) {
 
     companion object{
-        val LOCK_DIFF_UTIL = object : DiffUtil.ItemCallback<FormData>() {
-            override fun areItemsTheSame(oldItem: FormData, newItem: FormData): Boolean {
-                return oldItem.id == newItem.id
+        val LOCK_DIFF_UTIL = object : DiffUtil.ItemCallback<String>() {
+            override fun areItemsTheSame(oldItem: String, newItem: String): Boolean {
+                return oldItem == newItem
             }
 
             override fun areContentsTheSame(
-                oldItem: FormData,
-                newItem: FormData
+                oldItem: String,
+                newItem: String
             ): Boolean {
                 return oldItem.hashCode() == newItem.hashCode()
             }
@@ -28,12 +26,12 @@ class MapChooseAdapter2(val listener: Listener): ListAdapter<FormData, MapChoose
 
 
     interface Listener{
-        fun onItemClick(item: FormData)
-        fun onItemLongClick(item: FormData)
+        fun onItemClick(item: String)
+        fun onItemLongClick(item: String)
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
-        val binding = ItemMapBinding.inflate(LayoutInflater.from(parent.context), parent, false)
+        val binding = ItemChooseRegionBinding.inflate(LayoutInflater.from(parent.context), parent, false)
         return ViewHolder(binding)
     }
 
@@ -41,7 +39,7 @@ class MapChooseAdapter2(val listener: Listener): ListAdapter<FormData, MapChoose
         holder.bind(getItem(position))
     }
 
-    inner class ViewHolder(private val binding: ItemMapBinding): RecyclerView.ViewHolder(binding.root){
+    inner class ViewHolder(private val binding: ItemChooseRegionBinding): RecyclerView.ViewHolder(binding.root){
 
         init {
             // bindingAdapterPosition無法使用，所以用adapterPosition替代
@@ -55,8 +53,8 @@ class MapChooseAdapter2(val listener: Listener): ListAdapter<FormData, MapChoose
             }
         }
 
-        fun bind(formData: FormData){
-            binding.textMapName.text = formData.formName
+        fun bind(regionName: String){
+            binding.textRegionName.text = regionName
         }
     }
 }

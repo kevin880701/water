@@ -105,16 +105,17 @@ class MarkLayer(
                     paint!!.textSize = radiusMark
 
                     //mark name 當地圖放大到一定程度才顯示mark
-                    if (mapView!!.currentZoom > 0.5 && targetDataArrayList!![i] != null && targetDataArrayList!!.size == targetDataArrayList!!.size) {
+                    // 原本mapView!!.currentZoom > 0.5，但因為希望不放大也能直接按所以設0.0
+                    if (mapView!!.currentZoom > 0.0 && targetDataArrayList!![i] != null && targetDataArrayList!!.size == targetDataArrayList!!.size) {
                         // 隨著地圖放大縮小改變圖標透明度
                         MARK_ALLOW_CLICK = true
-                        if(mapView!!.currentZoom<1.2) {
-                            paint!!.alpha = (250 * (1 - (1.2 - mapView!!.currentZoom) / 0.7)).toInt()
-                        }
-                        canvas.drawText(
-                            targetDataArrayList!![i].targetName, goal[0] - radiusMark, goal[1] -
-                                    radiusMark / 2 + 75, paint!!
-                        )
+//                        if(mapView!!.currentZoom<1.2) {
+//                            paint!!.alpha = (250 * (1 - (1.2 - mapView!!.currentZoom) / 0.7)).toInt()
+//                        }
+//                        canvas.drawText(
+//                            targetDataArrayList!![i].targetName, goal[0] - radiusMark, goal[1] -
+//                                    radiusMark / 2 + 75, paint!!
+//                        )
                         //mark ico
                         canvas.drawBitmap(
                             markBitmapMap[targetDataArrayList!![i].targetTypeNum]!!, goal[0] - markBitmapMap[targetDataArrayList!![i].targetTypeNum]!!.width / 2,

@@ -52,6 +52,8 @@ dependencies {
     val lifecycle = "2.2.0"
     val room = "2.2.1"
     val fragment_version = "1.3.5"
+    val okhttp3 = "4.9.0"
+    val retrofit2 = "2.9.0"
 
     implementation("androidx.core:core-ktx:1.9.0")
     implementation("androidx.appcompat:appcompat:1.6.1")
@@ -67,6 +69,7 @@ dependencies {
     implementation ("androidx.lifecycle:lifecycle-viewmodel-ktx:2.5.1")
     implementation ("androidx.activity:activity-ktx:$activity_version")
     implementation ("androidx.fragment:fragment-ktx:$fragment_version")
+    implementation ("com.google.android.material:material:1.4.0")
     //room
     implementation ("androidx.room:room-runtime:$room")
     annotationProcessor ("androidx.room:room-compiler:$room")
@@ -86,4 +89,14 @@ dependencies {
     //rxjava2
     implementation ("io.reactivex.rxjava2:rxjava:2.2.10")
     implementation ("io.reactivex.rxjava2:rxandroid:2.1.1")
+    //barcode
+    implementation ("com.journeyapps:zxing-android-embedded:4.3.0")
+
+    //okhttp3
+    implementation ("com.squareup.okhttp3:okhttp:$okhttp3")
+    implementation ("com.squareup.okhttp3:logging-interceptor:$okhttp3")
+    //retrofit2
+    implementation ("com.squareup.retrofit2:retrofit:$retrofit2")
+    implementation ("com.squareup.retrofit2:converter-gson:$retrofit2")
+    implementation ("com.squareup.retrofit2:adapter-rxjava2:2.4.0")
 }

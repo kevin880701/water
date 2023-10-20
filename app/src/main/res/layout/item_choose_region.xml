@@ -9,8 +9,6 @@
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="64dp"
-        android:layout_marginRight="4dp"
-        android:layout_marginLeft="4dp"
         android:layout_marginTop="8dp"
         android:layout_marginBottom="8dp">
 
@@ -26,6 +24,12 @@
             android:singleLine="true"
             android:textColor="@color/seed"
             android:textSize="@dimen/main_title_size"/>
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            android:background="@color/deep_grey"/>
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

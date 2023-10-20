@@ -5,9 +5,9 @@
     xmlns:tools="http://schemas.android.com/tools" >
 
     <data>
-        <variable
-            name="viewModel"
-            type="com.lhr.water.ui.mapChoose.MapChooseViewModel" />
+<!--        <variable-->
+<!--            name="viewModel"-->
+<!--            type="com.lhr.water.ui.mapChoose.MapChooseViewModel" />-->
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -22,7 +22,7 @@
             app:layout_constraintLeft_toLeftOf="parent"
             android:background="@color/white"
             android:gravity="center"
-            android:text="@string/map"
+            android:text="@string/region_choose"
             android:textColor="@color/seed"
             android:textAppearance="@style/TextAppearance.Astec.HeadLine1"/>
 
@@ -39,29 +39,15 @@
                 android:layout_height="wrap_content"
                 android:layout_width="match_parent"
                 app:layout_constraintTop_toBottomOf="@+id/viewUserBackground" >
-
-                <TextView
-                    android:id="@+id/textMap"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    app:layout_constraintTop_toTopOf="parent"
-                    app:layout_constraintLeft_toLeftOf="parent"
-                    android:layout_marginTop="18dp"
-                    android:layout_marginLeft="18dp"
-                    android:includeFontPadding="false"
-                    android:text="@string/map"
-                    android:textColor="@color/seed"
-                    android:textAppearance="@style/TextAppearance.Astec.HeadLine5" />
-
                 <androidx.recyclerview.widget.RecyclerView
                     android:id="@+id/recyclerRegion"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    app:layout_constraintTop_toBottomOf="@id/textMap"
+                    app:layout_constraintTop_toTopOf="parent"
                     app:layout_constraintLeft_toLeftOf="parent"
                     android:layout_marginTop="8dp"
                     tools:itemCount="1"
-                    tools:listitem="@layout/item_region" />
+                    tools:listitem="@layout/item_choose_region" />
             </androidx.constraintlayout.widget.ConstraintLayout>
         </androidx.core.widget.NestedScrollView>
     </androidx.constraintlayout.widget.ConstraintLayout>

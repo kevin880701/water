@@ -4,9 +4,9 @@
     xmlns:tools="http://schemas.android.com/tools">
 
     <data>
-        <variable
-            name="viewModel"
-            type="com.lhr.water.ui.main.MainViewModel" />
+<!--        <variable-->
+<!--            name="viewModel"-->
+<!--            type="com.lhr.water.ui.main.MainViewModel" />-->
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -31,22 +31,20 @@
             app:layout_constraintHeight_percent="0.08"
             app:tabIndicatorFullWidth="false"
             app:tabIndicatorHeight="2dp"
+            app:tabIconTint="@color/tab_icon"
+            app:tabIndicatorColor="@color/seed"
             app:tabRippleColor="@null">
 
             <com.google.android.material.tabs.TabItem
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:textColor="@drawable/tab_icon"
                 android:icon="@drawable/map" />
 
             <com.google.android.material.tabs.TabItem
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:icon="@drawable/form" />
-
-            <com.google.android.material.tabs.TabItem
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:icon="@drawable/person" />
         </com.google.android.material.tabs.TabLayout>
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

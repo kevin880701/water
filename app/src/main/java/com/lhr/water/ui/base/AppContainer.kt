@@ -3,7 +3,7 @@ package com.lhr.water.ui.base
 import android.content.Context
 import android.preference.PreferenceManager
 import com.lhr.water.data.FormRepository
-import com.lhr.water.data.MapRepository
+import com.lhr.water.data.RegionRepository
 import kotlinx.coroutines.*
 import timber.log.Timber
 
@@ -19,7 +19,7 @@ class AppContainer(private val context: Context) {
 
     private val sharedPreferences by lazy { PreferenceManager.getDefaultSharedPreferences(context) }
 
-    val mapRepository = MapRepository()
+    val regionRepository = RegionRepository()
 
     val formRepository = FormRepository()
 
@@ -28,7 +28,7 @@ class AppContainer(private val context: Context) {
         AppViewModelFactory(
             context,
             formRepository,
-            mapRepository
+            regionRepository
         )
     }
 }
