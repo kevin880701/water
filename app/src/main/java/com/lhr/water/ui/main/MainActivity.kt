@@ -39,7 +39,7 @@ class MainActivity : BaseActivity() {
         tabLayoutMain.apply {
             var tabIconList = arrayListOf(
                 R.drawable.form,
-                R.drawable.map,
+                R.drawable.region_choose,
             )
             var fragments = arrayListOf(
                 FormFragment(),

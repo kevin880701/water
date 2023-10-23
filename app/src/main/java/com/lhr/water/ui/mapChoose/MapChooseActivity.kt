@@ -5,6 +5,7 @@ import android.os.Build
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
+import android.view.View
 import androidx.activity.viewModels
 import androidx.core.content.res.ResourcesCompat
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -19,7 +20,7 @@ import com.lhr.water.util.recyclerViewAdapter.MapChooseAdapter
 import com.lhr.water.util.recyclerViewAdapter.RegionChooseAdapter
 import timber.log.Timber
 
-class MapChooseActivity : BaseActivity(), MapChooseAdapter.Listener {
+class MapChooseActivity : BaseActivity(), MapChooseAdapter.Listener, View.OnClickListener {
 
     private val viewModel: MapChooseViewModel by viewModels{(applicationContext as APP).appContainer.viewModelFactory}
     private var _binding: ActivityMapChooseBinding? = null
@@ -41,6 +42,8 @@ class MapChooseActivity : BaseActivity(), MapChooseAdapter.Listener {
         }
         bindViewModel()
         initView()
+
+        binding.widgetTitleBar.imageBack.setOnClickListener(this)
     }
 
 
@@ -51,6 +54,8 @@ class MapChooseActivity : BaseActivity(), MapChooseAdapter.Listener {
     }
 
     private fun initView() {
+        binding.widgetTitleBar.textTitle.text = getString(R.string.map_choose)
+        binding.widgetTitleBar.imageBack.visibility = View.VISIBLE
         initRecyclerView()
     }
     fun initRecyclerView() {
@@ -70,6 +75,14 @@ class MapChooseActivity : BaseActivity(), MapChooseAdapter.Listener {
 
     override fun onItemLongClick(item: String) {
         println("長按")
+    }
+
+    override fun onClick(v: View) {
+        when (v.id) {
+            R.id.imageBack -> {
+                onBackPressedCallback.handleOnBackPressed()
+            }
+        }
     }
 
 }

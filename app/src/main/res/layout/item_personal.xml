@@ -29,7 +29,7 @@
         <ImageView
             android:layout_width="32dp"
             android:layout_height="32dp"
-            android:src="@drawable/btn_right_default"
+            android:src="@drawable/right"
             android:layout_centerVertical="true"
             android:layout_marginRight="20dp"
             android:layout_alignParentRight="true"
@@ -37,7 +37,7 @@
         <View
             android:layout_width="match_parent"
             android:layout_height="1dp"
-            android:background="@color/line_gray"
+            android:background="@color/deep_gray"
             android:layout_alignParentBottom="true"/>
     </RelativeLayout>
 </layout>

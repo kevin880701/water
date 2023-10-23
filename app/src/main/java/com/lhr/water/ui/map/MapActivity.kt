@@ -12,7 +12,6 @@ import android.transition.TransitionManager
 import android.view.Gravity
 import android.view.View
 import android.widget.RelativeLayout
-import androidx.activity.OnBackPressedCallback
 import androidx.activity.viewModels
 import androidx.core.content.res.ResourcesCompat
 import com.lhr.water.R
@@ -43,6 +42,7 @@ class MapActivity(): BaseActivity(), View.OnClickListener {
         setContentView(binding.root)
         window.statusBarColor = ResourcesCompat.getColor(resources, R.color.seed, null)
 
+        // 檢查版本
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
             region = intent.getParcelableExtra("region", String::class.java) as String
             map = intent.getParcelableExtra("map", String::class.java) as String
@@ -51,10 +51,13 @@ class MapActivity(): BaseActivity(), View.OnClickListener {
             map = intent.getSerializableExtra("map") as String
         }
         initView()
+
+        binding.widgetTitleBar.imageBack.setOnClickListener(this)
     }
 
     private fun initView() {
-        binding.textTitle.text = map
+        binding.widgetTitleBar.textTitle.text = getString(R.string.map_choose)
+        binding.widgetTitleBar.imageBack.visibility = View.VISIBLE
         backView = binding.relativeLayoutBackView
         initMapView()
     }
@@ -145,19 +148,11 @@ class MapActivity(): BaseActivity(), View.OnClickListener {
         )
     }
 
-    val onBackPressedCallback: OnBackPressedCallback = object : OnBackPressedCallback(true) {
-        override fun handleOnBackPressed() {
-            if (backView!!.childCount > 0) {
-                cancelBottomSheet()
-            }else{
-                finish()
+    override fun onClick(v: View) {
+        when (v.id) {
+            R.id.imageBack -> {
+                onBackPressedCallback.handleOnBackPressed()
             }
-        }
-    }
-
-
-    override fun onClick(v: View?) {
-        when (v?.id) {
         }
     }
 }

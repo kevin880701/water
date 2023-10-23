@@ -3,6 +3,7 @@ package com.lhr.water.ui.base
 import android.content.Context
 import android.content.pm.PackageManager
 import android.os.Bundle
+import androidx.activity.OnBackPressedCallback
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
 import com.lhr.water.util.MessageDialogFragment
@@ -12,6 +13,12 @@ import timber.log.Timber
 open class BaseActivity: AppCompatActivity() {
 
     val disposable = CompositeDisposable()
+
+    val onBackPressedCallback: OnBackPressedCallback = object : OnBackPressedCallback(true) {
+        override fun handleOnBackPressed() {
+            finish()
+        }
+    }
 
     override fun attachBaseContext(newBase: Context) {
         //覆寫系統設定fontScale 1.3 to 1.0

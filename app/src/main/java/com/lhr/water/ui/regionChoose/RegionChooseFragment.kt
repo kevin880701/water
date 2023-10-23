@@ -17,7 +17,7 @@ class RegionChooseFragment : BaseFragment(), View.OnClickListener, RegionChooseA
 
     private var _binding: FragmentRegionChooseBinding? = null
     private val binding get() = _binding!!
-    private val viewModel: RegionChooseViewModel by viewModels{ viewModelFactory }
+    private val viewModel: RegionChooseViewModel by viewModels { viewModelFactory }
     lateinit var regionChooseAdapter: RegionChooseAdapter
 
     override fun onCreateView(
@@ -27,8 +27,7 @@ class RegionChooseFragment : BaseFragment(), View.OnClickListener, RegionChooseA
         _binding = FragmentRegionChooseBinding.inflate(layoutInflater)
 //        requireActivity().window.statusBarColor = ResourcesCompat.getColor(resources, R.color.white, null)
 
-        initRecyclerView()
-
+        initView()
         return binding.root
     }
 
@@ -38,12 +37,17 @@ class RegionChooseFragment : BaseFragment(), View.OnClickListener, RegionChooseA
     }
 
     private fun bindViewModel() {
-        viewModel.regionList.observe(viewLifecycleOwner){ list ->
+        viewModel.regionList.observe(viewLifecycleOwner) { list ->
             regionChooseAdapter.submitList(list)
         }
     }
 
-    fun initRecyclerView() {
+    private fun initView() {
+        binding.widgetTitleBar.textTitle.text = requireActivity().getString(R.string.region_choose)
+        initRecyclerView()
+    }
+
+    private fun initRecyclerView() {
         val mapList = ArrayList(resources.getStringArray(R.array.region_array).toList())
         regionChooseAdapter = RegionChooseAdapter(this)
         val mapDataList = mapList.mapIndexed { index, regionName ->
