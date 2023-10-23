@@ -43,7 +43,6 @@ class MapChooseActivity : BaseActivity(), MapChooseAdapter.Listener, View.OnClic
         bindViewModel()
         initView()
 
-        binding.widgetTitleBar.imageBack.setOnClickListener(this)
     }
 
 
@@ -55,6 +54,7 @@ class MapChooseActivity : BaseActivity(), MapChooseAdapter.Listener, View.OnClic
 
     private fun initView() {
         binding.widgetTitleBar.textTitle.text = getString(R.string.map_choose)
+        setupBackButton(binding.widgetTitleBar.imageBack)
         binding.widgetTitleBar.imageBack.visibility = View.VISIBLE
         initRecyclerView()
     }
@@ -79,9 +79,6 @@ class MapChooseActivity : BaseActivity(), MapChooseAdapter.Listener, View.OnClic
 
     override fun onClick(v: View) {
         when (v.id) {
-            R.id.imageBack -> {
-                onBackPressedCallback.handleOnBackPressed()
-            }
         }
     }
 

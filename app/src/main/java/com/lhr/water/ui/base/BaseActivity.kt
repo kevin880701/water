@@ -3,18 +3,22 @@ package com.lhr.water.ui.base
 import android.content.Context
 import android.content.pm.PackageManager
 import android.os.Bundle
+import android.view.View
+import android.widget.ImageView
 import androidx.activity.OnBackPressedCallback
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
+import com.lhr.water.R
 import com.lhr.water.util.MessageDialogFragment
 import io.reactivex.disposables.CompositeDisposable
 import timber.log.Timber
 
-open class BaseActivity: AppCompatActivity() {
+open class BaseActivity : AppCompatActivity() {
 
     val disposable = CompositeDisposable()
+    var imageBack: ImageView? = null
 
-    val onBackPressedCallback: OnBackPressedCallback = object : OnBackPressedCallback(true) {
+    var onBackPressedCallback: OnBackPressedCallback = object : OnBackPressedCallback(true) {
         override fun handleOnBackPressed() {
             finish()
         }
@@ -27,11 +31,14 @@ open class BaseActivity: AppCompatActivity() {
         super.attachBaseContext(newBase.createConfigurationContext(config))
     }
 
-    fun hasPermission(permission: String): Boolean{
-        return ContextCompat.checkSelfPermission(this, permission) == PackageManager.PERMISSION_GRANTED
+    fun hasPermission(permission: String): Boolean {
+        return ContextCompat.checkSelfPermission(
+            this,
+            permission
+        ) == PackageManager.PERMISSION_GRANTED
     }
 
-    fun showConfirmDialog(msg: String, title: String? = null){
+    fun showConfirmDialog(msg: String, title: String? = null) {
         MessageDialogFragment.newInstance(msg, title).show(supportFragmentManager, "")
     }
 
@@ -39,32 +46,42 @@ open class BaseActivity: AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        if (logLifeCycle)  Timber.tag("ActivityLife").d("onCreate $this")
+        if (logLifeCycle) Timber.tag("ActivityLife").d("onCreate $this")
+
+//        imageBack = findViewById<ImageView>(R.id.imageBack)
+
+    }
+
+    fun setupBackButton(imageBack: ImageView) {
+        imageBack?.setOnClickListener {
+            onBackPressedCallback.handleOnBackPressed()
+        }
     }
 
     override fun onStart() {
         super.onStart()
-        if (logLifeCycle)  Timber.tag("ActivityLife").d("onStart $this")
+        if (logLifeCycle) Timber.tag("ActivityLife").d("onStart $this")
     }
 
     override fun onResume() {
         super.onResume()
-        if (logLifeCycle)  Timber.tag("ActivityLife").d("onResume $this")
+        if (logLifeCycle) Timber.tag("ActivityLife").d("onResume $this")
     }
 
     override fun onPause() {
         super.onPause()
-        if (logLifeCycle)  Timber.tag("ActivityLife").d("onPause $this")
+        if (logLifeCycle) Timber.tag("ActivityLife").d("onPause $this")
     }
 
     override fun onStop() {
         super.onStop()
-        if (logLifeCycle)  Timber.tag("ActivityLife").d("onStop $this")
+        if (logLifeCycle) Timber.tag("ActivityLife").d("onStop $this")
     }
 
     override fun onDestroy() {
         super.onDestroy()
-        if (logLifeCycle)  Timber.tag("ActivityLife").d("onDestroy $this")
+        if (logLifeCycle) Timber.tag("ActivityLife").d("onDestroy $this")
         disposable.clear()
     }
+
 }

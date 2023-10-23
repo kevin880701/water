@@ -1,6 +1,5 @@
 package com.lhr.water.ui.map
 
-import android.content.Context
 import android.graphics.Bitmap
 import android.graphics.BitmapFactory
 import android.graphics.Color
@@ -12,6 +11,7 @@ import android.transition.TransitionManager
 import android.view.Gravity
 import android.view.View
 import android.widget.RelativeLayout
+import androidx.activity.OnBackPressedCallback
 import androidx.activity.viewModels
 import androidx.core.content.res.ResourcesCompat
 import com.lhr.water.R
@@ -50,15 +50,26 @@ class MapActivity(): BaseActivity(), View.OnClickListener {
             region = intent.getSerializableExtra("region") as String
             map = intent.getSerializableExtra("map") as String
         }
+
+        onBackPressedCallback = object : OnBackPressedCallback(true) {
+            override fun handleOnBackPressed() {
+                if (backView!!.childCount > 0) {
+                    cancelBottomSheet()
+                }else{
+                    finish()
+                }
+            }
+        }
+
         initView()
 
-        binding.widgetTitleBar.imageBack.setOnClickListener(this)
     }
 
     private fun initView() {
         binding.widgetTitleBar.textTitle.text = getString(R.string.map_choose)
         binding.widgetTitleBar.imageBack.visibility = View.VISIBLE
         backView = binding.relativeLayoutBackView
+        setupBackButton(binding.widgetTitleBar.imageBack)
         initMapView()
     }
 
@@ -93,7 +104,6 @@ class MapActivity(): BaseActivity(), View.OnClickListener {
 //                                null
 //                            )
 //                            choose.showAtLocation(view, Gravity.NO_GRAVITY, 0, 0)
-
                             showStorageInfo(viewModel.targetDataArrayList.value!![num])
                         }
                     }})
@@ -105,11 +115,12 @@ class MapActivity(): BaseActivity(), View.OnClickListener {
         })
     }
 
-    fun showStorageInfo(targetData: TargetData, ) {
+    fun showStorageInfo(targetData: TargetData) {
         val infoDetailBottom = InfoDetailBottom(this, targetData)
         showBottomSheet(infoDetailBottom)
     }
     fun showBottomSheet(view: View?) {
+        Timber.d("COUNT1:" + backView?.getChildCount())
         if (backView == null) {
             return
         }
@@ -117,9 +128,11 @@ class MapActivity(): BaseActivity(), View.OnClickListener {
         val t: Transition = Slide(Gravity.BOTTOM)
         TransitionManager.beginDelayedTransition(backView, t)
         backView!!.addView(view)
+        Timber.d("COUNT2:" + backView?.getChildCount())
     }
 
     fun cancelBottomSheet() {
+        Timber.d("COUNT3:" + backView?.getChildCount())
         if (backView == null) {
             return
         }
@@ -146,13 +159,12 @@ class MapActivity(): BaseActivity(), View.OnClickListener {
             this, // LifecycleOwner
             onBackPressedCallback
         )
+        Timber.d("COUNT4:" + backView?.getChildCount())
     }
 
     override fun onClick(v: View) {
         when (v.id) {
-            R.id.imageBack -> {
-                onBackPressedCallback.handleOnBackPressed()
-            }
+
         }
     }
 }
