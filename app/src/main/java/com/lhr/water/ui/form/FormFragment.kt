@@ -13,6 +13,7 @@ import com.lhr.water.R
 import com.lhr.water.databinding.FragmentFormBinding
 import com.lhr.water.model.FormData
 import com.lhr.water.ui.base.BaseFragment
+import com.lhr.water.ui.formContent.FormContentActivity
 import com.lhr.water.ui.mapChoose.MapChooseActivity
 import com.lhr.water.ui.qrCode.QrcodeActivity
 import com.lhr.water.util.ScreenUtils
@@ -71,7 +72,8 @@ class FormFragment : BaseFragment(), View.OnClickListener, FormAdapter.Listener 
     }
 
     override fun onItemClick(item: FormData) {
-        val intent = Intent(requireActivity(), QrcodeActivity::class.java)
+        val intent = Intent(requireActivity(), FormContentActivity::class.java)
+        intent.putExtra("formName", item.formName)
         requireActivity().startActivity(intent)
     }
 

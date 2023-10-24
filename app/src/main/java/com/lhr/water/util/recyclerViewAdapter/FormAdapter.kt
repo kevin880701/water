@@ -25,7 +25,6 @@ class FormAdapter(val listener: Listener): ListAdapter<FormData, FormAdapter.Vie
         }
     }
 
-
     interface Listener{
         fun onItemClick(item: FormData)
         fun onItemLongClick(item: FormData)

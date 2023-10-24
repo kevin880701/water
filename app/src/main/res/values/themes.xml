@@ -1,15 +1,21 @@
 <resources xmlns:tools="http://schemas.android.com/tools">
     <!-- Base application theme. -->
-    <style name="Base.Theme.Water" parent="Theme.Material3.DayNight.NoActionBar">
-        <!-- Customize your light theme here. -->
-        <!-- <item name="colorPrimary">@color/my_light_primary</item> -->
+    <style name="Theme.Water" parent="Theme.Material3.DayNight.NoActionBar" >
+        <item name="colorPrimary">@color/seed</item>
         <item name="android:fontFamily">@font/raleway_regular</item>
+        <item name="colorControlActivated">@color/md_theme_dark_onError</item>
+        <item name="colorAccent">@color/seed</item>
     </style>
 
-    <style name="Theme.Water" parent="Base.Theme.Water" />
-    <style name="AppTheme" parent="Theme.AppCompat.Light.DarkActionBar">
-        <!-- 其他样式属性 -->
+
+    <style name="formContentActivityTheme" parent="Theme.Water" >
+        <item name="colorControlActivated">@color/seed</item>
+        <item name="colorAccent">@color/seed</item>
     </style>
+
+<!--    <style name="CustomEditText" parent="Widget.AppCompat.EditText">-->
+<!--        <item name="android:textColorHint">@color/design_default_color_error</item>-->
+<!--    </style>-->
 
     <style name="OptionsTint">
         <item name="android:tint">@color/seed</item>

@@ -25,6 +25,7 @@
     <string name="personal_information">個人資料</string>
     <string name="feedback">意見反饋</string>
     <string name="change_password">修改密碼</string>
+    <string name="new_goods">新增貨物</string>
     <string-array name="form_array">
         <item>交貨</item>
         <item>驗收</item>
@@ -50,5 +51,29 @@
         <item>2F</item>
         <item>1F</item>
         <item>B1</item>
+    </string-array>
+
+    <string-array name="delivery_form">
+        <item>報表代號</item>
+        <item>交貨通知單號</item>
+        <item>承售廠商</item>
+        <item>契約字號</item>
+        <item>交貨期限</item>
+        <item>展延期限（一）</item>
+        <item>展延期限（二）</item>
+        <item>展延期限（三）</item>
+        <item>交貨地點</item>
+        <item>展延文號（一）</item>
+        <item>展延文號（二）</item>
+        <item>展延文號（三）</item>
+        <item>工程編號</item>
+        <item>聯絡人</item>
+        <item>電話</item>
+        <item>申請單號</item>
+        <item>制表</item>
+        <item>複核</item>
+        <item>單位主管</item>
+        <item>收料人</item>
+        <item>收料單位主管</item>
     </string-array>
 </resources>

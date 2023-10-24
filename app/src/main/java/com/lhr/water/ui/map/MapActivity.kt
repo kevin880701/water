@@ -42,7 +42,7 @@ class MapActivity(): BaseActivity(), View.OnClickListener {
         setContentView(binding.root)
         window.statusBarColor = ResourcesCompat.getColor(resources, R.color.seed, null)
 
-        // 檢查版本
+        // 檢查版本判斷接收資料方式
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
             region = intent.getParcelableExtra("region", String::class.java) as String
             map = intent.getParcelableExtra("map", String::class.java) as String
@@ -120,7 +120,6 @@ class MapActivity(): BaseActivity(), View.OnClickListener {
         showBottomSheet(infoDetailBottom)
     }
     fun showBottomSheet(view: View?) {
-        Timber.d("COUNT1:" + backView?.getChildCount())
         if (backView == null) {
             return
         }
@@ -128,11 +127,9 @@ class MapActivity(): BaseActivity(), View.OnClickListener {
         val t: Transition = Slide(Gravity.BOTTOM)
         TransitionManager.beginDelayedTransition(backView, t)
         backView!!.addView(view)
-        Timber.d("COUNT2:" + backView?.getChildCount())
     }
 
     fun cancelBottomSheet() {
-        Timber.d("COUNT3:" + backView?.getChildCount())
         if (backView == null) {
             return
         }
@@ -159,7 +156,6 @@ class MapActivity(): BaseActivity(), View.OnClickListener {
             this, // LifecycleOwner
             onBackPressedCallback
         )
-        Timber.d("COUNT4:" + backView?.getChildCount())
     }
 
     override fun onClick(v: View) {

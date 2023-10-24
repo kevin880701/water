@@ -43,6 +43,10 @@
         <activity android:name="com.lhr.water.ui.qrCode.QrcodeActivity"
             android:launchMode="singleTask"
             android:theme="@style/Theme.Water"/>
+
+        <activity android:name="com.lhr.water.ui.formContent.FormContentActivity"
+            android:launchMode="singleTask"
+            android:theme="@style/formContentActivityTheme"/>
     </application>
 
 </manifest>

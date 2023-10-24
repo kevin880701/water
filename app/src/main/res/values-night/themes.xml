@@ -1,12 +1,9 @@
 <resources xmlns:tools="http://schemas.android.com/tools">
     <!-- Base application theme. -->
-    <style name="Base.Theme.Water" parent="Theme.Material3.DayNight.NoActionBar">
+    <style name="Theme.Water" parent="Theme.Material3.DayNight.NoActionBar">
         <!-- Customize your dark theme here. -->
-        <!-- <item name="colorPrimary">@color/my_dark_primary</item> -->
+        <item name="colorPrimary">@color/seed</item>
+        <item name="android:fontFamily">@font/raleway_regular</item>
     </style>
 
-    <style name="mark_popup_anim" parent="android:Animation">
-        <item name="android:windowEnterAnimation">@anim/enter_mark_popup</item>
-        <item name="android:windowExitAnimation">@anim/exit_mark_popup</item>
-    </style>
 </resources>

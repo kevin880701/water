@@ -28,7 +28,6 @@ class InfoDetailBottom : RelativeLayout, View.OnClickListener {
             activity, // LifecycleOwner
             activity.onBackPressedCallback
         )
-        Timber.d("CCCCCCCCCCCCCCCCCCC")
 
         initView()
         binding.root.setOnClickListener(this)
@@ -37,7 +36,6 @@ class InfoDetailBottom : RelativeLayout, View.OnClickListener {
     }
 
     fun initView(){
-        Timber.d("BBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBB")
         binding.textCurrentMapName.text = targetData.targetRegion
         binding.textCurrentRegionName.text = targetData.targetMap
         binding.textCurrentStorageName.text = targetData.targetName
