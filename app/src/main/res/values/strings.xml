@@ -1,34 +1,43 @@
 <resources>
     <string name="app_name">water</string>
-    <string name="map">地圖</string>
+    <string name="login">登入</string>
+
     <string name="region_choose">地區選擇</string>
     <string name="map_choose">地圖選擇</string>
+
     <string name="form">表單</string>
-    <string name="login">登入</string>
     <string name="enter_number">輸入代號</string>
+
     <string name="scanner">掃描</string>
     <string name="scanner_barcode">掃描條碼</string>
-    <string name="ok">確認</string>
+
     <string name="delivery">交貨</string>
     <string name="check">驗收</string>
     <string name="take_goods">領料</string>
     <string name="allocate">調撥</string>
     <string name="return_goods">退料</string>
+
     <string name="storage_information">儲櫃資訊</string>
     <string name="region">地區</string>
+    <string name="map">地圖</string>
     <string name="storage_name">儲櫃名稱</string>
+
     <string name="storage_content">儲櫃內容物</string>
     <string name="scan_qr_code">掃描QR CODE</string>
     <string name="permission_error">獲取權限失敗，將導致部分功能無法使用，是否前往授權？</string>
+
     <string name="confirm">確認</string>
     <string name="cancel">取消</string>
+
     <string name="personal_information">個人資料</string>
     <string name="feedback">意見反饋</string>
     <string name="change_password">修改密碼</string>
+
     <string name="new_goods">新增貨物</string>
     <string name="goods_information">貨物資訊</string>
     <string name="goods_number">貨物編號</string>
     <string name="goods_name">貨物名稱</string>
+
     <string-array name="form_array">
         <item>交貨</item>
         <item>驗收</item>
