@@ -5,13 +5,13 @@ import android.view.View
 import android.widget.RelativeLayout
 import androidx.databinding.DataBindingUtil
 import com.lhr.water.R
-import com.lhr.water.databinding.BottomInfoDetailBinding
+import com.lhr.water.databinding.WidgetBottomInfoDetailBinding
 import com.lhr.water.model.TargetData
 import com.lhr.water.ui.map.MapActivity
 import timber.log.Timber
 
 class InfoDetailBottom : RelativeLayout, View.OnClickListener {
-    private var binding: BottomInfoDetailBinding
+    private var binding: WidgetBottomInfoDetailBinding
     private val activity: MapActivity
     private val targetData: TargetData
     constructor(
@@ -19,7 +19,7 @@ class InfoDetailBottom : RelativeLayout, View.OnClickListener {
         targetData: TargetData
     ) : super(activity) {
         binding = DataBindingUtil.inflate(
-            LayoutInflater.from(context), R.layout.bottom_info_detail, this, true
+            LayoutInflater.from(context), R.layout.widget_bottom_info_detail, this, true
         )
         this@InfoDetailBottom.activity = activity
         this@InfoDetailBottom.targetData = targetData

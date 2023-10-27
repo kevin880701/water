@@ -12,6 +12,7 @@ import androidx.databinding.DataBindingUtil
 import com.google.android.material.bottomsheet.BottomSheetDialog
 import com.lhr.water.R
 import com.lhr.water.databinding.DialogConfirmBinding
+import com.lhr.water.databinding.DialogFormGoodsBinding
 import com.lhr.water.ui.base.BaseActivity
 import java.util.Objects
 
@@ -129,122 +130,33 @@ object DialogManager {
         }
     }
 
-//    fun showTicketDialog(
-//        activity: AppCompatActivity,
-//        title: String?,
-//        list: List<CouponData?>,
-//        onAdapterItemListener: OnAdapterItemListener?
+//    fun showEditDialog(
+//        activity: AppCompatActivity, title: String?, onClickListener: OnEditListener?
 //    ) {
 //        activity.runOnUiThread {
-//            cancelLoadDialog(activity)
 //            val builder = AlertDialog.Builder(activity)
 //            builder.setCancelable(false)
-//            val binding: DialogSelectTicketBinding = DataBindingUtil.inflate(
-//                LayoutInflater.from(activity), R.layout.dialog_select_ticket, null, false
+//            val binding: DialogEditBinding = DataBindingUtil.inflate(
+//                LayoutInflater.from(activity), R.layout.dialog_edit, null, false
 //            )
-//            binding.title.setText(title)
-//            binding.content.setText(
-//                list.size.toString() + binding.getRoot().getResources().getString(R.string.s_ticket)
-//            )
-//            binding.list.setLayoutManager(LinearLayoutManager(activity))
-//            val adapter = TicketAdapter(list)
-//            binding.list.setAdapter(adapter)
-//            adapter.setOnAdapterItemListener(object : OnAdapterItemListener() {
-//                fun onItemClick(pos: Int) {
-//                    dialog!!.dismiss()
-//                    if (onAdapterItemListener != null) {
-//                        onAdapterItemListener.onItemClick(pos)
-//                    }
-//                }
+////            binding.title.setText(title)
+//            binding.confirm.setOnClickListener(View.OnClickListener {
+//                dialog!!.dismiss()
+////                onClickListener?.onEdit(binding.content.text.toString())
 //            })
-//            binding.close.setOnClickListener(View.OnClickListener { dialog!!.dismiss() })
-//            builder.setView(binding.getRoot())
+//            binding.imageClose.setOnClickListener(View.OnClickListener { dialog!!.dismiss() })
+//            builder.setView(binding.root)
 //            dialog = builder.create()
 //            dialog?.setCancelable(false)
-//            Objects.requireNonNull(dialog?.getWindow())
-//                .setBackgroundDrawableResource(R.color.transparent)
+//            Objects.requireNonNull(dialog?.window)
+//                ?.setBackgroundDrawableResource(android.R.color.transparent)
 //            dialog?.show()
 //            val lp = WindowManager.LayoutParams()
 //            val dm = DisplayMetrics()
 //            activity.windowManager.defaultDisplay.getMetrics(dm)
-//            lp.copyFrom(dialog?.getWindow()!!.attributes)
+//            lp.copyFrom(dialog?.window!!.attributes)
 //            lp.width = (dm.widthPixels * 0.7).toInt()
-//            dialog?.getWindow()!!.attributes = lp
-//        }
-//    }
-//
-//    fun showSelectDialog(
-//        activity: AppCompatActivity,
-//        title: String?,
-//        content: String?,
-//        onClickListener: View.OnClickListener?,
-//        onCancelListener: View.OnClickListener?
-//    ) {
-//        activity.runOnUiThread {
-//            cancelLoadDialog(activity)
-//            val builder = AlertDialog.Builder(activity)
-//            builder.setCancelable(false)
-//            val binding: DialogSelectBinding = DataBindingUtil.inflate(
-//                LayoutInflater.from(activity), R.layout.dialog_select, null, false
-//            )
-//            binding.title.setText(title)
-//            binding.content.setText(content)
-//            binding.yes.setOnClickListener(View.OnClickListener { v ->
-//                dialog!!.dismiss()
-//                onClickListener?.onClick(v)
-//            })
-//            binding.no.setOnClickListener(View.OnClickListener { v ->
-//                dialog!!.dismiss()
-//                onCancelListener?.onClick(v)
-//            })
-//            binding.close.setOnClickListener(View.OnClickListener { dialog!!.dismiss() })
-//            builder.setView(binding.getRoot())
-//            dialog = builder.create()
-//            dialog?.setCancelable(false)
-//            Objects.requireNonNull(dialog?.getWindow())
-//                .setBackgroundDrawableResource(R.color.transparent)
-//            dialog?.show()
-//            val lp = WindowManager.LayoutParams()
-//            val dm = DisplayMetrics()
-//            activity.windowManager.defaultDisplay.getMetrics(dm)
-//            lp.copyFrom(dialog?.getWindow()!!.attributes)
-//            lp.width = (dm.widthPixels * 0.7).toInt()
-//            dialog?.getWindow()!!.attributes = lp
-//        }
-//    }
-
-//    fun showQrcodeDialog(
-//        activity: AppCompatActivity, code: String
-//    ) {
-//        activity.runOnUiThread {
-//            cancelDialog(activity)
-//            val builder = AlertDialog.Builder(activity)
-//            builder.setCancelable(false)
-//            val binding: DialogShowQrcodeBinding = DataBindingUtil.inflate(
-//                LayoutInflater.from(activity), R.layout.dialog_show_qrcode, null, false
-//            )
-//            try {
-//                val encoder = BarcodeEncoder()
-//                val bm = encoder.encodeBitmap(
-//                    code + Parameter.QRCODE_SPLITE + UserManager.getInstance().getTokenData()
-//                        .getToken(),
-//                    BarcodeFormat.QR_CODE,
-//                    Calculation.convertDpToPixel(180, activity) as Int,
-//                    Calculation.convertDpToPixel(180, activity) as Int
-//                )
-//                if (bm != null) {
-//                    binding.img.setImageBitmap(bm)
-//                }
-//            } catch (e: Exception) {
-//                Log.e("showQrcodeDialog", e.toString())
-//            }
-//            binding.close.setOnClickListener(View.OnClickListener { dialog!!.dismiss() })
-//            builder.setView(binding.getRoot())
-//            dialog = builder.create()
-//            dialog?.setCancelable(false)
-//            Objects.requireNonNull(dialog?.getWindow())
-//                .setBackgroundDrawableResource(R.color.transparent)
-//            dialog?.show()
+//            dialog?.window!!.attributes = lp
 //        }
 //    }
 

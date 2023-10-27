@@ -107,6 +107,7 @@
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintRight_toRightOf="parent"
             android:textStyle="bold"
+            android:textColor="@color/white"
             android:text="@string/login"/>
 
     </androidx.constraintlayout.widget.ConstraintLayout>

@@ -26,6 +26,9 @@
     <string name="feedback">意見反饋</string>
     <string name="change_password">修改密碼</string>
     <string name="new_goods">新增貨物</string>
+    <string name="goods_information">貨物資訊</string>
+    <string name="goods_number">貨物編號</string>
+    <string name="goods_name">貨物名稱</string>
     <string-array name="form_array">
         <item>交貨</item>
         <item>驗收</item>
@@ -55,13 +58,14 @@
 
     <string-array name="delivery_form">
         <item>報表代號</item>
+        <item>印表日期</item>
         <item>交貨通知單號</item>
-        <item>承售廠商</item>
         <item>契約字號</item>
         <item>交貨期限</item>
         <item>展延期限（一）</item>
         <item>展延期限（二）</item>
         <item>展延期限（三）</item>
+        <item>收料單位</item>
         <item>交貨地點</item>
         <item>展延文號（一）</item>
         <item>展延文號（二）</item>
@@ -70,10 +74,46 @@
         <item>聯絡人</item>
         <item>電話</item>
         <item>申請單號</item>
-        <item>制表</item>
-        <item>複核</item>
-        <item>單位主管</item>
-        <item>收料人</item>
-        <item>收料單位主管</item>
+    </string-array>
+    <string-array name="delivery_goods_form">
+        <item>材料編號</item>
+        <item>材料名稱</item>
+        <item>規格</item>
+        <item>單位</item>
+        <item>長度（m/支）</item>
+        <item>發出數量</item>
+        <item>實收數量</item>
+        <item>單價</item>
+        <item>複價</item>
+    </string-array>
+
+    <string-array name="allocate_form">
+        <item>報表代號</item>
+        <item>印表日期</item>
+        <item>請撥單號</item>
+        <item>請撥日期</item>
+        <item>撥方調撥單號</item>
+        <item>收方撥入單號</item>
+        <item>撥方單位</item>
+        <item>原憑證字號</item>
+        <item>需用日期</item>
+        <item>撥方調撥日期</item>
+        <item>收方撥入日期</item>
+        <item>收方單位</item>
+        <item>收料地點</item>
+        <item>聯絡人及電話</item>
+        <item>調撥或用途說明</item>
+    </string-array>
+
+    <string-array name="allocate_goods_form">
+        <item>材料編號</item>
+        <item>材料名稱</item>
+        <item>規　　格</item>
+        <item>單　　位</item>
+        <item>核撥數量</item>
+        <item>請撥序號</item>
+        <item>實撥數量</item>
+        <item>實收數量</item>
+        <item>備　　註</item>
     </string-array>
 </resources>

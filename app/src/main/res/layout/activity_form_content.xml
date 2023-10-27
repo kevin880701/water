@@ -6,48 +6,32 @@
     <data>
     </data>
 
-    <androidx.constraintlayout.widget.ConstraintLayout
-        android:layout_width="match_parent"
-        android:layout_height="match_parent">
 
-        <include
-            android:id="@+id/widget_title_bar"
-            layout="@layout/widget_title_bar"
-            app:layout_constraintTop_toTopOf="parent"/>
 
         <androidx.core.widget.NestedScrollView
             android:id="@+id/scrollViewData"
             android:layout_width="match_parent"
-            android:layout_height="0dp"
+            android:layout_height="wrap_content"
             android:fillViewport="true"
-            app:layout_constraintTop_toBottomOf="@+id/widget_title_bar"
+            app:layout_constraintTop_toBottomOf="@+id/widgetTitleBar"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintRight_toRightOf="parent"
             android:background="@color/background">
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+            <include
+                android:id="@+id/widgetTitleBar"
+                layout="@layout/widget_title_bar"
+                app:layout_constraintTop_toTopOf="parent"/>
             <LinearLayout
                 android:id="@+id/linearData"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:orientation="vertical">
-
-            </LinearLayout>
-<!--            <androidx.constraintlayout.widget.ConstraintLayout-->
-<!--                android:layout_width="match_parent"-->
-<!--                android:layout_height="match_parent"-->
-<!--                android:background="@color/background">-->
-<!--                <androidx.recyclerview.widget.RecyclerView-->
-<!--                    android:id="@+id/recyclerFormContent"-->
-<!--                    android:layout_width="match_parent"-->
-<!--                    android:layout_height="wrap_content"-->
-<!--                    app:layout_constraintTop_toTopOf="parent"-->
-<!--                    app:layout_constraintLeft_toLeftOf="parent"-->
-<!--                    android:layout_marginTop="8dp"-->
-<!--                    tools:itemCount="1"-->
-<!--                    tools:listitem="@layout/item_form_content"/>-->
-
-
-<!--            </androidx.constraintlayout.widget.ConstraintLayout>-->
+                app:layout_constraintTop_toBottomOf="@id/widgetTitleBar"
+                android:orientation="vertical"/>
+            </androidx.constraintlayout.widget.ConstraintLayout>
         </androidx.core.widget.NestedScrollView>
-    </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

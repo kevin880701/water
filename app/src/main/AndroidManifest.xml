@@ -46,6 +46,7 @@
 
         <activity android:name="com.lhr.water.ui.formContent.FormContentActivity"
             android:launchMode="singleTask"
+            android:windowSoftInputMode="adjustResize"
             android:theme="@style/formContentActivityTheme"/>
     </application>
 
