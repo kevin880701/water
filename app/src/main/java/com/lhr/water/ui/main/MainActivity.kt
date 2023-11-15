@@ -3,6 +3,8 @@ package com.lhr.water.ui.main
 import android.graphics.Color
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.os.Environment.getExternalStorageDirectory
+import android.util.Log
 import androidx.activity.viewModels
 import androidx.core.content.ContextCompat
 import androidx.core.content.res.ResourcesCompat
@@ -17,6 +19,7 @@ import com.lhr.water.ui.base.BaseActivity
 import com.lhr.water.ui.form.FormFragment
 import com.lhr.water.ui.history.HistoryFragment
 import com.lhr.water.ui.regionChoose.RegionChooseFragment
+import com.lhr.water.ui.setting.SettingFragment
 import com.lhr.water.util.viewPager.MainViewPageAdapter
 import timber.log.Timber
 
@@ -42,11 +45,13 @@ class MainActivity : BaseActivity() {
                 R.drawable.form,
                 R.drawable.region_choose,
                 R.drawable.history,
+                R.drawable.setting,
             )
             var fragments = arrayListOf(
                 FormFragment(),
                 RegionChooseFragment(),
-                HistoryFragment()
+                HistoryFragment(),
+                SettingFragment()
             ) as ArrayList<Fragment>
             pageAdapter = MainViewPageAdapter(supportFragmentManager, lifecycle, fragments)
             binding.viewPager.adapter = pageAdapter

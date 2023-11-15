@@ -45,12 +45,15 @@
     <string name="now_deal">處理中</string>
     <string name="complete_deal">處理完成</string>
 
+    <string name="setting">設定</string>
+    <string name="upload">上傳</string>
+    <string name="update">更新</string>
+
     <string-array name="deal_status">
         <item>待處理</item>
         <item>處理中</item>
         <item>處理完成</item>
     </string-array>
-
 
     <string-array name="form_array">
         <item>交貨</item>

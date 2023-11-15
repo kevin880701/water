@@ -44,7 +44,6 @@ class FormContentActivity : BaseActivity(), View.OnClickListener, FormGoodsAdd.L
     var formItemFieldNameList = ArrayList<String>() //貨物欄位
     var formItemFieldNameEngList = ArrayList<String>() //貨物欄位英文名
     var formItemFieldContentList: JSONArray? = null //貨物欄位內容
-    var formStatus = "0"
     lateinit var jsonObject: JSONObject
     private val qrcodeActivityResultLauncher = registerForActivityResult(
         ActivityResultContracts.StartActivityForResult()
@@ -124,7 +123,6 @@ class FormContentActivity : BaseActivity(), View.OnClickListener, FormGoodsAdd.L
             }
 
             getString(R.string.inventory) -> {
-
             }
         }
         // 如果是開啟已有紀錄

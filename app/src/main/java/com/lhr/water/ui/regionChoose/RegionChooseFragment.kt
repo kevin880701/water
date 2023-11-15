@@ -66,14 +66,12 @@ class RegionChooseFragment : BaseFragment(), View.OnClickListener, RegionChooseA
     }
 
     override fun onItemClick(item: String) {
-        println("點擊")
         val intent = Intent(requireActivity(), MapChooseActivity::class.java)
         intent.putExtra("region", item)
         requireActivity().startActivity(intent)
     }
 
     override fun onItemLongClick(item: String) {
-        println("長按")
     }
 
 }
