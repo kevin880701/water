@@ -1,17 +1,18 @@
 package com.lhr.water.ui.formContent
 
 import android.app.Activity
+import android.content.Context
 import android.content.Intent
 import android.os.Build
 import android.os.Bundle
 import android.util.Log
 import android.view.View
+import android.view.inputmethod.InputMethodManager
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.activity.viewModels
 import androidx.core.content.res.ResourcesCompat
 import androidx.core.view.get
 import androidx.core.view.iterator
-import androidx.core.view.size
 import com.lhr.water.R
 import com.lhr.water.data.Repository.FormRepository
 import com.lhr.water.databinding.ActivityFormContentBinding
@@ -27,6 +28,7 @@ import com.lhr.water.util.widget.FormContentDataSpinnerWidget
 import com.lhr.water.util.widget.FormGoodsAdd
 import com.lhr.water.util.widget.FormGoodsDataWidget
 import com.lhr.water.util.widget.FormContentDataWidget
+import org.json.JSONArray
 import org.json.JSONObject
 
 class FormContentActivity : BaseActivity(), View.OnClickListener, FormGoodsAdd.Listener,
@@ -41,7 +43,7 @@ class FormContentActivity : BaseActivity(), View.OnClickListener, FormGoodsAdd.L
     var formFieldContentList = ArrayList<String>() //表單欄位內容
     var formItemFieldNameList = ArrayList<String>() //貨物欄位
     var formItemFieldNameEngList = ArrayList<String>() //貨物欄位英文名
-    var formItemFieldContentList = ArrayList<String>() //貨物欄位內容
+    var formItemFieldContentList: JSONArray? = null //貨物欄位內容
     var formStatus = "0"
     lateinit var jsonObject: JSONObject
     private val qrcodeActivityResultLauncher = registerForActivityResult(
@@ -74,7 +76,6 @@ class FormContentActivity : BaseActivity(), View.OnClickListener, FormGoodsAdd.L
                 jsonString = intent.getStringExtra("jsonString")
             }
         }
-        Log.v("QQQQQQQQQQQ", "" + jsonString)
 
         binding.widgetTitleBar.imageScanner.setOnClickListener(View.OnClickListener {
             val intent = Intent(this, QrcodeActivity::class.java)
@@ -134,8 +135,9 @@ class FormContentActivity : BaseActivity(), View.OnClickListener, FormGoodsAdd.L
             formFieldContentList = formFieldNameEngList.map { key ->
                 jsonObject.getString(key)
             } as ArrayList<String>
+            formItemFieldContentList = jsonObject.getJSONArray("ItemDetail")
         }
-        addFormInputData()
+        addFormData()
         setupBackButton(binding.widgetTitleBar.imageBack)
         binding.buttonSend.setOnClickListener(this)
         binding.widgetFormGoodsAdd.imageAdd.setOnClickListener(this)
@@ -145,7 +147,7 @@ class FormContentActivity : BaseActivity(), View.OnClickListener, FormGoodsAdd.L
     /**
      * 根據string.xml來增加要輸入的欄位
      */
-    private fun addFormInputData() {
+    private fun addFormData() {
         formFieldNameList.forEachIndexed { index, fieldName ->
             val fieldContent =
                 if (index < formFieldContentList.size) formFieldContentList[index] else null
@@ -197,12 +199,25 @@ class FormContentActivity : BaseActivity(), View.OnClickListener, FormGoodsAdd.L
                 binding.linearFormData.addView(formContentDataWidget)
             }
         }
+        formItemFieldContentList?.let{formItemFieldContentList ->
+            // 遍历 JSONArray 中的每个对象
+            for (i in 0 until formItemFieldContentList.length()) {
+                val itemObject = formItemFieldContentList.getJSONObject(i)
+
+                val formGoodsDataWidget =
+                    FormGoodsDataWidget(activity = this@FormContentActivity, formItemFieldJson = itemObject, listener = this@FormContentActivity)
+                binding.linearItemData.addView(formGoodsDataWidget)
+            }
+        }
+
     }
 
     fun saveRecord() {
-        var formGoodInfoList = ArrayList<JSONObject>()
+//        var formGoodInfoList = ArrayList<String>()
+        val itemDetailArray = JSONArray()
         for (formGoodsDataWidget in binding.linearItemData) {
-            formGoodInfoList.add((formGoodsDataWidget as FormGoodsDataWidget).formItemJson)
+            itemDetailArray.put((formGoodsDataWidget as FormGoodsDataWidget).formItemJson)
+//            formGoodInfoList.add(jsonObjectToJsonString((formGoodsDataWidget as FormGoodsDataWidget).formItemJson))
         }
         var formContentList = ArrayList<String>()
         formFieldNameList.forEachIndexed { index, fieldName ->
@@ -217,7 +232,7 @@ class FormContentActivity : BaseActivity(), View.OnClickListener, FormGoodsAdd.L
             formFieldNameEngList,
             formContentList
         )
-        formContentJsonObject.put("ItemDetail", formGoodInfoList)
+        formContentJsonObject.put("ItemDetail", itemDetailArray)
         var formEntity = FormEntity()
         formEntity.reportId = formContentJsonObject.getString("ReportId")
         formEntity.formContent = jsonObjectToJsonString(formContentJsonObject)
@@ -237,6 +252,8 @@ class FormContentActivity : BaseActivity(), View.OnClickListener, FormGoodsAdd.L
             }
 
             R.id.imageAdd -> {
+                val imm = getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
+                imm.hideSoftInputFromWindow(this.currentFocus?.windowToken, 0)
                 onAddGoodsClick()
             }
         }
@@ -261,7 +278,7 @@ class FormContentActivity : BaseActivity(), View.OnClickListener, FormGoodsAdd.L
     }
 
     /**
-     * 新增貨物的Dialog，在Dialog中輸入新增的貨物資訊
+     * 點擊已有的貨物，在Dialog中顯示貨物資訊
      */
     override fun onGoodsColClick(
         formItemFieldContentList: ArrayList<String>,

@@ -71,8 +71,6 @@ fun listToJsonObject(fieldNameList: ArrayList<String>, fieldContentList: ArrayLi
         val fieldName = fieldNameList[i]
         val fieldContent = if (i < fieldContentList.size) fieldContentList[i] else ""
         jsonObject.put(fieldName, fieldContent)
-        Log.v("QQQQQQQQQQQ","" + fieldName)
-        Log.v("QQQQQQQQQQQ","" + fieldContent)
     }
 
     // 輸出JSON字元串
