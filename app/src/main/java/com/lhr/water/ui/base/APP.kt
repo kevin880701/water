@@ -4,6 +4,7 @@ import android.app.Application
 import android.widget.Toast
 import androidx.lifecycle.MutableLiveData
 import com.lhr.water.BuildConfig
+import com.lhr.water.room.SqlDatabase
 import com.lhr.water.util.CrashlyticsTree
 import timber.log.Timber
 
@@ -13,6 +14,8 @@ class APP: Application() {
 
     override fun onCreate() {
         super.onCreate()
+
+        SqlDatabase.init(this)
         if (BuildConfig.DEBUG){
             Timber.plant(Timber.DebugTree())
         }else{

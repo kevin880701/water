@@ -1,6 +1,8 @@
 package com.lhr.water.ui.qrCode
 
 import android.Manifest
+import android.app.Activity
+import android.content.Intent
 import android.os.Bundle
 import androidx.activity.viewModels
 import androidx.core.content.res.ResourcesCompat
@@ -9,7 +11,6 @@ import com.google.zxing.ResultPoint
 import com.google.zxing.client.android.BeepManager
 import com.journeyapps.barcodescanner.BarcodeCallback
 import com.journeyapps.barcodescanner.BarcodeResult
-import com.journeyapps.barcodescanner.DefaultDecoderFactory
 import com.lhr.water.R
 import com.lhr.water.databinding.ActivityQrcodeBinding
 import com.lhr.water.listener.OnPermissionListener
@@ -17,7 +18,6 @@ import com.lhr.water.manager.PermissionManager
 import com.lhr.water.ui.base.APP
 import com.lhr.water.ui.base.BaseActivity
 import timber.log.Timber
-import java.lang.reflect.Parameter
 import java.util.Arrays
 
 class QrcodeActivity : BaseActivity(), OnPermissionListener {
@@ -45,7 +45,6 @@ class QrcodeActivity : BaseActivity(), OnPermissionListener {
         )
     }
 
-
     private fun initView() {
         beepManager = BeepManager(this)
         val formats: Collection<BarcodeFormat> = Arrays.asList(BarcodeFormat.QR_CODE)
@@ -61,6 +60,11 @@ class QrcodeActivity : BaseActivity(), OnPermissionListener {
             val codeString = result.text
 
             Timber.e("getString : $codeString")
+
+            val resultIntent = Intent()
+            resultIntent.putExtra("keyName", codeString)
+            setResult(Activity.RESULT_OK, resultIntent)
+            finish()
         }
 
         override fun possibleResultPoints(resultPoints: List<ResultPoint>) {}
@@ -84,5 +88,10 @@ class QrcodeActivity : BaseActivity(), OnPermissionListener {
                 onBackPressed()
             }
         }
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        binding.scanner.stopDecoding()
     }
 }

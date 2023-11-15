@@ -32,14 +32,14 @@
                 android:layout_width="match_parent"
                 app:layout_constraintTop_toBottomOf="@+id/viewUserBackground" >
                 <androidx.recyclerview.widget.RecyclerView
-                    android:id="@+id/recyclerRegion"
+                    android:id="@+id/recyclerHistory"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     app:layout_constraintTop_toTopOf="parent"
                     app:layout_constraintLeft_toLeftOf="parent"
                     android:layout_marginTop="8dp"
-                    tools:itemCount="1"
-                    tools:listitem="@layout/item_choose_region" />
+                    tools:itemCount="3"
+                    tools:listitem="@layout/item_history" />
             </androidx.constraintlayout.widget.ConstraintLayout>
         </androidx.core.widget.NestedScrollView>
     </androidx.constraintlayout.widget.ConstraintLayout>

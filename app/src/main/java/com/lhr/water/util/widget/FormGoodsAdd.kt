@@ -14,7 +14,7 @@ import com.lhr.water.ui.formContent.FormContentActivity
 import com.lhr.water.util.recyclerViewAdapter.FormAdapter
 
 class FormGoodsAdd : RelativeLayout {
-    private var binding: WidgetFormGoodsAddBinding
+    var binding: WidgetFormGoodsAddBinding
     private val activity: FormContentActivity
     constructor(
         activity: FormContentActivity,

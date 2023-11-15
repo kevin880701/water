@@ -15,6 +15,7 @@ import com.lhr.water.databinding.ActivityMainBinding
 import com.lhr.water.ui.base.APP
 import com.lhr.water.ui.base.BaseActivity
 import com.lhr.water.ui.form.FormFragment
+import com.lhr.water.ui.history.HistoryFragment
 import com.lhr.water.ui.regionChoose.RegionChooseFragment
 import com.lhr.water.util.viewPager.MainViewPageAdapter
 import timber.log.Timber
@@ -40,10 +41,12 @@ class MainActivity : BaseActivity() {
             var tabIconList = arrayListOf(
                 R.drawable.form,
                 R.drawable.region_choose,
+                R.drawable.history,
             )
             var fragments = arrayListOf(
                 FormFragment(),
                 RegionChooseFragment(),
+                HistoryFragment()
             ) as ArrayList<Fragment>
             pageAdapter = MainViewPageAdapter(supportFragmentManager, lifecycle, fragments)
             binding.viewPager.adapter = pageAdapter

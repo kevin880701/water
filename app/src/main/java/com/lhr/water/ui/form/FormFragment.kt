@@ -48,7 +48,8 @@ class FormFragment : BaseFragment(), View.OnClickListener, FormAdapter.Listener 
             R.drawable.check,
             R.drawable.take_goods,
             R.drawable.allocate,
-            R.drawable.return_goods
+            R.drawable.return_goods,
+            R.drawable.inventory
         )
         val formList = ArrayList(resources.getStringArray(R.array.form_array).toList())
         val formDataList = formList.mapIndexed { index, formName ->

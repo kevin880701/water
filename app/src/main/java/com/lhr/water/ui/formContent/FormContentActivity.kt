@@ -1,27 +1,59 @@
 package com.lhr.water.ui.formContent
 
+import android.app.Activity
+import android.content.Intent
 import android.os.Build
 import android.os.Bundle
+import android.util.Log
 import android.view.View
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.activity.viewModels
 import androidx.core.content.res.ResourcesCompat
+import androidx.core.view.get
+import androidx.core.view.iterator
+import androidx.core.view.size
 import com.lhr.water.R
-import com.lhr.water.data.FormGoodInfo
+import com.lhr.water.data.Repository.FormRepository
 import com.lhr.water.databinding.ActivityFormContentBinding
+import com.lhr.water.room.FormEntity
+import com.lhr.water.room.SqlDatabase
 import com.lhr.water.ui.base.APP
 import com.lhr.water.ui.base.BaseActivity
 import com.lhr.water.ui.formContent.GoodsDialog.GoodsDialog
+import com.lhr.water.ui.qrCode.QrcodeActivity
+import com.lhr.water.util.jsonObjectToJsonString
+import com.lhr.water.util.listToJsonObject
+import com.lhr.water.util.widget.FormContentDataSpinnerWidget
 import com.lhr.water.util.widget.FormGoodsAdd
 import com.lhr.water.util.widget.FormGoodsDataWidget
-import com.lhr.water.util.widget.FormInputDataWidget
-import timber.log.Timber
+import com.lhr.water.util.widget.FormContentDataWidget
+import org.json.JSONObject
 
-class FormContentActivity : BaseActivity(), View.OnClickListener, FormGoodsAdd.Listener, FormInputDataWidget.Listener, FormGoodsDataWidget.Listener,GoodsDialog.Listener {
-    private val viewModel: FormContentViewModel by viewModels{(applicationContext as APP).appContainer.viewModelFactory}
+class FormContentActivity : BaseActivity(), View.OnClickListener, FormGoodsAdd.Listener,
+    FormContentDataWidget.Listener, FormGoodsDataWidget.Listener, GoodsDialog.Listener {
+    private val viewModel: FormContentViewModel by viewModels { (applicationContext as APP).appContainer.viewModelFactory }
     private var _binding: ActivityFormContentBinding? = null
     private val binding get() = _binding!!
     lateinit var formName: String
-    lateinit var dataNameList: List<String>
+    var jsonString: String? = null
+    var formFieldNameList = ArrayList<String>() //表單欄位
+    var formFieldNameEngList = ArrayList<String>() //表單欄位英文名
+    var formFieldContentList = ArrayList<String>() //表單欄位內容
+    var formItemFieldNameList = ArrayList<String>() //貨物欄位
+    var formItemFieldNameEngList = ArrayList<String>() //貨物欄位英文名
+    var formItemFieldContentList = ArrayList<String>() //貨物欄位內容
+    var formStatus = "0"
+    lateinit var jsonObject: JSONObject
+    private val qrcodeActivityResultLauncher = registerForActivityResult(
+        ActivityResultContracts.StartActivityForResult()
+    ) { result ->
+        if (result.resultCode == Activity.RESULT_OK) {
+            val data: Intent? = result.data
+            if (data != null) {
+                val resultData = data.getStringExtra("keyName")
+            }
+        }
+    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -35,6 +67,19 @@ class FormContentActivity : BaseActivity(), View.OnClickListener, FormGoodsAdd.L
         } else {
             formName = intent.getSerializableExtra("formName") as String
         }
+        if (intent.hasExtra("jsonString")) {
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
+                jsonString = intent.getParcelableExtra("jsonString", String::class.java)
+            } else {
+                jsonString = intent.getStringExtra("jsonString")
+            }
+        }
+        Log.v("QQQQQQQQQQQ", "" + jsonString)
+
+        binding.widgetTitleBar.imageScanner.setOnClickListener(View.OnClickListener {
+            val intent = Intent(this, QrcodeActivity::class.java)
+            qrcodeActivityResultLauncher.launch(intent)
+        })
         bindViewModel()
         initView()
     }
@@ -47,28 +92,138 @@ class FormContentActivity : BaseActivity(), View.OnClickListener, FormGoodsAdd.L
         binding.widgetTitleBar.textTitle.text = formName
         binding.widgetTitleBar.imageBack.visibility = View.VISIBLE
         binding.widgetTitleBar.imageScanner.visibility = View.VISIBLE
+        when (formName) {
+            getString(R.string.delivery) -> {
+                formFieldNameList = resources.getStringArray(R.array.delivery_form_field_name)
+                    .toList() as ArrayList<String>
+                formFieldNameEngList =
+                    resources.getStringArray(R.array.delivery_form_field_name_eng)
+                        .toList() as ArrayList<String>
+                formItemFieldNameList = resources.getStringArray(R.array.delivery_goods_field_name)
+                    .toList() as ArrayList<String>
+                formItemFieldNameEngList =
+                    resources.getStringArray(R.array.delivery_goods_field_name_eng)
+                        .toList() as ArrayList<String>
+            }
+
+            getString(R.string.check) -> {
+
+            }
+
+            getString(R.string.take_goods) -> {
+
+            }
+
+            getString(R.string.allocate) -> {
+
+            }
+
+            getString(R.string.return_goods) -> {
+
+            }
+
+            getString(R.string.inventory) -> {
+
+            }
+        }
+        // 如果是開啟已有紀錄
+        jsonString?.let {
+            // 將jsonString轉成jsonObject
+            jsonObject = JSONObject(jsonString)
+            // 使用 map 函數根據key列表提取值並創建新的列表
+            formFieldContentList = formFieldNameEngList.map { key ->
+                jsonObject.getString(key)
+            } as ArrayList<String>
+        }
+        addFormInputData()
         setupBackButton(binding.widgetTitleBar.imageBack)
-        initFormInputData()
-    }
-    fun initFormInputData() {
-        var list = resources.getStringArray(R.array.delivery_form).toList() as ArrayList<String>
-
-        list.forEach { dataName ->
-            val formInputDataWidgetView = FormInputDataWidget(this, dataName, false)
-
-            binding.linearData.addView(formInputDataWidgetView)
-        }
-
-        val formGoodsAddView = FormGoodsAdd(this, this)
-        binding.linearData.addView(formGoodsAddView)
-
+        binding.buttonSend.setOnClickListener(this)
+        binding.widgetFormGoodsAdd.imageAdd.setOnClickListener(this)
     }
 
-    fun setDataNameList(formName: String): List<String> {
-        return when(formName){
-            getString(R.string.delivery) -> {resources.getStringArray(R.array.delivery_form).toList() as ArrayList<String>}
-            else -> {ArrayList<String>()}
+
+    /**
+     * 根據string.xml來增加要輸入的欄位
+     */
+    private fun addFormInputData() {
+        formFieldNameList.forEachIndexed { index, fieldName ->
+            val fieldContent =
+                if (index < formFieldContentList.size) formFieldContentList[index] else null
+            // 創建FormContentDataWidget
+            if (fieldName == getString(R.string.status)) {
+                val formContentDataSpinnerWidget = if (fieldContent != null) {
+                    FormContentDataSpinnerWidget(
+                        activity = this,
+                        spinnerList = resources.getStringArray(R.array.deal_status).toList() as ArrayList<String>,
+                        fieldName = fieldName,
+                        fieldContent = fieldContent
+                    )
+                } else {
+                    FormContentDataSpinnerWidget(
+                        activity = this,
+                        spinnerList = resources.getStringArray(R.array.deal_status).toList() as ArrayList<String>,
+                        fieldName = fieldName
+                    )
+                }
+                binding.linearFormData.addView(formContentDataSpinnerWidget)
+            } else if (fieldName == getString(R.string.form)) {
+                val formContentDataSpinnerWidget = if (fieldContent != null) {
+                    FormContentDataSpinnerWidget(
+                        activity = this,
+                        spinnerList = resources.getStringArray(R.array.form_array)
+                            .toList() as ArrayList<String>,
+                        fieldName = fieldName,
+                        fieldContent = fieldContent
+                    )
+                } else {
+                    FormContentDataSpinnerWidget(
+                        activity = this,
+                        spinnerList = resources.getStringArray(R.array.form_array)
+                            .toList() as ArrayList<String>,
+                        fieldName = fieldName
+                    )
+                }
+                binding.linearFormData.addView(formContentDataSpinnerWidget)
+            } else {
+                val formContentDataWidget = if (fieldContent != null) {
+                    FormContentDataWidget(
+                        activity = this,
+                        fieldName = fieldName,
+                        fieldContent = fieldContent
+                    )
+                } else {
+                    FormContentDataWidget(activity = this, fieldName = fieldName)
+                }
+                binding.linearFormData.addView(formContentDataWidget)
+            }
         }
+    }
+
+    fun saveRecord() {
+        var formGoodInfoList = ArrayList<JSONObject>()
+        for (formGoodsDataWidget in binding.linearItemData) {
+            formGoodInfoList.add((formGoodsDataWidget as FormGoodsDataWidget).formItemJson)
+        }
+        var formContentList = ArrayList<String>()
+        formFieldNameList.forEachIndexed { index, fieldName ->
+            when(fieldName){
+                getString(R.string.form) -> formContentList.add((binding.linearFormData[index] as FormContentDataSpinnerWidget).content)
+                getString(R.string.status) -> formContentList.add((binding.linearFormData[index] as FormContentDataSpinnerWidget).content)
+                else -> formContentList.add((binding.linearFormData[index] as FormContentDataWidget).content)
+            }
+        }
+
+        val formContentJsonObject = listToJsonObject(
+            formFieldNameEngList,
+            formContentList
+        )
+        formContentJsonObject.put("ItemDetail", formGoodInfoList)
+        var formEntity = FormEntity()
+        formEntity.reportId = formContentJsonObject.getString("ReportId")
+        formEntity.formContent = jsonObjectToJsonString(formContentJsonObject)
+        SqlDatabase.getInstance().getDeliveryDao().insertOrUpdate(formEntity)
+        FormRepository.getInstance(SqlDatabase.getInstance().getDeliveryDao()).loadRecord()
+        finish()
     }
 
     override fun onClick(v: View) {
@@ -76,33 +231,24 @@ class FormContentActivity : BaseActivity(), View.OnClickListener, FormGoodsAdd.L
             R.id.imageBack -> {
                 onBackPressedCallback.handleOnBackPressed()
             }
+
+            R.id.buttonSend -> {
+                saveRecord()
+            }
+
+            R.id.imageAdd -> {
+                onAddGoodsClick()
+            }
         }
     }
 
+
+    /**
+     * 點擊新增貨物的按鈕後跳出Dialog輸入新增的貨物資訊
+     */
     override fun onAddGoodsClick() {
-        val goodsDialog = GoodsDialog(true, this)
+        val goodsDialog = GoodsDialog(true, formItemFieldNameList, formItemFieldNameEngList, this)
         goodsDialog.show(supportFragmentManager, "GoodsDialog")
-//        DialogManager.showEditDialog(
-//            this,
-//            resources.getString(R.string.delivery),
-//            object : DialogManager.OnEditListener {
-//                override fun onEdit(edit: String) {
-//                    title = edit
-//
-//                    val formInputDataView = FormInputData(this@FormContentActivity, title, true, this@FormContentActivity)
-//                    // 創建一個點擊事件
-//                    binding.linearData.addView(formInputDataView)
-//                    //新增後能下移顯示新增的widget
-//                    binding.scrollViewData.post {
-//                        binding.scrollViewData.fullScroll(View.FOCUS_DOWN)
-//                    }
-//                    if (edit.replace(" 1212", "11111111111").isEmpty()) {
-//
-//                        return
-//                    }
-//                }
-//            }
-//        )
     }
 
     override fun onDeleteGoodsClick(view: View) {
@@ -110,30 +256,50 @@ class FormContentActivity : BaseActivity(), View.OnClickListener, FormGoodsAdd.L
             // 抓imageDelete的父層，這邊需要跨三層
             val parentItem = view.parent.parent.parent as View
             // 刪除指定列
-            binding.linearData.removeView(parentItem)
+            binding.linearItemData.removeView(parentItem)
         }
     }
 
-    override fun onGoodsColClick(formGoodInfo: FormGoodInfo, formGoodsDataWidget: FormGoodsDataWidget) {
-        val goodsDialog = GoodsDialog(false, this, formGoodInfo, formGoodsDataWidget)
+    /**
+     * 新增貨物的Dialog，在Dialog中輸入新增的貨物資訊
+     */
+    override fun onGoodsColClick(
+        formItemFieldContentList: ArrayList<String>,
+        formGoodsDataWidget: FormGoodsDataWidget
+    ) {
+        val goodsDialog = GoodsDialog(
+            false,
+            formItemFieldNameList,
+            formItemFieldNameEngList,
+            this,
+            formItemFieldContentList,
+            formGoodsDataWidget
+        )
         goodsDialog.show(supportFragmentManager, "GoodsDialog")
     }
 
-    override fun onAddGoods(formGoodInfo: FormGoodInfo) {
-        val formGoodsDataWidget = FormGoodsDataWidget(this@FormContentActivity, formGoodInfo, this@FormContentActivity)
-      // 創建一個點擊事件
-      binding.linearData.addView(formGoodsDataWidget)
-      //新增後能下移顯示新增的widget
-      binding.scrollViewData.post {
-          binding.scrollViewData.fullScroll(View.FOCUS_DOWN)
-      }
+
+    /**
+     * 在Dialog中輸入完新增的貨物資訊並送出後，新增一列
+     */
+    override fun onGoodsDialogConfirm(formItemJson: JSONObject) {
+        val formGoodsDataWidget =
+            FormGoodsDataWidget(this@FormContentActivity, formItemJson, this@FormContentActivity)
+        // 創建一個點擊事件
+        binding.linearItemData.addView(formGoodsDataWidget)
+        //新增後能下移顯示新增的widget
+        binding.scrollViewData.post {
+            binding.scrollViewData.fullScroll(View.FOCUS_DOWN)
+        }
     }
 
-    override fun onChangeGoodsInfo(formGoodInfo: FormGoodInfo, formGoodsDataWidget: FormGoodsDataWidget) {
-        formGoodsDataWidget.binding.textGoodsName.text = formGoodInfo.goodsName
-        formGoodsDataWidget.binding.textGoodsNumber.text = formGoodInfo.goodsNumber
-        formGoodsDataWidget.formGoodInfo = formGoodInfo
-        Timber.d(formGoodInfo.goodsName)
+    override fun onChangeGoodsInfo(
+        formItemJson: JSONObject,
+        formGoodsDataWidget: FormGoodsDataWidget
+    ) {
+        formGoodsDataWidget.binding.textGoodsName.text = formItemJson.getString("MaterialName")
+        formGoodsDataWidget.binding.textGoodsNumber.text = formItemJson.getString("MaterialNumber")
+        formGoodsDataWidget.formItemJson = formItemJson
         binding.scrollViewData.smoothScrollTo(0, formGoodsDataWidget.top)
     }
 }

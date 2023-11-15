@@ -54,6 +54,7 @@ dependencies {
     val fragment_version = "1.3.5"
     val okhttp3 = "4.9.0"
     val retrofit2 = "2.9.0"
+    val glide = "4.12.0"
 
     implementation("androidx.core:core-ktx:1.9.0")
     implementation("androidx.appcompat:appcompat:1.6.1")
@@ -83,7 +84,6 @@ dependencies {
     // 如有使用BoM，皆不需要指定版本
     implementation("com.google.firebase:firebase-analytics-ktx")
     implementation("com.google.firebase:firebase-crashlytics-ktx")
-    implementation("com.google.firebase:firebase-analytics-ktx")
     // Timber
     implementation ("com.jakewharton.timber:timber:5.0.1")
     //rxjava2
@@ -99,4 +99,10 @@ dependencies {
     implementation ("com.squareup.retrofit2:retrofit:$retrofit2")
     implementation ("com.squareup.retrofit2:converter-gson:$retrofit2")
     implementation ("com.squareup.retrofit2:adapter-rxjava2:2.4.0")
+
+    //Glide
+    implementation ("com.github.bumptech.glide:glide:$glide")
+    annotationProcessor ("com.github.bumptech.glide:compiler:$glide")
+
+    implementation ("com.google.code.gson:gson:2.8.9")
 }

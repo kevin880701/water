@@ -3,35 +3,61 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools">
 
-    <data>
-    </data>
+    <data></data>
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+        <include
+            android:id="@+id/widgetTitleBar"
+            layout="@layout/widget_title_bar"
+            app:layout_constraintTop_toTopOf="parent" />
 
 
+    <androidx.core.widget.NestedScrollView
+        android:id="@+id/scrollViewData"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:background="@color/background"
+        android:fillViewport="true"
+        app:layout_constraintTop_toBottomOf="@+id/widgetTitleBar"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent">
 
-        <androidx.core.widget.NestedScrollView
-            android:id="@+id/scrollViewData"
+        <LinearLayout
+            android:id="@+id/linearForm"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:fillViewport="true"
-            app:layout_constraintTop_toBottomOf="@+id/widgetTitleBar"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintLeft_toLeftOf="parent"
-            app:layout_constraintRight_toRightOf="parent"
-            android:background="@color/background">
+            android:layout_height="match_parent"
+            android:orientation="vertical">
 
-            <androidx.constraintlayout.widget.ConstraintLayout
-                android:layout_width="match_parent"
-                android:layout_height="match_parent">
-            <include
-                android:id="@+id/widgetTitleBar"
-                layout="@layout/widget_title_bar"
-                app:layout_constraintTop_toTopOf="parent"/>
             <LinearLayout
-                android:id="@+id/linearData"
+                android:id="@+id/linearFormData"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                app:layout_constraintTop_toBottomOf="@id/widgetTitleBar"
                 android:orientation="vertical"/>
-            </androidx.constraintlayout.widget.ConstraintLayout>
-        </androidx.core.widget.NestedScrollView>
+
+            <include
+                android:id="@+id/widgetFormGoodsAdd"
+                layout="@layout/widget_form_goods_add" />
+
+            <LinearLayout
+                android:id="@+id/linearItemData"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical" />
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/buttonSend"
+                android:layout_width="wrap_content"
+                android:layout_height="56dp"
+                android:layout_marginTop="16dp"
+                android:layout_marginLeft="16dp"
+                android:layout_marginRight="16dp"
+                android:layout_gravity="center_horizontal"
+                android:text="@string/send"
+                android:textColor="@color/white"
+                android:textStyle="bold"/>
+        </LinearLayout>
+    </androidx.core.widget.NestedScrollView>
+    </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

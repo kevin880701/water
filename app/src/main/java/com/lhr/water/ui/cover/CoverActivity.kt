@@ -36,7 +36,7 @@ class CoverActivity : BaseActivity() {
         // 創建Model
         Model
         // 讀取資料並轉成LIST
-        var sqlManager = SqlDatabase(this)
+//        var sqlManager = SqlDatabase(this)
         GlobalScope.launch {
 //            allTargetEntityArrayList = sqlManager.getClassDao().getAll() as ArrayList<TargetEntity>
 //            if(allTargetDataArrayList.size == 0){

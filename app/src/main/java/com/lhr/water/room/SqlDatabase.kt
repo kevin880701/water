@@ -4,22 +4,25 @@ import android.content.Context
 import androidx.room.Database
 import androidx.room.Room
 import androidx.room.RoomDatabase
+import com.lhr.water.room.SqlModel.Companion.DB_NAME
 
-@Database(entities = [TargetEntity::class], version = 1, exportSchema = false)
+@Database(entities = [TargetEntity::class,FormEntity::class], version = 1, exportSchema = false)
 abstract class SqlDatabase : RoomDatabase() {
 
     companion object {
-        const val DATABASE_NAME = SqlModel.DB_NAME
-        @Volatile private var instance: SqlDatabase? = null
-        private val LOCK = Any()
-
-        operator fun invoke(context: Context)= instance ?: synchronized(LOCK){
-            instance ?: buildDatabase(context).also { instance = it}
+        private var instance: SqlDatabase?=null
+        fun getInstance(): SqlDatabase {
+            return instance!!
         }
-
-        private fun buildDatabase(context: Context) = Room.databaseBuilder(context,
-            SqlDatabase::class.java, SqlModel.DB_NAME).build()
+        fun init(context: Context): SqlDatabase {
+            return instance ?:Room.databaseBuilder(context, SqlDatabase::class.java,DB_NAME)
+                .allowMainThreadQueries()
+                .build().also {
+                    instance = it
+                }
+        }
     }
 
-    abstract fun getClassDao(): TargetDao
+    abstract fun getTargetDao(): TargetDao
+    abstract fun getDeliveryDao(): FormDao
 }
