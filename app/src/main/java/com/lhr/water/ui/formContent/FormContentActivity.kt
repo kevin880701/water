@@ -5,7 +5,6 @@ import android.content.Context
 import android.content.Intent
 import android.os.Build
 import android.os.Bundle
-import android.util.Log
 import android.view.View
 import android.view.inputmethod.InputMethodManager
 import androidx.activity.result.contract.ActivityResultContracts
@@ -99,29 +98,51 @@ class FormContentActivity : BaseActivity(), View.OnClickListener, FormGoodsAdd.L
                 formFieldNameEngList =
                     resources.getStringArray(R.array.delivery_form_field_name_eng)
                         .toList() as ArrayList<String>
-                formItemFieldNameList = resources.getStringArray(R.array.delivery_goods_field_name)
+                formItemFieldNameList = resources.getStringArray(R.array.delivery_Item_field_name)
                     .toList() as ArrayList<String>
                 formItemFieldNameEngList =
-                    resources.getStringArray(R.array.delivery_goods_field_name_eng)
+                    resources.getStringArray(R.array.delivery_item_field_name_eng)
                         .toList() as ArrayList<String>
             }
-
             getString(R.string.check) -> {
 
             }
-
-            getString(R.string.take_goods) -> {
-
+            getString(R.string.picking) -> {
+                formFieldNameList = resources.getStringArray(R.array.picking_form_field_name)
+                    .toList() as ArrayList<String>
+                formFieldNameEngList =
+                    resources.getStringArray(R.array.picking_form_field_name_eng)
+                        .toList() as ArrayList<String>
+                formItemFieldNameList = resources.getStringArray(R.array.picking_item_field_name)
+                    .toList() as ArrayList<String>
+                formItemFieldNameEngList =
+                    resources.getStringArray(R.array.picking_item_field_name_eng)
+                        .toList() as ArrayList<String>
             }
-
-            getString(R.string.allocate) -> {
-
+            getString(R.string.transfer) -> {
+                formFieldNameList = resources.getStringArray(R.array.transfer_form_field_name)
+                    .toList() as ArrayList<String>
+                formFieldNameEngList =
+                    resources.getStringArray(R.array.transfer_form_field_name_eng)
+                        .toList() as ArrayList<String>
+                formItemFieldNameList = resources.getStringArray(R.array.transfer_item_field_name)
+                    .toList() as ArrayList<String>
+                formItemFieldNameEngList =
+                    resources.getStringArray(R.array.transfer_item_field_name_eng)
+                        .toList() as ArrayList<String>
             }
-
-            getString(R.string.return_goods) -> {
-
+            getString(R.string.returning) -> {
+                formFieldNameList = resources.getStringArray(R.array.returning_form_field_name)
+                    .toList() as ArrayList<String>
+                formFieldNameEngList =
+                    resources.getStringArray(R.array.returning_form_field_name_eng)
+                        .toList() as ArrayList<String>
+                formItemFieldNameList = resources.getStringArray(R.array.returning_item_field_name)
+                    .toList() as ArrayList<String>
+                formItemFieldNameEngList =
+                    resources.getStringArray(R.array.returning_item_field_name_eng)
+                        .toList() as ArrayList<String>
             }
-
             getString(R.string.inventory) -> {
             }
         }
@@ -150,7 +171,7 @@ class FormContentActivity : BaseActivity(), View.OnClickListener, FormGoodsAdd.L
             val fieldContent =
                 if (index < formFieldContentList.size) formFieldContentList[index] else null
             // 創建FormContentDataWidget
-            if (fieldName == getString(R.string.status)) {
+            if (fieldName == getString(R.string.deal_status)) {
                 val formContentDataSpinnerWidget = if (fieldContent != null) {
                     FormContentDataSpinnerWidget(
                         activity = this,
@@ -167,13 +188,14 @@ class FormContentActivity : BaseActivity(), View.OnClickListener, FormGoodsAdd.L
                 }
                 binding.linearFormData.addView(formContentDataSpinnerWidget)
             } else if (fieldName == getString(R.string.form)) {
-                val formContentDataSpinnerWidget = if (fieldContent != null) {
+                // 這部分之後formName可能會改成fieldContent
+                val formContentDataSpinnerWidget = if (formName != null) {
                     FormContentDataSpinnerWidget(
                         activity = this,
                         spinnerList = resources.getStringArray(R.array.form_array)
                             .toList() as ArrayList<String>,
                         fieldName = fieldName,
-                        fieldContent = fieldContent
+                        fieldContent = formName
                     )
                 } else {
                     FormContentDataSpinnerWidget(
@@ -221,7 +243,7 @@ class FormContentActivity : BaseActivity(), View.OnClickListener, FormGoodsAdd.L
         formFieldNameList.forEachIndexed { index, fieldName ->
             when(fieldName){
                 getString(R.string.form) -> formContentList.add((binding.linearFormData[index] as FormContentDataSpinnerWidget).content)
-                getString(R.string.status) -> formContentList.add((binding.linearFormData[index] as FormContentDataSpinnerWidget).content)
+                getString(R.string.deal_status) -> formContentList.add((binding.linearFormData[index] as FormContentDataSpinnerWidget).content)
                 else -> formContentList.add((binding.linearFormData[index] as FormContentDataWidget).content)
             }
         }

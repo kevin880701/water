@@ -89,7 +89,7 @@ class GoodsDialog(
 
     fun initGoodsData(binding: DialogFormGoodsBinding) {
         var dataNameList =
-            activity?.resources?.getStringArray(R.array.delivery_goods_field_name)?.toList() as ArrayList<String>
+            activity?.resources?.getStringArray(R.array.delivery_Item_field_name)?.toList() as ArrayList<String>
 
         formItemFieldContentList?.let { formItemFieldContentList ->
             formItemFieldNameList.forEachIndexed { index, fieldName ->

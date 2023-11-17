@@ -44,7 +44,8 @@ class SettingFragment : BaseFragment(), View.OnClickListener {
 
     override fun onClick(v: View?) {
         when (v?.id) {
-
+            R.id.constraintUpload->{}
+            R.id.constraintUpdate->{}
         }
     }
 }

@@ -105,4 +105,9 @@
         <item name="android:textSize">12sp</item>
         <item name="android:letterSpacing">0</item>
     </style>
+
+    <style name="FilterMenuAnimation" parent="android:Animation">
+        <item name="android:windowEnterAnimation">@android:anim/fade_in</item>
+        <item name="android:windowExitAnimation">@android:anim/fade_out</item>
+    </style>
 </resources>

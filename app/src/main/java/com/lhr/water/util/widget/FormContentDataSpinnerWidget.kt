@@ -20,7 +20,7 @@ class FormContentDataSpinnerWidget : RelativeLayout {
     private var fieldContent: String? = null
     private val textDataName: TextView
     private val spinnerDataContent: Spinner
-    var content = "0"
+    var content = "待處理"
 
     constructor(
         activity: Activity,
@@ -46,10 +46,11 @@ class FormContentDataSpinnerWidget : RelativeLayout {
         val adapter = ArrayAdapter(activity, android.R.layout.simple_spinner_item, spinnerList)
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
         spinnerDataContent.adapter = adapter
+//        spinnerDataContent.setSelection(spinnerList.indexOf(fieldContent))
 
         // 設定Spinner的選擇項監聽器
         fieldContent?.let {
-            spinnerDataContent.setSelection(fieldContent!!.toInt())
+            spinnerDataContent.setSelection(spinnerList.indexOf(fieldContent))
             content = fieldContent.toString()
         }
         spinnerDataContent.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
@@ -60,7 +61,8 @@ class FormContentDataSpinnerWidget : RelativeLayout {
                 id: Long
             ) {
                 // 當選項被選擇時，將選項的值存儲到content變量中
-                content = position.toString()
+//                content = position.toString()
+                content = spinnerList[position]
             }
 
             override fun onNothingSelected(parent: AdapterView<*>?) {

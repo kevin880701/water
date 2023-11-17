@@ -54,10 +54,10 @@ class HistoryAdapter(val listener: Listener, context: Context): ListAdapter<JSON
             binding.textReportTitle.text = json.getString("ReportTitle")
             binding.textReportId.text = json.getString("ReportId")
             binding.textDate.text = json.getString("Date")
-            when(json.getString("FormStatus")){
-                "0" -> {binding.imageStatus.setImageDrawable(context.getDrawable(R.drawable.red_light))}
-                "1" -> {binding.imageStatus.setImageDrawable(context.getDrawable(R.drawable.yellow_light))}
-                "2" -> {binding.imageStatus.setImageDrawable(context.getDrawable(R.drawable.green_light))}
+            when(json.getString("DealStatus")){
+                context.getString(R.string.wait_deal) -> {binding.imageStatus.setImageDrawable(context.getDrawable(R.drawable.red_light))}
+                context.getString(R.string.now_deal) -> {binding.imageStatus.setImageDrawable(context.getDrawable(R.drawable.yellow_light))}
+                context.getString(R.string.complete_deal) -> {binding.imageStatus.setImageDrawable(context.getDrawable(R.drawable.green_light))}
             }
         }
     }

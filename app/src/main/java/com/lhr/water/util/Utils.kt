@@ -8,6 +8,7 @@ import android.widget.Toast
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.engine.DiskCacheStrategy
 import org.json.JSONObject
+import timber.log.Timber
 
 
 /**
@@ -69,6 +70,7 @@ fun listToJsonObject(fieldNameList: ArrayList<String>, fieldContentList: ArrayLi
     // 遍歷FieldName和FieldContent，將它們添加到JSON對象中
     for (i in 0 until fieldNameList.size) {
         val fieldName = fieldNameList[i]
+        Timber.d(fieldName)
         val fieldContent = if (i < fieldContentList.size) fieldContentList[i] else ""
         jsonObject.put(fieldName, fieldContent)
     }

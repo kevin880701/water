@@ -14,9 +14,9 @@
 
     <string name="delivery">交貨</string>
     <string name="check">驗收</string>
-    <string name="take_goods">領料</string>
-    <string name="allocate">調撥</string>
-    <string name="return_goods">退料</string>
+    <string name="picking">領料</string>
+    <string name="transfer">調撥</string>
+    <string name="returning">退料</string>
     <string name="inventory">盤點</string>
 
     <string name="storage_information">儲櫃資訊</string>
@@ -40,7 +40,7 @@
     <string name="goods_information">貨物資訊</string>
     <string name="goods_number">貨物編號</string>
     <string name="goods_name">貨物名稱</string>
-    <string name="status">狀態</string>
+    <string name="deal_status">處理狀態</string>
     <string name="wait_deal">待處理</string>
     <string name="now_deal">處理中</string>
     <string name="complete_deal">處理完成</string>
@@ -83,15 +83,18 @@
         <item>B1</item>
     </string-array>
 
+    <!--  交貨單  -->
     <string-array name="delivery_form_field_name">
         <item>表單</item>
-        <item>狀態</item>
+        <item>處理狀態</item>
+        <item>交貨狀態</item>
         <item>報表代號</item>
         <item>報表名稱</item>
         <item>印表日期</item>
         <item>交貨通知單號</item>
         <item>承售廠商</item>
         <item>契約字號</item>
+        <item>交貨日期</item>
         <item>交貨期限</item>
         <item>展延期限（一）</item>
         <item>展延期限（二）</item>
@@ -107,15 +110,18 @@
         <item>申請單號</item>
         <item>合計</item>
     </string-array>
+
     <string-array name="delivery_form_field_name_eng">
         <item>FormClass</item>
-        <item>FormStatus</item>
+        <item>DealStatus</item>
+        <item>DeliveryStatus</item>
         <item>ReportId</item>
         <item>ReportTitle</item>
         <item>Date</item>
         <item>DeliveryNumber</item>
         <item>Underwriter</item>
         <item>ContractNumber</item>
+        <item>DeliveryDay</item>
         <item>DeliveryDate</item>
         <item>ExtendDate1</item>
         <item>ExtendDate2</item>
@@ -132,13 +138,15 @@
         <item>SumAddition</item>
     </string-array>
 
-    <string-array name="delivery_goods_field_name">
+    <string-array name="delivery_Item_field_name">
         <item>序號</item>
         <item>標項</item>
         <item>批次</item>
         <item>契約項次</item>
         <item>材料編號</item>
         <item>材料名稱</item>
+        <item>水量計號碼起</item>
+        <item>水量計號碼迄</item>
         <item>規格</item>
         <item>單位</item>
         <item>發出數量</item>
@@ -146,13 +154,16 @@
         <item>單價</item>
         <item>複價</item>
     </string-array>
-    <string-array name="delivery_goods_field_name_eng">
+
+    <string-array name="delivery_item_field_name_eng">
         <item>Number</item>
         <item>ItemNo</item>
         <item>Batch</item>
         <item>No</item>
         <item>MaterialNumber</item>
         <item>MaterialName</item>
+        <item>WaterMeterStar</item>
+        <item>WaterMeterEnd</item>
         <item>MaterialSpec</item>
         <item>MaterialUnit</item>
         <item>DeliveryQuantity</item>
@@ -161,8 +172,85 @@
         <item>ItemCost</item>
     </string-array>
 
-    <string-array name="allocate_form">
+    <!--  領料單  -->
+    <string-array name="picking_form_field_name">
+        <item>表單</item>
+        <item>處理狀態</item>
         <item>報表代號</item>
+        <item>報表名稱</item>
+        <item>印表日期</item>
+        <item>發料單位</item>
+        <item>領料日期</item>
+        <item>領料單位</item>
+        <item>領料單號</item>
+        <item>原憑証字號</item>
+        <item>成本分攤單位</item>
+        <item>會計科目</item>
+        <item>系統代號</item>
+        <item>用途代號</item>
+        <item>工程編號</item>
+        <item>工程名稱</item>
+        <item>備料單號</item>
+        <item>案號</item>
+        <item>備註</item>
+        <item>合計</item>
+        <item>委託or自取</item>
+w    </string-array>
+
+    <string-array name="picking_form_field_name_eng">
+        <item>FormClass</item>
+        <item>DealStatus</item>
+        <item>ReportId</item>
+        <item>ReportTitle</item>
+        <item>Date</item>
+        <item>IssuingUnit</item>
+        <item>PickingDate</item>
+        <item>PickingDept</item>
+        <item>PickingNumber</item>
+        <item>OriginalVoucherNumber</item>
+        <item>CostAllocationUnit</item>
+        <item>AccountingSubject</item>
+        <item>SystemCode</item>
+        <item>UsageCode</item>
+        <item>ProjectNumber</item>
+        <item>ProjectName</item>
+        <item>MaterialReservationNumber</item>
+        <item>CaseNumber</item>
+        <item>Remark</item>
+        <item>SumAddition</item>
+        <item>CollectionMethod</item>
+    </string-array>
+
+    <string-array name="picking_item_field_name">
+        <item>序號</item>
+        <item>材料編號</item>
+        <item>材料名稱</item>
+        <item>規格</item>
+        <item>單位</item>
+        <item>請領數量</item>
+        <item>實領數量</item>
+        <item>單價</item>
+        <item>複價</item>
+    </string-array>
+
+    <string-array name="picking_item_field_name_eng">
+        <item>Number</item>
+        <item>MaterialNumber</item>
+        <item>MaterialName</item>
+        <item>MaterialSpec</item>
+        <item>MaterialUnit</item>
+        <item>RequestedQuantity</item>
+        <item>ActualQuantity</item>
+        <item>Price</item>
+        <item>ItemCost</item>
+    </string-array>
+
+    <!--  調撥單  -->
+    <string-array name="transfer_form_field_name">
+        <item>表單</item>
+        <item>處理狀態</item>
+        <item>報表代號</item>
+        <item>報表名稱</item>
         <item>印表日期</item>
         <item>請撥單號</item>
         <item>請撥日期</item>
@@ -175,19 +263,130 @@
         <item>收方撥入日期</item>
         <item>收方單位</item>
         <item>收料地點</item>
-        <item>聯絡人及電話</item>
+        <item>聯絡人</item>
+        <item>電話</item>
         <item>調撥或用途說明</item>
     </string-array>
 
-    <string-array name="allocate_goods_form">
+    <string-array name="transfer_form_field_name_eng">
+        <item>FormClass</item>
+        <item>DealStatus</item>
+        <item>ReportId</item>
+        <item>ReportTitle</item>
+        <item>Date</item>
+        <item>TransferNumber</item>
+        <item>TransferDate</item>
+        <item>TransferringTransferNumber</item>
+        <item>ReceivingTransferNumber</item>
+        <item>TransferringDept</item>
+        <item>OriginalVoucherNumber</item>
+        <item>RequiredDate</item>
+        <item>TransferringTransferDate</item>
+        <item>ReceivingTransferDate</item>
+        <item>ReceivingDept</item>
+        <item>ReceivingLocation</item>
+        <item>Contact</item>
+        <item>ContactPhone</item>
+        <item>TransferDescription</item>
+    </string-array>
+
+    <string-array name="transfer_item_field_name">
+        <item>序號</item>
         <item>材料編號</item>
         <item>材料名稱</item>
-        <item>規　　格</item>
-        <item>單　　位</item>
+        <item>規格</item>
+        <item>單位</item>
         <item>核撥數量</item>
         <item>請撥序號</item>
         <item>實撥數量</item>
         <item>實收數量</item>
-        <item>備　　註</item>
+        <item>備註</item>
     </string-array>
+
+    <string-array name="transfer_item_field_name_eng">
+        <item>Number</item>
+        <item>MaterialNumber</item>
+        <item>MaterialName</item>
+        <item>MaterialSpec</item>
+        <item>MaterialUnit</item>
+        <item>ApprovedQuantity</item>
+        <item>ApplyNumber</item>
+        <item>AllocatedQuantity</item>
+        <item>ReceivedQuantity</item>
+        <item>Remark</item>
+    </string-array>
+
+    <!--  退料單  -->
+    <string-array name="returning_form_field_name">
+        <item>表單</item>
+        <item>處理狀態</item>
+        <item>報表代號</item>
+        <item>報表名稱</item>
+        <item>印表日期</item>
+        <item>收料單位</item>
+        <item>領調單號</item>
+        <item>領調單位</item>
+        <item>退料單號</item>
+        <item>實收日期</item>
+        <item>會計科目</item>
+        <item>成本分攤單位</item>
+        <item>備料單號</item>
+        <item>退料單位</item>
+        <item>系統代號</item>
+        <item>用途代號</item>
+        <item>工程編號</item>
+        <item>工程名稱</item>
+        <item>原憑證字號</item>
+        <item>合計</item>
+        <item>退料原因</item>
+    </string-array>
+
+    <string-array name="returning_form_field_name_eng">
+        <item>FormClass</item>
+        <item>DealStatus</item>
+        <item>ReportId</item>
+        <item>ReportTitle</item>
+        <item>Date</item>
+        <item>ReceiptDept</item>
+        <item>LeadNumber</item>
+        <item>LeadDept</item>
+        <item>ReturnReceiptNumber</item>
+        <item>ReceivedDate</item>
+        <item>AccountingSubject</item>
+        <item>CostAllocationUnit</item>
+        <item>MaterialReservationNumber</item>
+        <item>ReturnDept</item>
+        <item>SystemCode</item>
+        <item>UsageCode</item>
+        <item>ProjectNumber</item>
+        <item>ProjectName</item>
+        <item>OriginalVoucherNumber</item>
+        <item>SumAddition</item>
+        <item>ReturnReason</item>
+    </string-array>
+
+    <string-array name="returning_item_field_name">
+        <item>序號</item>
+        <item>材料編號</item>
+        <item>材料名稱</item>
+        <item>規格</item>
+        <item>單位</item>
+        <item>退回數量</item>
+        <item>實收數量</item>
+        <item>入庫單價</item>
+        <item>複價</item>
+    </string-array>
+
+    <string-array name="returning_item_field_name_eng">
+        <item>Number</item>
+        <item>MaterialNumber</item>
+        <item>MaterialName</item>
+        <item>MaterialSpec</item>
+        <item>MaterialUnit</item>
+        <item>ReturnedQuantity</item>
+        <item>ReceivedQuantity</item>
+        <item>StockingPrice</item>
+        <item>ItemCost</item>
+    </string-array>
+    <!--  盤點單  -->
 </resources>

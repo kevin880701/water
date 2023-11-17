@@ -1,11 +1,17 @@
 package com.lhr.water.ui.history
 
+import android.content.Context
 import android.content.Intent
+import android.graphics.Color
+import android.graphics.drawable.ColorDrawable
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.PopupWindow
 import androidx.fragment.app.viewModels
+import androidx.lifecycle.LiveData
+import androidx.lifecycle.Transformations
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.lhr.water.R
 import com.lhr.water.data.DeliveryData
@@ -14,6 +20,7 @@ import com.lhr.water.databinding.FragmentHistoryBinding
 import com.lhr.water.room.SqlDatabase
 import com.lhr.water.ui.base.BaseFragment
 import com.lhr.water.ui.formContent.FormContentActivity
+import com.lhr.water.util.popupWindow.FilterFormPopupWindow
 import com.lhr.water.util.recyclerViewAdapter.HistoryAdapter
 import org.json.JSONObject
 
@@ -44,12 +51,23 @@ class HistoryFragment : BaseFragment(), View.OnClickListener, HistoryAdapter.Lis
         FormRepository.getInstance(SqlDatabase.getInstance().getDeliveryDao()).formRecordList.observe(viewLifecycleOwner){ newFormRecordList ->
             historyAdapter.submitList(newFormRecordList)
         }
-
+        viewModel.filterList.observe(viewLifecycleOwner){ newFilterList ->
+            val filteredFormRecordList = FormRepository.getInstance(SqlDatabase.getInstance().getDeliveryDao()).formRecordList.value?.filter { jsonObject ->
+                // 根据 "FormClass" 判断是否在 filterList 中
+                val formClass = jsonObject.optString("FormClass")
+                formClass in newFilterList
+            }?.toMutableList()
+            historyAdapter.submitList(filteredFormRecordList)
+        }
     }
 
     private fun initView() {
         binding.widgetTitleBar.textTitle.text = requireActivity().getString(R.string.form_history)
+        binding.widgetTitleBar.imageFilter.visibility = View.VISIBLE
+        binding.widgetTitleBar.imageScanner.visibility = View.VISIBLE
         initRecyclerView()
+
+        binding.widgetTitleBar.imageFilter.setOnClickListener(this)
     }
 
     private fun initRecyclerView() {
@@ -62,14 +80,29 @@ class HistoryFragment : BaseFragment(), View.OnClickListener, HistoryAdapter.Lis
 
     override fun onClick(v: View?) {
         when (v?.id) {
-
+            R.id.imageFilter -> {
+                showPopupWindow(binding.widgetTitleBar.constraintTitleBar)
+            }
         }
     }
 
     override fun onItemClick(json: JSONObject) {
         val intent = Intent(requireActivity(), FormContentActivity::class.java)
-        intent.putExtra("formName", resources.getStringArray(R.array.form_array)[json.getString("FormClass").toInt()])
+        intent.putExtra("formName", json.getString("FormClass"))
         intent.putExtra("jsonString", json.toString())
         requireActivity().startActivity(intent)
+    }
+
+    /**
+     * 顯示篩選清單
+     * @param anchorView 要在哪個元件的下方
+     */
+    private fun showPopupWindow(anchorView: View) {
+        val inflater = requireActivity().getSystemService(Context.LAYOUT_INFLATER_SERVICE) as LayoutInflater
+        // 創建PopupWindow
+        val popupWindow = FilterFormPopupWindow(requireActivity(), viewModel)
+
+        // 顯示PopupWindow 在 TitleBar 的下方
+        popupWindow.showAsDropDown(anchorView)
     }
 }
