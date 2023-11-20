@@ -4,7 +4,7 @@
     <item>
         <ripple android:color="@color/deep_gray">
             <item
-                android:drawable="@drawable/bg_round_12_ffffff"/>
+                android:drawable="@drawable/bg_r12_ffffff"/>
         </ripple>
     </item>
 

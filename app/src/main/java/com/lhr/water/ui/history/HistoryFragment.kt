@@ -5,6 +5,8 @@ import android.content.Intent
 import android.graphics.Color
 import android.graphics.drawable.ColorDrawable
 import android.os.Bundle
+import android.text.Editable
+import android.text.TextWatcher
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -20,6 +22,7 @@ import com.lhr.water.databinding.FragmentHistoryBinding
 import com.lhr.water.room.SqlDatabase
 import com.lhr.water.ui.base.BaseFragment
 import com.lhr.water.ui.formContent.FormContentActivity
+import com.lhr.water.util.MessageDialogFragment
 import com.lhr.water.util.popupWindow.FilterFormPopupWindow
 import com.lhr.water.util.recyclerViewAdapter.HistoryAdapter
 import org.json.JSONObject
@@ -29,14 +32,13 @@ class HistoryFragment : BaseFragment(), View.OnClickListener, HistoryAdapter.Lis
     private var _binding: FragmentHistoryBinding? = null
     private val binding get() = _binding!!
     private val viewModel: HistoryViewModel by viewModels { viewModelFactory }
-    lateinit var historyAdapter: HistoryAdapter
-
+    private lateinit var historyAdapter: HistoryAdapter
+    val formRepository: FormRepository by lazy { FormRepository.getInstance(requireContext()) }
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?, savedInstanceState: Bundle?
     ): View? {
         _binding = FragmentHistoryBinding.inflate(layoutInflater)
-//        requireActivity().window.statusBarColor = ResourcesCompat.getColor(resources, R.color.white, null)
 
         initView()
         return binding.root
@@ -48,17 +50,32 @@ class HistoryFragment : BaseFragment(), View.OnClickListener, HistoryAdapter.Lis
     }
 
     private fun bindViewModel() {
-        FormRepository.getInstance(SqlDatabase.getInstance().getDeliveryDao()).formRecordList.observe(viewLifecycleOwner){ newFormRecordList ->
+        formRepository.formRecordList.observe(viewLifecycleOwner) { newFormRecordList ->
             historyAdapter.submitList(newFormRecordList)
         }
-        viewModel.filterList.observe(viewLifecycleOwner){ newFilterList ->
-            val filteredFormRecordList = FormRepository.getInstance(SqlDatabase.getInstance().getDeliveryDao()).formRecordList.value?.filter { jsonObject ->
-                // 根据 "FormClass" 判断是否在 filterList 中
-                val formClass = jsonObject.optString("FormClass")
-                formClass in newFilterList
-            }?.toMutableList()
-            historyAdapter.submitList(filteredFormRecordList)
+        // 根據篩選的表單類別和表單代號更新列表
+        formRepository.formFilterRecordList.observe(viewLifecycleOwner) { newFormRecordList ->
+            historyAdapter.submitList(newFormRecordList)
         }
+        // 表單類別篩選更新
+        formRepository.filterList.observe(viewLifecycleOwner) { newFilterList ->
+            formRepository.formFilterRecordList.postValue(formRepository.filterRecord())
+        }
+        // 表單代號篩選更新
+        formRepository.searchReportId.observe(viewLifecycleOwner) { newFilterList ->
+            formRepository.formFilterRecordList.postValue(formRepository.filterRecord())
+        }
+//        viewModel.filterList.observe(viewLifecycleOwner){ newFilterList ->
+//            val filteredFormRecordList = formRepository.formRecordList.value?.filter { jsonObject ->
+//                // 根据 "FormClass" 判断是否在 filterList 中
+//                val formClass = jsonObject.optString("FormClass")
+//                val reportId = jsonObject.optString("ReportId") // 替换成你的 EditText 字段名
+//
+//                formClass in newFilterList
+////                formClass in newFilterList && reportId.contains(binding.editSearch.text.toString())
+//            }?.toMutableList()
+//            historyAdapter.submitList(filteredFormRecordList)
+//        }
     }
 
     private fun initView() {
@@ -66,16 +83,28 @@ class HistoryFragment : BaseFragment(), View.OnClickListener, HistoryAdapter.Lis
         binding.widgetTitleBar.imageFilter.visibility = View.VISIBLE
         binding.widgetTitleBar.imageScanner.visibility = View.VISIBLE
         initRecyclerView()
+        binding.editSearch.addTextChangedListener(object : TextWatcher {
+            override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {
+                // 在文本改變之前執行的操作
+            }
+
+            override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
+                // 在文本改變過程中執行的操作
+            }
+
+            override fun afterTextChanged(s: Editable?) {
+                // 在文本改變之後執行的操作
+                formRepository.searchReportId.postValue(s.toString())
+            }
+        })
 
         binding.widgetTitleBar.imageFilter.setOnClickListener(this)
     }
 
     private fun initRecyclerView() {
         historyAdapter = HistoryAdapter(this, requireContext())
-//        historyAdapter.submitList(FormRepository.getInstance(SqlDatabase.getInstance().getDeliveryDao()).loadRecord())
         binding.recyclerHistory.adapter = historyAdapter
         binding.recyclerHistory.layoutManager = LinearLayoutManager(activity)
-        FormRepository.getInstance(SqlDatabase.getInstance().getDeliveryDao()).loadRecord()
     }
 
     override fun onClick(v: View?) {
@@ -86,6 +115,11 @@ class HistoryFragment : BaseFragment(), View.OnClickListener, HistoryAdapter.Lis
         }
     }
 
+
+    /**
+     * 表單列表點擊
+     * @param json 被點擊的列資料
+     */
     override fun onItemClick(json: JSONObject) {
         val intent = Intent(requireActivity(), FormContentActivity::class.java)
         intent.putExtra("formName", json.getString("FormClass"))
@@ -98,7 +132,8 @@ class HistoryFragment : BaseFragment(), View.OnClickListener, HistoryAdapter.Lis
      * @param anchorView 要在哪個元件的下方
      */
     private fun showPopupWindow(anchorView: View) {
-        val inflater = requireActivity().getSystemService(Context.LAYOUT_INFLATER_SERVICE) as LayoutInflater
+        val inflater =
+            requireActivity().getSystemService(Context.LAYOUT_INFLATER_SERVICE) as LayoutInflater
         // 創建PopupWindow
         val popupWindow = FilterFormPopupWindow(requireActivity(), viewModel)
 

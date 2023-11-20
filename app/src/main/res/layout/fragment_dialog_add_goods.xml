@@ -12,7 +12,7 @@
         <LinearLayout
             android:layout_width="281dp"
             android:layout_height="wrap_content"
-            android:background="@drawable/bg_round_12_ffffff"
+            android:background="@drawable/bg_r12_ffffff"
             android:orientation="vertical"
             android:padding="24dp">
 

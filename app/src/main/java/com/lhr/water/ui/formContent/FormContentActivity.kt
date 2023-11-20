@@ -257,7 +257,7 @@ class FormContentActivity : BaseActivity(), View.OnClickListener, FormGoodsAdd.L
         formEntity.reportId = formContentJsonObject.getString("ReportId")
         formEntity.formContent = jsonObjectToJsonString(formContentJsonObject)
         SqlDatabase.getInstance().getDeliveryDao().insertOrUpdate(formEntity)
-        FormRepository.getInstance(SqlDatabase.getInstance().getDeliveryDao()).loadRecord()
+        FormRepository.getInstance(this).loadRecord()
         finish()
     }
 

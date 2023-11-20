@@ -6,7 +6,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:minWidth="300dp"
     android:minHeight="150dp"
-    android:background="@drawable/bg_round_12_efefef">
+    android:background="@drawable/bg_r12_efefef">
 
     <TextView
         android:id="@+id/tv_title"
@@ -45,7 +45,7 @@
         android:text="是"
         android:textSize="20sp"
         android:textColor="@color/white"
-        android:background="@drawable/bg_round_c30f23"
+        android:background="@drawable/bg_r50_c30f23"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toBottomOf="@id/tv_msg"

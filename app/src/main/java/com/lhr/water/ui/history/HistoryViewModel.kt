@@ -10,11 +10,9 @@ import com.lhr.water.ui.base.APP
 
 class HistoryViewModel(context: Context): AndroidViewModel(context.applicationContext as APP) {
 
-    var filterList = MutableLiveData<ArrayList<String>>()
     companion object {
     }
 
     init {
-        filterList.value = ArrayList(context.resources.getStringArray(R.array.form_array).toList())
     }
 }
