@@ -3,6 +3,8 @@ package com.lhr.water.ui.base
 import android.content.Context
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
+import com.lhr.water.data.Repository.FormRepository
+import com.lhr.water.data.Repository.RegionRepository
 import com.lhr.water.ui.cover.CoverViewModel
 import com.lhr.water.ui.form.FormViewModel
 import com.lhr.water.ui.history.HistoryViewModel
@@ -14,8 +16,11 @@ import com.lhr.water.ui.qrCode.QrCodeViewModel
 import com.lhr.water.ui.regionChoose.RegionChooseViewModel
 
 class AppViewModelFactory(
-    private val context: Context
-) : ViewModelProvider.NewInstanceFactory() {
+    private val context: Context,
+    private val regionRepository: RegionRepository,
+    private val formRepository: FormRepository,
+
+    ) : ViewModelProvider.NewInstanceFactory() {
 
     override fun <T : ViewModel> create(modelClass: Class<T>): T {
         return when (modelClass) {
@@ -24,7 +29,7 @@ class AppViewModelFactory(
             MainViewModel::class.java -> MainViewModel(context) as T
             FormViewModel::class.java -> FormViewModel(context) as T
             HistoryViewModel::class.java -> HistoryViewModel(context) as T
-            RegionChooseViewModel::class.java -> RegionChooseViewModel(context) as T
+            RegionChooseViewModel::class.java -> RegionChooseViewModel(context, regionRepository) as T
             MapChooseViewModel::class.java -> MapChooseViewModel(context) as T
             MapViewModel::class.java -> MapViewModel(context) as T
             QrCodeViewModel::class.java -> QrCodeViewModel(context) as T

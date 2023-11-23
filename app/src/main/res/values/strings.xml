@@ -104,6 +104,7 @@
 
     <!--  第三區地圖  -->
     <string-array name="district_three_map_array">
+        <item>區處</item>
         <item>竹北所</item>
         <item>竹東所</item>
         <item>苗栗所</item>
@@ -113,6 +114,7 @@
 
     <!--  第四區地圖  -->
     <string-array name="district_four_map_array">
+        <item>區處</item>
         <item>大甲所</item>
         <item>大里所</item>
         <item>大雅所</item>
@@ -543,4 +545,42 @@ w    </string-array>
         <item>ItemCost</item>
     </string-array>
     <!--  盤點單  -->
+
+
+    <!--  櫥櫃資訊  -->
+    <string-array name="storage_form_field_name">
+        <item>櫥櫃代號</item>
+        <item>櫥櫃名稱</item>
+        <item>區域名稱</item>
+        <item>地圖名稱</item>
+    </string-array>
+
+    <string-array name="storage_form_field_name_eng">
+        <item>StorageNum</item>
+        <item>StorageName</item>
+        <item>RegionName</item>
+        <item>MapName</item>
+    </string-array>
+
+    <string-array name="storage_item_field_name">
+        <item>報表代號</item>
+        <item>材料編號</item>
+        <item>材料名稱</item>
+        <item>規格</item>
+        <item>單位</item>
+        <item>數量</item>
+        <item>單價</item>
+        <item>入庫時間</item>
+    </string-array>
+
+    <string-array name="storage_item_field_name_eng">
+        <item>ReportId</item>
+        <item>MaterialNumber</item>
+        <item>MaterialName</item>
+        <item>MaterialSpec</item>
+        <item>MaterialUnit</item>
+        <item>Quantity</item>
+        <item>Price</item>
+        <item>InputDate</item>
+    </string-array>
 </resources>

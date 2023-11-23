@@ -44,7 +44,7 @@
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintRight_toRightOf="parent"
             android:gravity="center"
-            android:text="@string/map_choose"
+            android:text="標題列"
             android:textColor="@color/white"
             android:textAppearance="@style/TextAppearance.Astec.HeadLine1"/>
 

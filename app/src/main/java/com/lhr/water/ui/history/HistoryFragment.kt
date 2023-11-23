@@ -11,6 +11,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.PopupWindow
+import androidx.activity.OnBackPressedCallback
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.Transformations
@@ -22,10 +23,12 @@ import com.lhr.water.databinding.FragmentHistoryBinding
 import com.lhr.water.room.SqlDatabase
 import com.lhr.water.ui.base.BaseFragment
 import com.lhr.water.ui.formContent.FormContentActivity
+import com.lhr.water.ui.regionChoose.RegionChooseFragment
 import com.lhr.water.util.MessageDialogFragment
 import com.lhr.water.util.popupWindow.FilterFormPopupWindow
 import com.lhr.water.util.recyclerViewAdapter.HistoryAdapter
 import org.json.JSONObject
+import timber.log.Timber
 
 class HistoryFragment : BaseFragment(), View.OnClickListener, HistoryAdapter.Listener {
 
@@ -34,6 +37,12 @@ class HistoryFragment : BaseFragment(), View.OnClickListener, HistoryAdapter.Lis
     private val viewModel: HistoryViewModel by viewModels { viewModelFactory }
     private lateinit var historyAdapter: HistoryAdapter
     val formRepository: FormRepository by lazy { FormRepository.getInstance(requireContext()) }
+
+    private val callback = object : OnBackPressedCallback(true /* enabled by default */) {
+        override fun handleOnBackPressed() {
+                requireActivity().finish()
+        }
+    }
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?, savedInstanceState: Bundle?
@@ -139,5 +148,17 @@ class HistoryFragment : BaseFragment(), View.OnClickListener, HistoryAdapter.Lis
 
         // 顯示PopupWindow 在 TitleBar 的下方
         popupWindow.showAsDropDown(anchorView)
+    }
+
+    override fun onPause() {
+        super.onPause()
+        Timber.d("onPause")
+        callback.remove()
+    }
+
+    override fun onResume() {
+        super.onResume()
+        Timber.d("onResume")
+        requireActivity().onBackPressedDispatcher.addCallback(viewLifecycleOwner, callback)
     }
 }

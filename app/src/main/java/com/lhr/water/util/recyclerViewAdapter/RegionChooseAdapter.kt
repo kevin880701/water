@@ -27,7 +27,6 @@ class RegionChooseAdapter(val listener: Listener): ListAdapter<String, RegionCho
 
     interface Listener{
         fun onItemClick(item: String)
-        fun onItemLongClick(item: String)
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
@@ -45,11 +44,6 @@ class RegionChooseAdapter(val listener: Listener): ListAdapter<String, RegionCho
             // bindingAdapterPosition無法使用，所以用adapterPosition替代
             binding.root.setOnClickListener {
                 listener.onItemClick(getItem(adapterPosition))
-            }
-
-            binding.root.setOnLongClickListener {
-                listener.onItemLongClick(getItem(adapterPosition))
-                return@setOnLongClickListener true
             }
         }
 
