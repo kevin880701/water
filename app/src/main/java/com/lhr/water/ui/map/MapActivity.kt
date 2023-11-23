@@ -82,7 +82,7 @@ class MapActivity(): BaseActivity(), View.OnClickListener {
         Timber.d(map)
         var bitmap: Bitmap? = null
         try {
-            bitmap = BitmapFactory.decodeStream(this.assets.open(map + ".png"))
+            bitmap = BitmapFactory.decodeStream(this.assets.open(map + ".jpg"))
         } catch (e: IOException) {
             e.printStackTrace()
         }

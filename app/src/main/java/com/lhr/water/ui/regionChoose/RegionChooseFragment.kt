@@ -26,12 +26,9 @@ class RegionChooseFragment : BaseFragment(), View.OnClickListener, RegionChooseA
     private val binding get() = _binding!!
     private val viewModel: RegionChooseViewModel by viewModels { viewModelFactory }
     lateinit var regionChooseAdapter: RegionChooseAdapter
-    val regionRepository: RegionRepository by lazy { RegionRepository.getInstance(requireContext()) }
     var currentRegion = ""
-    var currentMap = ""
     private val callback = object : OnBackPressedCallback(true /* enabled by default */) {
         override fun handleOnBackPressed() {
-                println("AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA")
                 onBackButtonPressed()
         }
     }
@@ -42,17 +39,6 @@ class RegionChooseFragment : BaseFragment(), View.OnClickListener, RegionChooseA
     ): View? {
         _binding = FragmentRegionChooseBinding.inflate(layoutInflater)
 //        requireActivity().window.statusBarColor = ResourcesCompat.getColor(resources, R.color.white, null)
-
-//        requireActivity().onBackPressedDispatcher.addCallback(viewLifecycleOwner) {
-//            onBackButtonPressed()
-//        }
-//        val callback = requireActivity().onBackPressedDispatcher.addCallback(
-//            viewLifecycleOwner,
-//            object : OnBackPressedCallback(true) {
-//                override fun handleOnBackPressed() {
-//                    onBackButtonPressed()
-//                }
-//            })
 
         initView()
         return binding.root
