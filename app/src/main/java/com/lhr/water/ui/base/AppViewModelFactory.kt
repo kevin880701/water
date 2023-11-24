@@ -31,7 +31,7 @@ class AppViewModelFactory(
             HistoryViewModel::class.java -> HistoryViewModel(context) as T
             RegionChooseViewModel::class.java -> RegionChooseViewModel(context, regionRepository) as T
             MapChooseViewModel::class.java -> MapChooseViewModel(context) as T
-            MapViewModel::class.java -> MapViewModel(context) as T
+            MapViewModel::class.java -> MapViewModel(context, regionRepository) as T
             QrCodeViewModel::class.java -> QrCodeViewModel(context) as T
             else -> throw IllegalArgumentException("not support")
         }

@@ -5,24 +5,24 @@ import android.view.View
 import android.widget.RelativeLayout
 import androidx.databinding.DataBindingUtil
 import com.lhr.water.R
+import com.lhr.water.data.StorageDetail
 import com.lhr.water.databinding.WidgetBottomInfoDetailBinding
-import com.lhr.water.model.TargetData
 import com.lhr.water.ui.map.MapActivity
 import timber.log.Timber
 
 class InfoDetailBottom : RelativeLayout, View.OnClickListener {
     private var binding: WidgetBottomInfoDetailBinding
     private val activity: MapActivity
-    private val targetData: TargetData
+    private val storageDetail: StorageDetail
     constructor(
         activity: MapActivity,
-        targetData: TargetData
+        storageDetail: StorageDetail
     ) : super(activity) {
         binding = DataBindingUtil.inflate(
             LayoutInflater.from(context), R.layout.widget_bottom_info_detail, this, true
         )
         this@InfoDetailBottom.activity = activity
-        this@InfoDetailBottom.targetData = targetData
+        this@InfoDetailBottom.storageDetail = storageDetail
 
         activity.onBackPressedDispatcher.addCallback(
             activity, // LifecycleOwner
@@ -36,9 +36,7 @@ class InfoDetailBottom : RelativeLayout, View.OnClickListener {
     }
 
     fun initView(){
-        binding.textCurrentMapName.text = targetData.targetRegion
-        binding.textCurrentRegionName.text = targetData.targetMap
-        binding.textCurrentStorageName.text = targetData.targetName
+        binding.textCurrentMapName.text = storageDetail.StorageName
     }
 
     override fun onClick(v: View) {
