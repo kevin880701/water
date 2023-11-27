@@ -6,18 +6,15 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.activity.OnBackPressedCallback
-import androidx.activity.addCallback
 import androidx.fragment.app.viewModels
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.lhr.water.R
-import com.lhr.water.data.Repository.RegionRepository
 import com.lhr.water.databinding.FragmentRegionChooseBinding
 import com.lhr.water.ui.base.BaseFragment
 import com.lhr.water.ui.map.MapActivity
-import com.lhr.water.ui.mapChoose.MapChooseActivity
 import com.lhr.water.util.MapPageStatus.MapPage
 import com.lhr.water.util.MapPageStatus.RegionPage
-import com.lhr.water.util.recyclerViewAdapter.RegionChooseAdapter
+import com.lhr.water.util.adapter.RegionChooseAdapter
 import timber.log.Timber
 
 class RegionChooseFragment : BaseFragment(), View.OnClickListener, RegionChooseAdapter.Listener {

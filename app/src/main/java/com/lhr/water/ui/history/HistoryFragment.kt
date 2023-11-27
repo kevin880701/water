@@ -12,12 +12,12 @@ import androidx.activity.OnBackPressedCallback
 import androidx.fragment.app.viewModels
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.lhr.water.R
-import com.lhr.water.data.Repository.FormRepository
+import com.lhr.water.data.repository.FormRepository
 import com.lhr.water.databinding.FragmentHistoryBinding
 import com.lhr.water.ui.base.BaseFragment
 import com.lhr.water.ui.formContent.FormContentActivity
 import com.lhr.water.util.popupWindow.FilterFormPopupWindow
-import com.lhr.water.util.recyclerViewAdapter.HistoryAdapter
+import com.lhr.water.util.adapter.HistoryAdapter
 import org.json.JSONObject
 import timber.log.Timber
 
@@ -114,7 +114,6 @@ class HistoryFragment : BaseFragment(), View.OnClickListener, HistoryAdapter.Lis
             }
         }
     }
-
 
     /**
      * 表單列表點擊

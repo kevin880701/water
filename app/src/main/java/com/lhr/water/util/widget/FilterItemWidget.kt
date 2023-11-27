@@ -2,16 +2,12 @@ package com.lhr.water.util.widget
 
 import android.app.Activity
 import android.view.LayoutInflater
-import android.view.View
-import android.widget.AdapterView
-import android.widget.ArrayAdapter
 import android.widget.CheckBox
 import android.widget.RelativeLayout
 import android.widget.TextView
 import androidx.databinding.DataBindingUtil
-import androidx.fragment.app.viewModels
 import com.lhr.water.R
-import com.lhr.water.data.Repository.FormRepository
+import com.lhr.water.data.repository.FormRepository
 import com.lhr.water.databinding.WidgetFilterItemBinding
 import com.lhr.water.ui.history.HistoryViewModel
 

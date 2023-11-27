@@ -11,6 +11,7 @@ import android.widget.TextView
 import androidx.databinding.DataBindingUtil
 import com.lhr.water.R
 import com.lhr.water.databinding.WidgetFormContentSpinnerBinding
+import com.lhr.water.util.adapter.SpinnerAdapter
 
 class FormContentDataSpinnerWidget : RelativeLayout {
     var binding: WidgetFormContentSpinnerBinding
@@ -43,10 +44,8 @@ class FormContentDataSpinnerWidget : RelativeLayout {
 
     fun initView() {
         textDataName.text = fieldName
-        val adapter = ArrayAdapter(activity, android.R.layout.simple_spinner_item, spinnerList)
-        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
+        val adapter = SpinnerAdapter(activity, android.R.layout.simple_spinner_item, spinnerList)
         spinnerDataContent.adapter = adapter
-//        spinnerDataContent.setSelection(spinnerList.indexOf(fieldContent))
 
         // 設定Spinner的選擇項監聽器
         fieldContent?.let {

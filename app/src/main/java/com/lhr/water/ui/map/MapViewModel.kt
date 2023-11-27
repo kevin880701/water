@@ -3,9 +3,8 @@ package com.lhr.water.ui.map
 import android.content.Context
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.MutableLiveData
-import com.lhr.water.data.Repository.RegionRepository
+import com.lhr.water.data.repository.RegionRepository
 import com.lhr.water.data.StorageDetail
-import com.lhr.water.model.FakerData
 import com.lhr.water.model.TargetData
 import com.lhr.water.ui.base.APP
 

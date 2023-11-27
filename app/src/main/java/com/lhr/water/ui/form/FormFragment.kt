@@ -1,7 +1,6 @@
 package com.lhr.water.ui.form
 
 import android.content.Intent
-import android.graphics.Color
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -14,11 +13,9 @@ import com.lhr.water.databinding.FragmentFormBinding
 import com.lhr.water.model.FormData
 import com.lhr.water.ui.base.BaseFragment
 import com.lhr.water.ui.formContent.FormContentActivity
-import com.lhr.water.ui.mapChoose.MapChooseActivity
-import com.lhr.water.ui.qrCode.QrcodeActivity
 import com.lhr.water.util.ScreenUtils
 import com.lhr.water.util.custom.GridSpacingItemDecoration
-import com.lhr.water.util.recyclerViewAdapter.FormAdapter
+import com.lhr.water.util.adapter.FormAdapter
 
 class FormFragment : BaseFragment(), View.OnClickListener, FormAdapter.Listener {
 
