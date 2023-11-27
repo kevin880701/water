@@ -9,6 +9,7 @@ import androidx.core.graphics.BlendModeCompat
 import com.lhr.water.mapView.MapView
 import com.lhr.water.mapView.utils.MapMath.getDistanceBetweenTwoPoints
 import com.lhr.water.R
+import com.lhr.water.data.StorageDetail
 import com.lhr.water.model.Model.Companion.markDrawableIdMap
 import com.lhr.water.model.TargetData
 
@@ -19,7 +20,7 @@ import com.lhr.water.model.TargetData
  */
 class MarkLayer(
     mapView: MapView?,
-    private var targetDataArrayList: ArrayList<TargetData>? = null
+    private var targetDataArrayList: ArrayList<StorageDetail>? = null
 ) : MapBaseLayer(mapView) {
     private var listener: MarkIsClickListener? = null
     private var bmpMarkTouch: Bitmap? = null
@@ -74,7 +75,7 @@ class MarkLayer(
                 for (i in targetDataArrayList!!.indices) {
                     if (getDistanceBetweenTwoPoints(
                             goal[0], goal[1],
-                            targetDataArrayList!![i].targetCoordinateX - markBitmapMap[targetDataArrayList!![i].targetTypeNum]!!.width / 2, targetDataArrayList!![i].targetCoordinateY - markBitmapMap[targetDataArrayList!![i].targetTypeNum]!!.getHeight() / 2
+                            targetDataArrayList!![i].StorageX.toFloat() - (markBitmapMap[0]!!.width / 2), targetDataArrayList!![i].StorageY.toFloat() - markBitmapMap[0]!!.getHeight() / 2
                         ) <= 50
                     ) {
                         num = i
@@ -99,7 +100,7 @@ class MarkLayer(
             if (!targetDataArrayList!!.isEmpty()) {
                 for (i in targetDataArrayList!!.indices) {
 //                    val mark = marks!![i]
-                    val goal = floatArrayOf(targetDataArrayList!![i].targetCoordinateX, targetDataArrayList!![i].targetCoordinateY)
+                    val goal = floatArrayOf(targetDataArrayList!![i].StorageX.toFloat(), targetDataArrayList!![i].StorageY.toFloat())
                     currentMatrix!!.mapPoints(goal)
                     paint!!.color = Color.BLACK
                     paint!!.textSize = radiusMark
@@ -118,8 +119,8 @@ class MarkLayer(
 //                        )
                         //mark ico
                         canvas.drawBitmap(
-                            markBitmapMap[targetDataArrayList!![i].targetTypeNum]!!, goal[0] - markBitmapMap[targetDataArrayList!![i].targetTypeNum]!!.width / 2,
-                            goal[1] - markBitmapMap[targetDataArrayList!![i].targetTypeNum]!!.height / 2, paint
+                            markBitmapMap[0]!!, goal[0] - markBitmapMap[0]!!.width / 2,
+                            goal[1] - markBitmapMap[0]!!.height / 2, paint
                         )
                         if (i == num && isClickMark) {
                             canvas.drawBitmap(

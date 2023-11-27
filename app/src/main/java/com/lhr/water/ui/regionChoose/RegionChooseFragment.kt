@@ -6,18 +6,15 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.activity.OnBackPressedCallback
-import androidx.activity.addCallback
 import androidx.fragment.app.viewModels
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.lhr.water.R
-import com.lhr.water.data.Repository.RegionRepository
 import com.lhr.water.databinding.FragmentRegionChooseBinding
 import com.lhr.water.ui.base.BaseFragment
 import com.lhr.water.ui.map.MapActivity
-import com.lhr.water.ui.mapChoose.MapChooseActivity
 import com.lhr.water.util.MapPageStatus.MapPage
 import com.lhr.water.util.MapPageStatus.RegionPage
-import com.lhr.water.util.recyclerViewAdapter.RegionChooseAdapter
+import com.lhr.water.util.adapter.RegionChooseAdapter
 import timber.log.Timber
 
 class RegionChooseFragment : BaseFragment(), View.OnClickListener, RegionChooseAdapter.Listener {
@@ -26,12 +23,9 @@ class RegionChooseFragment : BaseFragment(), View.OnClickListener, RegionChooseA
     private val binding get() = _binding!!
     private val viewModel: RegionChooseViewModel by viewModels { viewModelFactory }
     lateinit var regionChooseAdapter: RegionChooseAdapter
-    val regionRepository: RegionRepository by lazy { RegionRepository.getInstance(requireContext()) }
     var currentRegion = ""
-    var currentMap = ""
     private val callback = object : OnBackPressedCallback(true /* enabled by default */) {
         override fun handleOnBackPressed() {
-                println("AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA")
                 onBackButtonPressed()
         }
     }
@@ -42,17 +36,6 @@ class RegionChooseFragment : BaseFragment(), View.OnClickListener, RegionChooseA
     ): View? {
         _binding = FragmentRegionChooseBinding.inflate(layoutInflater)
 //        requireActivity().window.statusBarColor = ResourcesCompat.getColor(resources, R.color.white, null)
-
-//        requireActivity().onBackPressedDispatcher.addCallback(viewLifecycleOwner) {
-//            onBackButtonPressed()
-//        }
-//        val callback = requireActivity().onBackPressedDispatcher.addCallback(
-//            viewLifecycleOwner,
-//            object : OnBackPressedCallback(true) {
-//                override fun handleOnBackPressed() {
-//                    onBackButtonPressed()
-//                }
-//            })
 
         initView()
         return binding.root

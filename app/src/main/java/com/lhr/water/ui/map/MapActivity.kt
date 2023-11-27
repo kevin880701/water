@@ -15,9 +15,9 @@ import androidx.activity.OnBackPressedCallback
 import androidx.activity.viewModels
 import androidx.core.content.res.ResourcesCompat
 import com.lhr.water.R
+import com.lhr.water.data.StorageDetail
 import com.lhr.water.databinding.ActivityMapBinding
 import com.lhr.water.mapView.layer.MarkLayer
-import com.lhr.water.model.TargetData
 import com.lhr.water.ui.base.APP
 import com.lhr.water.ui.base.BaseActivity
 import com.lhr.water.util.mapView.MapViewListener
@@ -51,6 +51,8 @@ class MapActivity(): BaseActivity(), View.OnClickListener {
             map = intent.getSerializableExtra("map") as String
         }
 
+        viewModel.setStorageDetailList(region, map)
+
         onBackPressedCallback = object : OnBackPressedCallback(true) {
             override fun handleOnBackPressed() {
                 if (backView!!.childCount > 0) {
@@ -77,19 +79,18 @@ class MapActivity(): BaseActivity(), View.OnClickListener {
 
     }
     private fun initMapView() {
-//        targetDataArrayList = allTargetDataArrayList.filter { it.targetRegion == region } as ArrayList<TargetData>
-        viewModel.setTargetDataArrayList(region, map)
+//        viewModel.setTargetDataArrayList(region, map)
         Timber.d(map)
         var bitmap: Bitmap? = null
         try {
-            bitmap = BitmapFactory.decodeStream(this.assets.open(map + ".png"))
+            bitmap = BitmapFactory.decodeStream(this.assets.open( "map/$region/$map.jpg"))
         } catch (e: IOException) {
             e.printStackTrace()
         }
         binding.mapView.loadMap(bitmap)
         binding.mapView.setMapViewListener(object : MapViewListener {
             override fun onMapLoadSuccess() {
-                markLayer = MarkLayer(binding.mapView, viewModel.targetDataArrayList.value)
+                markLayer = MarkLayer(binding.mapView, viewModel.storageDetailList.value)
                 markLayer!!.setMarkIsClickListener(object : MarkLayer.MarkIsClickListener {
                     override fun markIsClick(num: Int) {
                         if(markLayer!!.MARK_ALLOW_CLICK){
@@ -104,7 +105,7 @@ class MapActivity(): BaseActivity(), View.OnClickListener {
 //                                null
 //                            )
 //                            choose.showAtLocation(view, Gravity.NO_GRAVITY, 0, 0)
-                            showStorageInfo(viewModel.targetDataArrayList.value!![num])
+                            showStorageInfo(viewModel.storageDetailList.value!![num])
                         }
                     }})
                 binding.mapView.addLayer(markLayer)
@@ -115,8 +116,8 @@ class MapActivity(): BaseActivity(), View.OnClickListener {
         })
     }
 
-    fun showStorageInfo(targetData: TargetData) {
-        val infoDetailBottom = InfoDetailBottom(this, targetData)
+    fun showStorageInfo(storageDetail: StorageDetail) {
+        val infoDetailBottom = InfoDetailBottom(this, storageDetail)
         showBottomSheet(infoDetailBottom)
     }
     fun showBottomSheet(view: View?) {

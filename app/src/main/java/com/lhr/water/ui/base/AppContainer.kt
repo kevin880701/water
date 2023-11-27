@@ -1,11 +1,9 @@
 package com.lhr.water.ui.base
 
 import android.content.Context
-import android.preference.PreferenceManager
-import com.lhr.water.data.Repository.FormRepository
-import com.lhr.water.data.Repository.RegionRepository
+import com.lhr.water.data.repository.FormRepository
+import com.lhr.water.data.repository.RegionRepository
 import kotlinx.coroutines.*
-import timber.log.Timber
 
 @ExperimentalCoroutinesApi
 class AppContainer(private val context: Context) {

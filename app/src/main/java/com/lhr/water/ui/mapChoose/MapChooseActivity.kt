@@ -2,23 +2,17 @@ package com.lhr.water.ui.mapChoose
 
 import android.content.Intent
 import android.os.Build
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.util.Log
 import android.view.View
 import androidx.activity.viewModels
 import androidx.core.content.res.ResourcesCompat
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.lhr.water.R
 import com.lhr.water.databinding.ActivityMapChooseBinding
-import com.lhr.water.model.FakerData
-import com.lhr.water.model.FormData
 import com.lhr.water.ui.base.APP
 import com.lhr.water.ui.base.BaseActivity
 import com.lhr.water.ui.map.MapActivity
-import com.lhr.water.util.recyclerViewAdapter.MapChooseAdapter
-import com.lhr.water.util.recyclerViewAdapter.RegionChooseAdapter
-import timber.log.Timber
+import com.lhr.water.util.adapter.MapChooseAdapter
 
 class MapChooseActivity : BaseActivity(), MapChooseAdapter.Listener, View.OnClickListener {
 

@@ -3,10 +3,9 @@ package com.lhr.water.ui.regionChoose
 import android.content.Context
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.MutableLiveData
-import com.lhr.water.data.Repository.RegionRepository
+import com.lhr.water.data.repository.RegionRepository
 import com.lhr.water.ui.base.APP
 import com.lhr.water.util.MapPageStatus
-import timber.log.Timber
 
 class RegionChooseViewModel(context: Context, regionRepository: RegionRepository) :
     AndroidViewModel(context.applicationContext as APP) {
