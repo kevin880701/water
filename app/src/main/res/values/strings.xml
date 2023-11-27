@@ -23,6 +23,7 @@
     <string name="region">地區</string>
     <string name="map">地圖</string>
     <string name="storage_name">儲櫃名稱</string>
+    <string name="storage_num">儲櫃代號</string>
 
     <string name="storage_content">儲櫃內容物</string>
     <string name="scan_qr_code">掃描QR CODE</string>

@@ -117,7 +117,7 @@ class MapActivity(): BaseActivity(), View.OnClickListener {
     }
 
     fun showStorageInfo(storageDetail: StorageDetail) {
-        val infoDetailBottom = InfoDetailBottom(this, storageDetail)
+        val infoDetailBottom = InfoDetailBottom(this, storageDetail, map, region)
         showBottomSheet(infoDetailBottom)
     }
     fun showBottomSheet(view: View?) {

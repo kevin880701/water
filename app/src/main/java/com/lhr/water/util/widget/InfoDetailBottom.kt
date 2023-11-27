@@ -14,15 +14,21 @@ class InfoDetailBottom : RelativeLayout, View.OnClickListener {
     private var binding: WidgetBottomInfoDetailBinding
     private val activity: MapActivity
     private val storageDetail: StorageDetail
+    private val map: String
+    private val region: String
     constructor(
         activity: MapActivity,
-        storageDetail: StorageDetail
+        storageDetail: StorageDetail,
+        map: String,
+        region: String
     ) : super(activity) {
         binding = DataBindingUtil.inflate(
             LayoutInflater.from(context), R.layout.widget_bottom_info_detail, this, true
         )
         this@InfoDetailBottom.activity = activity
         this@InfoDetailBottom.storageDetail = storageDetail
+        this@InfoDetailBottom.map = map
+        this@InfoDetailBottom.region = region
 
         activity.onBackPressedDispatcher.addCallback(
             activity, // LifecycleOwner
@@ -30,13 +36,17 @@ class InfoDetailBottom : RelativeLayout, View.OnClickListener {
         )
 
         initView()
-        binding.root.setOnClickListener(this)
-        binding.constraintBack.setOnClickListener(this)
-        binding.linearLayoutStorageContent.setOnClickListener(this)
     }
 
     fun initView(){
-        binding.textCurrentMapName.text = storageDetail.StorageName
+        binding.textMapName.text = map
+        binding.textRegionName.text = region
+        binding.textStorageName.text = storageDetail.StorageName
+        binding.textStorageNum.text = storageDetail.StorageNum
+
+        binding.root.setOnClickListener(this)
+        binding.constraintBack.setOnClickListener(this)
+        binding.linearLayoutStorageContent.setOnClickListener(this)
     }
 
     override fun onClick(v: View) {

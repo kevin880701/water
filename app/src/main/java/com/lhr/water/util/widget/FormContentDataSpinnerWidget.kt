@@ -59,7 +59,7 @@ class FormContentDataSpinnerWidget : RelativeLayout {
                 position: Int,
                 id: Long
             ) {
-                // 當選項被選擇時，將選項的值存儲到content變量中
+                // 當選項被選擇時，將選項的值存儲到content
                 content = spinnerList[position]
             }
 
