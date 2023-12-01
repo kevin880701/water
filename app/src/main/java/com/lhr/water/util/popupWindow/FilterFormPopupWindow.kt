@@ -9,10 +9,8 @@ import android.view.View
 import android.widget.LinearLayout
 import android.widget.PopupWindow
 import android.widget.RelativeLayout
-import androidx.lifecycle.viewmodel.viewModelFactory
 import com.lhr.water.R
 import com.lhr.water.databinding.PopupFilterMenuBinding
-import com.lhr.water.model.TargetData
 import com.lhr.water.ui.history.HistoryViewModel
 import com.lhr.water.util.widget.FilterItemWidget
 

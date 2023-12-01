@@ -1,8 +1,8 @@
 package com.lhr.water.ui.base
 
 import android.content.Context
-import com.lhr.water.data.repository.FormRepository
-import com.lhr.water.data.repository.RegionRepository
+import com.lhr.water.repository.FormRepository
+import com.lhr.water.repository.RegionRepository
 import kotlinx.coroutines.*
 
 @ExperimentalCoroutinesApi

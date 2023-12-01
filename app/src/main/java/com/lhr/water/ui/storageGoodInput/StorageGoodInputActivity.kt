@@ -1,0 +1,81 @@
+package com.lhr.water.ui.storageGoodInput
+
+import android.content.Intent
+import android.os.Bundle
+import android.view.View
+import android.view.animation.AlphaAnimation
+import android.view.animation.Animation
+import androidx.activity.viewModels
+import androidx.constraintlayout.widget.ConstraintLayout
+import androidx.core.content.res.ResourcesCompat
+import androidx.recyclerview.widget.LinearLayoutManager
+import com.lhr.water.R
+import com.lhr.water.data.WaitDealGoodsData
+import com.lhr.water.databinding.ActivityCoverBinding
+import com.lhr.water.databinding.ActivityStorageContentBinding
+import com.lhr.water.databinding.ActivityStorageInputBinding
+import com.lhr.water.model.Model
+import com.lhr.water.ui.base.APP
+import com.lhr.water.ui.base.BaseActivity
+import com.lhr.water.ui.login.LoginActivity
+import com.lhr.water.ui.login.LoginViewModel
+import com.lhr.water.ui.map.MapActivity
+import com.lhr.water.util.adapter.MapChooseAdapter
+import com.lhr.water.util.adapter.RegionChooseAdapter
+import com.lhr.water.util.adapter.StorageInputAdapter
+import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.launch
+
+
+class StorageGoodInputActivity : BaseActivity(), StorageInputAdapter.Listener, View.OnClickListener {
+
+    private val viewModel: StorageGoodInputViewModel by viewModels{(applicationContext as APP).appContainer.viewModelFactory}
+
+    private var _binding: ActivityStorageInputBinding? = null
+    private val binding get() = _binding!!
+
+    lateinit var storageInputAdapter: StorageInputAdapter
+
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        _binding = ActivityStorageInputBinding.inflate(layoutInflater)
+        setContentView(binding.root)
+        window.statusBarColor = ResourcesCompat.getColor(resources, R.color.seed, null)
+
+        initView()
+    }
+
+    private fun initView() {
+        binding.widgetTitleBar.textTitle.text = getString(R.string.wait_input_good)
+        binding.widgetTitleBar.imageBack.visibility = View.VISIBLE
+        initRecyclerView()
+
+        setupBackButton(binding.widgetTitleBar.imageBack)
+    }
+
+    private fun initRecyclerView() {
+//        val mapList = ArrayList(resources.getStringArray(R.array.region_array).toList())
+//        val mapDataList = mapList.mapIndexed { index, regionName ->
+//            regionName
+//        }
+        storageInputAdapter = StorageInputAdapter(this)
+        storageInputAdapter.submitList(viewModel.getWaitInputGoods())
+        binding.recyclerGoods.adapter = storageInputAdapter
+        binding.recyclerGoods.layoutManager = LinearLayoutManager(this)
+
+        binding.widgetTitleBar.imageBack.setOnClickListener(this)
+    }
+
+
+    override fun onItemClick(item: WaitDealGoodsData) {
+        println("點擊")
+        val intent = Intent(this, MapActivity::class.java)
+        startActivity(intent)
+    }
+
+    override fun onClick(v: View) {
+        when (v.id) {
+        }
+    }
+}

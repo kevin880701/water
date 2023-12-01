@@ -165,37 +165,40 @@
                 android:textColor="@color/deep_gray"
                 android:textSize="@dimen/main_lit_text_size" />
         </androidx.appcompat.widget.LinearLayoutCompat>
-
         <LinearLayout
-            android:id="@+id/linearLayoutStorageContent"
             android:layout_width="wrap_content"
-            android:layout_height="36dp"
-            android:background="@drawable/bg_r35_black"
-            android:gravity="center"
-            android:orientation="horizontal"
-            android:paddingLeft="8dp"
-            android:paddingRight="8dp"
+            android:layout_height="wrap_content"
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintRight_toRightOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/linearLayoutStorageNum">
-
-            <ImageView
-                android:id="@+id/imageStorageContent"
-                android:layout_width="24dp"
-                android:layout_height="24dp"
-                android:layout_marginLeft="6dp"
-                android:src="@drawable/view_storage_content"
-                app:tint="@color/white" />
-
-            <TextView
-                android:id="@+id/addTravelText"
+            <LinearLayout
+                android:id="@+id/linearLayoutStorageContent"
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="2dp"
-                android:text="@string/storage_content"
-                android:textColor="@color/white"
-                android:textSize="@dimen/main_title_size" />
+                android:layout_height="36dp"
+                android:background="@drawable/bg_r35_secondary"
+                android:gravity="center"
+                android:orientation="horizontal"
+                android:paddingLeft="8dp"
+                android:paddingRight="8dp">
+
+                <ImageView
+                    android:layout_width="24dp"
+                    android:layout_height="24dp"
+                    android:layout_marginLeft="6dp"
+                    android:src="@drawable/view_storage_content"
+                    app:tint="@color/white" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="2dp"
+                    android:text="@string/storage_content"
+                    android:textColor="@color/white"
+                    android:textSize="@dimen/main_title_size" />
+            </LinearLayout>
         </LinearLayout>
+
+
     </androidx.constraintlayout.widget.ConstraintLayout>
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

@@ -27,7 +27,7 @@ import kotlinx.coroutines.launch
 
 class CoverActivity : BaseActivity() {
 
-    private val viewModel: LoginViewModel by viewModels{(applicationContext as APP).appContainer.viewModelFactory}
+    private val viewModel: CoverViewModel by viewModels{(applicationContext as APP).appContainer.viewModelFactory}
 
     private var _binding: ActivityCoverBinding? = null
     private val binding get() = _binding!!
@@ -40,30 +40,10 @@ class CoverActivity : BaseActivity() {
 
         // 創建Model
         Model
-        // 讀取資料並轉成List
-//        var sqlManager = SqlDatabase(this)
-        GlobalScope.launch {
-//            allTargetEntityArrayList = sqlManager.getClassDao().getAll() as ArrayList<TargetEntity>
-//            if(allTargetDataArrayList.size == 0){
-//                regionNameArrayList = FakerData.targetEntities.map { it.regionName }.distinct() as ArrayList<String>
-//                allTargetDataArrayList = FakerData.targetEntities
-//            }else{
-//                // 將 TargetEntity 轉換成 TargetData 並去掉 id 欄位
-//                allTargetDataArrayList = allTargetEntityArrayList.map { targetEntity ->
-//                    TargetData(
-//                        targetRegion = targetEntity.targetRegion,
-//                        targetRegionNum = targetEntity.targetRegionNum,
-//                        targetName = targetEntity.targetName,
-//                        targetNum = targetEntity.targetNum,
-//                        targetCoordinateX = targetEntity.targetCoordinateX,
-//                        targetCoordinateY = targetEntity.targetCoordinateY,
-//                        targetType = targetEntity.targetType,
-//                        targetTypeNum = targetEntity.targetTypeNum
-//                    )
-//                } as ArrayList<TargetData>
-//                Model.regionNameArrayList = Model.allTargetEntityArrayList.map { it.targetRegion }.distinct() as ArrayList<String>
-//            }
 
+        viewModel.checkTable()
+
+        GlobalScope.launch {
             val layout = findViewById<ConstraintLayout>(R.id.constrain)
             val animation = AlphaAnimation(0.0f, 1.0f)
             animation.fillAfter = true

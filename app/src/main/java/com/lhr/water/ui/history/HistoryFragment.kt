@@ -12,7 +12,7 @@ import androidx.activity.OnBackPressedCallback
 import androidx.fragment.app.viewModels
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.lhr.water.R
-import com.lhr.water.data.repository.FormRepository
+import com.lhr.water.repository.FormRepository
 import com.lhr.water.databinding.FragmentHistoryBinding
 import com.lhr.water.ui.base.BaseFragment
 import com.lhr.water.ui.formContent.FormContentActivity
@@ -121,7 +121,7 @@ class HistoryFragment : BaseFragment(), View.OnClickListener, HistoryAdapter.Lis
      */
     override fun onItemClick(json: JSONObject) {
         val intent = Intent(requireActivity(), FormContentActivity::class.java)
-        intent.putExtra("formName", json.getString("FormClass"))
+        intent.putExtra("formName", json.getString("formClass"))
         intent.putExtra("jsonString", json.toString())
         requireActivity().startActivity(intent)
     }

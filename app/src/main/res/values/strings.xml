@@ -25,7 +25,10 @@
     <string name="storage_name">儲櫃名稱</string>
     <string name="storage_num">儲櫃代號</string>
 
-    <string name="storage_content">儲櫃內容物</string>
+    <string name="storage_content">儲櫃內容</string>
+    <string name="wait_input_good">待入庫貨物</string>
+    <string name="good_input">貨物入庫</string>
+    <string name="good_output">貨物出庫</string>
     <string name="scan_qr_code">掃描QR CODE</string>
     <string name="permission_error">獲取權限失敗，將導致部分功能無法使用，是否前往授權？</string>
 
@@ -269,30 +272,30 @@
     </string-array>
 
     <string-array name="delivery_form_field_name_eng">
-        <item>FormClass</item>
-        <item>DealStatus</item>
-        <item>DeliveryStatus</item>
-        <item>ReportId</item>
-        <item>ReportTitle</item>
-        <item>Date</item>
-        <item>DeliveryNumber</item>
-        <item>Underwriter</item>
-        <item>ContractNumber</item>
-        <item>DeliveryDay</item>
-        <item>DeliveryDate</item>
-        <item>ExtendDate1</item>
-        <item>ExtendDate2</item>
-        <item>ExtendDate3</item>
-        <item>ReceiptDept</item>
-        <item>Deliverylocation</item>
-        <item>ExtendNo1</item>
-        <item>ExtendNo2</item>
-        <item>ExtendNo3</item>
-        <item>ProjectNumber</item>
-        <item>Contact</item>
-        <item>ContactPhone</item>
-        <item>ApplyNo</item>
-        <item>SumAddition</item>
+        <item>formClass</item>
+        <item>dealStatus</item>
+        <item>deliveryStatus</item>
+        <item>reportId</item>
+        <item>reportTitle</item>
+        <item>date</item>
+        <item>deliveryNumber</item>
+        <item>underwriter</item>
+        <item>contractNumber</item>
+        <item>deliveryDay</item>
+        <item>deliveryDate</item>
+        <item>extendDate1</item>
+        <item>extendDate2</item>
+        <item>extendDate3</item>
+        <item>receiptDept</item>
+        <item>deliverylocation</item>
+        <item>extendNo1</item>
+        <item>extendNo2</item>
+        <item>extendNo3</item>
+        <item>projectNumber</item>
+        <item>contact</item>
+        <item>contactPhone</item>
+        <item>applyNo</item>
+        <item>sumAddition</item>
     </string-array>
 
     <string-array name="delivery_Item_field_name">
@@ -302,10 +305,9 @@
         <item>契約項次</item>
         <item>材料編號</item>
         <item>材料名稱</item>
-        <item>水量計號碼起</item>
-        <item>水量計號碼迄</item>
         <item>規格</item>
         <item>單位</item>
+        <item>長度</item>
         <item>發出數量</item>
         <item>實收數量</item>
         <item>單價</item>
@@ -313,20 +315,19 @@
     </string-array>
 
     <string-array name="delivery_item_field_name_eng">
-        <item>Number</item>
-        <item>ItemNo</item>
-        <item>Batch</item>
-        <item>No</item>
-        <item>MaterialNumber</item>
-        <item>MaterialName</item>
-        <item>WaterMeterStar</item>
-        <item>WaterMeterEnd</item>
-        <item>MaterialSpec</item>
-        <item>MaterialUnit</item>
-        <item>DeliveryQuantity</item>
-        <item>ReceivedQuantity</item>
-        <item>Price</item>
-        <item>ItemCost</item>
+        <item>number</item>
+        <item>itemNo</item>
+        <item>batch</item>
+        <item>no</item>
+        <item>materialNumber</item>
+        <item>materialName</item>
+        <item>materialSpec</item>
+        <item>materialUnit</item>
+        <item>length</item>
+        <item>deliveryQuantity</item>
+        <item>receivedQuantity</item>
+        <item>price</item>
+        <item>itemCost</item>
     </string-array>
 
     <!--  領料單  -->
@@ -355,27 +356,27 @@
 w    </string-array>
 
     <string-array name="picking_form_field_name_eng">
-        <item>FormClass</item>
-        <item>DealStatus</item>
-        <item>ReportId</item>
-        <item>ReportTitle</item>
-        <item>Date</item>
-        <item>IssuingUnit</item>
-        <item>PickingDate</item>
-        <item>PickingDept</item>
-        <item>PickingNumber</item>
-        <item>OriginalVoucherNumber</item>
-        <item>CostAllocationUnit</item>
-        <item>AccountingSubject</item>
-        <item>SystemCode</item>
-        <item>UsageCode</item>
-        <item>ProjectNumber</item>
-        <item>ProjectName</item>
-        <item>MaterialReservationNumber</item>
-        <item>CaseNumber</item>
-        <item>Remark</item>
-        <item>SumAddition</item>
-        <item>CollectionMethod</item>
+        <item>formClass</item>
+        <item>dealStatus</item>
+        <item>reportId</item>
+        <item>reportTitle</item>
+        <item>date</item>
+        <item>issuingUnit</item>
+        <item>pickingDate</item>
+        <item>pickingDept</item>
+        <item>pickingNumber</item>
+        <item>originalVoucherNumber</item>
+        <item>costAllocationUnit</item>
+        <item>accountingSubject</item>
+        <item>systemCode</item>
+        <item>usageCode</item>
+        <item>projectNumber</item>
+        <item>projectName</item>
+        <item>materialReservationNumber</item>
+        <item>caseNumber</item>
+        <item>remark</item>
+        <item>sumAddition</item>
+        <item>collectionMethod</item>
     </string-array>
 
     <string-array name="picking_item_field_name">
@@ -384,6 +385,8 @@ w    </string-array>
         <item>材料名稱</item>
         <item>規格</item>
         <item>單位</item>
+        <item>水量計號碼起</item>
+        <item>水量計號碼迄</item>
         <item>請領數量</item>
         <item>實領數量</item>
         <item>單價</item>
@@ -391,15 +394,17 @@ w    </string-array>
     </string-array>
 
     <string-array name="picking_item_field_name_eng">
-        <item>Number</item>
-        <item>MaterialNumber</item>
-        <item>MaterialName</item>
-        <item>MaterialSpec</item>
-        <item>MaterialUnit</item>
-        <item>RequestedQuantity</item>
-        <item>ActualQuantity</item>
-        <item>Price</item>
-        <item>ItemCost</item>
+        <item>number</item>
+        <item>materialNumber</item>
+        <item>materialName</item>
+        <item>materialSpec</item>
+        <item>materialUnit</item>
+        <item>waterMeterStar</item>
+        <item>waterMeterEnd</item>
+        <item>requestedQuantity</item>
+        <item>actualQuantity</item>
+        <item>price</item>
+        <item>itemCost</item>
     </string-array>
 
     <!--  調撥單  -->
@@ -426,25 +431,25 @@ w    </string-array>
     </string-array>
 
     <string-array name="transfer_form_field_name_eng">
-        <item>FormClass</item>
-        <item>DealStatus</item>
-        <item>ReportId</item>
-        <item>ReportTitle</item>
-        <item>Date</item>
-        <item>TransferNumber</item>
-        <item>TransferDate</item>
-        <item>TransferringTransferNumber</item>
-        <item>ReceivingTransferNumber</item>
-        <item>TransferringDept</item>
-        <item>OriginalVoucherNumber</item>
-        <item>RequiredDate</item>
-        <item>TransferringTransferDate</item>
-        <item>ReceivingTransferDate</item>
-        <item>ReceivingDept</item>
-        <item>ReceivingLocation</item>
-        <item>Contact</item>
-        <item>ContactPhone</item>
-        <item>TransferDescription</item>
+        <item>formClass</item>
+        <item>dealStatus</item>
+        <item>reportId</item>
+        <item>reportTitle</item>
+        <item>date</item>
+        <item>transferNumber</item>
+        <item>transferDate</item>
+        <item>transferringTransferNumber</item>
+        <item>receivingTransferNumber</item>
+        <item>transferringDept</item>
+        <item>originalVoucherNumber</item>
+        <item>requiredDate</item>
+        <item>transferringTransferDate</item>
+        <item>receivingTransferDate</item>
+        <item>receivingDept</item>
+        <item>receivingLocation</item>
+        <item>contact</item>
+        <item>contactPhone</item>
+        <item>transferDescription</item>
     </string-array>
 
     <string-array name="transfer_item_field_name">
@@ -453,6 +458,8 @@ w    </string-array>
         <item>材料名稱</item>
         <item>規格</item>
         <item>單位</item>
+        <item>水量計號碼起</item>
+        <item>水量計號碼迄</item>
         <item>核撥數量</item>
         <item>請撥序號</item>
         <item>實撥數量</item>
@@ -461,16 +468,18 @@ w    </string-array>
     </string-array>
 
     <string-array name="transfer_item_field_name_eng">
-        <item>Number</item>
-        <item>MaterialNumber</item>
-        <item>MaterialName</item>
-        <item>MaterialSpec</item>
-        <item>MaterialUnit</item>
-        <item>ApprovedQuantity</item>
-        <item>ApplyNumber</item>
-        <item>AllocatedQuantity</item>
-        <item>ReceivedQuantity</item>
-        <item>Remark</item>
+        <item>number</item>
+        <item>materialNumber</item>
+        <item>materialName</item>
+        <item>materialSpec</item>
+        <item>materialUnit</item>
+        <item>waterMeterStar</item>
+        <item>waterMeterEnd</item>
+        <item>approvedQuantity</item>
+        <item>applyNumber</item>
+        <item>allocatedQuantity</item>
+        <item>receivedQuantity</item>
+        <item>remark</item>
     </string-array>
 
     <!--  退料單  -->
@@ -499,27 +508,27 @@ w    </string-array>
     </string-array>
 
     <string-array name="returning_form_field_name_eng">
-        <item>FormClass</item>
-        <item>DealStatus</item>
-        <item>ReportId</item>
-        <item>ReportTitle</item>
-        <item>Date</item>
-        <item>ReceiptDept</item>
-        <item>LeadNumber</item>
-        <item>LeadDept</item>
-        <item>ReturnReceiptNumber</item>
-        <item>ReceivedDate</item>
-        <item>AccountingSubject</item>
-        <item>CostAllocationUnit</item>
-        <item>MaterialReservationNumber</item>
-        <item>ReturnDept</item>
-        <item>SystemCode</item>
-        <item>UsageCode</item>
-        <item>ProjectNumber</item>
-        <item>ProjectName</item>
-        <item>OriginalVoucherNumber</item>
-        <item>SumAddition</item>
-        <item>ReturnReason</item>
+        <item>formClass</item>
+        <item>dealStatus</item>
+        <item>reportId</item>
+        <item>reportTitle</item>
+        <item>date</item>
+        <item>receiptDept</item>
+        <item>leadNumber</item>
+        <item>leadDept</item>
+        <item>returnReceiptNumber</item>
+        <item>receivedDate</item>
+        <item>accountingSubject</item>
+        <item>costAllocationUnit</item>
+        <item>materialReservationNumber</item>
+        <item>returnDept</item>
+        <item>systemCode</item>
+        <item>usageCode</item>
+        <item>projectNumber</item>
+        <item>projectName</item>
+        <item>originalVoucherNumber</item>
+        <item>sumAddition</item>
+        <item>returnReason</item>
     </string-array>
 
     <string-array name="returning_item_field_name">
@@ -528,6 +537,8 @@ w    </string-array>
         <item>材料名稱</item>
         <item>規格</item>
         <item>單位</item>
+        <item>水量計號碼起</item>
+        <item>水量計號碼迄</item>
         <item>退回數量</item>
         <item>實收數量</item>
         <item>入庫單價</item>
@@ -535,15 +546,17 @@ w    </string-array>
     </string-array>
 
     <string-array name="returning_item_field_name_eng">
-        <item>Number</item>
-        <item>MaterialNumber</item>
-        <item>MaterialName</item>
-        <item>MaterialSpec</item>
-        <item>MaterialUnit</item>
-        <item>ReturnedQuantity</item>
-        <item>ReceivedQuantity</item>
-        <item>StockingPrice</item>
-        <item>ItemCost</item>
+        <item>number</item>
+        <item>materialNumber</item>
+        <item>materialName</item>
+        <item>materialSpec</item>
+        <item>materialUnit</item>
+        <item>waterMeterStar</item>
+        <item>waterMeterEnd</item>
+        <item>returnedQuantity</item>
+        <item>receivedQuantity</item>
+        <item>stockingPrice</item>
+        <item>itemCost</item>
     </string-array>
     <!--  盤點單  -->
 
@@ -557,10 +570,10 @@ w    </string-array>
     </string-array>
 
     <string-array name="storage_form_field_name_eng">
-        <item>StorageNum</item>
-        <item>StorageName</item>
-        <item>RegionName</item>
-        <item>MapName</item>
+        <item>storageNum</item>
+        <item>storageName</item>
+        <item>regionName</item>
+        <item>mapName</item>
     </string-array>
 
     <string-array name="storage_item_field_name">
@@ -575,13 +588,13 @@ w    </string-array>
     </string-array>
 
     <string-array name="storage_item_field_name_eng">
-        <item>ReportId</item>
-        <item>MaterialNumber</item>
-        <item>MaterialName</item>
-        <item>MaterialSpec</item>
-        <item>MaterialUnit</item>
-        <item>Quantity</item>
-        <item>Price</item>
-        <item>InputDate</item>
+        <item>reportId</item>
+        <item>materialNumber</item>
+        <item>materialName</item>
+        <item>materialSpec</item>
+        <item>materialUnit</item>
+        <item>quantity</item>
+        <item>price</item>
+        <item>inputDate</item>
     </string-array>
 </resources>

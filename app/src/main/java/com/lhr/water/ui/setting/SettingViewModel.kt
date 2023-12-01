@@ -5,8 +5,10 @@ import android.net.Uri
 import android.util.Log
 import androidx.documentfile.provider.DocumentFile
 import androidx.lifecycle.AndroidViewModel
-import com.lhr.water.data.repository.FormRepository
+import com.lhr.water.repository.FormRepository
 import com.lhr.water.ui.base.APP
+import com.lhr.water.util.manager.jsonAddInformation
+import com.lhr.water.util.manager.jsonStringToJsonArray
 import org.json.JSONArray
 import java.io.BufferedReader
 import java.io.IOException
@@ -45,6 +47,23 @@ class SettingViewModel(context: Context, formRepository: FormRepository): Androi
         } catch (e: IOException) {
             Log.e("MainActivity", "Error writing JSONObject to file", e)
         }
+    }
+
+
+
+    /**
+     * 更新表單資料
+     * @param context
+     * @param fileUri json檔位址
+     */
+    fun updateFormData(context: Context, fileUri: Uri){
+        val inputStream: InputStream? =
+            context.contentResolver.openInputStream(fileUri)
+        var jsonContent = readJsonFromInputStream(inputStream)
+        var jsonArray = jsonStringToJsonArray(jsonContent)
+        jsonArray = jsonAddInformation(jsonArray, context)
+        formRepository.clearAndInsertData(jsonArray)
+        formRepository.loadRecord()
     }
 
 

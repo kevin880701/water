@@ -50,10 +50,10 @@ class HistoryAdapter(val listener: Listener, context: Context): ListAdapter<JSON
         }
 
         fun bind(json: JSONObject){
-            binding.textReportTitle.text = json.getString("ReportTitle")
-            binding.textReportId.text = json.getString("ReportId")
-            binding.textDate.text = json.getString("Date")
-            when(json.getString("DealStatus")){
+            binding.textReportTitle.text = json.getString("reportTitle")
+            binding.textReportId.text = json.getString("reportId")
+            binding.textDate.text = json.getString("date")
+            when(json.getString("dealStatus")){
                 context.getString(R.string.wait_deal) -> {binding.imageStatus.setImageDrawable(context.getDrawable(R.drawable.red_light))}
                 context.getString(R.string.now_deal) -> {binding.imageStatus.setImageDrawable(context.getDrawable(R.drawable.yellow_light))}
                 context.getString(R.string.complete_deal) -> {binding.imageStatus.setImageDrawable(context.getDrawable(R.drawable.green_light))}

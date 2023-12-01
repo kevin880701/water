@@ -1,4 +1,4 @@
-package com.lhr.water.data.repository
+package com.lhr.water.repository
 
 import android.content.Context
 import android.util.Log
@@ -9,6 +9,8 @@ import com.google.gson.reflect.TypeToken
 import com.lhr.water.R
 import com.lhr.water.data.StorageDetail
 import com.lhr.water.data.RegionInformation
+import com.lhr.water.room.SqlDatabase
+import com.lhr.water.room.TargetEntity
 import java.io.InputStreamReader
 
 class RegionRepository private constructor(private val context: Context) {
@@ -45,6 +47,46 @@ class RegionRepository private constructor(private val context: Context) {
 //        return FakerData.regionList.map { it.regionName }.distinct() as ArrayList<String>
 //    }
 
+
+
+    /**
+     * 判斷Region資料表是否為空
+     */
+    fun checkRegionExist() {
+        var count = SqlDatabase.getInstance().getTargetDao().getRowCount()
+        if(count == 0){
+            val regionEntities = mutableListOf<TargetEntity>()
+            var regionInformationList = getStorageInformation()
+
+            for (regionInformation in regionInformationList) {
+                val regionName = regionInformation.RegionName
+
+                for (mapDetail in regionInformation.MapDetail) {
+                    val mapName = mapDetail.MapName
+
+                    for (storageDetail in mapDetail.StorageDetail) {
+                        val storageNum = storageDetail.StorageNum
+                        val storageName = storageDetail.StorageName
+                        val storageX = storageDetail.StorageX
+                        val storageY = storageDetail.StorageY
+
+                        val regionEntity = TargetEntity().apply {
+                            this.regionName = regionName
+                            this.mapName = mapName
+                            this.storageNum = storageNum
+                            this.storageName = storageName
+                            this.storageX = storageX
+                            this.storageY = storageY
+                        }
+
+                        regionEntities.add(regionEntity)
+                    }
+                }
+            }
+            SqlDatabase.getInstance().getTargetDao().insertTargetEntities(regionEntities)
+        }
+    }
+
     /**
      * 從 assets 中獲取"StorageInformation.json"
      */
@@ -58,14 +100,6 @@ class RegionRepository private constructor(private val context: Context) {
             var storageInformation: List<RegionInformation> =
                 Gson().fromJson(InputStreamReader(inputStream), type)
 
-//            val inputStream = context.assets.open("StorageInformation.json")
-//            val size = inputStream.available()
-//            val buffer = ByteArray(size)
-//            inputStream.read(buffer)
-//            inputStream.close()
-//            val gson = Gson()
-//            val type = object : TypeToken<List<StorageInformation>>() {}.type
-//            val storageInformation: List<StorageInformation> = gson.fromJson( String(buffer, Charsets.UTF_8), type)
             // 關閉 InputStream
             inputStream.close()
 

@@ -14,7 +14,7 @@ import com.journeyapps.barcodescanner.BarcodeResult
 import com.lhr.water.R
 import com.lhr.water.databinding.ActivityQrcodeBinding
 import com.lhr.water.listener.OnPermissionListener
-import com.lhr.water.manager.PermissionManager
+import com.lhr.water.util.manager.PermissionManager
 import com.lhr.water.ui.base.APP
 import com.lhr.water.ui.base.BaseActivity
 import timber.log.Timber

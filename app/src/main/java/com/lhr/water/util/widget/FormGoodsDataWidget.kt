@@ -9,7 +9,7 @@ import android.widget.TextView
 import androidx.databinding.DataBindingUtil
 import com.lhr.water.R
 import com.lhr.water.databinding.WidgetFormGoodsBinding
-import com.lhr.water.util.jsonObjectContentToList
+import com.lhr.water.util.manager.jsonObjectContentToList
 import org.json.JSONObject
 
 class FormGoodsDataWidget : RelativeLayout {
@@ -41,9 +41,8 @@ class FormGoodsDataWidget : RelativeLayout {
     }
 
     fun initView(){
-        Log.v("AAAA","" + formItemJson.toString())
-        textGoodsName.text = formItemJson.getString("MaterialName")
-        textGoodsNumber.text = formItemJson.getString("MaterialNumber")
+        textGoodsName.text = formItemJson.getString("materialName")
+        textGoodsNumber.text = formItemJson.getString("materialNumber")
     }
 
     interface Listener{

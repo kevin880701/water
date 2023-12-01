@@ -9,9 +9,12 @@ import android.view.ViewGroup
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.fragment.app.viewModels
 import com.lhr.water.R
-import com.lhr.water.data.repository.FormRepository
 import com.lhr.water.databinding.FragmentSettingBinding
 import com.lhr.water.ui.base.BaseFragment
+import com.lhr.water.util.manager.jsonAddInformation
+import com.lhr.water.util.manager.jsonStringToJsonArray
+import org.json.JSONArray
+import org.json.JSONObject
 import java.io.InputStream
 
 class SettingFragment : BaseFragment(), View.OnClickListener {
@@ -19,7 +22,6 @@ class SettingFragment : BaseFragment(), View.OnClickListener {
     private var _binding: FragmentSettingBinding? = null
     private val binding get() = _binding!!
     private val viewModel: SettingViewModel by viewModels { viewModelFactory }
-    val formRepository: FormRepository by lazy { FormRepository.getInstance(requireContext()) }
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -75,12 +77,7 @@ class SettingFragment : BaseFragment(), View.OnClickListener {
     private val pickFile =
         registerForActivityResult(ActivityResultContracts.GetContent()) { uri: Uri? ->
             uri?.let {
-                val inputStream: InputStream? =
-                    requireActivity().contentResolver.openInputStream(it)
-                val jsonContent = viewModel.readJsonFromInputStream(inputStream)
-                Log.d("MainActivity", "Selected JSON content:\n$jsonContent")
+                viewModel.updateFormData(requireContext(), it)
             }
         }
-
-
 }

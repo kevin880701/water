@@ -37,10 +37,6 @@
             android:launchMode="singleTask"
             android:theme="@style/Theme.Water"/>
 
-        <activity android:name="com.lhr.water.ui.mapChoose.MapChooseActivity"
-            android:launchMode="singleTask"
-            android:theme="@style/Theme.Water"/>
-
         <activity android:name="com.lhr.water.ui.qrCode.QrcodeActivity"
             android:launchMode="singleTask"
             android:theme="@style/Theme.Water"/>
@@ -49,6 +45,14 @@
             android:launchMode="singleTask"
             android:windowSoftInputMode="adjustResize"
             android:theme="@style/formContentActivityTheme"/>
+
+        <activity android:name="com.lhr.water.ui.storageContent.StorageContentActivity"
+            android:launchMode="singleTask"
+            android:theme="@style/Theme.Water"/>
+
+        <activity android:name="com.lhr.water.ui.storageGoodInput.StorageGoodInputActivity"
+            android:launchMode="singleTask"
+            android:theme="@style/Theme.Water"/>
     </application>
 
 </manifest>

@@ -21,7 +21,7 @@ import com.lhr.water.mapView.layer.MarkLayer
 import com.lhr.water.ui.base.APP
 import com.lhr.water.ui.base.BaseActivity
 import com.lhr.water.util.mapView.MapViewListener
-import com.lhr.water.util.widget.InfoDetailBottom
+import com.lhr.water.ui.map.InfoDetailBottom.InfoDetailBottom
 import timber.log.Timber
 import java.io.IOException
 

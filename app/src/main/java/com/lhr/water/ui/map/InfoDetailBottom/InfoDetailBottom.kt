@@ -1,5 +1,6 @@
-package com.lhr.water.util.widget
+package com.lhr.water.ui.map.InfoDetailBottom
 
+import android.content.Intent
 import android.view.LayoutInflater
 import android.view.View
 import android.widget.RelativeLayout
@@ -8,6 +9,7 @@ import com.lhr.water.R
 import com.lhr.water.data.StorageDetail
 import com.lhr.water.databinding.WidgetBottomInfoDetailBinding
 import com.lhr.water.ui.map.MapActivity
+import com.lhr.water.ui.storageContent.StorageContentActivity
 import timber.log.Timber
 
 class InfoDetailBottom : RelativeLayout, View.OnClickListener {
@@ -58,6 +60,13 @@ class InfoDetailBottom : RelativeLayout, View.OnClickListener {
                 activity.onBackPressedCallback.handleOnBackPressed()
             }
             R.id.linearLayoutStorageContent -> {
+                val intent = Intent(activity, StorageContentActivity::class.java)
+                activity.startActivity(intent)
+            }
+            R.id.linearLayoutGoodInput -> {
+                Timber.d("linearLayoutStorageContent 點擊!")
+            }
+            R.id.linearLayoutGoodOutput -> {
                 Timber.d("linearLayoutStorageContent 點擊!")
             }
         }

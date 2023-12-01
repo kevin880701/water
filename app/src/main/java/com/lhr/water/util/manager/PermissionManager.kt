@@ -1,4 +1,4 @@
-package com.lhr.water.manager
+package com.lhr.water.util.manager
 
 import android.Manifest
 import android.content.DialogInterface

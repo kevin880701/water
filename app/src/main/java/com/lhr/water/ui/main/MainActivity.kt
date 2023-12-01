@@ -28,7 +28,7 @@ class MainActivity : BaseActivity() {
     private val viewModel: MainViewModel by viewModels{(applicationContext as APP).appContainer.viewModelFactory}
     private var _binding: ActivityMainBinding? = null
     private val binding get() = _binding!!
-    lateinit var pageAdapter: MainViewPageAdapter
+    private lateinit var pageAdapter: MainViewPageAdapter
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)

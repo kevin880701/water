@@ -11,7 +11,6 @@ import com.lhr.water.mapView.utils.MapMath.getDistanceBetweenTwoPoints
 import com.lhr.water.R
 import com.lhr.water.data.StorageDetail
 import com.lhr.water.model.Model.Companion.markDrawableIdMap
-import com.lhr.water.model.TargetData
 
 /**
  * MarkLayer

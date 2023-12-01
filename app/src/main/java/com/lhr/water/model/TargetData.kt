@@ -5,10 +5,10 @@ import androidx.room.Index
 import com.lhr.water.room.SqlModel
 import java.io.Serializable
 
-@Entity(
-    tableName = SqlModel.TARGET_TABLE_NAME,
-    indices = [Index(value = [SqlModel.targetNum], unique = true)]
-)
+//@Entity(
+//    tableName = SqlModel.TARGET_TABLE_NAME,
+//    indices = [Index(value = [SqlModel.targetNum], unique = true)]
+//)
 class TargetData(
     targetRegion: String,
     targetRegionNum: Int,

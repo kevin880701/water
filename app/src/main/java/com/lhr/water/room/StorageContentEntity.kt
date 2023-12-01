@@ -8,8 +8,8 @@ import androidx.room.PrimaryKey
 import java.io.Serializable
 
 //@Entity(tableName = SqlModel.TARGET_TABLE_NAME, indices = [Index(value = [SqlModel.storageNum], unique = true)])
-@Entity(tableName = SqlModel.TARGET_TABLE_NAME, indices = [Index(value = [SqlModel.id])])
-class TargetEntity() : Serializable {
+@Entity(tableName = SqlModel.STORAGE_CONTENT_NAME, indices = [Index(value = [SqlModel.id])])
+class StorageContentEntity() : Serializable {
 
     @NonNull
     @PrimaryKey(autoGenerate = true)
@@ -24,12 +24,12 @@ class TargetEntity() : Serializable {
     @ColumnInfo(name = SqlModel.storageNum, typeAffinity = ColumnInfo.TEXT)
     var storageNum = ""
 
-    @ColumnInfo(name = SqlModel.storageName, typeAffinity = ColumnInfo.TEXT)
-    var storageName = ""
+    @ColumnInfo(name = SqlModel.reportId, typeAffinity = ColumnInfo.TEXT)
+    var reportId = ""
 
-    @ColumnInfo(name = SqlModel.storageX, typeAffinity = ColumnInfo.TEXT)
-    var storageX = ""
+    @ColumnInfo(name = SqlModel.reportTitle, typeAffinity = ColumnInfo.TEXT)
+    var reportTitle = ""
 
-    @ColumnInfo(name = SqlModel.storageY, typeAffinity = ColumnInfo.TEXT)
-    var storageY = ""
+    @ColumnInfo(name = SqlModel.itemInformation, typeAffinity = ColumnInfo.TEXT)
+    var itemInformation = ""
 }

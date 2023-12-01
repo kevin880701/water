@@ -5,19 +5,21 @@ class SqlModel {
         const val DB_NAME : String = "WaterInfo.db"
         const val FORM_TABLE_NAME : String = "Form"
         const val TARGET_TABLE_NAME : String = "TargetInfo"
+        const val STORAGE_CONTENT_NAME : String = "StorageContent"
         const val SQLITE_SEQUENCE : String = "sqlite_sequence"
         const val id : String = "id"
-        //Target
-        const val targetRegion : String = "targetRegion"
-        const val targetRegionNum : String = "targetRegionNum"
-        const val targetName : String = "targetName"
-        const val targetNum : String = "targetNum"
-        const val targetCoordinateX : String = "targetCoordinateX"
-        const val targetCoordinateY : String = "targetCoordinateY"
-        const val targetType : String = "targetType"
-        const val targetTypeNum : String = "targetTypeNum"
         //Form
         const val reportId : String = "reportId"
         const val formContent : String = "formContent"
+        //地圖資訊(無儲存物)
+        const val regionName : String = "regionName"
+        const val mapName : String = "mapName"
+        const val storageNum : String = "storageNum"
+        const val storageName : String = "storageName"
+        const val storageX : String = "storageX"
+        const val storageY : String = "storageY"
+
+        const val reportTitle : String = "reportTitle"
+        const val itemInformation : String = "itemInformation"
     }
 }

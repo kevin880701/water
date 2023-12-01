@@ -4,7 +4,7 @@ import androidx.room.*
 import com.lhr.water.room.SqlModel.Companion.TARGET_TABLE_NAME
 
 @Dao
-interface TargetDao {
+interface StorageContentDao {
     @Query("SELECT * FROM $TARGET_TABLE_NAME")
     fun getAll(): List<TargetEntity>
 

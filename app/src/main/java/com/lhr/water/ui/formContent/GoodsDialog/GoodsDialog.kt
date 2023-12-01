@@ -10,7 +10,7 @@ import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.DialogFragment
 import com.lhr.water.R
 import com.lhr.water.databinding.DialogFormGoodsBinding
-import com.lhr.water.util.listToJsonObject
+import com.lhr.water.util.manager.listToJsonObject
 import com.lhr.water.util.widget.FormGoodsDataWidget
 import com.lhr.water.util.widget.FormContentDataWidget
 import org.json.JSONObject

@@ -13,7 +13,7 @@ import androidx.core.content.res.ResourcesCompat
 import androidx.core.view.get
 import androidx.core.view.iterator
 import com.lhr.water.R
-import com.lhr.water.data.repository.FormRepository
+import com.lhr.water.repository.FormRepository
 import com.lhr.water.databinding.ActivityFormContentBinding
 import com.lhr.water.room.FormEntity
 import com.lhr.water.room.SqlDatabase
@@ -21,8 +21,8 @@ import com.lhr.water.ui.base.APP
 import com.lhr.water.ui.base.BaseActivity
 import com.lhr.water.ui.formContent.GoodsDialog.GoodsDialog
 import com.lhr.water.ui.qrCode.QrcodeActivity
-import com.lhr.water.util.jsonObjectToJsonString
-import com.lhr.water.util.listToJsonObject
+import com.lhr.water.util.manager.jsonObjectToJsonString
+import com.lhr.water.util.manager.listToJsonObject
 import com.lhr.water.util.widget.FormContentDataSpinnerWidget
 import com.lhr.water.util.widget.FormGoodsAdd
 import com.lhr.water.util.widget.FormGoodsDataWidget
@@ -154,7 +154,7 @@ class FormContentActivity : BaseActivity(), View.OnClickListener, FormGoodsAdd.L
             formFieldContentList = formFieldNameEngList.map { key ->
                 jsonObject.getString(key)
             } as ArrayList<String>
-            formItemFieldContentList = jsonObject.getJSONArray("ItemDetail")
+            formItemFieldContentList = jsonObject.getJSONArray("itemDetail")
         }
         addFormData()
         setupBackButton(binding.widgetTitleBar.imageBack)
@@ -252,9 +252,9 @@ class FormContentActivity : BaseActivity(), View.OnClickListener, FormGoodsAdd.L
             formFieldNameEngList,
             formContentList
         )
-        formContentJsonObject.put("ItemDetail", itemDetailArray)
+        formContentJsonObject.put("itemDetail", itemDetailArray)
         var formEntity = FormEntity()
-        formEntity.reportId = formContentJsonObject.getString("ReportId")
+        formEntity.reportId = formContentJsonObject.getString("reportId")
         formEntity.formContent = jsonObjectToJsonString(formContentJsonObject)
         SqlDatabase.getInstance().getDeliveryDao().insertOrUpdate(formEntity)
         FormRepository.getInstance(this).loadRecord()
@@ -334,8 +334,8 @@ class FormContentActivity : BaseActivity(), View.OnClickListener, FormGoodsAdd.L
         formItemJson: JSONObject,
         formGoodsDataWidget: FormGoodsDataWidget
     ) {
-        formGoodsDataWidget.binding.textGoodsName.text = formItemJson.getString("MaterialName")
-        formGoodsDataWidget.binding.textGoodsNumber.text = formItemJson.getString("MaterialNumber")
+        formGoodsDataWidget.binding.textGoodsName.text = formItemJson.getString("materialName")
+        formGoodsDataWidget.binding.textGoodsNumber.text = formItemJson.getString("materialNumber")
         formGoodsDataWidget.formItemJson = formItemJson
         binding.scrollViewData.smoothScrollTo(0, formGoodsDataWidget.top)
     }
