@@ -11,6 +11,7 @@ import com.lhr.water.databinding.ItemStorageInputBinding
 
 class StorageInputAdapter(val listener: Listener): ListAdapter<WaitDealGoodsData, StorageInputAdapter.ViewHolder>(LOCK_DIFF_UTIL) {
 
+    private val selectedItems = mutableSetOf<Int>()
     companion object{
         val LOCK_DIFF_UTIL = object : DiffUtil.ItemCallback<WaitDealGoodsData>() {
             override fun areItemsTheSame(oldItem: WaitDealGoodsData, newItem: WaitDealGoodsData): Boolean {
@@ -38,6 +39,7 @@ class StorageInputAdapter(val listener: Listener): ListAdapter<WaitDealGoodsData
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         holder.bind(getItem(position))
+
     }
 
     inner class ViewHolder(private val binding: ItemStorageInputBinding): RecyclerView.ViewHolder(binding.root){
@@ -51,6 +53,22 @@ class StorageInputAdapter(val listener: Listener): ListAdapter<WaitDealGoodsData
 
         fun bind(waitDealGoodsData: WaitDealGoodsData){
             binding.textGoodsNumber.text = waitDealGoodsData.reportId
+
+            // 设置 CheckBox 的选中状态
+            binding.checkBox.isChecked = selectedItems.contains(adapterPosition)
+
+            // 设置 CheckBox 的点击事件
+            binding.checkBox.setOnCheckedChangeListener { _, isChecked ->
+                if (isChecked) {
+                    selectedItems.add(adapterPosition)
+                } else {
+                    selectedItems.remove(adapterPosition)
+                }
+            }
         }
+    }
+
+    fun isSelected(position: Int): Boolean {
+        return selectedItems.contains(position)
     }
 }

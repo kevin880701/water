@@ -1,5 +1,6 @@
 package com.lhr.water.ui.map
 
+import android.content.Intent
 import android.graphics.Bitmap
 import android.graphics.BitmapFactory
 import android.graphics.Color
@@ -20,13 +21,16 @@ import com.lhr.water.databinding.ActivityMapBinding
 import com.lhr.water.mapView.layer.MarkLayer
 import com.lhr.water.ui.base.APP
 import com.lhr.water.ui.base.BaseActivity
+import com.lhr.water.ui.storageGoodInput.StorageGoodInputActivity
+import com.lhr.water.util.adapter.RegionChooseAdapter
 import com.lhr.water.util.mapView.MapViewListener
-import com.lhr.water.ui.map.InfoDetailBottom.InfoDetailBottom
+import com.lhr.water.util.widget.StorageContentBottom
+import com.lhr.water.util.widget.StorageInfoBottom
 import timber.log.Timber
 import java.io.IOException
 
 
-class MapActivity(): BaseActivity(), View.OnClickListener {
+class MapActivity(): BaseActivity(), View.OnClickListener, StorageInfoBottom.Listener, StorageContentBottom.Listener{
     private val viewModel: MapViewModel by viewModels{(applicationContext as APP).appContainer.viewModelFactory}
     private var _binding: ActivityMapBinding? = null
     private val binding get() = _binding!!
@@ -117,10 +121,10 @@ class MapActivity(): BaseActivity(), View.OnClickListener {
     }
 
     fun showStorageInfo(storageDetail: StorageDetail) {
-        val infoDetailBottom = InfoDetailBottom(this, storageDetail, map, region)
-        showBottomSheet(infoDetailBottom)
+        val storageInfoBottom = StorageInfoBottom(this, this, storageDetail, map, region)
+        showBottomSheet(storageInfoBottom)
     }
-    fun showBottomSheet(view: View?) {
+    private fun showBottomSheet(view: View?) {
         if (backView == null) {
             return
         }
@@ -163,5 +167,23 @@ class MapActivity(): BaseActivity(), View.OnClickListener {
         when (v.id) {
 
         }
+    }
+
+    override fun onStorageContentClick(map: String, region: String, storageDetail: StorageDetail) {
+
+        val storageContentBottom = StorageContentBottom(this, this, storageDetail, map, region)
+        showBottomSheet(storageContentBottom)
+    }
+
+    override fun onGoodInputClick(map: String, region: String, storageDetail: StorageDetail) {
+        val intent = Intent(this, StorageGoodInputActivity::class.java)
+        intent.putExtra("region", region)
+        intent.putExtra("map", map)
+        intent.putExtra("storageNum", storageDetail.StorageNum)
+        startActivity(intent)
+    }
+
+    override fun onGoodOutputClick(map: String, region: String, storageDetail: StorageDetail) {
+
     }
 }

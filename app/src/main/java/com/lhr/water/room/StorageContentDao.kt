@@ -12,5 +12,5 @@ interface StorageContentDao {
     fun getRowCount(): Int
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    fun insertTargetEntities(targetEntities: List<TargetEntity>)
+    fun insertStorageItem(storageContentEntities: List<StorageContentEntity>)
 }

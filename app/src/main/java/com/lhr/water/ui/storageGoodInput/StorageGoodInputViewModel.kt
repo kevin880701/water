@@ -15,13 +15,12 @@ class StorageGoodInputViewModel(context: Context, formRepository: FormRepository
     }
 
     fun getWaitInputGoods(): ArrayList<WaitDealGoodsData> {
-
-        formRepository.waitInputGoods.value!!.forEach { waitDealGoodsData ->
-            println("RegionName: ${waitDealGoodsData.reportId}")
-            println("MapName: ${waitDealGoodsData.reportId}")
-            println("StorageNum: ${waitDealGoodsData.itemInformation}")
-            println("--------------")
-        }
+//        formRepository.waitInputGoods.value!!.forEach { waitDealGoodsData ->
+//            println("RegionName: ${waitDealGoodsData.reportId}")
+//            println("MapName: ${waitDealGoodsData.reportId}")
+//            println("StorageNum: ${waitDealGoodsData.itemInformation}")
+//            println("--------------")
+//        }
         return formRepository.waitInputGoods.value!!
     }
 }

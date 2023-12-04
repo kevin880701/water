@@ -1,36 +1,36 @@
-package com.lhr.water.ui.map.InfoDetailBottom
+package com.lhr.water.util.widget
 
-import android.content.Intent
 import android.view.LayoutInflater
 import android.view.View
 import android.widget.RelativeLayout
 import androidx.databinding.DataBindingUtil
 import com.lhr.water.R
 import com.lhr.water.data.StorageDetail
-import com.lhr.water.databinding.WidgetBottomInfoDetailBinding
+import com.lhr.water.databinding.WidgetBottomStorageInfoBinding
 import com.lhr.water.ui.map.MapActivity
-import com.lhr.water.ui.storageContent.StorageContentActivity
-import timber.log.Timber
 
-class InfoDetailBottom : RelativeLayout, View.OnClickListener {
-    private var binding: WidgetBottomInfoDetailBinding
+class StorageInfoBottom : RelativeLayout, View.OnClickListener {
+    private var binding: WidgetBottomStorageInfoBinding
+    private val listener: Listener
     private val activity: MapActivity
     private val storageDetail: StorageDetail
     private val map: String
     private val region: String
     constructor(
+        listener: Listener,
         activity: MapActivity,
         storageDetail: StorageDetail,
         map: String,
         region: String
     ) : super(activity) {
         binding = DataBindingUtil.inflate(
-            LayoutInflater.from(context), R.layout.widget_bottom_info_detail, this, true
+            LayoutInflater.from(context), R.layout.widget_bottom_storage_info, this, true
         )
-        this@InfoDetailBottom.activity = activity
-        this@InfoDetailBottom.storageDetail = storageDetail
-        this@InfoDetailBottom.map = map
-        this@InfoDetailBottom.region = region
+        this@StorageInfoBottom.listener = listener
+        this@StorageInfoBottom.activity = activity
+        this@StorageInfoBottom.storageDetail = storageDetail
+        this@StorageInfoBottom.map = map
+        this@StorageInfoBottom.region = region
 
         activity.onBackPressedDispatcher.addCallback(
             activity, // LifecycleOwner
@@ -60,15 +60,14 @@ class InfoDetailBottom : RelativeLayout, View.OnClickListener {
                 activity.onBackPressedCallback.handleOnBackPressed()
             }
             R.id.linearLayoutStorageContent -> {
-                val intent = Intent(activity, StorageContentActivity::class.java)
-                activity.startActivity(intent)
-            }
-            R.id.linearLayoutGoodInput -> {
-                Timber.d("linearLayoutStorageContent 點擊!")
-            }
-            R.id.linearLayoutGoodOutput -> {
-                Timber.d("linearLayoutStorageContent 點擊!")
+//                val intent = Intent(activity, StorageContentActivity::class.java)
+//                activity.startActivity(intent)
+                listener.onStorageContentClick(map, region, storageDetail)
             }
         }
+    }
+
+    interface Listener{
+        fun onStorageContentClick(map: String, region: String, storageDetail: StorageDetail)
     }
 }
