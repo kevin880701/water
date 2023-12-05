@@ -5,10 +5,12 @@ import android.view.View
 import android.widget.RelativeLayout
 import androidx.activity.viewModels
 import androidx.databinding.DataBindingUtil
+import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.lhr.water.R
 import com.lhr.water.data.StorageDetail
 import com.lhr.water.databinding.WidgetBottomStorageContentBinding
+import com.lhr.water.repository.FormRepository
 import com.lhr.water.room.StorageContentEntity
 import com.lhr.water.ui.base.APP
 import com.lhr.water.util.adapter.StorageContentAdapter
@@ -36,6 +38,7 @@ class StorageContentBottom(
     private val storageDetail: StorageDetail
     private val map: String
     private val region: String
+    val formRepository: FormRepository by lazy { FormRepository.getInstance(activity) }
 
     init {
         binding = DataBindingUtil.inflate(
@@ -54,6 +57,7 @@ class StorageContentBottom(
         Timber.d("" + viewModel.storageDetailList.value!!.size)
 
         initView()
+        bindViewModel()
     }
 
     fun initView() {
@@ -63,6 +67,21 @@ class StorageContentBottom(
         binding.constraintBack.setOnClickListener(this)
         binding.linearLayoutGoodInput.setOnClickListener(this)
         binding.linearLayoutGoodOutput.setOnClickListener(this)
+    }
+
+
+    private fun bindViewModel() {
+
+        formRepository.storageGoods.observe(activity, Observer { newData ->
+            Timber.d("@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@")
+            storageContentAdapter.submitList(
+                viewModel.getStorageContent(
+                    region,
+                    map,
+                    storageDetail.StorageNum
+                )
+            )
+        })
     }
 
 

@@ -577,6 +577,7 @@ w    </string-array>
 
     <!--  儲櫃貨物資訊  -->
     <string-array name="storage_Good_field_name">
+        <item>報表名稱</item>
         <item>報表代號</item>
         <item>材料編號</item>
         <item>材料名稱</item>
@@ -584,9 +585,11 @@ w    </string-array>
         <item>單位</item>
         <item>數量</item>
         <item>單價</item>
+        <item>入庫時間</item>
     </string-array>
 
     <string-array name="storage_Good_field_name_eng">
+        <item>reportTitle</item>
         <item>reportId</item>
         <item>materialNumber</item>
         <item>materialName</item>
@@ -594,5 +597,6 @@ w    </string-array>
         <item>materialUnit</item>
         <item>quantity</item>
         <item>price</item>
+        <item>inputDate</item>
     </string-array>
 </resources>

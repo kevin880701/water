@@ -76,10 +76,6 @@ class StorageGoodInputActivity : BaseActivity(), StorageInputAdapter.Listener, V
     }
 
     private fun initRecyclerView() {
-//        val mapList = ArrayList(resources.getStringArray(R.array.region_array).toList())
-//        val mapDataList = mapList.mapIndexed { index, regionName ->
-//            regionName
-//        }
         storageInputAdapter = StorageInputAdapter(this)
         storageInputAdapter.submitList(viewModel.getWaitInputGoods())
         binding.recyclerGoods.adapter = storageInputAdapter
@@ -126,26 +122,7 @@ class StorageGoodInputActivity : BaseActivity(), StorageInputAdapter.Listener, V
     override fun onClick(v: View) {
         when (v.id) {
             R.id.buttonConfirm -> {
-                // 遍歷數據集，檢查每個位置的 CheckBox 是否被選中
-                var storageContentEntities = ArrayList<StorageContentEntity>()
-                for (i in viewModel.getWaitInputGoods().indices) {
-                    val isChecked = storageInputAdapter.isSelected(i)
-
-                    if (isChecked) {
-                        // CheckBox 在位置 i 處於選中狀態
-                        var storageContentEntity = StorageContentEntity()
-                        storageContentEntity.regionName = region
-                        storageContentEntity.mapName = map
-                        storageContentEntity.storageNum = storageNum
-                        storageContentEntity.reportId = viewModel.getWaitInputGoods()[i].reportId
-                        storageContentEntity.reportTitle = viewModel.getWaitInputGoods()[i].reportTitle
-                        storageContentEntity.itemInformation = viewModel.getWaitInputGoods()[i].itemInformation.toString()
-                        storageContentEntities.add(storageContentEntity)
-                    }
-                    if(storageContentEntities.size > 0){
-                        SqlDatabase.getInstance().getStorageContentDao().insertStorageItem(storageContentEntities)
-                    }
-                }
+                viewModel.inputGoods(storageInputAdapter, region, map, storageNum)
                 finish()
             }
         }

@@ -10,6 +10,7 @@ import com.lhr.water.room.StorageContentEntity
 import com.lhr.water.util.manager.jsonStringToJson
 import org.json.JSONArray
 import org.json.JSONObject
+import timber.log.Timber
 
 class FormRepository(context: Context) {
     val context = context
@@ -101,11 +102,12 @@ class FormRepository(context: Context) {
         // 這裡需要把已入庫的貨物從waitInputGoods中刪除
         waitInputGoodsList.removeAll { waitDealGoodsData ->
             storageGoods.value!!.any { storageContentEntity ->
+                // 透過表單代號(reportId)和物品編號(number)來做篩選
                 storageContentEntity.reportId == waitDealGoodsData.reportId &&
-                        storageContentEntity.itemInformation == waitDealGoodsData.itemInformation.toString()
+                        jsonStringToJson(storageContentEntity.itemInformation).getString("number") == waitDealGoodsData.itemInformation.getString("number")
             }
         }
-        waitInputGoods.postValue(waitInputGoodsList)
+        waitInputGoods.value = waitInputGoodsList
     }
 
     /**
@@ -113,6 +115,7 @@ class FormRepository(context: Context) {
      */
     private fun updateStorageGoods(){
         storageGoods.value = SqlDatabase.getInstance().getStorageContentDao().getAllStorageContent() as ArrayList
+//        storageGoods.postValue(SqlDatabase.getInstance().getStorageContentDao().getAllStorageContent() as ArrayList)
     }
 
     /**
