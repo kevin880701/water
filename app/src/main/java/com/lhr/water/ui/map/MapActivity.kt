@@ -22,9 +22,7 @@ import com.lhr.water.mapView.layer.MarkLayer
 import com.lhr.water.ui.base.APP
 import com.lhr.water.ui.base.BaseActivity
 import com.lhr.water.ui.storageGoodInput.StorageGoodInputActivity
-import com.lhr.water.util.adapter.RegionChooseAdapter
 import com.lhr.water.util.mapView.MapViewListener
-import com.lhr.water.util.widget.StorageContentBottom
 import com.lhr.water.util.widget.StorageInfoBottom
 import timber.log.Timber
 import java.io.IOException

@@ -1,4 +1,4 @@
-package com.lhr.water.ui.formContent.GoodsDialog
+package com.lhr.water.util.dialog
 
 import android.app.AlertDialog
 import android.app.Dialog

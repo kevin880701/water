@@ -72,7 +72,7 @@
                 android:layout_marginTop="18dp"
                 android:layout_marginLeft="18dp"
                 android:includeFontPadding="false"
-                android:text="@string/form"
+                android:text="@string/reportTitle"
                 android:textColor="@color/seed"
                 android:textAppearance="@style/TextAppearance.Astec.HeadLine5" />
 

@@ -52,12 +52,12 @@ class StorageInputAdapter(val listener: Listener): ListAdapter<WaitDealGoodsData
         }
 
         fun bind(waitDealGoodsData: WaitDealGoodsData){
+            binding.textGoodsName.text = waitDealGoodsData.itemInformation.getString("materialName")
+            binding.textGoodsNumber.text = waitDealGoodsData.itemInformation.getString("materialNumber")
             binding.textGoodsNumber.text = waitDealGoodsData.reportId
-
-            // 设置 CheckBox 的选中状态
+            // 設定 CheckBox 的選中狀態
             binding.checkBox.isChecked = selectedItems.contains(adapterPosition)
-
-            // 设置 CheckBox 的点击事件
+            // 設定 CheckBox 的點擊事件
             binding.checkBox.setOnCheckedChangeListener { _, isChecked ->
                 if (isChecked) {
                     selectedItems.add(adapterPosition)

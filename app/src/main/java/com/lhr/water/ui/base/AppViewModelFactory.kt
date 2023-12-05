@@ -34,7 +34,7 @@ class AppViewModelFactory(
             SettingViewModel::class.java -> SettingViewModel(context, formRepository) as T
             RegionChooseViewModel::class.java -> RegionChooseViewModel(context, regionRepository) as T
             MapChooseViewModel::class.java -> MapChooseViewModel(context) as T
-            MapViewModel::class.java -> MapViewModel(context, regionRepository) as T
+            MapViewModel::class.java -> MapViewModel(context, regionRepository, formRepository) as T
             QrCodeViewModel::class.java -> QrCodeViewModel(context) as T
             StorageGoodInputViewModel::class.java -> StorageGoodInputViewModel(context, formRepository) as T
             else -> throw IllegalArgumentException("not support")

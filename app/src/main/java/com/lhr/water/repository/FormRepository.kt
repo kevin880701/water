@@ -6,11 +6,13 @@ import com.lhr.water.R
 import com.lhr.water.data.WaitDealGoodsData
 import com.lhr.water.room.FormEntity
 import com.lhr.water.room.SqlDatabase
+import com.lhr.water.room.StorageContentEntity
 import com.lhr.water.util.manager.jsonStringToJson
 import org.json.JSONArray
 import org.json.JSONObject
 
 class FormRepository(context: Context) {
+    val context = context
     // 所有表單列表
     var formRecordList: MutableLiveData<ArrayList<JSONObject>> =
         MutableLiveData<ArrayList<JSONObject>>()
@@ -20,6 +22,9 @@ class FormRepository(context: Context) {
     // 待入庫的貨物列表
     var waitInputGoods: MutableLiveData<ArrayList<WaitDealGoodsData>> =
         MutableLiveData<ArrayList<WaitDealGoodsData>>()
+    // 儲櫃中所有貨物
+    var storageGoods: MutableLiveData<ArrayList<StorageContentEntity>> =
+        MutableLiveData<ArrayList<StorageContentEntity>>()
     // 篩選後的表單
     var formFilterRecordList: MutableLiveData<ArrayList<JSONObject>> =
         MutableLiveData<ArrayList<JSONObject>>()
@@ -47,6 +52,7 @@ class FormRepository(context: Context) {
         }
         waitOutputGoods.value = ArrayList<WaitDealGoodsData>()
         waitInputGoods.value = ArrayList<WaitDealGoodsData>()
+        storageGoods.value = ArrayList<StorageContentEntity>()
         formRecordList.value = loadRecord()
     }
 
@@ -72,10 +78,10 @@ class FormRepository(context: Context) {
     fun updateWaitDealGoods(formRecordList: ArrayList<JSONObject>){
         var waitInputGoodsList = ArrayList<WaitDealGoodsData>()
         for (jsonObject in formRecordList) {
-            val formClass = jsonObject.optString("formClass", "")
+            val reportTitle = jsonObject.optString("reportTitle", "")
             val dealStatus = jsonObject.optString("dealStatus", "")
 
-            if (formClass == "交貨" && dealStatus == "處理中") {
+            if (reportTitle == context.getString(R.string.delivery_form) && dealStatus == "處理中") {
                 val itemDetailArray = jsonObject.optJSONArray("itemDetail")
                 if (itemDetailArray != null && itemDetailArray.length() > 0) {
                     for (i in 0 until itemDetailArray.length()) {
@@ -90,13 +96,23 @@ class FormRepository(context: Context) {
                 }
             }
         }
-        waitInputGoods.postValue(waitInputGoodsList)
-        waitInputGoods.value!!.forEach { waitDealGoodsData ->
-            println("RegionName: ${waitDealGoodsData.reportId}")
-            println("MapName: ${waitDealGoodsData.reportId}")
-            println("StorageNum: ${waitDealGoodsData.itemInformation}")
-            println("--------------")
+        // 更新已入庫的貨物
+        updateStorageGoods()
+        // 這裡需要把已入庫的貨物從waitInputGoods中刪除
+        waitInputGoodsList.removeAll { waitDealGoodsData ->
+            storageGoods.value!!.any { storageContentEntity ->
+                storageContentEntity.reportId == waitDealGoodsData.reportId &&
+                        storageContentEntity.itemInformation == waitDealGoodsData.itemInformation.toString()
+            }
         }
+        waitInputGoods.postValue(waitInputGoodsList)
+    }
+
+    /**
+     * 更新儲櫃中的所有貨物
+     */
+    private fun updateStorageGoods(){
+        storageGoods.value = SqlDatabase.getInstance().getStorageContentDao().getAllStorageContent() as ArrayList
     }
 
     /**
@@ -106,8 +122,8 @@ class FormRepository(context: Context) {
 //        formFilterRecordList.postValue(
            return formRecordList.value?.filter { jsonObject ->
                 // 根據 "FormClass" 判斷是否在 filterList 中
-                val formClass = jsonObject.optString("formClass")
-                val formClassFilterCondition = filterList.value?.contains(formClass)
+                val reportTitle = jsonObject.optString("reportTitle")
+                val reportTitleFilterCondition = filterList.value?.contains(reportTitle)
 
                 val reportId = jsonObject.optString("reportId")
 
@@ -117,11 +133,20 @@ class FormRepository(context: Context) {
                 } else {
                     true // 搜尋框(EditText)，不添加 ReportId 的篩選條件
                 }
-                formClassFilterCondition!! && editTextFilterCondition
+                reportTitleFilterCondition!! && editTextFilterCondition
             }?.toMutableList()!! as ArrayList<JSONObject>?
 //        )
     }
 
+    /**
+     * 根據 regionName、mapName 和 storageNum 查詢指定儲櫃內容物
+     * @param regionName 地區名稱
+     * @param mapName 地圖名稱
+     * @param storageNum 儲櫃代號
+     */
+    fun getStorageContentByCondition(regionName: String, mapName: String, storageNum: String): ArrayList<StorageContentEntity> {
+        return SqlDatabase.getInstance().getStorageContentDao().getStorageContentByConditions(regionName, mapName, storageNum) as ArrayList
+    }
 
     /**
      * 匯入新json時要清掉舊的SQL內容並插入新的

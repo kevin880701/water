@@ -6,7 +6,7 @@
     <string name="map_choose">地圖選擇</string>
     <string name="form_history">表單紀錄</string>
 
-    <string name="form">表單</string>
+    <string name="reportTitle">報表名稱</string>
     <string name="enter_number">輸入代號</string>
 
     <string name="scanner">掃描</string>
@@ -18,6 +18,13 @@
     <string name="transfer">調撥</string>
     <string name="returning">退料</string>
     <string name="inventory">盤點</string>
+
+    <string name="delivery_form">交貨通知單</string>
+    <string name="check_form">財務驗收單</string>
+    <string name="picking_form">材料領料單</string>
+    <string name="transfer_form">調撥</string>
+    <string name="returning_form">材料退料單</string>
+    <string name="inventory_form">盤點</string>
 
     <string name="storage_information">儲櫃資訊</string>
     <string name="region">地區</string>
@@ -60,11 +67,11 @@
     </string-array>
 
     <string-array name="form_array">
-        <item>交貨</item>
-        <item>驗收</item>
-        <item>領料</item>
+        <item>交貨通知單</item>
+        <item>財務驗收單</item>
+        <item>材料領料單</item>
         <item>調撥</item>
-        <item>退料</item>
+        <item>材料退料單</item>
         <item>盤點</item>
     </string-array>
 
@@ -245,7 +252,6 @@
 
     <!--  交貨單  -->
     <string-array name="delivery_form_field_name">
-        <item>表單</item>
         <item>處理狀態</item>
         <item>交貨狀態</item>
         <item>報表代號</item>
@@ -272,7 +278,6 @@
     </string-array>
 
     <string-array name="delivery_form_field_name_eng">
-        <item>formClass</item>
         <item>dealStatus</item>
         <item>deliveryStatus</item>
         <item>reportId</item>
@@ -332,7 +337,6 @@
 
     <!--  領料單  -->
     <string-array name="picking_form_field_name">
-        <item>表單</item>
         <item>處理狀態</item>
         <item>報表代號</item>
         <item>報表名稱</item>
@@ -356,7 +360,6 @@
 w    </string-array>
 
     <string-array name="picking_form_field_name_eng">
-        <item>formClass</item>
         <item>dealStatus</item>
         <item>reportId</item>
         <item>reportTitle</item>
@@ -409,7 +412,6 @@ w    </string-array>
 
     <!--  調撥單  -->
     <string-array name="transfer_form_field_name">
-        <item>表單</item>
         <item>處理狀態</item>
         <item>報表代號</item>
         <item>報表名稱</item>
@@ -431,7 +433,6 @@ w    </string-array>
     </string-array>
 
     <string-array name="transfer_form_field_name_eng">
-        <item>formClass</item>
         <item>dealStatus</item>
         <item>reportId</item>
         <item>reportTitle</item>
@@ -484,7 +485,6 @@ w    </string-array>
 
     <!--  退料單  -->
     <string-array name="returning_form_field_name">
-        <item>表單</item>
         <item>處理狀態</item>
         <item>報表代號</item>
         <item>報表名稱</item>
@@ -508,7 +508,6 @@ w    </string-array>
     </string-array>
 
     <string-array name="returning_form_field_name_eng">
-        <item>formClass</item>
         <item>dealStatus</item>
         <item>reportId</item>
         <item>reportTitle</item>
@@ -561,7 +560,7 @@ w    </string-array>
     <!--  盤點單  -->
 
 
-    <!--  櫥櫃資訊  -->
+    <!--  儲櫃資訊  -->
     <string-array name="storage_form_field_name">
         <item>櫥櫃代號</item>
         <item>櫥櫃名稱</item>
@@ -576,7 +575,8 @@ w    </string-array>
         <item>mapName</item>
     </string-array>
 
-    <string-array name="storage_item_field_name">
+    <!--  儲櫃貨物資訊  -->
+    <string-array name="storage_Good_field_name">
         <item>報表代號</item>
         <item>材料編號</item>
         <item>材料名稱</item>
@@ -584,10 +584,9 @@ w    </string-array>
         <item>單位</item>
         <item>數量</item>
         <item>單價</item>
-        <item>入庫時間</item>
     </string-array>
 
-    <string-array name="storage_item_field_name_eng">
+    <string-array name="storage_Good_field_name_eng">
         <item>reportId</item>
         <item>materialNumber</item>
         <item>materialName</item>
@@ -595,6 +594,5 @@ w    </string-array>
         <item>materialUnit</item>
         <item>quantity</item>
         <item>price</item>
-        <item>inputDate</item>
     </string-array>
 </resources>

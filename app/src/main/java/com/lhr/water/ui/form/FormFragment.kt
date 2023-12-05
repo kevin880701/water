@@ -71,7 +71,7 @@ class FormFragment : BaseFragment(), View.OnClickListener, FormAdapter.Listener 
 
     override fun onItemClick(item: FormData) {
         val intent = Intent(requireActivity(), FormContentActivity::class.java)
-        intent.putExtra("formName", item.formName)
+        intent.putExtra("reportTitle", item.formName)
         requireActivity().startActivity(intent)
     }
 

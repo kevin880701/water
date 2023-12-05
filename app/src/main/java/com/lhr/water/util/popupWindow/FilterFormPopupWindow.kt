@@ -59,7 +59,7 @@ class FilterFormPopupWindow(activity: Activity, viewModel: HistoryViewModel) : P
 
 
     /**
-     * 根據form_array來增加要輸入的欄位
+     * 根據form_array來增加要篩選的欄位
      */
     private fun addItem() {
         itemList = activity.resources.getStringArray(R.array.form_array)

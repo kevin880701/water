@@ -26,12 +26,16 @@ import com.lhr.water.ui.map.MapActivity
 import com.lhr.water.util.adapter.MapChooseAdapter
 import com.lhr.water.util.adapter.RegionChooseAdapter
 import com.lhr.water.util.adapter.StorageInputAdapter
+import com.lhr.water.util.dialog.GoodsDialog
+import com.lhr.water.util.manager.jsonStringToJson
+import com.lhr.water.util.widget.FormGoodsDataWidget
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
+import org.json.JSONObject
 import timber.log.Timber
 
 
-class StorageGoodInputActivity : BaseActivity(), StorageInputAdapter.Listener, View.OnClickListener {
+class StorageGoodInputActivity : BaseActivity(), StorageInputAdapter.Listener, View.OnClickListener, GoodsDialog.Listener {
 
     private val viewModel: StorageGoodInputViewModel by viewModels{(applicationContext as APP).appContainer.viewModelFactory}
 
@@ -86,22 +90,49 @@ class StorageGoodInputActivity : BaseActivity(), StorageInputAdapter.Listener, V
     }
 
 
-    override fun onItemClick(item: WaitDealGoodsData) {
-        println("點擊")
-        val intent = Intent(this, MapActivity::class.java)
-        startActivity(intent)
+
+    /**
+     * 點擊列顯示對應貨物資訊的Dialog
+     * @param waitDealGoodsData 貨物資訊
+     */
+    override fun onItemClick(waitDealGoodsData: WaitDealGoodsData) {
+        val goodFieldNameList = resources.getStringArray(R.array.storage_Good_field_name)
+            .toList() as ArrayList<String>
+        val goodFieldNameEngList =
+            resources.getStringArray(R.array.storage_Good_field_name_eng)
+                .toList() as ArrayList<String>
+        val goodContent = ArrayList<String>()
+        val goodJsonObject = waitDealGoodsData.itemInformation
+        goodFieldNameEngList.forEach { key ->
+            if (goodJsonObject.has(key)) {
+                val value = goodJsonObject.getString(key)
+                goodContent.add(value)
+            } else {
+                // Handle the case where the key is not present in the JSON object
+                // You can choose to add a default value or take any other action
+                goodContent.add("Key $key not found")
+            }
+        }
+        val goodsDialog = GoodsDialog(
+            isAdd = true,
+            formItemFieldNameList = goodFieldNameList,
+            formItemFieldNameEngList = goodFieldNameEngList,
+            listener = this,
+            formItemFieldContentList = goodContent
+        )
+        goodsDialog.show(supportFragmentManager, "GoodsDialog")
     }
 
     override fun onClick(v: View) {
         when (v.id) {
             R.id.buttonConfirm -> {
-                // 遍历数据集，检查每个位置的 CheckBox 是否被选中
+                // 遍歷數據集，檢查每個位置的 CheckBox 是否被選中
                 var storageContentEntities = ArrayList<StorageContentEntity>()
                 for (i in viewModel.getWaitInputGoods().indices) {
                     val isChecked = storageInputAdapter.isSelected(i)
 
                     if (isChecked) {
-                        // CheckBox 在位置 i 处于选中状态
+                        // CheckBox 在位置 i 處於選中狀態
                         var storageContentEntity = StorageContentEntity()
                         storageContentEntity.regionName = region
                         storageContentEntity.mapName = map
@@ -111,9 +142,21 @@ class StorageGoodInputActivity : BaseActivity(), StorageInputAdapter.Listener, V
                         storageContentEntity.itemInformation = viewModel.getWaitInputGoods()[i].itemInformation.toString()
                         storageContentEntities.add(storageContentEntity)
                     }
-                    SqlDatabase.getInstance().getStorageContentDao().insertStorageItem(storageContentEntities)
+                    if(storageContentEntities.size > 0){
+                        SqlDatabase.getInstance().getStorageContentDao().insertStorageItem(storageContentEntities)
+                    }
                 }
+                finish()
             }
         }
+    }
+
+    override fun onGoodsDialogConfirm(formItemJson: JSONObject) {
+    }
+
+    override fun onChangeGoodsInfo(
+        formItemJson: JSONObject,
+        formGoodsDataWidget: FormGoodsDataWidget
+    ) {
     }
 }

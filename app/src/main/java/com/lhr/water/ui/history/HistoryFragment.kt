@@ -61,7 +61,7 @@ class HistoryFragment : BaseFragment(), View.OnClickListener, HistoryAdapter.Lis
         formRepository.filterList.observe(viewLifecycleOwner) { newFilterList ->
             formRepository.formFilterRecordList.postValue(formRepository.filterRecord())
         }
-        // 表單代號篩選更新
+        // 表單代號輸入後篩選更新
         formRepository.searchReportId.observe(viewLifecycleOwner) { newFilterList ->
             formRepository.formFilterRecordList.postValue(formRepository.filterRecord())
         }
@@ -121,7 +121,7 @@ class HistoryFragment : BaseFragment(), View.OnClickListener, HistoryAdapter.Lis
      */
     override fun onItemClick(json: JSONObject) {
         val intent = Intent(requireActivity(), FormContentActivity::class.java)
-        intent.putExtra("formName", json.getString("formClass"))
+        intent.putExtra("reportTitle", json.getString("reportTitle"))
         intent.putExtra("jsonString", json.toString())
         requireActivity().startActivity(intent)
     }

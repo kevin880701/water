@@ -24,12 +24,8 @@ fun listToJsonString(
         val fieldContent = if (i < fieldContentList.size) fieldContentList[i] else ""
         jsonObject.put(fieldName, fieldContent)
     }
-
-    // 將JSON對象轉換為JSON字元串
-    val jsonString = jsonObject.toString()
-
-    // 輸出JSON字元串
-    return jsonString
+    // 將JSON對象轉換為JSON字元串並輸出
+    return jsonObject.toString()
 }
 
 
@@ -52,7 +48,6 @@ fun listToJsonObject(
         val fieldContent = if (i < fieldContentList.size) fieldContentList[i] else ""
         jsonObject.put(fieldName, fieldContent)
     }
-
     // 輸出JSON字元串
     return jsonObject
 }

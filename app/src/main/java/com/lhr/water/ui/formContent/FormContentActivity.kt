@@ -19,7 +19,7 @@ import com.lhr.water.room.FormEntity
 import com.lhr.water.room.SqlDatabase
 import com.lhr.water.ui.base.APP
 import com.lhr.water.ui.base.BaseActivity
-import com.lhr.water.ui.formContent.GoodsDialog.GoodsDialog
+import com.lhr.water.util.dialog.GoodsDialog
 import com.lhr.water.ui.qrCode.QrcodeActivity
 import com.lhr.water.util.manager.jsonObjectToJsonString
 import com.lhr.water.util.manager.listToJsonObject
@@ -63,15 +63,36 @@ class FormContentActivity : BaseActivity(), View.OnClickListener, FormGoodsAdd.L
 
         // 檢查版本
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
-            formName = intent.getParcelableExtra("formName", String::class.java) as String
+            formName = intent.getParcelableExtra("reportTitle", String::class.java) as String
         } else {
-            formName = intent.getSerializableExtra("formName") as String
+            formName = intent.getSerializableExtra("reportTitle") as String
         }
         if (intent.hasExtra("jsonString")) {
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
                 jsonString = intent.getParcelableExtra("jsonString", String::class.java)
             } else {
                 jsonString = intent.getStringExtra("jsonString")
+            }
+        }
+
+        when (formName) {
+            getString(R.string.delivery) -> {
+                formName = getString(R.string.delivery_form)
+            }
+            getString(R.string.check) -> {
+                formName = getString(R.string.check_form)
+            }
+            getString(R.string.picking) -> {
+                formName = getString(R.string.picking_form)
+            }
+            getString(R.string.transfer) -> {
+                formName = getString(R.string.transfer_form)
+            }
+            getString(R.string.returning) -> {
+                formName = getString(R.string.returning_form)
+            }
+            getString(R.string.inventory) -> {
+                formName = getString(R.string.inventory_form)
             }
         }
 
@@ -92,7 +113,7 @@ class FormContentActivity : BaseActivity(), View.OnClickListener, FormGoodsAdd.L
         binding.widgetTitleBar.imageBack.visibility = View.VISIBLE
         binding.widgetTitleBar.imageScanner.visibility = View.VISIBLE
         when (formName) {
-            getString(R.string.delivery) -> {
+            getString(R.string.delivery_form) -> {
                 formFieldNameList = resources.getStringArray(R.array.delivery_form_field_name)
                     .toList() as ArrayList<String>
                 formFieldNameEngList =
@@ -104,10 +125,10 @@ class FormContentActivity : BaseActivity(), View.OnClickListener, FormGoodsAdd.L
                     resources.getStringArray(R.array.delivery_item_field_name_eng)
                         .toList() as ArrayList<String>
             }
-            getString(R.string.check) -> {
+            getString(R.string.check_form) -> {
 
             }
-            getString(R.string.picking) -> {
+            getString(R.string.picking_form) -> {
                 formFieldNameList = resources.getStringArray(R.array.picking_form_field_name)
                     .toList() as ArrayList<String>
                 formFieldNameEngList =
@@ -119,7 +140,7 @@ class FormContentActivity : BaseActivity(), View.OnClickListener, FormGoodsAdd.L
                     resources.getStringArray(R.array.picking_item_field_name_eng)
                         .toList() as ArrayList<String>
             }
-            getString(R.string.transfer) -> {
+            getString(R.string.transfer_form) -> {
                 formFieldNameList = resources.getStringArray(R.array.transfer_form_field_name)
                     .toList() as ArrayList<String>
                 formFieldNameEngList =
@@ -131,7 +152,7 @@ class FormContentActivity : BaseActivity(), View.OnClickListener, FormGoodsAdd.L
                     resources.getStringArray(R.array.transfer_item_field_name_eng)
                         .toList() as ArrayList<String>
             }
-            getString(R.string.returning) -> {
+            getString(R.string.returning_form) -> {
                 formFieldNameList = resources.getStringArray(R.array.returning_form_field_name)
                     .toList() as ArrayList<String>
                 formFieldNameEngList =
@@ -143,7 +164,7 @@ class FormContentActivity : BaseActivity(), View.OnClickListener, FormGoodsAdd.L
                     resources.getStringArray(R.array.returning_item_field_name_eng)
                         .toList() as ArrayList<String>
             }
-            getString(R.string.inventory) -> {
+            getString(R.string.inventory_form) -> {
             }
         }
         // 如果是開啟已有紀錄
@@ -187,7 +208,7 @@ class FormContentActivity : BaseActivity(), View.OnClickListener, FormGoodsAdd.L
                     )
                 }
                 binding.linearFormData.addView(formContentDataSpinnerWidget)
-            } else if (fieldName == getString(R.string.form)) {
+            } else if (fieldName == getString(R.string.reportTitle)) {
                 // 這部分之後formName可能會改成fieldContent
                 val formContentDataSpinnerWidget = if (formName != null) {
                     FormContentDataSpinnerWidget(
@@ -242,7 +263,7 @@ class FormContentActivity : BaseActivity(), View.OnClickListener, FormGoodsAdd.L
         var formContentList = ArrayList<String>()
         formFieldNameList.forEachIndexed { index, fieldName ->
             when(fieldName){
-                getString(R.string.form) -> formContentList.add((binding.linearFormData[index] as FormContentDataSpinnerWidget).content)
+                getString(R.string.reportTitle) -> formContentList.add((binding.linearFormData[index] as FormContentDataSpinnerWidget).content)
                 getString(R.string.deal_status) -> formContentList.add((binding.linearFormData[index] as FormContentDataSpinnerWidget).content)
                 else -> formContentList.add((binding.linearFormData[index] as FormContentDataWidget).content)
             }
