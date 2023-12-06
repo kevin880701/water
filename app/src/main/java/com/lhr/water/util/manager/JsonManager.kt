@@ -103,26 +103,13 @@ fun jsonStringToJsonArray(jsonString: String): JSONArray {
     var jsonArray = jsonArray
     for (i in 0 until jsonArray.length()) {
         val jsonObject = jsonArray.getJSONObject(i)
-        val title = jsonObject.optString("reportTitle", "")
-
-        // 添加 "formClass" 和 "dealStatus"
-        jsonObject.put("formClass", when{
-            title.contains(context.getString(R.string.delivery)) -> context.getString(R.string.delivery)
-            title.contains(context.getString(R.string.check)) -> context.getString(R.string.check)
-            title.contains(context.getString(R.string.picking)) -> context.getString(R.string.picking)
-            title.contains(context.getString(R.string.transfer)) -> context.getString(R.string.transfer)
-            title.contains(context.getString(R.string.returning)) -> context.getString(R.string.returning)
-            title.contains(context.getString(R.string.inventory)) -> context.getString(R.string.inventory)
-            else -> {""}
-        })
-        jsonObject.put("dealStatus", "待處理")
 
         // 根據 "reportTitle" 進行判斷
-        val reportTitle = jsonObject.optString("reportTitle", "")
-        if (reportTitle.contains("交貨")) {
-            jsonObject.put("deliveryStatus", "")
-            jsonObject.put("deliveryDay", "")
-        }
+//        val reportTitle = jsonObject.optString("reportTitle", "")
+//        if (reportTitle.contains("交貨")) {
+//            jsonObject.put("deliveryStatus", "")
+//            jsonObject.put("deliveryDay", "")
+//        }
     }
     return jsonArray
 }
