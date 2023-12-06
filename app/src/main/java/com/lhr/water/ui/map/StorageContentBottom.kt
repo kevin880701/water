@@ -71,9 +71,7 @@ class StorageContentBottom(
 
 
     private fun bindViewModel() {
-
-        formRepository.storageGoods.observe(activity, Observer { newData ->
-            Timber.d("@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@")
+        formRepository.storageGoods.observe(activity, Observer { _ ->
             storageContentAdapter.submitList(
                 viewModel.getStorageContent(
                     region,

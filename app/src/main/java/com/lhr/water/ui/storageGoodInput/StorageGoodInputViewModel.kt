@@ -42,7 +42,8 @@ class StorageGoodInputViewModel(context: Context, formRepository: FormRepository
                 waitInputGoodsJson.put("storageNum", storageNum)
                 waitInputGoodsJson.put("reportId", getWaitInputGoods()[i].reportId)
                 waitInputGoodsJson.put("reportTitle", getWaitInputGoods()[i].reportTitle)
-                val recordDate = SimpleDateFormat("yyyy-MM-dd HH:mm:ss")
+                // 入庫時間記錄到年月日就好
+                val recordDate = SimpleDateFormat("yyyy-MM-dd")
                 val time: String = recordDate.format(Date())
                 waitInputGoodsJson.put("inputDate", time)
 

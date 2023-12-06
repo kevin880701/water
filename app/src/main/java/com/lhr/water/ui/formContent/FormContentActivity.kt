@@ -22,13 +22,16 @@ import com.lhr.water.ui.base.BaseActivity
 import com.lhr.water.util.dialog.GoodsDialog
 import com.lhr.water.ui.qrCode.QrcodeActivity
 import com.lhr.water.util.manager.jsonObjectToJsonString
+import com.lhr.water.util.manager.jsonStringToJson
 import com.lhr.water.util.manager.listToJsonObject
+import com.lhr.water.util.showToast
 import com.lhr.water.util.widget.FormContentDataSpinnerWidget
 import com.lhr.water.util.widget.FormGoodsAdd
 import com.lhr.water.util.widget.FormGoodsDataWidget
 import com.lhr.water.util.widget.FormContentDataWidget
 import org.json.JSONArray
 import org.json.JSONObject
+import timber.log.Timber
 
 class FormContentActivity : BaseActivity(), View.OnClickListener, FormGoodsAdd.Listener,
     FormContentDataWidget.Listener, FormGoodsDataWidget.Listener, GoodsDialog.Listener {
@@ -253,13 +256,15 @@ class FormContentActivity : BaseActivity(), View.OnClickListener, FormGoodsAdd.L
 
     }
 
-    fun saveRecord() {
-//        var formGoodInfoList = ArrayList<String>()
+    /**
+     * 點擊確認
+     */
+    private fun onClickSend() {
         val itemDetailArray = JSONArray()
         for (formGoodsDataWidget in binding.linearItemData) {
             itemDetailArray.put((formGoodsDataWidget as FormGoodsDataWidget).formItemJson)
-//            formGoodInfoList.add(jsonObjectToJsonString((formGoodsDataWidget as FormGoodsDataWidget).formItemJson))
         }
+
         var formContentList = ArrayList<String>()
         formFieldNameList.forEachIndexed { index, fieldName ->
             when(fieldName){
@@ -277,10 +282,53 @@ class FormContentActivity : BaseActivity(), View.OnClickListener, FormGoodsAdd.L
         var formEntity = FormEntity()
         formEntity.reportId = formContentJsonObject.getString("reportId")
         formEntity.formContent = jsonObjectToJsonString(formContentJsonObject)
+        // 如果表單是交貨並且處理狀態是處理完成的話要判斷表單中的貨物是否已經全部入庫
+        Timber.d("" + isItemDetailArrayContained(itemDetailArray, formContentJsonObject.getString("reportId"), formContentJsonObject.getString("reportTitle")))
+        Timber.d("DealStatus = ${formContentJsonObject.getString("dealStatus")}")
+        if(formContentJsonObject.getString("dealStatus") == getString(R.string.complete_deal) && formContentJsonObject.getString("reportTitle") == getString(R.string.delivery_form)){
+            if(isItemDetailArrayContained(itemDetailArray, formContentJsonObject.getString("reportId"), formContentJsonObject.getString("reportTitle"))){
+                updateForm(formEntity)
+                finish()
+            }else{
+                showToast(this, "貨物未處理完成!")
+            }
+        }else{
+            updateForm(formEntity)
+            finish()
+        }
+    }
+
+    /**
+     * 更新表單和room
+     */
+    fun updateForm(formEntity: FormEntity){
         SqlDatabase.getInstance().getDeliveryDao().insertOrUpdate(formEntity)
         FormRepository.getInstance(this).loadRecord()
-        finish()
     }
+
+    /**
+     * 判斷交貨表單中的貨物是否已竟入庫
+     */
+    fun isItemDetailArrayContained(itemDetailArray: JSONArray, reportId: String, reportTitle: String): Boolean {
+        for (i in 0 until itemDetailArray.length()) {
+            val itemDetail = itemDetailArray.getJSONObject(i)
+            val itemNo = itemDetail.getString("number")
+
+            val match = viewModel.getStorageGoods().any { entity ->
+
+                Timber.d("${jsonStringToJson(entity.itemInformation).getString("number")} + $itemNo")
+                entity.reportId == reportId &&
+                        entity.reportTitle == reportTitle &&
+                        jsonStringToJson(entity.itemInformation).getString("number") == itemNo
+            }
+
+            if (!match) {
+                return false
+            }
+        }
+        return true
+    }
+
 
     override fun onClick(v: View) {
         when (v.id) {
@@ -289,7 +337,7 @@ class FormContentActivity : BaseActivity(), View.OnClickListener, FormGoodsAdd.L
             }
 
             R.id.buttonSend -> {
-                saveRecord()
+                onClickSend()
             }
 
             R.id.imageAdd -> {

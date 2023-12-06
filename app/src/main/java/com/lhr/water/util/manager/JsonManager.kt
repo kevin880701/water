@@ -44,7 +44,7 @@ fun listToJsonObject(
     // 遍歷FieldName和FieldContent，將它們添加到JSON對象中
     for (i in 0 until fieldNameList.size) {
         val fieldName = fieldNameList[i]
-        Timber.d(fieldName)
+//        Timber.d(fieldName)
         val fieldContent = if (i < fieldContentList.size) fieldContentList[i] else ""
         jsonObject.put(fieldName, fieldContent)
     }
