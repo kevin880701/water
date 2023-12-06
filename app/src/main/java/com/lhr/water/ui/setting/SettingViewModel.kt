@@ -10,6 +10,7 @@ import com.lhr.water.ui.base.APP
 import com.lhr.water.util.manager.jsonAddInformation
 import com.lhr.water.util.manager.jsonStringToJsonArray
 import org.json.JSONArray
+import timber.log.Timber
 import java.io.BufferedReader
 import java.io.IOException
 import java.io.InputStream
@@ -29,6 +30,7 @@ class SettingViewModel(context: Context, formRepository: FormRepository): Androi
     fun writeJsonObjectToFolder(context: Context, folderUri: Uri) {
         try {
             val jsonObject = JSONArray(formRepository.formRecordList.value)
+            Timber.d(jsonObject.toString() + "")
             val folder = DocumentFile.fromTreeUri(context, folderUri)
             // 當前日期時間
             val dateFormat = SimpleDateFormat("yyyyMMdd_HHmmss", Locale.getDefault())

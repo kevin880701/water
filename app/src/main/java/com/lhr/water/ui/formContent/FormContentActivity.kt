@@ -312,14 +312,14 @@ class FormContentActivity : BaseActivity(), View.OnClickListener, FormGoodsAdd.L
     fun isItemDetailArrayContained(itemDetailArray: JSONArray, reportId: String, reportTitle: String): Boolean {
         for (i in 0 until itemDetailArray.length()) {
             val itemDetail = itemDetailArray.getJSONObject(i)
-            val itemNo = itemDetail.getString("number")
+            val number = itemDetail.getString("number")
 
             val match = viewModel.getStorageGoods().any { entity ->
 
-                Timber.d("${jsonStringToJson(entity.itemInformation).getString("number")} + $itemNo")
+                Timber.d("${jsonStringToJson(entity.itemInformation).getString("number")} + $number")
                 entity.reportId == reportId &&
                         entity.reportTitle == reportTitle &&
-                        jsonStringToJson(entity.itemInformation).getString("number") == itemNo
+                        jsonStringToJson(entity.itemInformation).getString("number") == number
             }
 
             if (!match) {

@@ -70,7 +70,7 @@ class MapActivity(): BaseActivity(), View.OnClickListener, StorageInfoBottom.Lis
     }
 
     private fun initView() {
-        binding.widgetTitleBar.textTitle.text = getString(R.string.map_choose)
+        binding.widgetTitleBar.textTitle.text = map
         binding.widgetTitleBar.imageBack.visibility = View.VISIBLE
         backView = binding.relativeLayoutBackView
         setupBackButton(binding.widgetTitleBar.imageBack)

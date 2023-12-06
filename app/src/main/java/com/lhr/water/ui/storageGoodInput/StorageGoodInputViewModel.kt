@@ -1,15 +1,14 @@
 package com.lhr.water.ui.storageGoodInput
 
-import android.app.Application
 import android.content.Context
 import androidx.lifecycle.AndroidViewModel
-import androidx.lifecycle.MutableLiveData
 import com.lhr.water.data.WaitDealGoodsData
 import com.lhr.water.repository.FormRepository
 import com.lhr.water.room.SqlDatabase
 import com.lhr.water.room.StorageContentEntity
 import com.lhr.water.ui.base.APP
 import com.lhr.water.util.adapter.StorageInputAdapter
+import com.lhr.water.util.getCurrentDate
 import java.text.SimpleDateFormat
 import java.util.Date
 
@@ -42,10 +41,8 @@ class StorageGoodInputViewModel(context: Context, formRepository: FormRepository
                 waitInputGoodsJson.put("storageNum", storageNum)
                 waitInputGoodsJson.put("reportId", getWaitInputGoods()[i].reportId)
                 waitInputGoodsJson.put("reportTitle", getWaitInputGoods()[i].reportTitle)
-                // 入庫時間記錄到年月日就好
-                val recordDate = SimpleDateFormat("yyyy-MM-dd")
-                val time: String = recordDate.format(Date())
-                waitInputGoodsJson.put("inputDate", time)
+                // 入庫時間記錄到民國年月日就好
+                waitInputGoodsJson.put("inputDate", getCurrentDate())
 
                 var storageContentEntity = StorageContentEntity()
                 storageContentEntity.regionName = region

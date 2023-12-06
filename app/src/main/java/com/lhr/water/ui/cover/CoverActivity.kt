@@ -1,28 +1,27 @@
 package com.lhr.water.ui.cover
 
-import android.content.ContentValues
 import android.content.Intent
-import android.content.IntentFilter
-import android.net.Uri
+import android.icu.util.TaiwanCalendar
 import android.os.Bundle
-import android.os.Environment
-import android.provider.MediaStore
-import android.util.Log
 import android.view.animation.AlphaAnimation
 import android.view.animation.Animation
 import androidx.activity.viewModels
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.core.content.res.ResourcesCompat
 import com.lhr.water.R
-import com.lhr.water.data.YourBroadcastReceiver
 import com.lhr.water.databinding.ActivityCoverBinding
 import com.lhr.water.model.Model
 import com.lhr.water.ui.base.APP
 import com.lhr.water.ui.base.BaseActivity
 import com.lhr.water.ui.login.LoginActivity
-import com.lhr.water.ui.login.LoginViewModel
+import com.lhr.water.util.getCurrentDate
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
+import timber.log.Timber
+import java.text.SimpleDateFormat
+import java.util.Calendar
+import java.util.Date
+import java.util.Locale
 
 
 class CoverActivity : BaseActivity() {
@@ -38,6 +37,7 @@ class CoverActivity : BaseActivity() {
         setContentView(binding.root)
         window.statusBarColor = ResourcesCompat.getColor(resources, R.color.seed, null)
 
+        Timber.d("@@@@@@@@@@@@@@@@@@@@@@time = ${getCurrentDate()}")
         // 創建Model
         Model
 

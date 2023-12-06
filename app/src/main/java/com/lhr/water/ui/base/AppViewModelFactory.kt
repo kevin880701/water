@@ -12,7 +12,6 @@ import com.lhr.water.ui.history.HistoryViewModel
 import com.lhr.water.ui.login.LoginViewModel
 import com.lhr.water.ui.main.MainViewModel
 import com.lhr.water.ui.map.MapViewModel
-import com.lhr.water.ui.mapChoose.MapChooseViewModel
 import com.lhr.water.ui.qrCode.QrCodeViewModel
 import com.lhr.water.ui.regionChoose.RegionChooseViewModel
 import com.lhr.water.ui.setting.SettingViewModel
@@ -35,7 +34,6 @@ class AppViewModelFactory(
             HistoryViewModel::class.java -> HistoryViewModel(context) as T
             SettingViewModel::class.java -> SettingViewModel(context, formRepository) as T
             RegionChooseViewModel::class.java -> RegionChooseViewModel(context, regionRepository) as T
-            MapChooseViewModel::class.java -> MapChooseViewModel(context) as T
             MapViewModel::class.java -> MapViewModel(context, regionRepository, formRepository) as T
             QrCodeViewModel::class.java -> QrCodeViewModel(context) as T
             StorageGoodInputViewModel::class.java -> StorageGoodInputViewModel(context, formRepository) as T

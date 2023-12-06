@@ -53,7 +53,6 @@ class SettingFragment : BaseFragment(), View.OnClickListener {
             R.id.constraintUpload -> {
                 saveFile.launch(null)
             }
-
             R.id.constraintUpdate -> {
                 pickFile.launch("application/json")
             }
