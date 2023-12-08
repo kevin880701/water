@@ -66,7 +66,6 @@ class MapActivity(): BaseActivity(), View.OnClickListener, StorageInfoBottom.Lis
         }
 
         initView()
-
     }
 
     private fun initView() {

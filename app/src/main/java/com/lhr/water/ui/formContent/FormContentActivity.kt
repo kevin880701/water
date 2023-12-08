@@ -280,13 +280,17 @@ class FormContentActivity : BaseActivity(), View.OnClickListener, FormGoodsAdd.L
         )
         formContentJsonObject.put("itemDetail", itemDetailArray)
         var formEntity = FormEntity()
-        formEntity.reportId = formContentJsonObject.getString("reportId")
+        // 此處有可能根據之後deliveryNumber統一做更改
+        if(formContentJsonObject.getString("reportTitle") == getString(R.string.delivery_form)){
+            formEntity.formNumber = formContentJsonObject.getString("deliveryNumber")
+        }else{
+            formEntity.formNumber = formContentJsonObject.getString("reportId")
+        }
         formEntity.formContent = jsonObjectToJsonString(formContentJsonObject)
         // 如果表單是交貨並且處理狀態是處理完成的話要判斷表單中的貨物是否已經全部入庫
-        Timber.d("" + isItemDetailArrayContained(itemDetailArray, formContentJsonObject.getString("reportId"), formContentJsonObject.getString("reportTitle")))
         Timber.d("DealStatus = ${formContentJsonObject.getString("dealStatus")}")
         if(formContentJsonObject.getString("dealStatus") == getString(R.string.complete_deal) && formContentJsonObject.getString("reportTitle") == getString(R.string.delivery_form)){
-            if(isItemDetailArrayContained(itemDetailArray, formContentJsonObject.getString("reportId"), formContentJsonObject.getString("reportTitle"))){
+            if(isItemDetailArrayContained(itemDetailArray, formContentJsonObject.getString("deliveryNumber"), formContentJsonObject.getString("reportTitle"))){
                 updateForm(formEntity)
                 finish()
             }else{
@@ -309,7 +313,7 @@ class FormContentActivity : BaseActivity(), View.OnClickListener, FormGoodsAdd.L
     /**
      * 判斷交貨表單中的貨物是否已竟入庫
      */
-    fun isItemDetailArrayContained(itemDetailArray: JSONArray, reportId: String, reportTitle: String): Boolean {
+    fun isItemDetailArrayContained(itemDetailArray: JSONArray, formNumber: String, reportTitle: String): Boolean {
         for (i in 0 until itemDetailArray.length()) {
             val itemDetail = itemDetailArray.getJSONObject(i)
             val number = itemDetail.getString("number")
@@ -317,7 +321,7 @@ class FormContentActivity : BaseActivity(), View.OnClickListener, FormGoodsAdd.L
             val match = viewModel.getStorageGoods().any { entity ->
 
                 Timber.d("${jsonStringToJson(entity.itemInformation).getString("number")} + $number")
-                entity.reportId == reportId &&
+                entity.formNumber == formNumber &&
                         entity.reportTitle == reportTitle &&
                         jsonStringToJson(entity.itemInformation).getString("number") == number
             }

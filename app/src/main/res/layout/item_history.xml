@@ -32,7 +32,7 @@
                 android:textSize="@dimen/main_title_size"/>
 
             <TextView
-                android:id="@+id/textReportId"
+                android:id="@+id/textFormNumber"
                 android:layout_width="wrap_content"
                 android:layout_height="24dp"
                 android:gravity="center_vertical"

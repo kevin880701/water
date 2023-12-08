@@ -12,6 +12,7 @@ import android.widget.RelativeLayout
 import com.lhr.water.R
 import com.lhr.water.databinding.PopupFilterMenuBinding
 import com.lhr.water.ui.history.HistoryViewModel
+import com.lhr.water.util.ScreenUtils
 import com.lhr.water.util.widget.FilterItemWidget
 
 
@@ -45,7 +46,7 @@ class FilterFormPopupWindow(activity: Activity, viewModel: HistoryViewModel) : P
         this.contentView = view
         // 設定高和寬
         this.height = RelativeLayout.LayoutParams.WRAP_CONTENT
-        this.width = RelativeLayout.LayoutParams.WRAP_CONTENT
+        this.width = ScreenUtils.dp2px(activity, 168)
 
         // 設定背景
         this.setBackgroundDrawable(ColorDrawable(Color.GRAY))
@@ -71,7 +72,6 @@ class FilterFormPopupWindow(activity: Activity, viewModel: HistoryViewModel) : P
                 fieldName = fieldName,
                 viewModel = viewModel
             )
-
             binding.linearItem.addView(filterItemWidget)
         }
     }

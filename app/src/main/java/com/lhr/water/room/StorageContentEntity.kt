@@ -24,8 +24,8 @@ class StorageContentEntity() : Serializable {
     @ColumnInfo(name = SqlModel.storageNum, typeAffinity = ColumnInfo.TEXT)
     var storageNum = ""
 
-    @ColumnInfo(name = SqlModel.reportId, typeAffinity = ColumnInfo.TEXT)
-    var reportId = ""
+    @ColumnInfo(name = SqlModel.formNumber, typeAffinity = ColumnInfo.TEXT)
+    var formNumber = ""
 
     @ColumnInfo(name = SqlModel.reportTitle, typeAffinity = ColumnInfo.TEXT)
     var reportTitle = ""

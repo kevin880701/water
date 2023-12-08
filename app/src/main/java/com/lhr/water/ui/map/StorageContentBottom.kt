@@ -84,10 +84,6 @@ class StorageContentBottom(
 
 
     private fun initRecyclerView() {
-//        val mapList = ArrayList(resources.getStringArray(R.array.region_array).toList())
-//        val mapDataList = mapList.mapIndexed { index, regionName ->
-//            regionName
-//        }
         storageContentAdapter = StorageContentAdapter(this)
         storageContentAdapter.submitList(
             viewModel.getStorageContent(

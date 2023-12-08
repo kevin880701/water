@@ -6,7 +6,6 @@ import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.lhr.water.data.WaitDealGoodsData
-import com.lhr.water.databinding.ItemChooseRegionBinding
 import com.lhr.water.databinding.ItemStorageInputBinding
 
 class StorageInputAdapter(val listener: Listener): ListAdapter<WaitDealGoodsData, StorageInputAdapter.ViewHolder>(LOCK_DIFF_UTIL) {
@@ -54,7 +53,7 @@ class StorageInputAdapter(val listener: Listener): ListAdapter<WaitDealGoodsData
         fun bind(waitDealGoodsData: WaitDealGoodsData){
             binding.textGoodsName.text = waitDealGoodsData.itemInformation.getString("materialName")
             binding.textGoodsNumber.text = waitDealGoodsData.itemInformation.getString("materialNumber")
-            binding.textGoodsNumber.text = waitDealGoodsData.reportId
+            binding.textGoodsNumber.text = waitDealGoodsData.formNumber
             // 設定 CheckBox 的選中狀態
             binding.checkBox.isChecked = selectedItems.contains(adapterPosition)
             // 設定 CheckBox 的點擊事件

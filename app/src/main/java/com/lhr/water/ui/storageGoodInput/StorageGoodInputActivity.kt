@@ -3,6 +3,8 @@ package com.lhr.water.ui.storageGoodInput
 import android.content.Intent
 import android.os.Build
 import android.os.Bundle
+import android.text.Editable
+import android.text.TextWatcher
 import android.view.View
 import android.view.animation.AlphaAnimation
 import android.view.animation.Animation
@@ -65,6 +67,22 @@ class StorageGoodInputActivity : BaseActivity(), StorageInputAdapter.Listener, V
         }
 
         initView()
+        bindViewModel()
+    }
+
+
+    private fun bindViewModel() {
+        viewModel.inputFormNumber.observe(this) { input ->
+            val resultList = viewModel.waitInputGoodList.filter { waitDealGoodsData ->
+                waitDealGoodsData.formNumber.contains(input)
+            }
+            storageInputAdapter.submitList(resultList)
+//            for (i in resultList){
+//                Timber.d(i.formNumber)
+//                Timber.d(i.reportTitle)
+//                Timber.d(i.itemInformation.toString())
+//            }
+        }
     }
 
     private fun initView() {
@@ -73,10 +91,27 @@ class StorageGoodInputActivity : BaseActivity(), StorageInputAdapter.Listener, V
         initRecyclerView()
 
         setupBackButton(binding.widgetTitleBar.imageBack)
+
+
+        binding.editSearch.addTextChangedListener(object : TextWatcher {
+            override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {
+                // 在文本改變之前執行的操作
+            }
+
+            override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
+                // 在文本改變過程中執行的操作
+            }
+
+            override fun afterTextChanged(s: Editable?) {
+                // 在文本改變之後執行的操作
+                viewModel.inputFormNumber.postValue(s.toString())
+            }
+        })
     }
 
     private fun initRecyclerView() {
         storageInputAdapter = StorageInputAdapter(this)
+
         storageInputAdapter.submitList(viewModel.getWaitInputGoods())
         binding.recyclerGoods.adapter = storageInputAdapter
         binding.recyclerGoods.layoutManager = LinearLayoutManager(this)

@@ -31,8 +31,8 @@ class FormRepository(context: Context) {
         MutableLiveData<ArrayList<JSONObject>>()
     // 篩選表單類別FormClass的List
     var filterList = MutableLiveData<ArrayList<String>>()
-    // 篩選表單代號ReportId的String
-    var searchReportId = MutableLiveData<String>()
+    // 篩選表單代號formNumber的String
+    var searchFormNumber = MutableLiveData<String>()
 
     companion object {
         private var instance: FormRepository? = null
@@ -89,7 +89,7 @@ class FormRepository(context: Context) {
                         val itemDetailObject = itemDetailArray.getJSONObject(i)
                         val waitDealGoodsData = WaitDealGoodsData(
                             reportTitle = jsonObject.optString("reportTitle", ""),
-                            reportId = jsonObject.optString("reportId", ""),
+                            formNumber = jsonObject.optString("deliveryNumber", ""),
                             itemInformation = itemDetailObject
                         )
                         waitInputGoodsList.add(waitDealGoodsData)
@@ -102,12 +102,31 @@ class FormRepository(context: Context) {
         // 這裡需要把已入庫的貨物從waitInputGoods中刪除
         waitInputGoodsList.removeAll { waitDealGoodsData ->
             storageGoods.value!!.any { storageContentEntity ->
-                // 透過表單代號(reportId)和物品編號(number)來做篩選
-                storageContentEntity.reportId == waitDealGoodsData.reportId &&
+                // 透過表單代號(formNumber)和物品編號(number)來做篩選
+                storageContentEntity.formNumber == waitDealGoodsData.formNumber &&
                         jsonStringToJson(storageContentEntity.itemInformation).getString("number") == waitDealGoodsData.itemInformation.getString("number")
             }
         }
-        waitInputGoods.value = waitInputGoodsList
+        val modWaitInputGoodsList = waitInputGoodsList.map { originalItem ->
+            val modifiedItemInformation = originalItem.itemInformation
+            modifiedItemInformation.put("reportTitle", originalItem.reportTitle)
+            modifiedItemInformation.put("deliveryNumber", originalItem.formNumber)
+
+            // 创建新的 WaitDealGoodsData 实例
+            WaitDealGoodsData(
+                reportTitle = originalItem.reportTitle,
+                formNumber = originalItem.formNumber,
+                itemInformation = modifiedItemInformation
+            )
+        } as ArrayList<WaitDealGoodsData>
+
+        Timber.d("" + modWaitInputGoodsList.size + "")
+        for (i in modWaitInputGoodsList){
+            Timber.d(i.formNumber)
+            Timber.d(i.reportTitle)
+            Timber.d(i.itemInformation.toString())
+        }
+        waitInputGoods.value = modWaitInputGoodsList
     }
 
     /**
@@ -122,19 +141,18 @@ class FormRepository(context: Context) {
      * 篩選表單內容
      */
     fun filterRecord(): ArrayList<JSONObject>? {
-//        formFilterRecordList.postValue(
            return formRecordList.value?.filter { jsonObject ->
                 // 根據 "FormClass" 判斷是否在 filterList 中
                 val reportTitle = jsonObject.optString("reportTitle")
                 val reportTitleFilterCondition = filterList.value?.contains(reportTitle)
 
-                val reportId = jsonObject.optString("reportId")
+                val formNumber = jsonObject.optString("deliveryNumber")
 
-                // 如果搜尋框(EditText)中的文本不為空，則判斷 "ReportId" 是否包含該文本
-                val editTextFilterCondition = if (searchReportId.value?.isNotEmpty() == true) {
-                    reportId.contains(searchReportId.value!!, ignoreCase = true)
+                // 如果搜尋框(EditText)中的文本不為空，則判斷 "formNumber" 是否包含該文本
+                val editTextFilterCondition = if (searchFormNumber.value?.isNotEmpty() == true) {
+                    formNumber.contains(searchFormNumber.value!!, ignoreCase = true)
                 } else {
-                    true // 搜尋框(EditText)，不添加 ReportId 的篩選條件
+                    true // 搜尋框(EditText)，不添加 formNumber 的篩選條件
                 }
                 reportTitleFilterCondition!! && editTextFilterCondition
             }?.toMutableList()!! as ArrayList<JSONObject>?
@@ -154,19 +172,18 @@ class FormRepository(context: Context) {
     /**
      * 匯入新json時要清掉舊的SQL內容並插入新的
      * @param jsonArray 要匯入的JSONArray
-     */
-    fun clearAndInsertData(jsonArray: JSONArray) {
-            // 清空表
-            SqlDatabase.getInstance().getDeliveryDao().clearTable()
+     */    fun clearAndInsertData(jsonArray: JSONArray) {
+        // 清空表
+        SqlDatabase.getInstance().getDeliveryDao().clearTable()
 
-            // 将 JSONArray 中的数据逐一插入表中
-            for (i in 0 until jsonArray.length()) {
-                val jsonObject = jsonArray.getJSONObject(i)
+        // 將 JSONArray 中的數據逐一插入表中
+        for (i in 0 until jsonArray.length()) {
+            val jsonObject = jsonArray.getJSONObject(i)
 
-                val formEntity = FormEntity()
-                formEntity.reportId = jsonObject.optString("reportId").toString()
-                formEntity.formContent = jsonObject.toString()
-                SqlDatabase.getInstance().getDeliveryDao().insertOrUpdate(formEntity)
-            }
+            val formEntity = FormEntity()
+            formEntity.formNumber = jsonObject.optString("deliveryNumber").toString()
+            formEntity.formContent = jsonObject.toString()
+            SqlDatabase.getInstance().getDeliveryDao().insertOrUpdate(formEntity)
+        }
     }
 }

@@ -592,12 +592,12 @@ w    </string-array>
 
     <string-array name="storage_Good_field_name_eng">
         <item>reportTitle</item>
-        <item>reportId</item>
+        <item>deliveryNumber</item>
         <item>materialNumber</item>
         <item>materialName</item>
         <item>materialSpec</item>
         <item>materialUnit</item>
-        <item>quantity</item>
+        <item>receivedQuantity</item>
         <item>price</item>
         <item>inputDate</item>
     </string-array>

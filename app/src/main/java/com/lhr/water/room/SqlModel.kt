@@ -9,7 +9,7 @@ class SqlModel {
         const val SQLITE_SEQUENCE : String = "sqlite_sequence"
         const val id : String = "id"
         //Form
-        const val reportId : String = "reportId"
+        const val formNumber : String = "formNumber"
         const val formContent : String = "formContent"
         //地圖資訊(無儲存物)
         const val regionName : String = "regionName"

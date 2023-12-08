@@ -62,26 +62,15 @@ class HistoryFragment : BaseFragment(), View.OnClickListener, HistoryAdapter.Lis
             formRepository.formFilterRecordList.postValue(formRepository.filterRecord())
         }
         // 表單代號輸入後篩選更新
-        formRepository.searchReportId.observe(viewLifecycleOwner) { newFilterList ->
+        formRepository.searchFormNumber.observe(viewLifecycleOwner) { newFilterList ->
             formRepository.formFilterRecordList.postValue(formRepository.filterRecord())
         }
-//        viewModel.filterList.observe(viewLifecycleOwner){ newFilterList ->
-//            val filteredFormRecordList = formRepository.formRecordList.value?.filter { jsonObject ->
-//                // 根据 "FormClass" 判断是否在 filterList 中
-//                val formClass = jsonObject.optString("FormClass")
-//                val reportId = jsonObject.optString("ReportId") // 替换成你的 EditText 字段名
-//
-//                formClass in newFilterList
-////                formClass in newFilterList && reportId.contains(binding.editSearch.text.toString())
-//            }?.toMutableList()
-//            historyAdapter.submitList(filteredFormRecordList)
-//        }
     }
 
     private fun initView() {
         binding.widgetTitleBar.textTitle.text = requireActivity().getString(R.string.form_history)
         binding.widgetTitleBar.imageFilter.visibility = View.VISIBLE
-        binding.widgetTitleBar.imageScanner.visibility = View.VISIBLE
+//        binding.widgetTitleBar.imageScanner.visibility = View.VISIBLE
         initRecyclerView()
         binding.editSearch.addTextChangedListener(object : TextWatcher {
             override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {
@@ -94,7 +83,7 @@ class HistoryFragment : BaseFragment(), View.OnClickListener, HistoryAdapter.Lis
 
             override fun afterTextChanged(s: Editable?) {
                 // 在文本改變之後執行的操作
-                formRepository.searchReportId.postValue(s.toString())
+                formRepository.searchFormNumber.postValue(s.toString())
             }
         })
 
@@ -131,8 +120,6 @@ class HistoryFragment : BaseFragment(), View.OnClickListener, HistoryAdapter.Lis
      * @param anchorView 要在哪個元件的下方
      */
     private fun showPopupWindow(anchorView: View) {
-        val inflater =
-            requireActivity().getSystemService(Context.LAYOUT_INFLATER_SERVICE) as LayoutInflater
         // 創建PopupWindow
         val popupWindow = FilterFormPopupWindow(requireActivity(), viewModel)
 

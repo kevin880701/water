@@ -2,22 +2,25 @@ package com.lhr.water.util.widget
 
 import android.app.Activity
 import android.view.LayoutInflater
+import android.view.View
 import android.widget.CheckBox
 import android.widget.RelativeLayout
 import android.widget.TextView
+import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.databinding.DataBindingUtil
 import com.lhr.water.R
 import com.lhr.water.repository.FormRepository
 import com.lhr.water.databinding.WidgetFilterItemBinding
 import com.lhr.water.ui.history.HistoryViewModel
 
-class FilterItemWidget : RelativeLayout {
+class FilterItemWidget : RelativeLayout, View.OnClickListener {
     private var viewModel: HistoryViewModel
     var binding: WidgetFilterItemBinding
     private val activity: Activity
     private val itemName: String
     private val checkBoxItem: CheckBox
     private val textItemName: TextView
+    private val constraintCheck: ConstraintLayout
 
     constructor(
         activity: Activity,
@@ -32,6 +35,7 @@ class FilterItemWidget : RelativeLayout {
         this@FilterItemWidget.viewModel = viewModel
         checkBoxItem = binding.checkBoxItem
         textItemName = binding.textItemName
+        constraintCheck = binding.constraintCheck
 
         initView()
     }
@@ -53,6 +57,15 @@ class FilterItemWidget : RelativeLayout {
                 // CheckBox 被取消選中
                 FormRepository.getInstance(activity).filterList.value?.removeIf { it == itemName }
                 FormRepository.getInstance(activity).filterList.postValue(FormRepository.getInstance(activity).filterList.value)
+            }
+        }
+        constraintCheck.setOnClickListener(this)
+    }
+
+    override fun onClick(v: View?) {
+        when (v?.id) {
+            R.id.constraintCheck -> {
+                checkBoxItem.isChecked = !checkBoxItem.isChecked
             }
         }
     }

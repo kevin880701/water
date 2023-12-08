@@ -4,6 +4,6 @@ import org.json.JSONObject
 
 data class WaitDealGoodsData(
     val reportTitle: String,
-    val reportId: String,
+    val formNumber: String,
     val itemInformation: JSONObject,
 )
