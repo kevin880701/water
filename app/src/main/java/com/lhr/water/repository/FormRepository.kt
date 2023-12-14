@@ -7,7 +7,13 @@ import com.lhr.water.data.WaitDealGoodsData
 import com.lhr.water.room.FormEntity
 import com.lhr.water.room.SqlDatabase
 import com.lhr.water.room.StorageContentEntity
+import com.lhr.water.util.DealStatus.nowDeal
+import com.lhr.water.util.FormName.deliveryFormName
+import com.lhr.water.util.FormName.returningFormName
+import com.lhr.water.util.FormName.transferFormName
+import com.lhr.water.util.TransferStatus
 import com.lhr.water.util.manager.jsonStringToJson
+import com.lhr.water.util.transferStatus
 import org.json.JSONArray
 import org.json.JSONObject
 import timber.log.Timber
@@ -82,14 +88,23 @@ class FormRepository(context: Context) {
             val reportTitle = jsonObject.optString("reportTitle", "")
             val dealStatus = jsonObject.optString("dealStatus", "")
 
-            if (reportTitle == context.getString(R.string.delivery_form) && dealStatus == "處理中") {
+            var transferStatus = transferStatus(
+                reportTitle == transferFormName,
+                jsonObject.getString("receivingDept"),
+                jsonObject.getString("receivingLocation")
+            )
+
+            if ((reportTitle == deliveryFormName ||
+                        reportTitle == returningFormName ||
+                        transferStatus == TransferStatus.transferInput) && dealStatus == nowDeal
+            ) {
                 val itemDetailArray = jsonObject.optJSONArray("itemDetail")
                 if (itemDetailArray != null && itemDetailArray.length() > 0) {
                     for (i in 0 until itemDetailArray.length()) {
                         val itemDetailObject = itemDetailArray.getJSONObject(i)
                         val waitDealGoodsData = WaitDealGoodsData(
                             reportTitle = jsonObject.optString("reportTitle", ""),
-                            formNumber = jsonObject.optString("deliveryNumber", ""),
+                            formNumber = jsonObject.optString("formNumber", ""),
                             itemInformation = itemDetailObject
                         )
                         waitInputGoodsList.add(waitDealGoodsData)
@@ -97,6 +112,7 @@ class FormRepository(context: Context) {
                 }
             }
         }
+        Timber.d("@@@@@@@@@@@@@@@@@@@@@@@@@@@" + waitInputGoodsList.size)
         // 更新已入庫的貨物
         updateStorageGoods()
         // 這裡需要把已入庫的貨物從waitInputGoods中刪除
@@ -110,7 +126,7 @@ class FormRepository(context: Context) {
         val modWaitInputGoodsList = waitInputGoodsList.map { originalItem ->
             val modifiedItemInformation = originalItem.itemInformation
             modifiedItemInformation.put("reportTitle", originalItem.reportTitle)
-            modifiedItemInformation.put("deliveryNumber", originalItem.formNumber)
+            modifiedItemInformation.put("formNumber", originalItem.formNumber)
 
             // 创建新的 WaitDealGoodsData 实例
             WaitDealGoodsData(
@@ -146,7 +162,7 @@ class FormRepository(context: Context) {
                 val reportTitle = jsonObject.optString("reportTitle")
                 val reportTitleFilterCondition = filterList.value?.contains(reportTitle)
 
-                val formNumber = jsonObject.optString("deliveryNumber")
+                val formNumber = jsonObject.optString("formNumber")
 
                 // 如果搜尋框(EditText)中的文本不為空，則判斷 "formNumber" 是否包含該文本
                 val editTextFilterCondition = if (searchFormNumber.value?.isNotEmpty() == true) {
@@ -181,7 +197,7 @@ class FormRepository(context: Context) {
             val jsonObject = jsonArray.getJSONObject(i)
 
             val formEntity = FormEntity()
-            formEntity.formNumber = jsonObject.optString("deliveryNumber").toString()
+            formEntity.formNumber = jsonObject.optString("formNumber").toString()
             formEntity.formContent = jsonObject.toString()
             SqlDatabase.getInstance().getDeliveryDao().insertOrUpdate(formEntity)
         }

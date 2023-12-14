@@ -2,13 +2,14 @@ package com.lhr.water.util
 
 import android.content.Context
 import android.net.Uri
-import android.util.Log
 import android.widget.ImageView
 import android.widget.Toast
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.engine.DiskCacheStrategy
-import org.json.JSONObject
-import timber.log.Timber
+import com.lhr.water.model.LoginData
+import com.lhr.water.util.TransferStatus.notTransfer
+import com.lhr.water.util.TransferStatus.transferInput
+import com.lhr.water.util.TransferStatus.transferOutput
 import java.text.SimpleDateFormat
 import java.util.Calendar
 import java.util.Date
@@ -64,6 +65,18 @@ fun getCurrentDate(): String {
 
     // 輸出結果
     return "$yearROC/$month/$day"
+}
+
+fun transferStatus(isTransferForm: Boolean, receivingDept: String, receivingLocation: String): String{
+    return if(isTransferForm){
+        if (receivingDept == LoginData.region && receivingLocation == LoginData.map){
+            transferInput
+        }else{
+            transferOutput
+        }
+    }else{
+        notTransfer
+    }
 }
 
 

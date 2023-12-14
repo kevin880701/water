@@ -21,10 +21,12 @@ import com.lhr.water.ui.base.APP
 import com.lhr.water.ui.base.BaseActivity
 import com.lhr.water.util.dialog.GoodsDialog
 import com.lhr.water.ui.qrCode.QrcodeActivity
+import com.lhr.water.util.TransferStatus.transferInput
 import com.lhr.water.util.manager.jsonObjectToJsonString
 import com.lhr.water.util.manager.jsonStringToJson
 import com.lhr.water.util.manager.listToJsonObject
 import com.lhr.water.util.showToast
+import com.lhr.water.util.transferStatus
 import com.lhr.water.util.widget.FormContentDataSpinnerWidget
 import com.lhr.water.util.widget.FormGoodsAdd
 import com.lhr.water.util.widget.FormGoodsDataWidget
@@ -82,18 +84,23 @@ class FormContentActivity : BaseActivity(), View.OnClickListener, FormGoodsAdd.L
             getString(R.string.delivery) -> {
                 formName = getString(R.string.delivery_form)
             }
+
             getString(R.string.check) -> {
                 formName = getString(R.string.check_form)
             }
+
             getString(R.string.picking) -> {
                 formName = getString(R.string.picking_form)
             }
+
             getString(R.string.transfer) -> {
                 formName = getString(R.string.transfer_form)
             }
+
             getString(R.string.returning) -> {
                 formName = getString(R.string.returning_form)
             }
+
             getString(R.string.inventory) -> {
                 formName = getString(R.string.inventory_form)
             }
@@ -128,9 +135,11 @@ class FormContentActivity : BaseActivity(), View.OnClickListener, FormGoodsAdd.L
                     resources.getStringArray(R.array.delivery_item_field_name_eng)
                         .toList() as ArrayList<String>
             }
+
             getString(R.string.check_form) -> {
 
             }
+
             getString(R.string.picking_form) -> {
                 formFieldNameList = resources.getStringArray(R.array.picking_form_field_name)
                     .toList() as ArrayList<String>
@@ -143,6 +152,7 @@ class FormContentActivity : BaseActivity(), View.OnClickListener, FormGoodsAdd.L
                     resources.getStringArray(R.array.picking_item_field_name_eng)
                         .toList() as ArrayList<String>
             }
+
             getString(R.string.transfer_form) -> {
                 formFieldNameList = resources.getStringArray(R.array.transfer_form_field_name)
                     .toList() as ArrayList<String>
@@ -155,6 +165,7 @@ class FormContentActivity : BaseActivity(), View.OnClickListener, FormGoodsAdd.L
                     resources.getStringArray(R.array.transfer_item_field_name_eng)
                         .toList() as ArrayList<String>
             }
+
             getString(R.string.returning_form) -> {
                 formFieldNameList = resources.getStringArray(R.array.returning_form_field_name)
                     .toList() as ArrayList<String>
@@ -167,6 +178,7 @@ class FormContentActivity : BaseActivity(), View.OnClickListener, FormGoodsAdd.L
                     resources.getStringArray(R.array.returning_item_field_name_eng)
                         .toList() as ArrayList<String>
             }
+
             getString(R.string.inventory_form) -> {
             }
         }
@@ -199,14 +211,16 @@ class FormContentActivity : BaseActivity(), View.OnClickListener, FormGoodsAdd.L
                 val formContentDataSpinnerWidget = if (fieldContent != null) {
                     FormContentDataSpinnerWidget(
                         activity = this,
-                        spinnerList = resources.getStringArray(R.array.deal_status).toList() as ArrayList<String>,
+                        spinnerList = resources.getStringArray(R.array.deal_status)
+                            .toList() as ArrayList<String>,
                         fieldName = fieldName,
                         fieldContent = fieldContent
                     )
                 } else {
                     FormContentDataSpinnerWidget(
                         activity = this,
-                        spinnerList = resources.getStringArray(R.array.deal_status).toList() as ArrayList<String>,
+                        spinnerList = resources.getStringArray(R.array.deal_status)
+                            .toList() as ArrayList<String>,
                         fieldName = fieldName
                     )
                 }
@@ -243,13 +257,17 @@ class FormContentActivity : BaseActivity(), View.OnClickListener, FormGoodsAdd.L
                 binding.linearFormData.addView(formContentDataWidget)
             }
         }
-        formItemFieldContentList?.let{formItemFieldContentList ->
+        formItemFieldContentList?.let { formItemFieldContentList ->
             // 遍历 JSONArray 中的每个对象
             for (i in 0 until formItemFieldContentList.length()) {
                 val itemObject = formItemFieldContentList.getJSONObject(i)
 
                 val formGoodsDataWidget =
-                    FormGoodsDataWidget(activity = this@FormContentActivity, formItemFieldJson = itemObject, listener = this@FormContentActivity)
+                    FormGoodsDataWidget(
+                        activity = this@FormContentActivity,
+                        formItemFieldJson = itemObject,
+                        listener = this@FormContentActivity
+                    )
                 binding.linearItemData.addView(formGoodsDataWidget)
             }
         }
@@ -267,7 +285,7 @@ class FormContentActivity : BaseActivity(), View.OnClickListener, FormGoodsAdd.L
 
         var formContentList = ArrayList<String>()
         formFieldNameList.forEachIndexed { index, fieldName ->
-            when(fieldName){
+            when (fieldName) {
                 getString(R.string.reportTitle) -> formContentList.add((binding.linearFormData[index] as FormContentDataSpinnerWidget).content)
                 getString(R.string.deal_status) -> formContentList.add((binding.linearFormData[index] as FormContentDataSpinnerWidget).content)
                 else -> formContentList.add((binding.linearFormData[index] as FormContentDataWidget).content)
@@ -279,24 +297,36 @@ class FormContentActivity : BaseActivity(), View.OnClickListener, FormGoodsAdd.L
             formContentList
         )
         formContentJsonObject.put("itemDetail", itemDetailArray)
+        var reportTitle = formContentJsonObject.getString("reportTitle")
+        var dealStatus = formContentJsonObject.getString("dealStatus")
+        // 調撥需根據receivingDept(收方單位)和receivingLocation(收料地點)來判斷是進貨還是出貨
+        var transferStatus = transferStatus(
+            reportTitle == getString(R.string.transfer_form),
+            formContentJsonObject.getString("receivingDept"),
+            formContentJsonObject.getString("receivingLocation")
+        )
         var formEntity = FormEntity()
-        // 此處有可能根據之後deliveryNumber統一做更改
-        if(formContentJsonObject.getString("reportTitle") == getString(R.string.delivery_form)){
-            formEntity.formNumber = formContentJsonObject.getString("deliveryNumber")
-        }else{
-            formEntity.formNumber = formContentJsonObject.getString("reportId")
-        }
+        formEntity.formNumber = formContentJsonObject.getString("formNumber")
         formEntity.formContent = jsonObjectToJsonString(formContentJsonObject)
+
         // 如果表單是交貨並且處理狀態是處理完成的話要判斷表單中的貨物是否已經全部入庫
         Timber.d("DealStatus = ${formContentJsonObject.getString("dealStatus")}")
-        if(formContentJsonObject.getString("dealStatus") == getString(R.string.complete_deal) && formContentJsonObject.getString("reportTitle") == getString(R.string.delivery_form)){
-            if(isItemDetailArrayContained(itemDetailArray, formContentJsonObject.getString("deliveryNumber"), formContentJsonObject.getString("reportTitle"))){
+        if ((reportTitle == getString(R.string.delivery_form) ||
+                    reportTitle == getString(R.string.returning_form) ||
+                    transferStatus == transferInput) && dealStatus == getString(R.string.complete_deal)
+        ) {
+            if (isItemDetailArrayContained(
+                    itemDetailArray,
+                    formContentJsonObject.getString("formNumber"),
+                    reportTitle
+                )
+            ) {
                 updateForm(formEntity)
                 finish()
-            }else{
+            } else {
                 showToast(this, "貨物未處理完成!")
             }
-        }else{
+        } else {
             updateForm(formEntity)
             finish()
         }
@@ -305,7 +335,7 @@ class FormContentActivity : BaseActivity(), View.OnClickListener, FormGoodsAdd.L
     /**
      * 更新表單和room
      */
-    fun updateForm(formEntity: FormEntity){
+    fun updateForm(formEntity: FormEntity) {
         SqlDatabase.getInstance().getDeliveryDao().insertOrUpdate(formEntity)
         FormRepository.getInstance(this).loadRecord()
     }
@@ -313,7 +343,11 @@ class FormContentActivity : BaseActivity(), View.OnClickListener, FormGoodsAdd.L
     /**
      * 判斷交貨表單中的貨物是否已竟入庫
      */
-    fun isItemDetailArrayContained(itemDetailArray: JSONArray, formNumber: String, reportTitle: String): Boolean {
+    fun isItemDetailArrayContained(
+        itemDetailArray: JSONArray,
+        formNumber: String,
+        reportTitle: String
+    ): Boolean {
         for (i in 0 until itemDetailArray.length()) {
             val itemDetail = itemDetailArray.getJSONObject(i)
             val number = itemDetail.getString("number")

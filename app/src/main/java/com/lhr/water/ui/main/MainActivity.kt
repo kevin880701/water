@@ -14,6 +14,7 @@ import com.google.android.material.tabs.TabLayout
 import com.google.android.material.tabs.TabLayoutMediator
 import com.lhr.water.R
 import com.lhr.water.databinding.ActivityMainBinding
+import com.lhr.water.model.LoginData
 import com.lhr.water.ui.base.APP
 import com.lhr.water.ui.base.BaseActivity
 import com.lhr.water.ui.form.FormFragment
@@ -25,7 +26,7 @@ import timber.log.Timber
 
 class MainActivity : BaseActivity() {
 
-    private val viewModel: MainViewModel by viewModels{(applicationContext as APP).appContainer.viewModelFactory}
+    private val viewModel: MainViewModel by viewModels { (applicationContext as APP).appContainer.viewModelFactory }
     private var _binding: ActivityMainBinding? = null
     private val binding get() = _binding!!
     private lateinit var pageAdapter: MainViewPageAdapter
@@ -35,9 +36,9 @@ class MainActivity : BaseActivity() {
         _binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
         window.statusBarColor = ResourcesCompat.getColor(resources, R.color.seed, null)
+        viewModel.updateFormList()
         initTabLayout(binding.tabLayoutMain)
     }
-
 
     fun initTabLayout(tabLayoutMain: TabLayout) {
         tabLayoutMain.apply {

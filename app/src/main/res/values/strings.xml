@@ -22,7 +22,7 @@
     <string name="delivery_form">交貨通知單</string>
     <string name="check_form">財務驗收單</string>
     <string name="picking_form">材料領料單</string>
-    <string name="transfer_form">調撥</string>
+    <string name="transfer_form">材料調撥單</string>
     <string name="returning_form">材料退料單</string>
     <string name="inventory_form">盤點</string>
 
@@ -52,6 +52,7 @@
     <string name="goods_number">貨物編號</string>
     <string name="goods_name">貨物名稱</string>
     <string name="deal_status">處理狀態</string>
+
     <string name="wait_deal">待處理</string>
     <string name="now_deal">處理中</string>
     <string name="complete_deal">處理完成</string>
@@ -70,7 +71,7 @@
         <item>交貨通知單</item>
         <item>財務驗收單</item>
         <item>材料領料單</item>
-        <item>調撥</item>
+        <item>材料調撥單</item>
         <item>材料退料單</item>
         <item>盤點</item>
     </string-array>
@@ -284,7 +285,7 @@
         <item>reportId</item>
         <item>reportTitle</item>
         <item>date</item>
-        <item>deliveryNumber</item>
+        <item>formNumber</item>
         <item>underwriter</item>
         <item>ano</item>
         <item>contractNumber</item>
@@ -369,7 +370,7 @@ w    </string-array>
         <item>issuingUnit</item>
         <item>pickingDate</item>
         <item>pickingDept</item>
-        <item>pickingNumber</item>
+        <item>formNumber</item>
         <item>originalVoucherNumber</item>
         <item>costAllocationUnit</item>
         <item>accountingSubject</item>
@@ -439,7 +440,7 @@ w    </string-array>
         <item>reportId</item>
         <item>reportTitle</item>
         <item>date</item>
-        <item>transferNumber</item>
+        <item>formNumber</item>
         <item>transferDate</item>
         <item>transferringTransferNumber</item>
         <item>receivingTransferNumber</item>
@@ -515,7 +516,7 @@ w    </string-array>
         <item>reportTitle</item>
         <item>date</item>
         <item>receiptDept</item>
-        <item>leadNumber</item>
+        <item>formNumber</item>
         <item>leadDept</item>
         <item>returnReceiptNumber</item>
         <item>receivedDate</item>
@@ -592,7 +593,32 @@ w    </string-array>
 
     <string-array name="storage_Good_field_name_eng">
         <item>reportTitle</item>
-        <item>deliveryNumber</item>
+        <item>formNumber</item>
+        <item>materialNumber</item>
+        <item>materialName</item>
+        <item>materialSpec</item>
+        <item>materialUnit</item>
+        <item>receivedQuantity</item>
+        <item>price</item>
+        <item>inputDate</item>
+    </string-array>
+
+    <!--  儲櫃交貨進貨顯示的貨物資訊  -->
+    <string-array name="storage_delivery_input_Good_field_name">
+        <item>報表名稱</item>
+        <item>報表代號</item>
+        <item>材料編號</item>
+        <item>材料名稱</item>
+        <item>規格</item>
+        <item>單位</item>
+        <item>數量</item>
+        <item>單價</item>
+        <item>入庫時間</item>
+    </string-array>
+
+    <string-array name="storage_delivery_input_Good_field_name_eng">
+        <item>reportTitle</item>
+        <item>formNumber</item>
         <item>materialNumber</item>
         <item>materialName</item>
         <item>materialSpec</item>

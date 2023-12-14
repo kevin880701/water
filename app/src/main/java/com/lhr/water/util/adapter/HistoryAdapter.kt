@@ -51,7 +51,7 @@ class HistoryAdapter(val listener: Listener, context: Context): ListAdapter<JSON
 
         fun bind(json: JSONObject){
             binding.textReportTitle.text = json.getString("reportTitle")
-            binding.textFormNumber.text = json.getString("deliveryNumber")
+            binding.textFormNumber.text = json.getString("formNumber")
             binding.textDate.text = json.getString("date")
             when(json.getString("dealStatus")){
                 context.getString(R.string.wait_deal) -> {binding.imageStatus.setImageDrawable(context.getDrawable(R.drawable.red_light))}

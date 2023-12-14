@@ -11,9 +11,6 @@ class RegionChooseViewModel(context: Context, regionRepository: RegionRepository
     AndroidViewModel(context.applicationContext as APP) {
     var regionRepository = regionRepository
 
-//    var regionList: MutableLiveData<ArrayList<String>> =
-//        MutableLiveData<ArrayList<String>>().apply { postValue(FakerData.regionList.map { it.regionName }.distinct() as ArrayList<String>) }
-
     // 頁面狀態
     var pageStatus = MutableLiveData<String>()
 

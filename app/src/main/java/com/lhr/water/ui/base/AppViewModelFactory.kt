@@ -27,8 +27,8 @@ class AppViewModelFactory(
     override fun <T : ViewModel> create(modelClass: Class<T>): T {
         return when (modelClass) {
             CoverViewModel::class.java -> CoverViewModel(context, regionRepository) as T
-            LoginViewModel::class.java -> LoginViewModel(context) as T
-            MainViewModel::class.java -> MainViewModel(context) as T
+            LoginViewModel::class.java -> LoginViewModel(context, regionRepository) as T
+            MainViewModel::class.java -> MainViewModel(context, formRepository) as T
             FormViewModel::class.java -> FormViewModel(context) as T
             FormContentViewModel::class.java -> FormContentViewModel(context, formRepository) as T
             HistoryViewModel::class.java -> HistoryViewModel(context) as T

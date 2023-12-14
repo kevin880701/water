@@ -14,20 +14,7 @@ import com.lhr.water.room.TargetEntity
 import java.io.InputStreamReader
 
 class RegionRepository private constructor(private val context: Context) {
-// 從string.xml提取區域列表
-//    var regionList: MutableLiveData<ArrayList<String>> =
-//        MutableLiveData<ArrayList<String>>().apply { ArrayList(context.resources.getStringArray(R.array.region_array).toList())}
-
-    var mapList: MutableLiveData<ArrayList<String>> =
-        MutableLiveData<ArrayList<String>>().apply {
-            ArrayList(
-                context.resources.getStringArray(R.array.region_array).toList()
-            )
-        }
-
     var storageInformationList: ArrayList<RegionInformation>
-
-    //    var regionList: ArrayList<String>
     companion object {
         private var instance: RegionRepository? = null
         fun getInstance(context: Context): RegionRepository {
@@ -40,14 +27,7 @@ class RegionRepository private constructor(private val context: Context) {
 
     init {
         storageInformationList = getStorageInformation()
-//        regionList = getRegionNameList()
     }
-
-//    fun getRegionList(): ArrayList<String> {
-//        return FakerData.regionList.map { it.regionName }.distinct() as ArrayList<String>
-//    }
-
-
 
     /**
      * 判斷Region資料表是否為空
