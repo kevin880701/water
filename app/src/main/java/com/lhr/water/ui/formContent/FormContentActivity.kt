@@ -302,8 +302,7 @@ class FormContentActivity : BaseActivity(), View.OnClickListener, FormGoodsAdd.L
         // 調撥需根據receivingDept(收方單位)和receivingLocation(收料地點)來判斷是進貨還是出貨
         var transferStatus = transferStatus(
             reportTitle == getString(R.string.transfer_form),
-            formContentJsonObject.getString("receivingDept"),
-            formContentJsonObject.getString("receivingLocation")
+            formContentJsonObject
         )
         var formEntity = FormEntity()
         formEntity.formNumber = formContentJsonObject.getString("formNumber")

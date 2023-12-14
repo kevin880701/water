@@ -10,6 +10,7 @@ import com.lhr.water.model.LoginData
 import com.lhr.water.util.TransferStatus.notTransfer
 import com.lhr.water.util.TransferStatus.transferInput
 import com.lhr.water.util.TransferStatus.transferOutput
+import org.json.JSONObject
 import java.text.SimpleDateFormat
 import java.util.Calendar
 import java.util.Date
@@ -67,9 +68,9 @@ fun getCurrentDate(): String {
     return "$yearROC/$month/$day"
 }
 
-fun transferStatus(isTransferForm: Boolean, receivingDept: String, receivingLocation: String): String{
+fun transferStatus(isTransferForm: Boolean, jsonObject: JSONObject): String{
     return if(isTransferForm){
-        if (receivingDept == LoginData.region && receivingLocation == LoginData.map){
+        if (jsonObject.getString("receivingDept") == LoginData.region && jsonObject.getString("receivingLocation") == LoginData.map){
             transferInput
         }else{
             transferOutput

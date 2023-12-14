@@ -88,10 +88,10 @@ class FormRepository(context: Context) {
             val reportTitle = jsonObject.optString("reportTitle", "")
             val dealStatus = jsonObject.optString("dealStatus", "")
 
+
             var transferStatus = transferStatus(
                 reportTitle == transferFormName,
-                jsonObject.getString("receivingDept"),
-                jsonObject.getString("receivingLocation")
+                jsonObject
             )
 
             if ((reportTitle == deliveryFormName ||
