@@ -34,6 +34,7 @@
 
     <string name="storage_content">儲櫃內容</string>
     <string name="wait_input_good">待入庫貨物</string>
+    <string name="wait_output_good">待出庫貨物</string>
     <string name="good_input">貨物入庫</string>
     <string name="good_output">貨物出庫</string>
     <string name="scan_qr_code">掃描QR CODE</string>

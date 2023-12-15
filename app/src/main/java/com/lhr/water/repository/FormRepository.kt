@@ -9,6 +9,7 @@ import com.lhr.water.room.SqlDatabase
 import com.lhr.water.room.StorageContentEntity
 import com.lhr.water.util.DealStatus.nowDeal
 import com.lhr.water.util.FormName.deliveryFormName
+import com.lhr.water.util.FormName.pickingFormName
 import com.lhr.water.util.FormName.returningFormName
 import com.lhr.water.util.FormName.transferFormName
 import com.lhr.water.util.TransferStatus
@@ -75,14 +76,15 @@ class FormRepository(context: Context) {
         formRecordList.value = formJsonList
         formFilterRecordList.value = formJsonList
         formFilterRecordList.value = filterRecord()
-        updateWaitDealGoods(formJsonList)
+        updateWaitInputGoods(formJsonList)
+        updateWaitOutputGoods(formJsonList)
         return formJsonList
     }
 
     /**
-     * 更新待處理貨物列表
+     * 更新待入庫貨物列表
      */
-    fun updateWaitDealGoods(formRecordList: ArrayList<JSONObject>){
+    fun updateWaitInputGoods(formRecordList: ArrayList<JSONObject>){
         var waitInputGoodsList = ArrayList<WaitDealGoodsData>()
         for (jsonObject in formRecordList) {
             val reportTitle = jsonObject.optString("reportTitle", "")
@@ -112,7 +114,6 @@ class FormRepository(context: Context) {
                 }
             }
         }
-        Timber.d("@@@@@@@@@@@@@@@@@@@@@@@@@@@" + waitInputGoodsList.size)
         // 更新已入庫的貨物
         updateStorageGoods()
         // 這裡需要把已入庫的貨物從waitInputGoods中刪除
@@ -153,25 +154,62 @@ class FormRepository(context: Context) {
 //        storageGoods.postValue(SqlDatabase.getInstance().getStorageContentDao().getAllStorageContent() as ArrayList)
     }
 
+
+    /**
+     * 更新待出庫貨物列表
+     */
+    fun updateWaitOutputGoods(formRecordList: ArrayList<JSONObject>){
+        var waitOutputGoodsList = ArrayList<WaitDealGoodsData>()
+        for (jsonObject in formRecordList) {
+            val reportTitle = jsonObject.optString("reportTitle", "")
+            val dealStatus = jsonObject.optString("dealStatus", "")
+
+
+            var transferStatus = transferStatus(
+                reportTitle == transferFormName,
+                jsonObject
+            )
+
+            if ((reportTitle == pickingFormName ||
+                        reportTitle == returningFormName ||
+                        transferStatus == TransferStatus.transferOutput) && dealStatus == nowDeal
+            ) {
+                val itemDetailArray = jsonObject.optJSONArray("itemDetail")
+                if (itemDetailArray != null && itemDetailArray.length() > 0) {
+                    for (i in 0 until itemDetailArray.length()) {
+                        val itemDetailObject = itemDetailArray.getJSONObject(i)
+                        val waitDealGoodsData = WaitDealGoodsData(
+                            reportTitle = jsonObject.optString("reportTitle", ""),
+                            formNumber = jsonObject.optString("formNumber", ""),
+                            itemInformation = itemDetailObject
+                        )
+                        waitOutputGoodsList.add(waitDealGoodsData)
+                    }
+                }
+            }
+        }
+        waitOutputGoods.value = waitOutputGoodsList
+    }
+
     /**
      * 篩選表單內容
      */
     fun filterRecord(): ArrayList<JSONObject>? {
-           return formRecordList.value?.filter { jsonObject ->
-                // 根據 "FormClass" 判斷是否在 filterList 中
-                val reportTitle = jsonObject.optString("reportTitle")
-                val reportTitleFilterCondition = filterList.value?.contains(reportTitle)
+        return formRecordList.value?.filter { jsonObject ->
+            // 根據 "FormClass" 判斷是否在 filterList 中
+            val reportTitle = jsonObject.optString("reportTitle")
+            val reportTitleFilterCondition = filterList.value?.contains(reportTitle)
 
-                val formNumber = jsonObject.optString("formNumber")
+            val formNumber = jsonObject.optString("formNumber")
 
-                // 如果搜尋框(EditText)中的文本不為空，則判斷 "formNumber" 是否包含該文本
-                val editTextFilterCondition = if (searchFormNumber.value?.isNotEmpty() == true) {
-                    formNumber.contains(searchFormNumber.value!!, ignoreCase = true)
-                } else {
-                    true // 搜尋框(EditText)，不添加 formNumber 的篩選條件
-                }
-                reportTitleFilterCondition!! && editTextFilterCondition
-            }?.toMutableList()!! as ArrayList<JSONObject>?
+            // 如果搜尋框(EditText)中的文本不為空，則判斷 "formNumber" 是否包含該文本
+            val editTextFilterCondition = if (searchFormNumber.value?.isNotEmpty() == true) {
+                formNumber.contains(searchFormNumber.value!!, ignoreCase = true)
+            } else {
+                true // 搜尋框(EditText)，不添加 formNumber 的篩選條件
+            }
+            reportTitleFilterCondition!! && editTextFilterCondition
+        }?.toMutableList()!! as ArrayList<JSONObject>?
 //        )
     }
 

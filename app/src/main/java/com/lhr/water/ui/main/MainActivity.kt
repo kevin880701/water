@@ -18,6 +18,7 @@ import com.lhr.water.model.LoginData
 import com.lhr.water.ui.base.APP
 import com.lhr.water.ui.base.BaseActivity
 import com.lhr.water.ui.form.FormFragment
+import com.lhr.water.ui.goods.GoodsFragment
 import com.lhr.water.ui.history.HistoryFragment
 import com.lhr.water.ui.regionChoose.RegionChooseFragment
 import com.lhr.water.ui.setting.SettingFragment
@@ -46,12 +47,14 @@ class MainActivity : BaseActivity() {
                 R.drawable.form,
                 R.drawable.region_choose,
                 R.drawable.history,
+                R.drawable.goods,
                 R.drawable.setting,
             )
             var fragments = arrayListOf(
                 FormFragment(),
                 RegionChooseFragment(),
                 HistoryFragment(),
+                GoodsFragment(),
                 SettingFragment()
             ) as ArrayList<Fragment>
             pageAdapter = MainViewPageAdapter(supportFragmentManager, lifecycle, fragments)

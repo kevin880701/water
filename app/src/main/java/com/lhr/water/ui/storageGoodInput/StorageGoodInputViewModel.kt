@@ -59,8 +59,8 @@ class StorageGoodInputViewModel(context: Context, formRepository: FormRepository
             }
         }
         if(storageContentEntities.size > 0){
-            SqlDatabase.getInstance().getStorageContentDao().insertStorageItem(storageContentEntities)
+            SqlDatabase.getInstance().getStorageContentDao().insertStorageItemList(storageContentEntities)
         }
-        formRepository.updateWaitDealGoods(formRepository.formRecordList.value!!)
+        formRepository.updateWaitInputGoods(formRepository.formRecordList.value!!)
     }
 }
