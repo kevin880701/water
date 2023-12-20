@@ -151,7 +151,6 @@ class FormRepository(context: Context) {
      */
     private fun updateStorageGoods(){
         storageGoods.value = SqlDatabase.getInstance().getStorageContentDao().getAllStorageContent() as ArrayList
-//        storageGoods.postValue(SqlDatabase.getInstance().getStorageContentDao().getAllStorageContent() as ArrayList)
     }
 
 
@@ -226,7 +225,8 @@ class FormRepository(context: Context) {
     /**
      * 匯入新json時要清掉舊的SQL內容並插入新的
      * @param jsonArray 要匯入的JSONArray
-     */    fun clearAndInsertData(jsonArray: JSONArray) {
+     */
+    fun clearAndInsertData(jsonArray: JSONArray) {
         // 清空表
         SqlDatabase.getInstance().getDeliveryDao().clearTable()
 

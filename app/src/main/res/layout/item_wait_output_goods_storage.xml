@@ -1,0 +1,100 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data></data>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/constraintGoods"
+        android:layout_width="match_parent"
+        android:layout_height="72dp"
+        android:paddingLeft="12dp"
+        android:paddingRight="12dp">
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent">
+
+            <TextView
+                android:id="@+id/textRegionName"
+                android:layout_width="0dp"
+                android:layout_height="0dp"
+                app:layout_constraintHeight_percent="0.5"
+                app:layout_constraintWidth_percent="0.25"
+                android:text="@string/region"
+                android:textAppearance="@style/TextAppearance.Astec.HeadLine5"
+                android:textColor="@color/seed"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintLeft_toLeftOf="parent" />
+            <TextView
+                android:id="@+id/textMapName"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                app:layout_constraintWidth_percent="0.25"
+                android:text="@string/map"
+                android:background="@color/transparent"
+                android:textAppearance="@style/TextAppearance.Astec.Body2"
+                android:textColor="@color/black"
+                app:layout_constraintTop_toBottomOf="@+id/textRegionName"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintLeft_toLeftOf="parent" />
+
+            <TextView
+                android:id="@+id/textStorageName"
+                android:layout_width="0dp"
+                android:layout_height="0dp"
+                app:layout_constraintWidth_percent="0.25"
+                android:text="@string/storage_name"
+                android:textAppearance="@style/TextAppearance.Astec.HeadLine5"
+                android:textColor="@color/seed"
+                android:gravity="center_vertical"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintLeft_toRightOf="@+id/textMapName" />
+
+            <TextView
+                android:id="@+id/textMaterialName"
+                android:layout_width="0dp"
+                android:layout_height="0dp"
+                app:layout_constraintHeight_percent="0.5"
+                app:layout_constraintWidth_percent="0.25"
+                android:text="@string/goods_name"
+                android:textAppearance="@style/TextAppearance.Astec.HeadLine5"
+                android:textColor="@color/seed"
+                android:gravity="center_vertical"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintLeft_toRightOf="@+id/textStorageName" />
+
+            <TextView
+                android:id="@+id/textMaterialNumber"
+                android:layout_width="0dp"
+                android:layout_height="0dp"
+                app:layout_constraintHeight_percent="0.5"
+                app:layout_constraintWidth_percent="0.25"
+                android:text="@string/goods_number"
+                android:textAppearance="@style/TextAppearance.Astec.HeadLine5"
+                android:textColor="@color/seed"
+                android:gravity="center_vertical"
+                app:layout_constraintTop_toBottomOf="@+id/textMaterialName"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintLeft_toRightOf="@+id/textStorageName" />
+
+            <TextView
+                android:id="@+id/textQuantity"
+                android:layout_width="0dp"
+                android:layout_height="0dp"
+                app:layout_constraintWidth_percent="0.25"
+                android:text="數量"
+                android:textAppearance="@style/TextAppearance.Astec.HeadLine5"
+                android:textColor="@color/seed"
+                android:gravity="center_vertical"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintLeft_toRightOf="@+id/textMaterialNumber" />
+        </androidx.constraintlayout.widget.ConstraintLayout>
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>

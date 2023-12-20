@@ -70,10 +70,6 @@ class RegionChooseFragment : BaseFragment(), View.OnClickListener, RegionChooseA
     }
 
     private fun initRecyclerView() {
-//        val mapList = ArrayList(resources.getStringArray(R.array.region_array).toList())
-//        val mapDataList = mapList.mapIndexed { index, regionName ->
-//            regionName
-//        }
         regionChooseAdapter = RegionChooseAdapter(this)
         regionChooseAdapter.submitList(viewModel.currentList.value)
         binding.recyclerRegion.adapter = regionChooseAdapter

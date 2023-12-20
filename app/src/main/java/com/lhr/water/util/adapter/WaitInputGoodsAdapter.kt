@@ -6,7 +6,7 @@ import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.lhr.water.data.WaitDealGoodsData
-import com.lhr.water.databinding.ItemWaitInpuptGoodsBinding
+import com.lhr.water.databinding.ItemWaitInputGoodsBinding
 
 class WaitInputGoodsAdapter(val listener: Listener): ListAdapter<WaitDealGoodsData, WaitInputGoodsAdapter.ViewHolder>(LOCK_DIFF_UTIL) {
     companion object{
@@ -30,7 +30,7 @@ class WaitInputGoodsAdapter(val listener: Listener): ListAdapter<WaitDealGoodsDa
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
-        val binding = ItemWaitInpuptGoodsBinding.inflate(LayoutInflater.from(parent.context), parent, false)
+        val binding = ItemWaitInputGoodsBinding.inflate(LayoutInflater.from(parent.context), parent, false)
         return ViewHolder(binding)
     }
 
@@ -39,7 +39,7 @@ class WaitInputGoodsAdapter(val listener: Listener): ListAdapter<WaitDealGoodsDa
 
     }
 
-    inner class ViewHolder(private val binding: ItemWaitInpuptGoodsBinding): RecyclerView.ViewHolder(binding.root){
+    inner class ViewHolder(private val binding: ItemWaitInputGoodsBinding): RecyclerView.ViewHolder(binding.root){
 
         init {
             // bindingAdapterPosition無法使用，所以用adapterPosition替代

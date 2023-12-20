@@ -19,7 +19,6 @@ class MapViewModel(context: Context, regionRepository: RegionRepository, formRep
         storageDetailList.value = regionRepository.getStorageDetailList(regionName, mapName)
     }
 
-
     fun getStorageContent(regionName: String, mapName: String, storageNum: String): ArrayList<StorageContentEntity>{
         return formRepository.getStorageContentByCondition(regionName, mapName, storageNum)
     }

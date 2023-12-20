@@ -6,7 +6,11 @@ import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.lhr.water.data.WaitDealGoodsData
-import com.lhr.water.databinding.ItemWaitInpuptGoodsBinding
+import com.lhr.water.databinding.ItemWaitInputGoodsBinding
+import com.lhr.water.databinding.ItemWaitOutputGoodsBinding
+import com.lhr.water.util.FormName.pickingFormName
+import com.lhr.water.util.FormName.transferFormName
+import timber.log.Timber
 
 class WaitOutputGoodsAdapter(val listener: Listener): ListAdapter<WaitDealGoodsData, WaitOutputGoodsAdapter.ViewHolder>(LOCK_DIFF_UTIL) {
     companion object{
@@ -30,7 +34,7 @@ class WaitOutputGoodsAdapter(val listener: Listener): ListAdapter<WaitDealGoodsD
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
-        val binding = ItemWaitInpuptGoodsBinding.inflate(LayoutInflater.from(parent.context), parent, false)
+        val binding = ItemWaitOutputGoodsBinding.inflate(LayoutInflater.from(parent.context), parent, false)
         return ViewHolder(binding)
     }
 
@@ -39,10 +43,9 @@ class WaitOutputGoodsAdapter(val listener: Listener): ListAdapter<WaitDealGoodsD
 
     }
 
-    inner class ViewHolder(private val binding: ItemWaitInpuptGoodsBinding): RecyclerView.ViewHolder(binding.root){
+    inner class ViewHolder(private val binding: ItemWaitOutputGoodsBinding): RecyclerView.ViewHolder(binding.root){
 
         init {
-            // bindingAdapterPosition無法使用，所以用adapterPosition替代
             binding.root.setOnClickListener {
                 listener.onItemClick(getItem(adapterPosition))
             }
@@ -53,6 +56,12 @@ class WaitOutputGoodsAdapter(val listener: Listener): ListAdapter<WaitDealGoodsD
             binding.textFormNumber.text = waitDealGoodsData.formNumber
             binding.textMaterialName.text = waitDealGoodsData.itemInformation["materialName"].toString()
             binding.textMaterialNumber.text = waitDealGoodsData.itemInformation["materialNumber"].toString()
+            Timber.d(waitDealGoodsData.itemInformation.toString())
+            if(waitDealGoodsData.reportTitle == pickingFormName){
+                binding.textQuantity.text = waitDealGoodsData.itemInformation["requestedQuantity"].toString()
+            }else if(waitDealGoodsData.reportTitle == transferFormName){
+                binding.textQuantity.text = waitDealGoodsData.itemInformation["approvedQuantity"].toString()
+            }
         }
     }
 }

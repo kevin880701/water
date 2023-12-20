@@ -66,11 +66,10 @@ class WaitInputGoodsFragment : BaseFragment(), View.OnClickListener, WaitInputGo
             waitDealGoodsData,
             listener = this
         )
-        goodsDialog.show(requireActivity().supportFragmentManager, "GoodsDialog")
+        goodsDialog.show(requireActivity().supportFragmentManager, "InputGoodsDialog")
     }
 
 
     override fun onGoodsDialogConfirm(formItemJson: JSONObject) {
-        TODO("Not yet implemented")
     }
 }

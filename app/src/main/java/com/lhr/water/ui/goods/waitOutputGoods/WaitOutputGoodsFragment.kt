@@ -11,11 +11,10 @@ import com.lhr.water.databinding.FragmentWaitOutputGoodsBinding
 import com.lhr.water.ui.base.BaseFragment
 import com.lhr.water.ui.goods.GoodsViewModel
 import com.lhr.water.util.adapter.WaitOutputGoodsAdapter
-import com.lhr.water.util.dialog.InputGoodsDialog
-import com.lhr.water.util.showToast
+import com.lhr.water.util.dialog.OutputGoodsDialog
 import org.json.JSONObject
 
-class WaitOutputGoodsFragment : BaseFragment(), View.OnClickListener, WaitOutputGoodsAdapter.Listener {
+class WaitOutputGoodsFragment : BaseFragment(), View.OnClickListener, WaitOutputGoodsAdapter.Listener, OutputGoodsDialog.Listener {
 
     private var _binding: FragmentWaitOutputGoodsBinding? = null
     private val binding get() = _binding!!
@@ -59,7 +58,16 @@ class WaitOutputGoodsFragment : BaseFragment(), View.OnClickListener, WaitOutput
         }
     }
 
-    override fun onItemClick(item: WaitDealGoodsData) {
-        TODO("Not yet implemented")
+    override fun onItemClick(waitDealGoodsData: WaitDealGoodsData) {
+
+        val outputGoodsDialog = OutputGoodsDialog(
+            waitDealGoodsData,
+            listener = this
+        )
+        outputGoodsDialog.show(requireActivity().supportFragmentManager, "OutputGoodsDialog")
+    }
+
+    override fun onGoodsDialogConfirm(formItemJson: JSONObject) {
+
     }
 }

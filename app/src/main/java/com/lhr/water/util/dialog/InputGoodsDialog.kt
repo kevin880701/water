@@ -58,7 +58,6 @@ class InputGoodsDialog(
             activity?.resources?.getString(R.string.goods_information)
         binding.widgetTitleBar.imageCancel.visibility = View.VISIBLE
         initSpinner(binding.spinnerRegion, viewModel.getRegionNameList())
-        initGoodsData(binding)
 
         // 設定 Spinner 的選擇監聽器
         binding.spinnerRegion.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
@@ -126,12 +125,6 @@ class InputGoodsDialog(
         val adapter =
             SpinnerAdapter(requireContext(), android.R.layout.simple_spinner_item, spinnerData)
         spinner.adapter = adapter
-    }
-
-    fun initGoodsData(binding: DialogInputGoodsBinding) {
-        var dataNameList =
-            activity?.resources?.getStringArray(R.array.delivery_Item_field_name)
-                ?.toList() as ArrayList<String>
     }
 
     interface Listener {
