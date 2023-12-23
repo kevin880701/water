@@ -17,6 +17,7 @@ import com.lhr.water.repository.FormRepository
 import com.lhr.water.databinding.ActivityFormContentBinding
 import com.lhr.water.room.FormEntity
 import com.lhr.water.room.SqlDatabase
+import com.lhr.water.room.StorageContentEntity
 import com.lhr.water.ui.base.APP
 import com.lhr.water.ui.base.BaseActivity
 import com.lhr.water.util.dialog.GoodsDialog
@@ -320,6 +321,10 @@ class FormContentActivity : BaseActivity(), View.OnClickListener, FormGoodsAdd.L
                     reportTitle
                 )
             ) {
+                SqlDatabase.getInstance().getStorageContentDao().insertStorageItemList(getInsertGoodsFromTempWaitInputGoods(
+                    itemDetailArray,
+                    formContentJsonObject.getString("formNumber"),
+                    reportTitle))
                 updateForm(formEntity)
                 updateTempWaitInputGoods(
                     itemDetailArray,
@@ -372,7 +377,6 @@ class FormContentActivity : BaseActivity(), View.OnClickListener, FormGoodsAdd.L
         return true
     }
 
-
     /**
      * 確定入庫後要把暫存入庫清單(tempWaitInputGoods)中關於表單的貨物刪除
      * @param itemDetailArray 要刪除的貨物陣列
@@ -387,19 +391,43 @@ class FormContentActivity : BaseActivity(), View.OnClickListener, FormGoodsAdd.L
         val currentList = viewModel.formRepository.tempWaitInputGoods.value ?: ArrayList()
         for (i in 0 until itemDetailArray.length()) {
             val itemDetail = itemDetailArray.getJSONObject(i)
-            val targetFormNumber = formNumber
-            val targetReportTitle = reportTitle
             val targetNumber = itemDetail.getString("number")
 
             // 移除 tempWaitInputGoods 中符合条件的项
             currentList.removeIf { entity ->
-                entity.formNumber == targetFormNumber &&
-                        entity.reportTitle == targetReportTitle &&
+                entity.formNumber == formNumber &&
+                        entity.reportTitle == reportTitle &&
                         jsonStringToJson(entity.itemInformation)["number"].toString() == targetNumber
             }
         }
         // 更新暫存進貨列表
         viewModel.formRepository.tempWaitInputGoods.postValue(currentList)
+    }
+
+    /**
+     * 從暫存入庫清單(tempWaitInputGoods)中取出要insert進資料庫裡的貨物清單
+     * @param itemDetailArray 要insert的貨物陣列
+     * @param formNumber 表單代號
+     * @param reportTitle 表單名稱
+     */
+    fun getInsertGoodsFromTempWaitInputGoods(
+        itemDetailArray: JSONArray,
+        formNumber: String,
+        reportTitle: String): ArrayList<StorageContentEntity>{
+        val matchingEntities = ArrayList<StorageContentEntity>()
+
+        for (i in 0 until itemDetailArray.length()) {
+            val itemDetail = itemDetailArray.getJSONObject(i)
+            val targetNumber = itemDetail.getString("number")
+
+            // 查找并添加符合条件的项到 matchingEntities
+            viewModel.formRepository.tempWaitInputGoods.value!!.find { entity ->
+                entity.formNumber == formNumber &&
+                        entity.reportTitle == reportTitle &&
+                        jsonStringToJson(entity.itemInformation)["number"].toString() == targetNumber
+            }?.let { matchingEntities.add(it) }
+        }
+        return matchingEntities
     }
 
     override fun onClick(v: View) {

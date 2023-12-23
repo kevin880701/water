@@ -140,17 +140,14 @@ class InputGoodsDialog(
     override fun onClick(v: View?) {
         when (v?.id) {
             R.id.buttonConfirm -> {
-//                viewModel.inputGoods(
-//                    waitDealGoodsData,
-//                    binding.spinnerRegion.selectedItem.toString(),
-//                    binding.spinnerMap.selectedItem.toString(),
-//                    binding.spinnerStorage.selectedItem.toString()
-//                )
+                val storageNum = viewModel.regionRepository.findStorageNum(binding.spinnerRegion.selectedItem.toString(),
+                    binding.spinnerMap.selectedItem.toString(),
+                    binding.spinnerStorage.selectedItem.toString())
                 viewModel.inputInTempGoods(
                     waitDealGoodsData,
                     binding.spinnerRegion.selectedItem.toString(),
                     binding.spinnerMap.selectedItem.toString(),
-                    binding.spinnerStorage.selectedItem.toString()
+                    storageNum
                 )
                 this.dismiss()
             }

@@ -2,15 +2,15 @@ package com.lhr.water.repository
 
 import android.content.Context
 import android.util.Log
-import androidx.lifecycle.MutableLiveData
 import com.google.gson.Gson
 import com.google.gson.JsonSyntaxException
 import com.google.gson.reflect.TypeToken
-import com.lhr.water.R
+import com.lhr.water.data.MapDetail
 import com.lhr.water.data.StorageDetail
 import com.lhr.water.data.RegionInformation
 import com.lhr.water.room.SqlDatabase
 import com.lhr.water.room.TargetEntity
+import timber.log.Timber
 import java.io.InputStreamReader
 
 class RegionRepository private constructor(private val context: Context) {
@@ -26,17 +26,50 @@ class RegionRepository private constructor(private val context: Context) {
     }
 
     init {
-        storageInformationList = getStorageInformation()
+        storageInformationList = getStorageInformationFromSQL()
+    }
+
+
+    private fun getStorageInformationFromSQL(): ArrayList<RegionInformation> {
+        var targetEntities = SqlDatabase.getInstance().getTargetDao().getAll()
+        val groupedByRegionMap = targetEntities.groupBy { it.regionName }
+
+        val regionInformationList = ArrayList<RegionInformation>()
+
+        for ((regionName, entitiesInRegion) in groupedByRegionMap) {
+            val mapDetails = entitiesInRegion.groupBy { it.mapName }
+                .map { (mapName, entitiesInMap) ->
+                    MapDetail(
+                        MapName = mapName,
+                        StorageDetail = entitiesInMap.map {
+                            StorageDetail(
+                                StorageNum = it.storageNum,
+                                StorageName = it.storageName,
+                                StorageX = it.storageX,
+                                StorageY = it.storageY
+                            )
+                        }
+                    )
+                }
+
+            regionInformationList.add(
+                RegionInformation(
+                    RegionName = regionName,
+                    MapDetail = mapDetails
+                )
+            )
+        }
+        return regionInformationList
     }
 
     /**
-     * 判斷Region資料表是否為空
+     * 判斷Region資料表是否為空，如果為空代表第一次開。需從StorageInformation.json插入資料
      */
     fun checkRegionExist() {
         var count = SqlDatabase.getInstance().getTargetDao().getRowCount()
         if(count == 0){
             val regionEntities = mutableListOf<TargetEntity>()
-            var regionInformationList = getStorageInformation()
+            var regionInformationList = getStorageInformationFromAssets()
 
             for (regionInformation in regionInformationList) {
                 val regionName = regionInformation.RegionName
@@ -58,19 +91,19 @@ class RegionRepository private constructor(private val context: Context) {
                             this.storageX = storageX
                             this.storageY = storageY
                         }
-
                         regionEntities.add(regionEntity)
                     }
                 }
             }
             SqlDatabase.getInstance().getTargetDao().insertTargetEntities(regionEntities)
         }
+        storageInformationList = getStorageInformationFromSQL()
     }
 
     /**
      * 從 assets 中獲取"StorageInformation.json"
      */
-    private fun getStorageInformation(): ArrayList<RegionInformation> {
+    private fun getStorageInformationFromAssets(): ArrayList<RegionInformation> {
         return try {
 //             從 assets 中獲取 InputStream
             val inputStream = context.assets.open("StorageInformation.json")
@@ -132,5 +165,26 @@ class RegionRepository private constructor(private val context: Context) {
 
         // 提取該 mapName 下的 ItemDetail 列表
         return mapStorageDetail?.StorageDetail as ArrayList<StorageDetail>
+    }
+
+
+    /**
+     * 根據區域名稱、地圖名稱、儲櫃名稱找出對應的儲櫃代號StorageNum
+     * @param regionName 區域名稱
+     * @param mapName 地圖名稱
+     * @param storageName 儲櫃名稱
+     */
+    fun findStorageNum(
+        regionName: String,
+        mapName: String,
+        storageName: String
+    ): String {
+        val region = storageInformationList.find { it.RegionName == regionName }
+
+        return region?.MapDetail
+            ?.find { it.MapName == mapName }
+            ?.StorageDetail
+            ?.find { it.StorageName == storageName }
+            ?.StorageNum as String
     }
 }
