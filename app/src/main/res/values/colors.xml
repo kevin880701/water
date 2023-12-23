@@ -5,6 +5,8 @@
     <color name="background">#F1F1F1</color>
     <color name="deep_gray">#A0A0A0</color>
     <color name="white">#FFFFFFFF</color>
+    <color name="red">#D83C3C</color>
+    <color name="green">#7CCD7C</color>
     <color name="transparent">#00000000</color>
     <color name="seed">#153460</color>
     <color name="md_theme_light_primary">#2A5EA7</color>

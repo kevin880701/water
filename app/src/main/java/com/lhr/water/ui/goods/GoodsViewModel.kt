@@ -11,7 +11,6 @@ import com.lhr.water.room.StorageContentEntity
 import com.lhr.water.ui.base.APP
 import com.lhr.water.util.getCurrentDate
 import org.json.JSONObject
-import timber.log.Timber
 
 class GoodsViewModel(
     context: Context,
@@ -42,6 +41,40 @@ class GoodsViewModel(
         return regionRepository.getStorageDetailList(regionName, mapName)
     }
 
+
+    /**
+     * 將選擇貨物加入儲櫃中並更新暫存待入庫的貨物列表
+     */
+    fun inputInTempGoods(
+        waitDealGoodsData: WaitDealGoodsData,
+        region: String,
+        map: String,
+        storageNum: String
+    ) {
+        // 需要為貨物加上地區、地圖、儲櫃代號、報表名稱、報表代號、入庫時間欄位
+        var waitInputGoodsJson = waitDealGoodsData.itemInformation
+
+        waitInputGoodsJson.put("regionName", region)
+        waitInputGoodsJson.put("mapName", map)
+        waitInputGoodsJson.put("storageNum", storageNum)
+        waitInputGoodsJson.put("formNumber", waitDealGoodsData.formNumber)
+        waitInputGoodsJson.put("reportTitle", waitDealGoodsData.reportTitle)
+        // 入庫時間記錄到民國年月日就好
+        waitInputGoodsJson.put("inputDate", getCurrentDate())
+
+        var storageContentEntity = StorageContentEntity()
+        storageContentEntity.regionName = region
+        storageContentEntity.mapName = map
+        storageContentEntity.storageNum = storageNum
+        storageContentEntity.formNumber = waitDealGoodsData.formNumber
+        storageContentEntity.reportTitle = waitDealGoodsData.reportTitle
+        storageContentEntity.itemInformation = waitInputGoodsJson.toString()
+
+        // 更新暫存進貨列表
+        val currentList = formRepository.tempWaitInputGoods.value ?: ArrayList()
+        currentList.add(storageContentEntity)
+        formRepository.tempWaitInputGoods.postValue(currentList)
+    }
 
     /**
      * 將選擇貨物加入儲櫃中並更新資料庫和表單列表

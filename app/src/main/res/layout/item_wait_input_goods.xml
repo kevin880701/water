@@ -48,7 +48,7 @@
                 android:layout_width="0dp"
                 android:layout_height="0dp"
                 app:layout_constraintHeight_percent="0.5"
-                app:layout_constraintWidth_percent="0.5"
+                app:layout_constraintWidth_percent="0.3"
                 android:text="@string/goods_name"
                 android:textAppearance="@style/TextAppearance.Astec.HeadLine5"
                 android:textColor="@color/seed"
@@ -58,7 +58,7 @@
                 android:id="@+id/textMaterialNumber"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                app:layout_constraintWidth_percent="0.5"
+                app:layout_constraintWidth_percent="0.3"
                 android:text="@string/goods_number"
                 android:background="@color/transparent"
                 android:textAppearance="@style/TextAppearance.Astec.Body2"
@@ -66,6 +66,19 @@
                 app:layout_constraintTop_toBottomOf="@+id/textFormName"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintLeft_toRightOf="@+id/textFormNumber" />
+
+            <TextView
+                android:id="@+id/textStatus"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                app:layout_constraintWidth_percent="0.2"
+                android:text="@string/not_choose"
+                android:background="@color/transparent"
+                android:textAppearance="@style/TextAppearance.Astec.Body2"
+                android:textColor="@color/red"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintLeft_toRightOf="@+id/textMaterialNumber" />
         </androidx.constraintlayout.widget.ConstraintLayout>
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

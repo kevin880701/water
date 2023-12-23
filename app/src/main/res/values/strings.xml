@@ -62,6 +62,10 @@
     <string name="upload">上傳</string>
     <string name="update">更新</string>
 
+
+    <string name="already_choose">已選擇</string>
+    <string name="not_choose">未選擇</string>
+
     <string-array name="deal_status">
         <item>待處理</item>
         <item>處理中</item>

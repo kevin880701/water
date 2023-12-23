@@ -2,27 +2,20 @@ package com.lhr.water.util.dialog
 
 import android.app.AlertDialog
 import android.app.Dialog
-import android.content.Intent
 import android.os.Bundle
-import android.view.LayoutInflater
 import android.view.View
 import android.widget.AdapterView
 import android.widget.Spinner
-import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.DialogFragment
 import androidx.fragment.app.viewModels
 import com.lhr.water.R
 import com.lhr.water.data.WaitDealGoodsData
-import com.lhr.water.databinding.ActivityLoginBinding
 import com.lhr.water.databinding.DialogInputGoodsBinding
-import com.lhr.water.model.LoginData
 import com.lhr.water.ui.base.APP
 import com.lhr.water.ui.base.AppViewModelFactory
 import com.lhr.water.ui.goods.GoodsViewModel
-import com.lhr.water.ui.main.MainActivity
 import com.lhr.water.util.adapter.SpinnerAdapter
 import org.json.JSONObject
-import timber.log.Timber
 
 class InputGoodsDialog(
     waitDealGoodsData: WaitDealGoodsData,
@@ -57,6 +50,18 @@ class InputGoodsDialog(
         binding.widgetTitleBar.textTitle.text =
             activity?.resources?.getString(R.string.goods_information)
         binding.widgetTitleBar.imageCancel.visibility = View.VISIBLE
+        if (viewModel.formRepository.isInTempWaitInputGoods(
+                waitDealGoodsData.formNumber,
+                waitDealGoodsData.reportTitle,
+                waitDealGoodsData.itemInformation["materialName"].toString(),
+                waitDealGoodsData.itemInformation["materialNumber"].toString(),
+                waitDealGoodsData.itemInformation["itemNo"].toString()
+            )
+        ) {
+            binding.buttonConfirm.isEnabled = false
+        } else {
+            binding.buttonCancel.isEnabled = false
+        }
         initSpinner(binding.spinnerRegion, viewModel.getRegionNameList())
 
         // 設定 Spinner 的選擇監聽器
@@ -118,6 +123,7 @@ class InputGoodsDialog(
                 }
             }
         binding.buttonConfirm.setOnClickListener(this)
+        binding.buttonCancel.setOnClickListener(this)
         binding.widgetTitleBar.imageCancel.setOnClickListener(this)
     }
 
@@ -134,7 +140,13 @@ class InputGoodsDialog(
     override fun onClick(v: View?) {
         when (v?.id) {
             R.id.buttonConfirm -> {
-                viewModel.inputGoods(
+//                viewModel.inputGoods(
+//                    waitDealGoodsData,
+//                    binding.spinnerRegion.selectedItem.toString(),
+//                    binding.spinnerMap.selectedItem.toString(),
+//                    binding.spinnerStorage.selectedItem.toString()
+//                )
+                viewModel.inputInTempGoods(
                     waitDealGoodsData,
                     binding.spinnerRegion.selectedItem.toString(),
                     binding.spinnerMap.selectedItem.toString(),
@@ -142,7 +154,15 @@ class InputGoodsDialog(
                 )
                 this.dismiss()
             }
-
+            R.id.buttonCancel -> {
+                viewModel.formRepository.removeInTempGoods(
+                    waitDealGoodsData.formNumber,
+                    waitDealGoodsData.reportTitle,
+                    waitDealGoodsData.itemInformation["materialName"].toString(),
+                    waitDealGoodsData.itemInformation["materialNumber"].toString(),
+                    waitDealGoodsData.itemInformation["number"].toString())
+                this.dismiss()
+            }
             R.id.imageCancel -> {
                 this.dismiss()
             }

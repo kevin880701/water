@@ -81,7 +81,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="36dp"
                         android:layout_marginLeft="8dp"
-                        android:background="@drawable/bg_r35_d83c3c"
+                        android:background="@drawable/bg_r35_red"
                         android:gravity="center"
                         android:orientation="horizontal"
                         android:paddingLeft="8dp"

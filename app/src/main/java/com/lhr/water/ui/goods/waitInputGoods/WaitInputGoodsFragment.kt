@@ -44,6 +44,9 @@ class WaitInputGoodsFragment : BaseFragment(), View.OnClickListener, WaitInputGo
         viewModel.formRepository.waitInputGoods.observe(viewLifecycleOwner) { newList ->
             waitInputGoodsAdapter.submitList(newList)
         }
+        viewModel.formRepository.tempWaitInputGoods.observe(viewLifecycleOwner) { newList ->
+            waitInputGoodsAdapter.notifyDataSetChanged()
+        }
     }
 
     private fun initView() {
@@ -51,7 +54,7 @@ class WaitInputGoodsFragment : BaseFragment(), View.OnClickListener, WaitInputGo
     }
 
     private fun initRecyclerView() {
-        waitInputGoodsAdapter = WaitInputGoodsAdapter(this)
+        waitInputGoodsAdapter = WaitInputGoodsAdapter(this, viewModel, requireContext())
         waitInputGoodsAdapter.submitList(viewModel.getWaitInputGoods())
         binding.recyclerGoods.adapter = waitInputGoodsAdapter
         binding.recyclerGoods.layoutManager = LinearLayoutManager(activity)

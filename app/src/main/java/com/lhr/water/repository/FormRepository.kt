@@ -21,23 +21,38 @@ import timber.log.Timber
 
 class FormRepository(context: Context) {
     val context = context
+
     // 所有表單列表
     var formRecordList: MutableLiveData<ArrayList<JSONObject>> =
         MutableLiveData<ArrayList<JSONObject>>()
+
     // 待出貨的貨物列表
     var waitOutputGoods: MutableLiveData<ArrayList<WaitDealGoodsData>> =
         MutableLiveData<ArrayList<WaitDealGoodsData>>()
+
     // 待入庫的貨物列表
     var waitInputGoods: MutableLiveData<ArrayList<WaitDealGoodsData>> =
         MutableLiveData<ArrayList<WaitDealGoodsData>>()
+
+    // 暫存待出貨的貨物列表（未送出）
+    var tempWaitOutputGoods: MutableLiveData<ArrayList<WaitDealGoodsData>> =
+        MutableLiveData<ArrayList<WaitDealGoodsData>>()
+
+    // 暫存待入庫的貨物列表（未送出）
+    var tempWaitInputGoods: MutableLiveData<ArrayList<StorageContentEntity>> =
+        MutableLiveData<ArrayList<StorageContentEntity>>()
+
     // 儲櫃中所有貨物
     var storageGoods: MutableLiveData<ArrayList<StorageContentEntity>> =
         MutableLiveData<ArrayList<StorageContentEntity>>()
+
     // 篩選後的表單
     var formFilterRecordList: MutableLiveData<ArrayList<JSONObject>> =
         MutableLiveData<ArrayList<JSONObject>>()
+
     // 篩選表單類別FormClass的List
     var filterList = MutableLiveData<ArrayList<String>>()
+
     // 篩選表單代號formNumber的String
     var searchFormNumber = MutableLiveData<String>()
 
@@ -60,6 +75,8 @@ class FormRepository(context: Context) {
         }
         waitOutputGoods.value = ArrayList<WaitDealGoodsData>()
         waitInputGoods.value = ArrayList<WaitDealGoodsData>()
+        tempWaitOutputGoods.value = ArrayList<WaitDealGoodsData>()
+        tempWaitInputGoods.value = ArrayList<StorageContentEntity>()
         storageGoods.value = ArrayList<StorageContentEntity>()
         formRecordList.value = loadRecord()
     }
@@ -84,7 +101,7 @@ class FormRepository(context: Context) {
     /**
      * 更新待入庫貨物列表
      */
-    fun updateWaitInputGoods(formRecordList: ArrayList<JSONObject>){
+    fun updateWaitInputGoods(formRecordList: ArrayList<JSONObject>) {
         var waitInputGoodsList = ArrayList<WaitDealGoodsData>()
         for (jsonObject in formRecordList) {
             val reportTitle = jsonObject.optString("reportTitle", "")
@@ -121,7 +138,9 @@ class FormRepository(context: Context) {
             storageGoods.value!!.any { storageContentEntity ->
                 // 透過表單代號(formNumber)和物品編號(number)來做篩選
                 storageContentEntity.formNumber == waitDealGoodsData.formNumber &&
-                        jsonStringToJson(storageContentEntity.itemInformation).getString("number") == waitDealGoodsData.itemInformation.getString("number")
+                        jsonStringToJson(storageContentEntity.itemInformation).getString("number") == waitDealGoodsData.itemInformation.getString(
+                    "number"
+                )
             }
         }
         val modWaitInputGoodsList = waitInputGoodsList.map { originalItem ->
@@ -137,32 +156,26 @@ class FormRepository(context: Context) {
             )
         } as ArrayList<WaitDealGoodsData>
 
-        Timber.d("" + modWaitInputGoodsList.size + "")
-        for (i in modWaitInputGoodsList){
-            Timber.d(i.formNumber)
-            Timber.d(i.reportTitle)
-            Timber.d(i.itemInformation.toString())
-        }
         waitInputGoods.value = modWaitInputGoodsList
     }
 
     /**
      * 更新儲櫃中的所有貨物
      */
-    private fun updateStorageGoods(){
-        storageGoods.value = SqlDatabase.getInstance().getStorageContentDao().getAllStorageContent() as ArrayList
+    private fun updateStorageGoods() {
+        storageGoods.value =
+            SqlDatabase.getInstance().getStorageContentDao().getAllStorageContent() as ArrayList
     }
 
 
     /**
      * 更新待出庫貨物列表
      */
-    fun updateWaitOutputGoods(formRecordList: ArrayList<JSONObject>){
+    fun updateWaitOutputGoods(formRecordList: ArrayList<JSONObject>) {
         var waitOutputGoodsList = ArrayList<WaitDealGoodsData>()
         for (jsonObject in formRecordList) {
             val reportTitle = jsonObject.optString("reportTitle", "")
             val dealStatus = jsonObject.optString("dealStatus", "")
-
 
             var transferStatus = transferStatus(
                 reportTitle == transferFormName,
@@ -218,8 +231,13 @@ class FormRepository(context: Context) {
      * @param mapName 地圖名稱
      * @param storageNum 儲櫃代號
      */
-    fun getStorageContentByCondition(regionName: String, mapName: String, storageNum: String): ArrayList<StorageContentEntity> {
-        return SqlDatabase.getInstance().getStorageContentDao().getStorageContentByConditions(regionName, mapName, storageNum) as ArrayList
+    fun getStorageContentByCondition(
+        regionName: String,
+        mapName: String,
+        storageNum: String
+    ): ArrayList<StorageContentEntity> {
+        return SqlDatabase.getInstance().getStorageContentDao()
+            .getStorageContentByConditions(regionName, mapName, storageNum) as ArrayList
     }
 
     /**
@@ -239,5 +257,49 @@ class FormRepository(context: Context) {
             formEntity.formContent = jsonObject.toString()
             SqlDatabase.getInstance().getDeliveryDao().insertOrUpdate(formEntity)
         }
+    }
+
+
+    /**
+     * 判斷暫存入庫清單是否有指定貨物
+     */
+    fun isInTempWaitInputGoods(
+        targetFormNumber: String,
+        targetReportTitle: String,
+        targetMaterialName: String,
+        targetMaterialNumber: String,
+        targetItemNo: String
+    ): Boolean {
+        return tempWaitInputGoods.value!!.any { entity ->
+            entity.formNumber == targetFormNumber &&
+                    entity.reportTitle == targetReportTitle &&
+                    jsonStringToJson(entity.itemInformation)["materialName"].toString() == targetMaterialName &&
+                    jsonStringToJson(entity.itemInformation)["materialNumber"].toString() == targetMaterialNumber &&
+                    jsonStringToJson(entity.itemInformation)["itemNo"].toString() == targetItemNo
+        }
+    }
+
+
+    /**
+     * 將選擇貨物從暫存待入庫的貨物列表移除
+     */
+    fun removeInTempGoods(
+        targetFormNumber: String,
+        targetReportTitle: String,
+        targetMaterialName: String,
+        targetMaterialNumber: String,
+        targetItemNo: String
+    ) {
+
+        // 更新暫存進貨列表
+        val currentList = tempWaitInputGoods.value ?: ArrayList()
+        currentList.removeIf { entity ->
+            entity.formNumber == targetFormNumber &&
+                    entity.reportTitle == targetReportTitle &&
+                    jsonStringToJson(entity.itemInformation)["materialName"].toString() == targetMaterialName &&
+                    jsonStringToJson(entity.itemInformation)["materialNumber"].toString() == targetMaterialNumber &&
+                    jsonStringToJson(entity.itemInformation)["itemNo"].toString() == targetItemNo
+        }
+        tempWaitInputGoods.postValue(currentList)
     }
 }

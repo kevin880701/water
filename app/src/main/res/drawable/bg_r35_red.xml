@@ -2,6 +2,6 @@
     android:shape="rectangle">
     <corners android:radius="35dp"/>
     <gradient
-        android:startColor="#D83C3C"
-        android:endColor="#D83C3C" />
+        android:startColor="@color/red"
+        android:endColor="@color/red" />
 </shape>

@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<selector xmlns:android="http://schemas.android.com/apk/res/android">
+    <!-- 不可點擊狀態 -->
+    <item android:state_enabled="false">
+        <shape android:shape="rectangle">
+            <corners android:radius="35dp" />
+            <!-- 改變按鈕背景顏色或透明度，以反應禁用狀態 -->
+            <solid android:color="@color/deep_gray" />
+        </shape>
+    </item>
+
+    <!-- 其他狀態（可點擊狀態） -->
+    <item>
+        <shape android:shape="rectangle">
+            <corners android:radius="35dp" />
+            <!-- 這是按鈕可點擊時的背景顏色 -->
+            <solid android:color="@color/red" />
+        </shape>
+    </item>
+
+</selector>

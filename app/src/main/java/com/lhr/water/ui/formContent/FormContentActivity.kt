@@ -278,6 +278,7 @@ class FormContentActivity : BaseActivity(), View.OnClickListener, FormGoodsAdd.L
      * 點擊確認
      */
     private fun onClickSend() {
+        Timber.d("tempWaitInputGoods1.size:${viewModel.formRepository.tempWaitInputGoods.value!!.size}")
         val itemDetailArray = JSONArray()
         for (formGoodsDataWidget in binding.linearItemData) {
             itemDetailArray.put((formGoodsDataWidget as FormGoodsDataWidget).formItemJson)
@@ -308,8 +309,7 @@ class FormContentActivity : BaseActivity(), View.OnClickListener, FormGoodsAdd.L
         formEntity.formNumber = formContentJsonObject.getString("formNumber")
         formEntity.formContent = jsonObjectToJsonString(formContentJsonObject)
 
-        // 如果表單是交貨並且處理狀態是處理完成的話要判斷表單中的貨物是否已經全部入庫
-        Timber.d("DealStatus = ${formContentJsonObject.getString("dealStatus")}")
+        // 如果表單是交貨、退料、進貨調撥並且處理狀態是處理完成的話要判斷表單中的貨物是否已經全部入庫
         if ((reportTitle == getString(R.string.delivery_form) ||
                     reportTitle == getString(R.string.returning_form) ||
                     transferStatus == transferInput) && dealStatus == getString(R.string.complete_deal)
@@ -321,6 +321,10 @@ class FormContentActivity : BaseActivity(), View.OnClickListener, FormGoodsAdd.L
                 )
             ) {
                 updateForm(formEntity)
+                updateTempWaitInputGoods(
+                    itemDetailArray,
+                    formContentJsonObject.getString("formNumber"),
+                    reportTitle)
                 finish()
             } else {
                 showToast(this, "貨物未處理完成!")
@@ -333,6 +337,7 @@ class FormContentActivity : BaseActivity(), View.OnClickListener, FormGoodsAdd.L
 
     /**
      * 更新表單和room
+     * @param formEntity 更新的表單資訊
      */
     fun updateForm(formEntity: FormEntity) {
         SqlDatabase.getInstance().getDeliveryDao().insertOrUpdate(formEntity)
@@ -340,7 +345,11 @@ class FormContentActivity : BaseActivity(), View.OnClickListener, FormGoodsAdd.L
     }
 
     /**
-     * 判斷交貨表單中的貨物是否已竟入庫
+     * 判斷進貨類表單(交貨、退料、調撥)表單中的貨物是否已經放入暫存入庫清單(tempWaitInputGoods)
+     * @param itemDetailArray 要確認的貨物陣列
+     * @param formNumber 表單代號
+     * @param reportTitle 表單名稱
+     * @return 回傳Boolean
      */
     fun isItemDetailArrayContained(
         itemDetailArray: JSONArray,
@@ -350,15 +359,12 @@ class FormContentActivity : BaseActivity(), View.OnClickListener, FormGoodsAdd.L
         for (i in 0 until itemDetailArray.length()) {
             val itemDetail = itemDetailArray.getJSONObject(i)
             val number = itemDetail.getString("number")
-
-            val match = viewModel.getStorageGoods().any { entity ->
-
-                Timber.d("${jsonStringToJson(entity.itemInformation).getString("number")} + $number")
+            val match = viewModel.getTempWaitInputGoods().any { entity ->
                 entity.formNumber == formNumber &&
                         entity.reportTitle == reportTitle &&
                         jsonStringToJson(entity.itemInformation).getString("number") == number
             }
-
+            // 其中一項不在暫存入庫清單就會直接回傳false
             if (!match) {
                 return false
             }
@@ -366,6 +372,35 @@ class FormContentActivity : BaseActivity(), View.OnClickListener, FormGoodsAdd.L
         return true
     }
 
+
+    /**
+     * 確定入庫後要把暫存入庫清單(tempWaitInputGoods)中關於表單的貨物刪除
+     * @param itemDetailArray 要刪除的貨物陣列
+     * @param formNumber 表單代號
+     * @param reportTitle 表單名稱
+     */
+    fun updateTempWaitInputGoods(
+        itemDetailArray: JSONArray,
+        formNumber: String,
+        reportTitle: String
+    ) {
+        val currentList = viewModel.formRepository.tempWaitInputGoods.value ?: ArrayList()
+        for (i in 0 until itemDetailArray.length()) {
+            val itemDetail = itemDetailArray.getJSONObject(i)
+            val targetFormNumber = formNumber
+            val targetReportTitle = reportTitle
+            val targetNumber = itemDetail.getString("number")
+
+            // 移除 tempWaitInputGoods 中符合条件的项
+            currentList.removeIf { entity ->
+                entity.formNumber == targetFormNumber &&
+                        entity.reportTitle == targetReportTitle &&
+                        jsonStringToJson(entity.itemInformation)["number"].toString() == targetNumber
+            }
+        }
+        // 更新暫存進貨列表
+        viewModel.formRepository.tempWaitInputGoods.postValue(currentList)
+    }
 
     override fun onClick(v: View) {
         when (v.id) {

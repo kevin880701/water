@@ -16,4 +16,8 @@ class FormContentViewModel(context: Context, formRepository: FormRepository): An
         return formRepository.storageGoods.value!!
     }
 
+    fun getTempWaitInputGoods(): ArrayList<StorageContentEntity> {
+        return formRepository.tempWaitInputGoods.value!!
+    }
+
 }
