@@ -45,14 +45,14 @@ class LoginActivity : BaseActivity(), View.OnClickListener {
     private fun initView() {
         Timber.d("" + viewModel.getRegionNameList().size)
         initSpinner(binding.spinnerRegion, viewModel.getRegionNameList())
-        initSpinner(binding.spinnerMap, viewModel.getMapNameList(binding.spinnerRegion.selectedItem.toString()))
+        initSpinner(binding.spinnerMap, viewModel.getMapNameList(binding.spinnerRegion.selectedItem.toString(), viewModel.regionRepository.storageInformationList))
 
         // 设置 Spinner 的选择监听器
         binding.spinnerRegion.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
             override fun onItemSelected(parent: AdapterView<*>?, view: View?, position: Int, id: Long) {
                 // 通过 position 获取当前选定项的文字
                 mapName = parent?.getItemAtPosition(position).toString()
-                initSpinner(binding.spinnerMap, viewModel.getMapNameList(mapName))
+                initSpinner(binding.spinnerMap, viewModel.getMapNameList(mapName, viewModel.regionRepository.storageInformationList))
 
             }
 

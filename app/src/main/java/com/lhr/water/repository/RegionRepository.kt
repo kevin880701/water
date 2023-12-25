@@ -9,8 +9,9 @@ import com.lhr.water.data.MapDetail
 import com.lhr.water.data.StorageDetail
 import com.lhr.water.data.RegionInformation
 import com.lhr.water.room.SqlDatabase
+import com.lhr.water.room.StorageContentEntity
 import com.lhr.water.room.TargetEntity
-import timber.log.Timber
+import com.lhr.water.util.manager.jsonStringToJson
 import java.io.InputStreamReader
 
 class RegionRepository private constructor(private val context: Context) {
@@ -30,6 +31,10 @@ class RegionRepository private constructor(private val context: Context) {
     }
 
 
+
+    /**
+     * 從資料庫取得儲櫃資料
+     */
     private fun getStorageInformationFromSQL(): ArrayList<RegionInformation> {
         var targetEntities = SqlDatabase.getInstance().getTargetDao().getAll()
         val groupedByRegionMap = targetEntities.groupBy { it.regionName }
@@ -63,7 +68,7 @@ class RegionRepository private constructor(private val context: Context) {
     }
 
     /**
-     * 判斷Region資料表是否為空，如果為空代表第一次開。需從StorageInformation.json插入資料
+     * 判斷Region資料表是否為空，如果為空代表第一次開。需從StorageInformation.json插入資料到資料庫
      */
     fun checkRegionExist() {
         var count = SqlDatabase.getInstance().getTargetDao().getRowCount()
@@ -131,9 +136,8 @@ class RegionRepository private constructor(private val context: Context) {
     /**
      * 區域列表
      */
-    fun getRegionNameList(): ArrayList<String> {
+    fun getRegionNameList(storageInformationList: ArrayList<RegionInformation>): ArrayList<String> {
         return storageInformationList.map { it.RegionName } as ArrayList<String>
-
     }
 
 
@@ -141,7 +145,7 @@ class RegionRepository private constructor(private val context: Context) {
      * 根據區域名稱列出地圖列表
      * @param regionName 區域名稱
      */
-    fun getMapNameList(regionName: String): ArrayList<String> {
+    fun getMapNameList(regionName: String, storageInformationList: ArrayList<RegionInformation>): ArrayList<String> {
         // 查找 StorageInformation 中指定的 regionName
         val regionStorageInformation = storageInformationList.find { it.RegionName == regionName }
         // 提取該 regionName 下的 mapName 列表
@@ -150,11 +154,11 @@ class RegionRepository private constructor(private val context: Context) {
 
 
     /**
-     * 根據區域名稱和地圖名稱列出櫥櫃列表
+     * 根據區域名稱和地圖名稱列出儲櫃列表
      * @param regionName 區域名稱
      * @param mapName 地圖名稱
      */
-    fun getStorageDetailList(regionName: String, mapName: String): ArrayList<StorageDetail> {
+    fun getStorageDetailList(regionName: String, mapName: String, storageInformationList: ArrayList<RegionInformation>): ArrayList<StorageDetail> {
         // 查找 StorageInformation 中指定 regionName
         val regionStorageInformation =
             storageInformationList.find { it.RegionName == regionName }
@@ -186,5 +190,54 @@ class RegionRepository private constructor(private val context: Context) {
             ?.StorageDetail
             ?.find { it.StorageName == storageName }
             ?.StorageNum as String
+    }
+
+
+
+    /**
+     * 根據區域名稱、地圖名稱、儲櫃代號找出對應的儲櫃名稱StorageName
+     * @param regionName 區域名稱
+     * @param mapName 地圖名稱
+     * @param storageNum 儲櫃代號
+     */
+    fun findStorageName(
+        regionName: String,
+        mapName: String,
+        storageNum: String
+    ): String {
+        val region = storageInformationList.find { it.RegionName == regionName }
+
+        return region?.MapDetail
+            ?.find { it.MapName == mapName }
+            ?.StorageDetail
+            ?.find { it.StorageNum == storageNum }
+            ?.StorageName as String
+    }
+
+
+    /**
+     * 根據區域名稱、地圖名稱、儲櫃代號、貨物代號找出對應的數量
+     * @param regionName 區域名稱
+     * @param mapName 地圖名稱
+     * @param storageNum 儲櫃代號
+     * @param materialNum 貨物代號
+     */
+    fun getMaterialQuantity(
+        regionName: String,
+        mapName: String,
+        storageNum: String,
+        materialNum: String,
+        storageInformationList: ArrayList<StorageContentEntity>
+    ): String {
+        val matchingItem = storageInformationList.find { item ->
+            item.regionName == regionName &&
+                    item.mapName == mapName &&
+                    item.storageNum == storageNum &&
+                    jsonStringToJson(item.itemInformation)["materialNum"] == materialNum
+        }
+
+        return matchingItem!!.let {
+            jsonStringToJson(it.itemInformation)["receivedQuantity"].toString()
+        }
     }
 }

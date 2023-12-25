@@ -72,7 +72,7 @@ class WaitInputGoodsAdapter(
                     waitDealGoodsData.reportTitle,
                     waitDealGoodsData.itemInformation["materialName"].toString(),
                     waitDealGoodsData.itemInformation["materialNumber"].toString(),
-                    waitDealGoodsData.itemInformation["itemNo"].toString()
+                    waitDealGoodsData.itemInformation["number"].toString()
                 )
             ) {
                 binding.textStatus.text = context.getString(R.string.already_choose)

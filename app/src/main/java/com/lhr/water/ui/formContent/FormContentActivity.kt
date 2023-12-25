@@ -420,7 +420,7 @@ class FormContentActivity : BaseActivity(), View.OnClickListener, FormGoodsAdd.L
             val itemDetail = itemDetailArray.getJSONObject(i)
             val targetNumber = itemDetail.getString("number")
 
-            // 查找并添加符合条件的项到 matchingEntities
+            // 查找並添加符合條件的項到 matchingEntities
             viewModel.formRepository.tempWaitInputGoods.value!!.find { entity ->
                 entity.formNumber == formNumber &&
                         entity.reportTitle == reportTitle &&

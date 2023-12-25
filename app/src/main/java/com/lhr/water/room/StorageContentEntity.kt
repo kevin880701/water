@@ -7,7 +7,6 @@ import androidx.room.Index
 import androidx.room.PrimaryKey
 import java.io.Serializable
 
-//@Entity(tableName = SqlModel.TARGET_TABLE_NAME, indices = [Index(value = [SqlModel.storageNum], unique = true)])
 @Entity(tableName = SqlModel.STORAGE_CONTENT_NAME, indices = [Index(value = [SqlModel.id])])
 class StorageContentEntity() : Serializable {
 

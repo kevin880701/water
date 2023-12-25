@@ -1,0 +1,246 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <data>
+
+    </data>
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+        <androidx.core.widget.NestedScrollView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:fillViewport="true"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            android:background="@color/white">
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/constraintView"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <include
+                    android:id="@+id/widgetTitleBar"
+                    layout="@layout/widget_title_bar"
+                    app:layout_constraintTop_toTopOf="parent"/>
+
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:id="@+id/constraintData"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    app:layout_constraintTop_toBottomOf="@+id/widgetTitleBar"
+                    app:layout_constraintLeft_toLeftOf="parent"
+                    app:layout_constraintRight_toRightOf="parent">
+
+
+                    <androidx.constraintlayout.widget.ConstraintLayout
+                        android:id="@+id/constraintRegion"
+                        android:layout_width="match_parent"
+                        android:layout_height="56dp"
+                        android:layout_margin="24dp"
+                        android:layout_marginTop="24dp"
+                        android:background="@drawable/login_number_radius"
+                        app:layout_constraintHorizontal_bias="0.333"
+                        app:layout_constraintLeft_toLeftOf="parent"
+                        app:layout_constraintRight_toRightOf="parent"
+                        app:layout_constraintTop_toTopOf="parent" >
+
+                        <androidx.appcompat.widget.AppCompatImageView
+                            android:id="@id/imageRegion"
+                            android:layout_width="24dp"
+                            android:layout_height="24dp"
+                            android:layout_margin="16dp"
+                            android:src="@drawable/region_choose"
+                            app:layout_constraintBottom_toBottomOf="parent"
+                            app:layout_constraintLeft_toLeftOf="parent"
+                            app:layout_constraintTop_toTopOf="parent"
+                            app:tint="@color/seed" />
+
+                        <Spinner
+                            android:id="@+id/spinnerRegion"
+                            android:layout_width="0dp"
+                            android:layout_height="0dp"
+                            android:layout_marginLeft="15dp"
+                            android:layout_marginTop="15dp"
+                            android:layout_marginRight="50dp"
+                            android:layout_marginBottom="15dp"
+                            android:background="@null"
+                            android:textColor="@color/seed"
+                            android:textSize="15dp"
+                            app:layout_constraintBottom_toBottomOf="parent"
+                            app:layout_constraintLeft_toRightOf="@+id/imageRegion"
+                            app:layout_constraintRight_toRightOf="parent"
+                            app:layout_constraintTop_toTopOf="parent" />
+                    </androidx.constraintlayout.widget.ConstraintLayout>
+
+                    <androidx.constraintlayout.widget.ConstraintLayout
+                        android:id="@+id/constraintMap"
+                        android:layout_width="match_parent"
+                        android:layout_height="56dp"
+                        android:layout_margin="24dp"
+                        android:layout_marginTop="24dp"
+                        android:background="@drawable/login_number_radius"
+                        app:layout_constraintHorizontal_bias="0.333"
+                        app:layout_constraintLeft_toLeftOf="parent"
+                        app:layout_constraintRight_toRightOf="parent"
+                        app:layout_constraintTop_toBottomOf="@+id/constraintRegion">
+
+                        <androidx.appcompat.widget.AppCompatImageView
+                            android:id="@id/imageMap"
+                            android:layout_width="24dp"
+                            android:layout_height="24dp"
+                            android:layout_margin="16dp"
+                            android:src="@drawable/store_house"
+                            app:layout_constraintBottom_toBottomOf="parent"
+                            app:layout_constraintLeft_toLeftOf="parent"
+                            app:layout_constraintTop_toTopOf="parent"
+                            app:tint="@color/seed" />
+
+                        <Spinner
+                            android:id="@+id/spinnerMap"
+                            android:layout_width="0dp"
+                            android:layout_height="0dp"
+                            android:layout_marginLeft="15dp"
+                            android:layout_marginTop="15dp"
+                            android:layout_marginRight="50dp"
+                            android:layout_marginBottom="15dp"
+                            android:background="@null"
+                            android:textColor="@color/seed"
+                            android:textSize="15dp"
+                            app:layout_constraintBottom_toBottomOf="parent"
+                            app:layout_constraintLeft_toRightOf="@+id/imageMap"
+                            app:layout_constraintRight_toRightOf="parent"
+                            app:layout_constraintTop_toTopOf="parent" />
+                    </androidx.constraintlayout.widget.ConstraintLayout>
+
+                    <androidx.constraintlayout.widget.ConstraintLayout
+                        android:id="@+id/constraintStorage"
+                        android:layout_width="match_parent"
+                        android:layout_height="56dp"
+                        android:layout_margin="24dp"
+                        android:layout_marginTop="24dp"
+                        android:background="@drawable/login_number_radius"
+                        app:layout_constraintHorizontal_bias="0.333"
+                        app:layout_constraintLeft_toLeftOf="parent"
+                        app:layout_constraintRight_toRightOf="parent"
+                        app:layout_constraintTop_toBottomOf="@+id/constraintMap">
+
+                        <androidx.appcompat.widget.AppCompatImageView
+                            android:id="@id/imageStorage"
+                            android:layout_width="24dp"
+                            android:layout_height="24dp"
+                            android:layout_margin="16dp"
+                            android:src="@drawable/storage"
+                            app:layout_constraintBottom_toBottomOf="parent"
+                            app:layout_constraintLeft_toLeftOf="parent"
+                            app:layout_constraintTop_toTopOf="parent"
+                            app:tint="@color/seed" />
+
+                        <Spinner
+                            android:id="@+id/spinnerStorage"
+                            android:layout_width="0dp"
+                            android:layout_height="0dp"
+                            android:layout_marginLeft="15dp"
+                            android:layout_marginTop="15dp"
+                            android:layout_marginRight="50dp"
+                            android:layout_marginBottom="15dp"
+                            android:background="@null"
+                            android:textColor="@color/seed"
+                            android:textSize="15dp"
+                            app:layout_constraintBottom_toBottomOf="parent"
+                            app:layout_constraintLeft_toRightOf="@+id/imageStorage"
+                            app:layout_constraintRight_toRightOf="parent"
+                            app:layout_constraintTop_toTopOf="parent" />
+                    </androidx.constraintlayout.widget.ConstraintLayout>
+
+                    <androidx.constraintlayout.widget.ConstraintLayout
+                        android:id="@+id/constraintNumber"
+                        android:layout_width="match_parent"
+                        android:layout_height="56dp"
+                        android:layout_margin="24dp"
+                        android:layout_marginTop="24dp"
+                        android:background="@drawable/login_number_radius"
+                        app:layout_constraintLeft_toLeftOf="parent"
+                        app:layout_constraintRight_toRightOf="parent"
+                        app:layout_constraintTop_toBottomOf="@+id/constraintStorage">
+
+                        <androidx.appcompat.widget.AppCompatImageView
+                            android:id="@id/imageSubtract"
+                            android:layout_width="24dp"
+                            android:layout_height="24dp"
+                            android:layout_margin="16dp"
+                            android:src="@drawable/subtract_circle"
+                            app:layout_constraintBottom_toBottomOf="parent"
+                            app:layout_constraintLeft_toLeftOf="parent"
+                            app:layout_constraintTop_toTopOf="parent"
+                            app:tint="@color/seed" />
+
+                        <TextView
+                            android:id="@+id/textNumber"
+                            android:layout_width="48dp"
+                            android:layout_height="match_parent"
+                            android:layout_margin="16dp"
+                            app:layout_constraintLeft_toRightOf="@+id/imageSubtract"
+                            android:textAppearance="@style/TextAppearance.Astec.HeadLine1"
+                            android:text="100"
+                            android:gravity="center" />
+
+                        <androidx.appcompat.widget.AppCompatImageView
+                            android:id="@id/imageAdd"
+                            android:layout_width="24dp"
+                            android:layout_height="24dp"
+                            android:layout_margin="16dp"
+                            android:src="@drawable/add_circle"
+                            app:layout_constraintBottom_toBottomOf="parent"
+                            app:layout_constraintLeft_toRightOf="@+id/textNumber"
+                            app:layout_constraintTop_toTopOf="parent"
+                            app:tint="@color/seed" />
+                    </androidx.constraintlayout.widget.ConstraintLayout>
+                </androidx.constraintlayout.widget.ConstraintLayout>
+
+                <androidx.constraintlayout.widget.Guideline
+                    android:id="@+id/guideline_vertical05"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    app:layout_constraintGuide_percent="0.5"/>
+
+
+                <androidx.appcompat.widget.AppCompatButton
+                    android:id="@+id/buttonConfirm"
+                    android:layout_width="116dp"
+                    android:layout_height="36dp"
+                    android:text="@string/confirm"
+                    android:textSize="@dimen/main_title_size"
+                    android:textColor="@color/white"
+                    app:layout_constraintTop_toBottomOf="@+id/constraintData"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintRight_toLeftOf="@id/guideline_vertical05"
+                    android:background="@drawable/button_r35_seed_selector"
+                    android:layout_marginTop="24dp"
+                    android:layout_marginBottom="24dp"
+                    android:layout_marginRight="12dp"/>
+
+                <androidx.appcompat.widget.AppCompatButton
+                    android:id="@+id/buttonCancel"
+                    android:layout_width="116dp"
+                    android:layout_height="36dp"
+                    android:text="@string/cancel"
+                    android:textSize="@dimen/main_title_size"
+                    android:textColor="@color/white"
+                    app:layout_constraintTop_toBottomOf="@+id/constraintData"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintLeft_toRightOf="@+id/guideline_vertical05"
+                    android:background="@drawable/button_r35_red_selector"
+                    android:layout_marginTop="24dp"
+                    android:layout_marginBottom="24dp"
+                    android:layout_marginLeft="12dp" />
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+        </androidx.core.widget.NestedScrollView>
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>

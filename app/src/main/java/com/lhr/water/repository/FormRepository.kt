@@ -17,7 +17,6 @@ import com.lhr.water.util.manager.jsonStringToJson
 import com.lhr.water.util.transferStatus
 import org.json.JSONArray
 import org.json.JSONObject
-import timber.log.Timber
 
 class FormRepository(context: Context) {
     val context = context
@@ -268,14 +267,14 @@ class FormRepository(context: Context) {
         targetReportTitle: String,
         targetMaterialName: String,
         targetMaterialNumber: String,
-        targetItemNo: String
+        targetNumber: String
     ): Boolean {
         return tempWaitInputGoods.value!!.any { entity ->
             entity.formNumber == targetFormNumber &&
                     entity.reportTitle == targetReportTitle &&
                     jsonStringToJson(entity.itemInformation)["materialName"].toString() == targetMaterialName &&
                     jsonStringToJson(entity.itemInformation)["materialNumber"].toString() == targetMaterialNumber &&
-                    jsonStringToJson(entity.itemInformation)["itemNo"].toString() == targetItemNo
+                    jsonStringToJson(entity.itemInformation)["number"].toString() == targetNumber
         }
     }
 
@@ -288,7 +287,7 @@ class FormRepository(context: Context) {
         targetReportTitle: String,
         targetMaterialName: String,
         targetMaterialNumber: String,
-        targetItemNo: String
+        targetNumber: String
     ) {
 
         // 更新暫存進貨列表
@@ -298,7 +297,7 @@ class FormRepository(context: Context) {
                     entity.reportTitle == targetReportTitle &&
                     jsonStringToJson(entity.itemInformation)["materialName"].toString() == targetMaterialName &&
                     jsonStringToJson(entity.itemInformation)["materialNumber"].toString() == targetMaterialNumber &&
-                    jsonStringToJson(entity.itemInformation)["itemNo"].toString() == targetItemNo
+                    jsonStringToJson(entity.itemInformation)["number"].toString() == targetNumber
         }
         tempWaitInputGoods.postValue(currentList)
     }

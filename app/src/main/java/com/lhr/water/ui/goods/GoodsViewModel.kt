@@ -2,6 +2,8 @@ package com.lhr.water.ui.goods
 
 import android.content.Context
 import androidx.lifecycle.AndroidViewModel
+import com.lhr.water.data.MapDetail
+import com.lhr.water.data.RegionInformation
 import com.lhr.water.data.StorageDetail
 import com.lhr.water.data.WaitDealGoodsData
 import com.lhr.water.repository.FormRepository
@@ -29,16 +31,16 @@ class GoodsViewModel(
         return formRepository.waitOutputGoods.value!!
     }
 
-    fun getRegionNameList(): ArrayList<String> {
-        return regionRepository.getRegionNameList()
+    fun getRegionNameList(storageInformationList: ArrayList<RegionInformation>): ArrayList<String> {
+        return regionRepository.getRegionNameList(storageInformationList)
     }
 
-    fun getMapNameList(regionName: String): ArrayList<String> {
-        return regionRepository.getMapNameList(regionName)
+    fun getMapNameList(regionName: String, storageInformationList: ArrayList<RegionInformation>): ArrayList<String> {
+        return regionRepository.getMapNameList(regionName, storageInformationList)
     }
 
-    fun getStorageNameList(regionName: String, mapName: String): ArrayList<StorageDetail> {
-        return regionRepository.getStorageDetailList(regionName, mapName)
+    fun getStorageNameList(regionName: String, mapName: String, storageInformationList: ArrayList<RegionInformation>): ArrayList<StorageDetail> {
+        return regionRepository.getStorageDetailList(regionName, mapName, storageInformationList)
     }
 
 
@@ -109,7 +111,7 @@ class GoodsViewModel(
         formRepository.updateWaitInputGoods(formRepository.formRecordList.value!!)
     }
 
-    fun getOutputGoodsWhere(materialName: String, materialNumber: String): List<StorageContentEntity>?{
+    fun getOutputGoodsStorageInformation(materialName: String, materialNumber: String): List<StorageContentEntity>{
          var storageContentList = formRepository.storageGoods.value?.filter { entity ->
             entity.itemInformation?.let { itemInfo ->
                 // 将itemInformation转换为JsonObject
@@ -120,18 +122,40 @@ class GoodsViewModel(
             } ?: false
         }
 
+        return storageContentList as ArrayList
+    }
 
-        if (storageContentList != null) {
-            for (entity in storageContentList) {
-                println("----------------------------")
-                println("ID: ${entity.id}")
-                println("Region Name: ${entity.regionName}")
-                println("Map Name: ${entity.mapName}")
-                // ... 继续打印其他属性
-                println("Item Information: ${entity.itemInformation}")
-                println("----------------------------")
-            }
+    fun getOutputGoodsWhere(materialName: String, materialNumber: String): ArrayList<RegionInformation>{
+        var storageContentList = formRepository.storageGoods.value?.filter { entity ->
+            entity.itemInformation?.let { itemInfo ->
+                // 将itemInformation转换为JsonObject
+                val json = JSONObject(itemInfo)
+
+                // 判断是否与目标值匹配
+                materialName == json.optString("materialName") && materialNumber == json.optString("materialNumber")
+            } ?: false
         }
-        return storageContentList
+
+        // 使用 groupBy 將資料分組
+        val groupedByRegion = storageContentList?.groupBy { it.regionName }
+        // 將分組後的資料轉換為 List<RegionInformation>
+        val regionInformationList = groupedByRegion?.entries?.map { entry ->
+            val regionName = entry.key
+            val mapDetails = entry.value.groupBy { it.mapName }.entries.map { mapEntry ->
+                val mapName = mapEntry.key
+                val storageDetails = mapEntry.value.map { storageContentEntity ->
+                    StorageDetail(
+                        storageContentEntity.storageNum,
+                        regionRepository.findStorageName(regionName, mapName, storageContentEntity.storageNum), // 使用 StorageContentEntity 中的相關屬性
+                        "storageContentEntity.storageX",
+                       "storageContentEntity.storageY"
+                    )
+                }
+                MapDetail(mapName, storageDetails)
+            }
+            RegionInformation(regionName, mapDetails)
+        }
+
+        return regionInformationList!! as ArrayList
     }
 }

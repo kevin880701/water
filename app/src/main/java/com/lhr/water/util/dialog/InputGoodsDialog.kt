@@ -55,14 +55,14 @@ class InputGoodsDialog(
                 waitDealGoodsData.reportTitle,
                 waitDealGoodsData.itemInformation["materialName"].toString(),
                 waitDealGoodsData.itemInformation["materialNumber"].toString(),
-                waitDealGoodsData.itemInformation["itemNo"].toString()
+                waitDealGoodsData.itemInformation["number"].toString()
             )
         ) {
             binding.buttonConfirm.isEnabled = false
         } else {
             binding.buttonCancel.isEnabled = false
         }
-        initSpinner(binding.spinnerRegion, viewModel.getRegionNameList())
+        initSpinner(binding.spinnerRegion, viewModel.getRegionNameList(viewModel.regionRepository.storageInformationList))
 
         // 設定 Spinner 的選擇監聽器
         binding.spinnerRegion.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
@@ -74,7 +74,7 @@ class InputGoodsDialog(
             ) {
                 // 通過 position 獲取當前選定項的文字
                 regionName = parent?.getItemAtPosition(position).toString()
-                initSpinner(binding.spinnerMap, viewModel.getMapNameList(regionName))
+                initSpinner(binding.spinnerMap, viewModel.getMapNameList(regionName, viewModel.regionRepository.storageInformationList))
 
             }
 
@@ -96,7 +96,7 @@ class InputGoodsDialog(
                 initSpinner(
                     binding.spinnerStorage,
                     ArrayList(
-                        viewModel.getStorageNameList(regionName, mapName).map { it.StorageName })
+                        viewModel.getStorageNameList(regionName, mapName, viewModel.regionRepository.storageInformationList).map { it.StorageName })
                 )
             }
 

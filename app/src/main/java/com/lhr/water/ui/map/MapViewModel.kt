@@ -16,7 +16,7 @@ class MapViewModel(context: Context, regionRepository: RegionRepository, formRep
     var storageDetailList = MutableLiveData<ArrayList<StorageDetail>>()
 
     fun setStorageDetailList(regionName: String, mapName: String){
-        storageDetailList.value = regionRepository.getStorageDetailList(regionName, mapName)
+        storageDetailList.value = regionRepository.getStorageDetailList(regionName, mapName, regionRepository.storageInformationList)
     }
 
     fun getStorageContent(regionName: String, mapName: String, storageNum: String): ArrayList<StorageContentEntity>{
