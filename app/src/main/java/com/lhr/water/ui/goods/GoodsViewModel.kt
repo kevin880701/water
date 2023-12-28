@@ -111,7 +111,7 @@ class GoodsViewModel(
         formRepository.updateWaitInputGoods(formRepository.formRecordList.value!!)
     }
 
-    fun getOutputGoodsStorageInformation(materialName: String, materialNumber: String): List<StorageContentEntity>{
+    fun getOutputGoodsStorageInformation(materialName: String, materialNumber: String): ArrayList<StorageContentEntity>{
          var storageContentList = formRepository.storageGoods.value?.filter { entity ->
             entity.itemInformation?.let { itemInfo ->
                 // 将itemInformation转换为JsonObject

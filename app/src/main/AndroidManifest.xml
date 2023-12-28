@@ -53,6 +53,10 @@
         <activity android:name="com.lhr.water.ui.storageGoodInput.StorageGoodInputActivity"
             android:launchMode="singleTask"
             android:theme="@style/Theme.Water"/>
+
+        <activity android:name="com.lhr.water.ui.history.inputActivity.InputActivity"
+            android:launchMode="singleTask"
+            android:theme="@style/Theme.Water"/>
     </application>
 
 </manifest>

@@ -32,7 +32,7 @@ class AppViewModelFactory(
             MainViewModel::class.java -> MainViewModel(context, formRepository) as T
             FormViewModel::class.java -> FormViewModel(context) as T
             FormContentViewModel::class.java -> FormContentViewModel(context, formRepository) as T
-            HistoryViewModel::class.java -> HistoryViewModel(context) as T
+            HistoryViewModel::class.java -> HistoryViewModel(context, regionRepository, formRepository) as T
             SettingViewModel::class.java -> SettingViewModel(context, formRepository) as T
             RegionChooseViewModel::class.java -> RegionChooseViewModel(context, regionRepository) as T
             MapViewModel::class.java -> MapViewModel(context, regionRepository, formRepository) as T

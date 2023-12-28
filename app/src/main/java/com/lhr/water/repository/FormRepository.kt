@@ -301,4 +301,48 @@ class FormRepository(context: Context) {
         }
         tempWaitInputGoods.postValue(currentList)
     }
+
+
+    /**
+     * 根據表單名稱和表單代號篩選待入庫清單
+     * @param waitInputGoods 要篩選的待入庫清單
+     * @param targetReportTitle 指定表單名稱
+     * @param targetFormNumber 指定表單代號
+     */
+    fun filterWaitInputGoods(
+        waitInputGoods: ArrayList<WaitDealGoodsData>,
+        targetReportTitle: String,
+        targetFormNumber: String
+    ): ArrayList<WaitDealGoodsData> {
+        val filteredList = waitInputGoods.filter { data ->
+            data.reportTitle == targetReportTitle && data.formNumber == targetFormNumber
+        }
+
+        val resultArrayList = ArrayList<WaitDealGoodsData>()
+        filteredList.toCollection(resultArrayList)
+
+        return resultArrayList
+    }
+
+
+    /**
+     * 根據表單名稱和表單代號篩選暫存待入庫的貨物列表（未送出）
+     * @param tempWaitInputGoods 要篩選的待入庫清單
+     * @param targetReportTitle 指定表單名稱
+     * @param targetFormNumber 指定表單代號
+     */
+    fun filterTempWaitInputGoods(
+        tempWaitInputGoods: ArrayList<StorageContentEntity>,
+        targetReportTitle: String,
+        targetFormNumber: String
+    ): ArrayList<StorageContentEntity> {
+        val filteredList = tempWaitInputGoods.filter { data ->
+            data.reportTitle == targetReportTitle && data.formNumber == targetFormNumber
+        }
+
+        val resultArrayList = ArrayList<StorageContentEntity>()
+        filteredList.toCollection(resultArrayList)
+
+        return resultArrayList
+    }
 }

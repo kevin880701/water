@@ -233,7 +233,7 @@ class RegionRepository private constructor(private val context: Context) {
             item.regionName == regionName &&
                     item.mapName == mapName &&
                     item.storageNum == storageNum &&
-                    jsonStringToJson(item.itemInformation)["materialNum"] == materialNum
+                    jsonStringToJson(item.itemInformation)["materialNumber"] == materialNum
         }
 
         return matchingItem!!.let {

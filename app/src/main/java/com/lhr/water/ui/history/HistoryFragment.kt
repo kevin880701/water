@@ -16,6 +16,7 @@ import com.lhr.water.repository.FormRepository
 import com.lhr.water.databinding.FragmentHistoryBinding
 import com.lhr.water.ui.base.BaseFragment
 import com.lhr.water.ui.formContent.FormContentActivity
+import com.lhr.water.ui.history.inputActivity.InputActivity
 import com.lhr.water.util.popupWindow.FilterFormPopupWindow
 import com.lhr.water.util.adapter.HistoryAdapter
 import org.json.JSONObject
@@ -111,6 +112,13 @@ class HistoryFragment : BaseFragment(), View.OnClickListener, HistoryAdapter.Lis
     override fun onItemClick(json: JSONObject) {
         val intent = Intent(requireActivity(), FormContentActivity::class.java)
         intent.putExtra("reportTitle", json.getString("reportTitle"))
+        intent.putExtra("jsonString", json.toString())
+        requireActivity().startActivity(intent)
+    }
+
+    override fun onDealGoodsClick(json: JSONObject) {
+        Timber.d(json.toString())
+        val intent = Intent(requireActivity(), InputActivity::class.java)
         intent.putExtra("jsonString", json.toString())
         requireActivity().startActivity(intent)
     }

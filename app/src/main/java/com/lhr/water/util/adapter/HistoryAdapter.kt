@@ -2,6 +2,7 @@ package com.lhr.water.util.adapter
 
 import android.content.Context
 import android.view.LayoutInflater
+import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
@@ -27,11 +28,6 @@ class HistoryAdapter(val listener: Listener, context: Context): ListAdapter<JSON
         }
     }
 
-
-    interface Listener{
-        fun onItemClick(item: JSONObject)
-    }
-
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         val binding = ItemHistoryBinding.inflate(LayoutInflater.from(parent.context), parent, false)
         return ViewHolder(binding)
@@ -43,7 +39,9 @@ class HistoryAdapter(val listener: Listener, context: Context): ListAdapter<JSON
 
     inner class ViewHolder(private val binding: ItemHistoryBinding): RecyclerView.ViewHolder(binding.root){
         init {
-            // bindingAdapterPosition無法使用，所以用adapterPosition替代
+            binding.imageDealGoods.setOnClickListener {
+                listener.onDealGoodsClick(getItem(adapterPosition))
+            }
             binding.root.setOnClickListener {
                 listener.onItemClick(getItem(adapterPosition))
             }
@@ -55,9 +53,17 @@ class HistoryAdapter(val listener: Listener, context: Context): ListAdapter<JSON
             binding.textDate.text = json.getString("date")
             when(json.getString("dealStatus")){
                 context.getString(R.string.wait_deal) -> {binding.imageStatus.setImageDrawable(context.getDrawable(R.drawable.red_light))}
-                context.getString(R.string.now_deal) -> {binding.imageStatus.setImageDrawable(context.getDrawable(R.drawable.yellow_light))}
+                context.getString(R.string.now_deal) -> {
+                    binding.imageStatus.setImageDrawable(context.getDrawable(R.drawable.yellow_light))
+                    binding.imageDealGoods.visibility = View.VISIBLE
+                }
                 context.getString(R.string.complete_deal) -> {binding.imageStatus.setImageDrawable(context.getDrawable(R.drawable.green_light))}
             }
         }
+    }
+
+    interface Listener{
+        fun onItemClick(item: JSONObject)
+        fun onDealGoodsClick(item: JSONObject)
     }
 }

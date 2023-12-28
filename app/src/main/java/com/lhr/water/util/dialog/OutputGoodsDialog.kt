@@ -19,6 +19,7 @@ import com.lhr.water.ui.goods.GoodsViewModel
 import com.lhr.water.util.adapter.SpinnerAdapter
 import com.lhr.water.util.adapter.WaitOutputGoodsStorageAdapter
 import org.json.JSONObject
+import timber.log.Timber
 
 class OutputGoodsDialog(
     waitDealGoodsData: WaitDealGoodsData,
@@ -32,9 +33,10 @@ class OutputGoodsDialog(
     private val binding get() = _binding!!
     var materialName = ""
     var materialNumber = ""
+    var maxQuantity = 0
     private lateinit var waitOutputGoodsStorageAdapter: WaitOutputGoodsStorageAdapter
     private lateinit var goodsStoreLocation: ArrayList<RegionInformation>  //貨物在那些儲櫃裡
-    private lateinit var goodsStoreInformation: List<StorageContentEntity>  //儲櫃裡的詳細資訊
+    private lateinit var goodsStoreInformation: ArrayList<StorageContentEntity>  //儲櫃裡的詳細資訊
 
     var regionName = ""
     var mapName = ""
@@ -50,6 +52,8 @@ class OutputGoodsDialog(
         goodsStoreLocation = viewModel.getOutputGoodsWhere(waitDealGoodsData.itemInformation.optString("materialName"),waitDealGoodsData.itemInformation.optString("materialNumber"))
         goodsStoreInformation = viewModel.getOutputGoodsStorageInformation(waitDealGoodsData.itemInformation.optString("materialName"),waitDealGoodsData.itemInformation.optString("materialNumber"))
         initView()
+        materialName = waitDealGoodsData.itemInformation.getString("materialName")
+        materialNumber = waitDealGoodsData.itemInformation.getString("materialNumber")
         builder.setView(binding.root)
         dialog = builder.create()
         return builder.create()
@@ -114,7 +118,8 @@ class OutputGoodsDialog(
                 ) {
                     // 通過 position 獲取當前選定項的文字
                     storageName = parent?.getItemAtPosition(position).toString()
-                    viewModel.regionRepository.getMaterialQuantity(regionName, mapName, viewModel.regionRepository.findStorageNum(regionName, mapName, storageName), goodsStoreInformation)
+                    maxQuantity = viewModel.regionRepository.getMaterialQuantity(regionName, mapName, viewModel.regionRepository.findStorageNum(regionName, mapName, storageName), materialNumber, goodsStoreInformation).toInt()
+                    binding.textQuantity.text = maxQuantity.toString()
                 }
 
                 override fun onNothingSelected(parent: AdapterView<*>?) {
@@ -122,9 +127,10 @@ class OutputGoodsDialog(
                 }
             }
 
-
         initRecyclerView()
 
+        binding.imageSubtract.setOnClickListener(this)
+        binding.imageAdd.setOnClickListener(this)
         binding.buttonConfirm.setOnClickListener(this)
         binding.widgetTitleBar.imageCancel.setOnClickListener(this)
     }
@@ -154,6 +160,16 @@ class OutputGoodsDialog(
 
             R.id.imageCancel -> {
                 this.dismiss()
+            }
+
+            R.id.imageSubtract -> {
+                // 減少數量，但不小於 0
+                binding.textQuantity.text = maxOf(0, binding.textQuantity.text.toString().toInt() - 1).toString()
+            }
+
+            R.id.imageAdd -> {
+                // 增加數量，但不大於 maxQuantity
+                binding.textQuantity.text = minOf(maxQuantity, binding.textQuantity.text.toString().toInt() + 1).toString()
             }
         }
     }
