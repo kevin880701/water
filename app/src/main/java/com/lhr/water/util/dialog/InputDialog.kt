@@ -10,36 +10,41 @@ import androidx.fragment.app.DialogFragment
 import androidx.fragment.app.viewModels
 import com.lhr.water.R
 import com.lhr.water.data.WaitDealGoodsData
+import com.lhr.water.databinding.DialogInputBinding
 import com.lhr.water.databinding.DialogInputGoodsBinding
+import com.lhr.water.room.StorageContentEntity
 import com.lhr.water.ui.base.APP
 import com.lhr.water.ui.base.AppViewModelFactory
 import com.lhr.water.ui.goods.GoodsViewModel
 import com.lhr.water.util.adapter.SpinnerAdapter
 import org.json.JSONObject
 
-class InputGoodsDialog(
+class InputDialog(
     waitDealGoodsData: WaitDealGoodsData,
-    listener: Listener
+    listener: Listener,
+    maxQuantity: String
 ) : DialogFragment(), View.OnClickListener {
 
     private var dialog: AlertDialog? = null
     private var waitDealGoodsData = waitDealGoodsData
     private var listener = listener
-    private var _binding: DialogInputGoodsBinding? = null
+    private var _binding: DialogInputBinding? = null
     private val binding get() = _binding!!
-    var regionName = ""
-    var mapName = ""
-    var storageName = ""
+    private var regionName = ""
+    private var mapName = ""
+    private var storageName = ""
+    private var maxQuantity = maxQuantity
+    private var materialName = ""
+    private var materialNumber = ""
 
     private val viewModelFactory: AppViewModelFactory
         get() = (requireContext().applicationContext as APP).appContainer.viewModelFactory
     private val viewModel: GoodsViewModel by viewModels { viewModelFactory }
 
     override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
-        _binding = DialogInputGoodsBinding.inflate(layoutInflater)
+        _binding = DialogInputBinding.inflate(layoutInflater)
         val builder = AlertDialog.Builder(activity)
         builder.setCancelable(false)
-
         initView()
         builder.setView(binding.root)
         dialog = builder.create()
@@ -50,18 +55,12 @@ class InputGoodsDialog(
         binding.widgetTitleBar.textTitle.text =
             activity?.resources?.getString(R.string.goods_information)
         binding.widgetTitleBar.imageCancel.visibility = View.VISIBLE
-        if (viewModel.formRepository.isInTempWaitInputGoods(
-                waitDealGoodsData.formNumber,
-                waitDealGoodsData.reportTitle,
-                waitDealGoodsData.itemInformation["materialName"].toString(),
-                waitDealGoodsData.itemInformation["materialNumber"].toString(),
-                waitDealGoodsData.itemInformation["number"].toString()
-            )
-        ) {
-            binding.buttonConfirm.isEnabled = false
-        } else {
-            binding.buttonCancel.isEnabled = false
-        }
+
+        materialName = waitDealGoodsData.itemInformation.getString("materialName")
+        materialNumber = waitDealGoodsData.itemInformation.getString("materialNumber")
+//        maxQuantity = waitDealGoodsData.itemInformation.getString("receivedQuantity").toInt()
+        binding.textQuantity.text = maxQuantity.toString()
+
         initSpinner(binding.spinnerRegion, viewModel.getRegionNameList(viewModel.regionRepository.storageInformationList))
 
         // 設定 Spinner 的選擇監聽器
@@ -117,13 +116,13 @@ class InputGoodsDialog(
                     // 通過 position 獲取當前選定項的文字
                     storageName = parent?.getItemAtPosition(position).toString()
                 }
-
                 override fun onNothingSelected(parent: AdapterView<*>?) {
                     // 在沒有選中項的情況下觸發
                 }
             }
+        binding.imageSubtract.setOnClickListener(this)
+        binding.imageAdd.setOnClickListener(this)
         binding.buttonConfirm.setOnClickListener(this)
-        binding.buttonCancel.setOnClickListener(this)
         binding.widgetTitleBar.imageCancel.setOnClickListener(this)
     }
 
@@ -140,28 +139,32 @@ class InputGoodsDialog(
     override fun onClick(v: View?) {
         when (v?.id) {
             R.id.buttonConfirm -> {
+                // 先找出儲櫃代號，不可直接用櫥櫃名稱，因為可能會被修改
                 val storageNum = viewModel.regionRepository.findStorageNum(binding.spinnerRegion.selectedItem.toString(),
                     binding.spinnerMap.selectedItem.toString(),
                     binding.spinnerStorage.selectedItem.toString())
-//                viewModel.inputInTempGoods(
-//                    waitDealGoodsData,
-//                    binding.spinnerRegion.selectedItem.toString(),
-//                    binding.spinnerMap.selectedItem.toString(),
-//                    storageNum
-//                )
+                viewModel.inputInTempGoods(
+                    waitDealGoodsData,
+                    binding.spinnerRegion.selectedItem.toString(),
+                    binding.spinnerMap.selectedItem.toString(),
+                    storageNum,
+                    binding.textQuantity.text.toString()
+                )
                 this.dismiss()
             }
-            R.id.buttonCancel -> {
-                viewModel.formRepository.removeInTempGoods(
-                    waitDealGoodsData.formNumber,
-                    waitDealGoodsData.reportTitle,
-                    waitDealGoodsData.itemInformation["materialName"].toString(),
-                    waitDealGoodsData.itemInformation["materialNumber"].toString(),
-                    waitDealGoodsData.itemInformation["number"].toString())
-                this.dismiss()
-            }
+
             R.id.imageCancel -> {
                 this.dismiss()
+            }
+
+            R.id.imageSubtract -> {
+                // 減少數量，但不小於 0
+                binding.textQuantity.text = maxOf(1, binding.textQuantity.text.toString().toInt() - 1).toString()
+            }
+
+            R.id.imageAdd -> {
+                // 增加數量，但不大於 maxQuantity
+                binding.textQuantity.text = minOf(maxQuantity.toInt(), binding.textQuantity.text.toString().toInt() + 1).toString()
             }
         }
     }

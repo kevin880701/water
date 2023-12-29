@@ -17,6 +17,7 @@ import com.lhr.water.util.manager.jsonStringToJson
 import com.lhr.water.util.transferStatus
 import org.json.JSONArray
 import org.json.JSONObject
+import timber.log.Timber
 
 class FormRepository(context: Context) {
     val context = context
@@ -322,6 +323,36 @@ class FormRepository(context: Context) {
         filteredList.toCollection(resultArrayList)
 
         return resultArrayList
+    }
+
+
+    /**
+     * 根據表單名稱、表單代號、貨物名稱代號篩選暫存待入庫的貨物列表中指定的貨物數量
+     * @param targetReportTitle 指定表單名稱
+     * @param targetFormNumber 指定表單代號
+     * @param targetNumber 指定貨物在表單中的序號(非materialNumber)
+     */
+    fun getMaterialQuantityByTempWaitInputGoods(
+        targetReportTitle: String,
+        targetFormNumber: String,
+        targetNumber: String
+    ): Int {
+        var totalQuantity = 0
+        // 篩選
+        val filteredList = tempWaitInputGoods.value!!.filter { data ->
+            data.reportTitle == targetReportTitle &&
+            data.formNumber == targetFormNumber &&
+            jsonStringToJson(data.itemInformation).getString("number") == targetNumber
+
+        }
+        // 篩選後的List中數量加總
+        for (storageContentEntity in filteredList) {
+            val itemInformationJson = JSONObject(storageContentEntity.itemInformation)
+            if (itemInformationJson.has("quantity")) {
+                totalQuantity += itemInformationJson.getInt("quantity")
+            }
+        }
+        return totalQuantity
     }
 
 

@@ -25,11 +25,13 @@ import com.lhr.water.ui.history.HistoryViewModel
 import com.lhr.water.util.adapter.HistoryAdapter
 import com.lhr.water.util.adapter.InputAdapter
 import com.lhr.water.util.adapter.WaitOutputGoodsAdapter
+import com.lhr.water.util.dialog.InputDialog
+import com.lhr.water.util.dialog.InputGoodsDialog
 import com.lhr.water.util.manager.jsonStringToJson
 import org.json.JSONObject
 
 
-class WaitInputFragment(jsonString: JSONObject) : BaseFragment(), View.OnClickListener, InputAdapter.Listener {
+class WaitInputFragment(jsonString: JSONObject) : BaseFragment(), View.OnClickListener, InputAdapter.Listener, InputDialog.Listener {
 
     private val viewModel: HistoryViewModel by viewModels { viewModelFactory }
     private var _binding: FragmentWaitInputGoodsBinding? = null
@@ -50,6 +52,13 @@ class WaitInputFragment(jsonString: JSONObject) : BaseFragment(), View.OnClickLi
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         initView()
+        bindViewModel()
+    }
+
+    private fun bindViewModel() {
+        viewModel.formRepository.tempWaitInputGoods.observe(viewLifecycleOwner) { newList ->
+            inputAdapter.notifyDataSetChanged()
+        }
     }
 
     private fun initView() {
@@ -58,7 +67,8 @@ class WaitInputFragment(jsonString: JSONObject) : BaseFragment(), View.OnClickLi
 
 
     private fun initRecyclerView() {
-        inputAdapter = InputAdapter(this)
+        inputAdapter = InputAdapter(requireContext(), jsonString["reportTitle"].toString(),
+            jsonString["formNumber"].toString(),this, viewModel)
         inputAdapter.submitList(
             viewModel.filterWaitOutputGoods(
                 jsonString["reportTitle"].toString(),
@@ -78,7 +88,16 @@ class WaitInputFragment(jsonString: JSONObject) : BaseFragment(), View.OnClickLi
         }
     }
 
-    override fun onItemClick(item: WaitDealGoodsData) {
+    override fun onItemClick(waitDealGoodsData: WaitDealGoodsData, maxQuantity: String) {
+        val goodsDialog = InputDialog(
+            waitDealGoodsData,
+            listener = this,
+            maxQuantity
+        )
+        goodsDialog.show(requireActivity().supportFragmentManager, "InputGoodsDialog")
+    }
+
+    override fun onGoodsDialogConfirm(formItemJson: JSONObject) {
         TODO("Not yet implemented")
     }
 }

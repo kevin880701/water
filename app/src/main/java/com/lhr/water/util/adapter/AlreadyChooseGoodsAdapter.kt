@@ -61,12 +61,6 @@ class AlreadyChooseGoodsAdapter(
     inner class ViewHolder(private val binding: ItemAlreadyChooseGoodsBinding) :
         RecyclerView.ViewHolder(binding.root) {
 
-        init {
-            binding.imageRemove.setOnClickListener {
-                listener.onRemoveClick(getItem(adapterPosition))
-            }
-        }
-
         fun bind(storageContentEntity: StorageContentEntity) {
             binding.textMaterialName.text =
                 jsonStringToJson(storageContentEntity.itemInformation)["materialName"].toString()
@@ -80,7 +74,12 @@ class AlreadyChooseGoodsAdapter(
                 storageContentEntity.storageNum
             )
             binding.textQuantity.text =
-                jsonStringToJson(storageContentEntity.itemInformation)["receivedQuantity"].toString()
+                jsonStringToJson(storageContentEntity.itemInformation)["quantity"].toString()
+
+
+            binding.imageRemove.setOnClickListener {
+                listener.onRemoveClick(getItem(adapterPosition))
+            }
         }
     }
 }

@@ -2,6 +2,7 @@ package com.lhr.water.util.adapter
 
 import android.content.Context
 import android.view.LayoutInflater
+import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
@@ -12,10 +13,17 @@ import com.lhr.water.databinding.ItemInputBinding
 import com.lhr.water.databinding.ItemWaitInputGoodsBinding
 import com.lhr.water.room.StorageContentEntity
 import com.lhr.water.ui.goods.GoodsViewModel
+import com.lhr.water.ui.history.HistoryViewModel
 import com.lhr.water.util.manager.jsonStringToJson
+import com.lhr.water.util.showToast
+import timber.log.Timber
 
 class InputAdapter(
-    val listener: Listener
+    val context: Context,
+    val reportTitle: String,
+    val formNumber: String,
+    val listener: Listener,
+    val viewModel: HistoryViewModel
 ) :
     ListAdapter<WaitDealGoodsData, InputAdapter.ViewHolder>(LOCK_DIFF_UTIL) {
     companion object {
@@ -37,7 +45,7 @@ class InputAdapter(
     }
 
     interface Listener {
-        fun onItemClick(item: WaitDealGoodsData)
+        fun onItemClick(item: WaitDealGoodsData, maxQuantity: String)
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
@@ -53,19 +61,32 @@ class InputAdapter(
     inner class ViewHolder(private val binding: ItemInputBinding) :
         RecyclerView.ViewHolder(binding.root) {
 
-        init {
-            binding.root.setOnClickListener {
-                listener.onItemClick(getItem(adapterPosition))
-            }
-        }
-
         fun bind(waitDealGoodsData: WaitDealGoodsData) {
             binding.textMaterialName.text =
                 waitDealGoodsData.itemInformation["materialName"].toString()
             binding.textMaterialNumber.text =
                 waitDealGoodsData.itemInformation["materialNumber"].toString()
-            binding.textQuantity.text =
-                waitDealGoodsData.itemInformation["receivedQuantity"].toString()
+            // 需判斷暫存待入庫的貨物列表是否有相對應貨物，有的話需要減去數量
+            var quantity = waitDealGoodsData.itemInformation.getInt("receivedQuantity") - viewModel.formRepository.getMaterialQuantityByTempWaitInputGoods(
+                reportTitle,
+                formNumber,
+                waitDealGoodsData.itemInformation["number"].toString()
+            )
+            binding.textQuantity.text = quantity.toString()
+            if(quantity == 0){
+                binding.cover.visibility = View.VISIBLE
+            }else{
+                binding.cover.visibility = View.INVISIBLE
+            }
+
+            binding.root.setOnClickListener {
+
+                if(quantity == 0){
+                    showToast(context, "已經無貨物")
+                }else{
+                    listener.onItemClick(getItem(adapterPosition), binding.textQuantity.text.toString())
+                }
+            }
         }
     }
 }

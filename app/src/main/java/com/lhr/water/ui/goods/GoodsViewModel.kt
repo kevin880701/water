@@ -46,12 +46,18 @@ class GoodsViewModel(
 
     /**
      * 將選擇貨物加入儲櫃中並更新暫存待入庫的貨物列表
+     * @param waitDealGoodsData 貨物資訊
+     * @param region 地區名稱
+     * @param map 地區名稱
+     * @param storageNum 櫥櫃代號
+     * @param materialQuantity 貨物數量
      */
     fun inputInTempGoods(
         waitDealGoodsData: WaitDealGoodsData,
         region: String,
         map: String,
-        storageNum: String
+        storageNum: String,
+        materialQuantity: String
     ) {
         // 需要為貨物加上地區、地圖、儲櫃代號、報表名稱、報表代號、入庫時間欄位
         var waitInputGoodsJson = waitDealGoodsData.itemInformation
@@ -63,6 +69,7 @@ class GoodsViewModel(
         waitInputGoodsJson.put("reportTitle", waitDealGoodsData.reportTitle)
         // 入庫時間記錄到民國年月日就好
         waitInputGoodsJson.put("inputDate", getCurrentDate())
+        waitInputGoodsJson.put("quantity", materialQuantity)
 
         var storageContentEntity = StorageContentEntity()
         storageContentEntity.regionName = region

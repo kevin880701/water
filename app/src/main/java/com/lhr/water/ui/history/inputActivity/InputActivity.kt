@@ -52,7 +52,6 @@ class InputActivity : BaseActivity(), View.OnClickListener {
         }
 
         initView()
-
     }
 
     private fun initView() {

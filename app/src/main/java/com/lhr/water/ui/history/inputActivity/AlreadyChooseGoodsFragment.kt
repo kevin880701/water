@@ -13,8 +13,8 @@ import com.lhr.water.room.StorageContentEntity
 import com.lhr.water.ui.base.BaseFragment
 import com.lhr.water.ui.history.HistoryViewModel
 import com.lhr.water.util.adapter.AlreadyChooseGoodsAdapter
-import com.lhr.water.util.adapter.InputAdapter
 import org.json.JSONObject
+import timber.log.Timber
 
 
 class AlreadyChooseGoodsFragment(jsonString: JSONObject) : BaseFragment(), View.OnClickListener,
@@ -32,16 +32,21 @@ class AlreadyChooseGoodsFragment(jsonString: JSONObject) : BaseFragment(), View.
         container: ViewGroup?, savedInstanceState: Bundle?
     ): View? {
         _binding = FragmentWaitInputGoodsBinding.inflate(layoutInflater)
-
         initView()
+        bindViewModel()
         return binding.root
     }
 
-
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        super.onViewCreated(view, savedInstanceState)
+    private fun bindViewModel() {
+        viewModel.formRepository.tempWaitInputGoods.observe(viewLifecycleOwner) { _ ->
+            alreadyChooseGoodsAdapter.submitList(
+                viewModel.filterTempWaitInputGoods(
+                    jsonString["reportTitle"].toString(),
+                    jsonString["formNumber"].toString()
+                )
+            )
+        }
     }
-
 
     private fun initView() {
         initRecyclerView()
@@ -69,7 +74,12 @@ class AlreadyChooseGoodsFragment(jsonString: JSONObject) : BaseFragment(), View.
         }
     }
 
-    override fun onRemoveClick(item: StorageContentEntity) {
-        TODO("Not yet implemented")
+    /**
+     * 移除暫存列表的指定內容
+     */
+    override fun onRemoveClick(storageContentEntity: StorageContentEntity) {
+        var tempArrayList = viewModel.formRepository.tempWaitInputGoods.value!!
+        tempArrayList.removeIf { it == storageContentEntity }
+        viewModel.formRepository.tempWaitInputGoods.value = tempArrayList
     }
 }

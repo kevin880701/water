@@ -19,7 +19,6 @@
             android:layout_height="wrap_content"
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintLeft_toLeftOf="parent"
-            android:layout_marginTop="8dp"
             tools:itemCount="3"
             tools:listitem="@layout/item_storage_content" />
     </androidx.constraintlayout.widget.ConstraintLayout>
