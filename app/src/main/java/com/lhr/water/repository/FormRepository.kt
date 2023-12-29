@@ -35,8 +35,8 @@ class FormRepository(context: Context) {
         MutableLiveData<ArrayList<WaitDealGoodsData>>()
 
     // 暫存待出貨的貨物列表（未送出）
-    var tempWaitOutputGoods: MutableLiveData<ArrayList<WaitDealGoodsData>> =
-        MutableLiveData<ArrayList<WaitDealGoodsData>>()
+    var tempWaitOutputGoods: MutableLiveData<ArrayList<StorageContentEntity>> =
+        MutableLiveData<ArrayList<StorageContentEntity>>()
 
     // 暫存待入庫的貨物列表（未送出）
     var tempWaitInputGoods: MutableLiveData<ArrayList<StorageContentEntity>> =
@@ -75,7 +75,7 @@ class FormRepository(context: Context) {
         }
         waitOutputGoods.value = ArrayList<WaitDealGoodsData>()
         waitInputGoods.value = ArrayList<WaitDealGoodsData>()
-        tempWaitOutputGoods.value = ArrayList<WaitDealGoodsData>()
+        tempWaitOutputGoods.value = ArrayList<StorageContentEntity>()
         tempWaitInputGoods.value = ArrayList<StorageContentEntity>()
         storageGoods.value = ArrayList<StorageContentEntity>()
         formRecordList.value = loadRecord()
@@ -372,6 +372,29 @@ class FormRepository(context: Context) {
         }
 
         val resultArrayList = ArrayList<StorageContentEntity>()
+        filteredList.toCollection(resultArrayList)
+
+        return resultArrayList
+    }
+
+
+
+    /**
+     * 根據表單名稱和表單代號篩選待出庫清單
+     * @param waitInputGoods 要篩選的待入庫清單
+     * @param targetReportTitle 指定表單名稱
+     * @param targetFormNumber 指定表單代號
+     */
+    fun filterWaitOutputGoods(
+        waitOutputGoods: ArrayList<WaitDealGoodsData>,
+        targetReportTitle: String,
+        targetFormNumber: String
+    ): ArrayList<WaitDealGoodsData> {
+        val filteredList = waitOutputGoods.filter { data ->
+            data.reportTitle == targetReportTitle && data.formNumber == targetFormNumber
+        }
+
+        val resultArrayList = ArrayList<WaitDealGoodsData>()
         filteredList.toCollection(resultArrayList)
 
         return resultArrayList

@@ -2,6 +2,7 @@ package com.lhr.water.util.dialog
 
 import android.app.AlertDialog
 import android.app.Dialog
+import android.content.Context
 import android.os.Bundle
 import android.view.View
 import android.widget.AdapterView
@@ -9,6 +10,7 @@ import android.widget.Spinner
 import androidx.fragment.app.DialogFragment
 import androidx.fragment.app.viewModels
 import com.lhr.water.R
+import com.lhr.water.data.RegionInformation
 import com.lhr.water.data.WaitDealGoodsData
 import com.lhr.water.databinding.DialogInputBinding
 import com.lhr.water.databinding.DialogInputGoodsBinding
@@ -18,16 +20,16 @@ import com.lhr.water.ui.base.AppViewModelFactory
 import com.lhr.water.ui.goods.GoodsViewModel
 import com.lhr.water.util.adapter.SpinnerAdapter
 import org.json.JSONObject
+import timber.log.Timber
 
 class InputDialog(
     waitDealGoodsData: WaitDealGoodsData,
-    listener: Listener,
-    maxQuantity: String
+    maxQuantity: String,
+    val isInput: Boolean
 ) : DialogFragment(), View.OnClickListener {
 
     private var dialog: AlertDialog? = null
     private var waitDealGoodsData = waitDealGoodsData
-    private var listener = listener
     private var _binding: DialogInputBinding? = null
     private val binding get() = _binding!!
     private var regionName = ""
@@ -36,6 +38,7 @@ class InputDialog(
     private var maxQuantity = maxQuantity
     private var materialName = ""
     private var materialNumber = ""
+    private var spinnerList = ArrayList<RegionInformation>()
 
     private val viewModelFactory: AppViewModelFactory
         get() = (requireContext().applicationContext as APP).appContainer.viewModelFactory
@@ -45,6 +48,7 @@ class InputDialog(
         _binding = DialogInputBinding.inflate(layoutInflater)
         val builder = AlertDialog.Builder(activity)
         builder.setCancelable(false)
+
         initView()
         builder.setView(binding.root)
         dialog = builder.create()
@@ -59,9 +63,15 @@ class InputDialog(
         materialName = waitDealGoodsData.itemInformation.getString("materialName")
         materialNumber = waitDealGoodsData.itemInformation.getString("materialNumber")
 //        maxQuantity = waitDealGoodsData.itemInformation.getString("receivedQuantity").toInt()
-        binding.textQuantity.text = maxQuantity.toString()
+        binding.textQuantity.text = maxQuantity
 
-        initSpinner(binding.spinnerRegion, viewModel.getRegionNameList(viewModel.regionRepository.storageInformationList))
+        spinnerList = if (isInput){
+            viewModel.regionRepository.storageInformationList
+        }else{
+            viewModel.getOutputGoodsWhere(waitDealGoodsData.itemInformation.optString("materialName"),waitDealGoodsData.itemInformation.optString("materialNumber"))
+        }
+
+        initSpinner(binding.spinnerRegion, viewModel.getRegionNameList(spinnerList))
 
         // 設定 Spinner 的選擇監聽器
         binding.spinnerRegion.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
@@ -73,7 +83,7 @@ class InputDialog(
             ) {
                 // 通過 position 獲取當前選定項的文字
                 regionName = parent?.getItemAtPosition(position).toString()
-                initSpinner(binding.spinnerMap, viewModel.getMapNameList(regionName, viewModel.regionRepository.storageInformationList))
+                initSpinner(binding.spinnerMap, viewModel.getMapNameList(regionName, spinnerList))
 
             }
 
@@ -95,7 +105,7 @@ class InputDialog(
                 initSpinner(
                     binding.spinnerStorage,
                     ArrayList(
-                        viewModel.getStorageNameList(regionName, mapName, viewModel.regionRepository.storageInformationList).map { it.StorageName })
+                        viewModel.getStorageNameList(regionName, mapName, spinnerList).map { it.StorageName })
                 )
             }
 
@@ -115,6 +125,12 @@ class InputDialog(
                 ) {
                     // 通過 position 獲取當前選定項的文字
                     storageName = parent?.getItemAtPosition(position).toString()
+                    // 如果是出貨，需採儲櫃剩餘數量和出貨數量中較小的那個做為最大值
+                    if(!isInput){
+                        var goodsStoreInformation = viewModel.getOutputGoodsStorageInformation(waitDealGoodsData.itemInformation.optString("materialName"),waitDealGoodsData.itemInformation.optString("materialNumber"))
+                        var materialQuantity = viewModel.regionRepository.getMaterialQuantity(regionName, mapName, viewModel.regionRepository.findStorageNum(regionName, mapName, storageName), materialNumber, goodsStoreInformation).toInt()
+                        maxQuantity = kotlin.math.min(materialQuantity, maxQuantity.toInt()).toString()
+                    }
                 }
                 override fun onNothingSelected(parent: AdapterView<*>?) {
                     // 在沒有選中項的情況下觸發
@@ -143,13 +159,23 @@ class InputDialog(
                 val storageNum = viewModel.regionRepository.findStorageNum(binding.spinnerRegion.selectedItem.toString(),
                     binding.spinnerMap.selectedItem.toString(),
                     binding.spinnerStorage.selectedItem.toString())
-                viewModel.inputInTempGoods(
-                    waitDealGoodsData,
-                    binding.spinnerRegion.selectedItem.toString(),
-                    binding.spinnerMap.selectedItem.toString(),
-                    storageNum,
-                    binding.textQuantity.text.toString()
-                )
+                if (isInput){
+                    viewModel.inputInTempGoods(
+                        waitDealGoodsData,
+                        binding.spinnerRegion.selectedItem.toString(),
+                        binding.spinnerMap.selectedItem.toString(),
+                        storageNum,
+                        binding.textQuantity.text.toString()
+                    )
+                }else{
+                    viewModel.outputInTempGoods(
+                        waitDealGoodsData,
+                        binding.spinnerRegion.selectedItem.toString(),
+                        binding.spinnerMap.selectedItem.toString(),
+                        storageNum,
+                        binding.textQuantity.text.toString()
+                    )
+                }
                 this.dismiss()
             }
 
@@ -158,7 +184,7 @@ class InputDialog(
             }
 
             R.id.imageSubtract -> {
-                // 減少數量，但不小於 0
+                // 減少數量，但不小於 1
                 binding.textQuantity.text = maxOf(1, binding.textQuantity.text.toString().toInt() - 1).toString()
             }
 

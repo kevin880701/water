@@ -23,7 +23,8 @@ class InputAdapter(
     val reportTitle: String,
     val formNumber: String,
     val listener: Listener,
-    val viewModel: HistoryViewModel
+    val viewModel: HistoryViewModel,
+    val isInput: Boolean
 ) :
     ListAdapter<WaitDealGoodsData, InputAdapter.ViewHolder>(LOCK_DIFF_UTIL) {
     companion object {
@@ -66,25 +67,38 @@ class InputAdapter(
                 waitDealGoodsData.itemInformation["materialName"].toString()
             binding.textMaterialNumber.text =
                 waitDealGoodsData.itemInformation["materialNumber"].toString()
-            // 需判斷暫存待入庫的貨物列表是否有相對應貨物，有的話需要減去數量
-            var quantity = waitDealGoodsData.itemInformation.getInt("receivedQuantity") - viewModel.formRepository.getMaterialQuantityByTempWaitInputGoods(
-                reportTitle,
-                formNumber,
-                waitDealGoodsData.itemInformation["number"].toString()
-            )
+            // 1.判斷是進貨還是出貨
+            // 2.需判斷暫存待入庫的貨物列表是否有相對應貨物，有的話需要減去數量
+            var quantity = if (isInput) {
+                waitDealGoodsData.itemInformation.getInt("receivedQuantity") - viewModel.formRepository.getMaterialQuantityByTempWaitInputGoods(
+                    reportTitle,
+                    formNumber,
+                    waitDealGoodsData.itemInformation["number"].toString()
+                )
+            } else {
+                waitDealGoodsData.itemInformation.getInt("actualQuantity") - viewModel.formRepository.getMaterialQuantityByTempWaitInputGoods(
+                    reportTitle,
+                    formNumber,
+                    waitDealGoodsData.itemInformation["number"].toString()
+                )
+            }
+
             binding.textQuantity.text = quantity.toString()
-            if(quantity == 0){
+            if (quantity == 0) {
                 binding.cover.visibility = View.VISIBLE
-            }else{
+            } else {
                 binding.cover.visibility = View.INVISIBLE
             }
 
             binding.root.setOnClickListener {
 
-                if(quantity == 0){
+                if (quantity == 0) {
                     showToast(context, "已經無貨物")
-                }else{
-                    listener.onItemClick(getItem(adapterPosition), binding.textQuantity.text.toString())
+                } else {
+                    listener.onItemClick(
+                        getItem(adapterPosition),
+                        binding.textQuantity.text.toString()
+                    )
                 }
             }
         }

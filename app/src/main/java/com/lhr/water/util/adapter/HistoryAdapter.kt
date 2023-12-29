@@ -38,14 +38,6 @@ class HistoryAdapter(val listener: Listener, context: Context): ListAdapter<JSON
     }
 
     inner class ViewHolder(private val binding: ItemHistoryBinding): RecyclerView.ViewHolder(binding.root){
-        init {
-            binding.imageDealGoods.setOnClickListener {
-                listener.onDealGoodsClick(getItem(adapterPosition))
-            }
-            binding.root.setOnClickListener {
-                listener.onItemClick(getItem(adapterPosition))
-            }
-        }
 
         fun bind(json: JSONObject){
             binding.textReportTitle.text = json.getString("reportTitle")
@@ -58,6 +50,14 @@ class HistoryAdapter(val listener: Listener, context: Context): ListAdapter<JSON
                     binding.imageDealGoods.visibility = View.VISIBLE
                 }
                 context.getString(R.string.complete_deal) -> {binding.imageStatus.setImageDrawable(context.getDrawable(R.drawable.green_light))}
+            }
+
+
+            binding.imageDealGoods.setOnClickListener {
+                listener.onDealGoodsClick(getItem(adapterPosition))
+            }
+            binding.root.setOnClickListener {
+                listener.onItemClick(getItem(adapterPosition))
             }
         }
     }

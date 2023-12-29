@@ -21,7 +21,7 @@ class HistoryViewModel(
     init {
     }
 
-    fun filterWaitOutputGoods(
+    fun filterWaitInputGoods(
         targetReportTitle: String,
         targetFormNumber: String
     ) = formRepository.filterWaitInputGoods(
@@ -36,4 +36,14 @@ class HistoryViewModel(
         formRepository.tempWaitInputGoods.value!!,
         targetReportTitle,
         targetFormNumber)
+
+
+    fun filterWaitOutputGoods(
+        targetReportTitle: String,
+        targetFormNumber: String
+    ) = formRepository.filterWaitOutputGoods(
+        formRepository.waitOutputGoods.value!!,
+        targetReportTitle,
+        targetFormNumber
+    )
 }

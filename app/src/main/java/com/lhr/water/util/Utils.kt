@@ -7,6 +7,10 @@ import android.widget.Toast
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.engine.DiskCacheStrategy
 import com.lhr.water.model.LoginData
+import com.lhr.water.util.FormName.deliveryFormName
+import com.lhr.water.util.FormName.pickingFormName
+import com.lhr.water.util.FormName.returningFormName
+import com.lhr.water.util.FormName.transferFormName
 import com.lhr.water.util.TransferStatus.notTransfer
 import com.lhr.water.util.TransferStatus.transferInput
 import com.lhr.water.util.TransferStatus.transferOutput
@@ -68,6 +72,30 @@ fun getCurrentDate(): String {
     return "$yearROC/$month/$day"
 }
 
+
+/**
+ * 判斷表單是否是進貨
+ * @return formContentJsonObject 表單JSON
+ */
+fun isInput(formContentJsonObject: JSONObject): Boolean{
+    if(formContentJsonObject.getString("reportTitle") == deliveryFormName ||
+        formContentJsonObject.getString("reportTitle") == returningFormName
+    ){
+        return true
+    }else if(formContentJsonObject.getString("reportTitle") == pickingFormName){
+        return false
+    }else if(formContentJsonObject.getString("reportTitle") == transferFormName){
+        return formContentJsonObject.getString("receivingDept") == LoginData.region && formContentJsonObject.getString("receivingLocation") == LoginData.map
+    }else{
+        return true
+    }
+}
+
+
+/**
+ * 判斷調撥單是否是進貨
+ * @return formContentJsonObject 表單JSON
+ */
 fun transferStatus(isTransferForm: Boolean, jsonObject: JSONObject): String{
     return if(isTransferForm){
         if (jsonObject.getString("receivingDept") == LoginData.region && jsonObject.getString("receivingLocation") == LoginData.map){
