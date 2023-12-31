@@ -60,12 +60,11 @@
         <ImageView
             android:id="@+id/imageDealGoods"
             android:layout_width="24dp"
-            android:layout_height="24dp"
+            android:layout_height="match_parent"
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintLeft_toRightOf="@+id/textDate"
             app:layout_constraintRight_toLeftOf="@+id/imageStatus"
-            android:visibility="invisible"
             android:src="@drawable/shipment_deal"
             app:tint="@color/seed"/>
 

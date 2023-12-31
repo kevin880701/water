@@ -9,7 +9,7 @@ import com.lhr.water.data.MapDetail
 import com.lhr.water.data.StorageDetail
 import com.lhr.water.data.RegionInformation
 import com.lhr.water.room.SqlDatabase
-import com.lhr.water.room.StorageContentEntity
+import com.lhr.water.room.StorageRecordEntity
 import com.lhr.water.room.TargetEntity
 import com.lhr.water.util.manager.jsonStringToJson
 import java.io.InputStreamReader
@@ -227,7 +227,7 @@ class RegionRepository private constructor(private val context: Context) {
         mapName: String,
         storageNum: String,
         materialNum: String,
-        storageInformationList: ArrayList<StorageContentEntity>
+        storageInformationList: ArrayList<StorageRecordEntity>
     ): String {
         val matchingItem = storageInformationList.find { item ->
             item.regionName == regionName &&

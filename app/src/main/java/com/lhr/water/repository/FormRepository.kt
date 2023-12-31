@@ -7,6 +7,7 @@ import com.lhr.water.data.WaitDealGoodsData
 import com.lhr.water.room.FormEntity
 import com.lhr.water.room.SqlDatabase
 import com.lhr.water.room.StorageContentEntity
+import com.lhr.water.room.StorageRecordEntity
 import com.lhr.water.util.DealStatus.nowDeal
 import com.lhr.water.util.FormName.deliveryFormName
 import com.lhr.water.util.FormName.pickingFormName
@@ -35,12 +36,16 @@ class FormRepository(context: Context) {
         MutableLiveData<ArrayList<WaitDealGoodsData>>()
 
     // 暫存待出貨的貨物列表（未送出）
-    var tempWaitOutputGoods: MutableLiveData<ArrayList<StorageContentEntity>> =
-        MutableLiveData<ArrayList<StorageContentEntity>>()
+    var tempWaitOutputGoods: MutableLiveData<ArrayList<StorageRecordEntity>> =
+        MutableLiveData<ArrayList<StorageRecordEntity>>()
 
     // 暫存待入庫的貨物列表（未送出）
-    var tempWaitInputGoods: MutableLiveData<ArrayList<StorageContentEntity>> =
-        MutableLiveData<ArrayList<StorageContentEntity>>()
+    var tempWaitInputGoods: MutableLiveData<ArrayList<StorageRecordEntity>> =
+        MutableLiveData<ArrayList<StorageRecordEntity>>()
+
+    // 儲櫃所有進出紀錄
+    var storageRecords: MutableLiveData<ArrayList<StorageRecordEntity>> =
+        MutableLiveData<ArrayList<StorageRecordEntity>>()
 
     // 儲櫃中所有貨物
     var storageGoods: MutableLiveData<ArrayList<StorageContentEntity>> =
@@ -75,8 +80,9 @@ class FormRepository(context: Context) {
         }
         waitOutputGoods.value = ArrayList<WaitDealGoodsData>()
         waitInputGoods.value = ArrayList<WaitDealGoodsData>()
-        tempWaitOutputGoods.value = ArrayList<StorageContentEntity>()
-        tempWaitInputGoods.value = ArrayList<StorageContentEntity>()
+        tempWaitOutputGoods.value = ArrayList<StorageRecordEntity>()
+        tempWaitInputGoods.value = ArrayList<StorageRecordEntity>()
+        storageRecords.value = ArrayList<StorageRecordEntity>()
         storageGoods.value = ArrayList<StorageContentEntity>()
         formRecordList.value = loadRecord()
     }
@@ -132,10 +138,11 @@ class FormRepository(context: Context) {
             }
         }
         // 更新已入庫的貨物
+        updateStorageRecords()
         updateStorageGoods()
         // 這裡需要把已入庫的貨物從waitInputGoods中刪除
         waitInputGoodsList.removeAll { waitDealGoodsData ->
-            storageGoods.value!!.any { storageContentEntity ->
+            storageRecords.value!!.any { storageContentEntity ->
                 // 透過表單代號(formNumber)和物品編號(number)來做篩選
                 storageContentEntity.formNumber == waitDealGoodsData.formNumber &&
                         jsonStringToJson(storageContentEntity.itemInformation).getString("number") == waitDealGoodsData.itemInformation.getString(
@@ -144,7 +151,7 @@ class FormRepository(context: Context) {
             }
         }
         val modWaitInputGoodsList = waitInputGoodsList.map { originalItem ->
-            val modifiedItemInformation = originalItem.itemInformation
+            val modifiedItemInformation = JSONObject(originalItem.itemInformation.toString())
             modifiedItemInformation.put("reportTitle", originalItem.reportTitle)
             modifiedItemInformation.put("formNumber", originalItem.formNumber)
 
@@ -162,11 +169,19 @@ class FormRepository(context: Context) {
     /**
      * 更新儲櫃中的所有貨物
      */
+    private fun updateStorageRecords() {
+        storageRecords.value =
+            SqlDatabase.getInstance().getStorageRecordDao().getAllStorageContent() as ArrayList
+    }
+
+
+    /**
+     * 更新儲櫃中的所有貨物
+     */
     private fun updateStorageGoods() {
         storageGoods.value =
             SqlDatabase.getInstance().getStorageContentDao().getAllStorageContent() as ArrayList
     }
-
 
     /**
      * 更新待出庫貨物列表
@@ -363,21 +378,19 @@ class FormRepository(context: Context) {
      * @param targetFormNumber 指定表單代號
      */
     fun filterTempWaitInputGoods(
-        tempWaitInputGoods: ArrayList<StorageContentEntity>,
+        tempWaitInputGoods: ArrayList<StorageRecordEntity>,
         targetReportTitle: String,
         targetFormNumber: String
-    ): ArrayList<StorageContentEntity> {
+    ): ArrayList<StorageRecordEntity> {
         val filteredList = tempWaitInputGoods.filter { data ->
             data.reportTitle == targetReportTitle && data.formNumber == targetFormNumber
         }
 
-        val resultArrayList = ArrayList<StorageContentEntity>()
+        val resultArrayList = ArrayList<StorageRecordEntity>()
         filteredList.toCollection(resultArrayList)
 
         return resultArrayList
     }
-
-
 
     /**
      * 根據表單名稱和表單代號篩選待出庫清單
@@ -398,5 +411,57 @@ class FormRepository(context: Context) {
         filteredList.toCollection(resultArrayList)
 
         return resultArrayList
+    }
+
+
+    /**
+     * 根據表單名稱和表單代號篩選暫存待出庫的貨物列表（未送出）
+     * @param tempWaitOutputGoods 要篩選的待出庫清單
+     * @param targetReportTitle 指定表單名稱
+     * @param targetFormNumber 指定表單代號
+     */
+    fun filterTempWaitOutputGoods(
+        tempWaitOutputGoods: ArrayList<StorageRecordEntity>,
+        targetReportTitle: String,
+        targetFormNumber: String
+    ): ArrayList<StorageRecordEntity> {
+        val filteredList = tempWaitOutputGoods.filter { data ->
+            data.reportTitle == targetReportTitle && data.formNumber == targetFormNumber
+        }
+
+        val resultArrayList = ArrayList<StorageRecordEntity>()
+        filteredList.toCollection(resultArrayList)
+
+        return resultArrayList
+    }
+
+
+    /**
+     * 根據表單名稱、表單代號、貨物名稱代號篩選暫存待出庫的貨物列表中指定的貨物數量
+     * @param targetReportTitle 指定表單名稱
+     * @param targetFormNumber 指定表單代號
+     * @param targetNumber 指定貨物在表單中的序號(非materialNumber)
+     */
+    fun getMaterialQuantityByTempWaitOutputGoods(
+        targetReportTitle: String,
+        targetFormNumber: String,
+        targetNumber: String
+    ): Int {
+        var totalQuantity = 0
+        // 篩選
+        val filteredList = tempWaitOutputGoods.value!!.filter { data ->
+            data.reportTitle == targetReportTitle &&
+                    data.formNumber == targetFormNumber &&
+                    jsonStringToJson(data.itemInformation).getString("number") == targetNumber
+
+        }
+        // 篩選後的List中數量加總
+        for (storageContentEntity in filteredList) {
+            val itemInformationJson = JSONObject(storageContentEntity.itemInformation)
+            if (itemInformationJson.has("quantity")) {
+                totalQuantity += itemInformationJson.getInt("quantity")
+            }
+        }
+        return totalQuantity
     }
 }

@@ -7,37 +7,37 @@
         "StorageDetail": [
           {
             "StorageNum": "01-01-01",
-            "StorageName": "櫥櫃名稱",
+            "StorageName": "櫥櫃名稱1",
             "StorageX": "100",
             "StorageY": "100"
           },
           {
             "StorageNum": "01-01-02",
-            "StorageName": "櫥櫃名稱",
+            "StorageName": "櫥櫃名稱2",
             "StorageX": "100",
             "StorageY": "100"
           },
           {
             "StorageNum": "01-01-03",
-            "StorageName": "櫥櫃名稱",
+            "StorageName": "櫥櫃名稱3",
             "StorageX": "100",
             "StorageY": "100"
           },
           {
             "StorageNum": "01-01-04",
-            "StorageName": "櫥櫃名稱",
+            "StorageName": "櫥櫃名稱4",
             "StorageX": "100",
             "StorageY": "100"
           },
           {
-            "StorageNum": "01-01-01",
-            "StorageName": "櫥櫃名稱",
+            "StorageNum": "01-01-05",
+            "StorageName": "櫥櫃名稱5",
             "StorageX": "100",
             "StorageY": "100"
           },
           {
-            "StorageNum": "01-01-01",
-            "StorageName": "櫥櫃名稱",
+            "StorageNum": "01-01-06",
+            "StorageName": "櫥櫃名稱6",
             "StorageX": "100",
             "StorageY": "100"
           }
@@ -47,74 +47,74 @@
         "MapName": "汐止所",
         "StorageDetail": [
           {
-            "StorageNum": "01-01-01",
-            "StorageName": "櫥櫃名稱",
+            "StorageNum": "01-02-01",
+            "StorageName": "櫥櫃名稱021",
             "StorageX": "100",
             "StorageY": "100"
           },
           {
-            "StorageNum": "01-01-01",
-            "StorageName": "櫥櫃名稱",
+            "StorageNum": "01-02-02",
+            "StorageName": "櫥櫃名稱022",
             "StorageX": "100",
             "StorageY": "100"
           },
           {
-            "StorageNum": "01-01-01",
-            "StorageName": "櫥櫃名稱",
+            "StorageNum": "01-02-03",
+            "StorageName": "櫥櫃名稱023",
             "StorageX": "100",
             "StorageY": "100"
           },
           {
-            "StorageNum": "01-01-01",
-            "StorageName": "櫥櫃名稱",
+            "StorageNum": "01-02-04",
+            "StorageName": "櫥櫃名稱024",
             "StorageX": "100",
             "StorageY": "100"
           },
           {
-            "StorageNum": "01-01-01",
-            "StorageName": "櫥櫃名稱",
+            "StorageNum": "01-02-05",
+            "StorageName": "櫥櫃名稱025",
             "StorageX": "100",
             "StorageY": "100"
           },
           {
-            "StorageNum": "01-01-01",
-            "StorageName": "櫥櫃名稱",
+            "StorageNum": "01-02-06",
+            "StorageName": "櫥櫃名稱026",
             "StorageX": "100",
             "StorageY": "100"
           },
           {
-            "StorageNum": "01-01-01",
-            "StorageName": "櫥櫃名稱",
+            "StorageNum": "01-02-07",
+            "StorageName": "櫥櫃名稱027",
             "StorageX": "100",
             "StorageY": "100"
           },
           {
-            "StorageNum": "01-01-01",
-            "StorageName": "櫥櫃名稱",
+            "StorageNum": "01-02-08",
+            "StorageName": "櫥櫃名稱028",
             "StorageX": "100",
             "StorageY": "100"
           },
           {
-            "StorageNum": "01-01-01",
-            "StorageName": "櫥櫃名稱",
+            "StorageNum": "01-02-09",
+            "StorageName": "櫥櫃名稱029",
             "StorageX": "100",
             "StorageY": "100"
           },
           {
-            "StorageNum": "01-01-01",
-            "StorageName": "櫥櫃名稱",
+            "StorageNum": "01-02-10",
+            "StorageName": "櫥櫃名稱0210",
             "StorageX": "100",
             "StorageY": "100"
           },
           {
-            "StorageNum": "01-01-01",
-            "StorageName": "櫥櫃名稱",
+            "StorageNum": "01-02-11",
+            "StorageName": "櫥櫃名稱0211",
             "StorageX": "100",
             "StorageY": "100"
           },
           {
-            "StorageNum": "01-01-01",
-            "StorageName": "櫥櫃名稱",
+            "StorageNum": "01-02-12",
+            "StorageName": "櫥櫃名稱0212",
             "StorageX": "100",
             "StorageY": "100"
           }

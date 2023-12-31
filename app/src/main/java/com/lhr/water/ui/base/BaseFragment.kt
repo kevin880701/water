@@ -34,10 +34,6 @@ open class BaseFragment: Fragment() {
         Toast.makeText(requireContext(), msg, Toast.LENGTH_SHORT).show()
     }
 
-    protected fun showMessageDialog(msg: String, title: String? = null){
-        (requireActivity() as? BaseActivity)?.showConfirmDialog(msg, title)
-    }
-
     private var logLifeCycle = false
 
     override fun onCreate(savedInstanceState: Bundle?) {

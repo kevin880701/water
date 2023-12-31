@@ -1,18 +1,12 @@
 package com.lhr.water.util.adapter
 
-import android.content.Context
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
-import com.lhr.water.R
-import com.lhr.water.data.WaitDealGoodsData
 import com.lhr.water.databinding.ItemAlreadyChooseGoodsBinding
-import com.lhr.water.databinding.ItemInputBinding
-import com.lhr.water.databinding.ItemWaitInputGoodsBinding
-import com.lhr.water.room.StorageContentEntity
-import com.lhr.water.ui.goods.GoodsViewModel
+import com.lhr.water.room.StorageRecordEntity
 import com.lhr.water.ui.history.HistoryViewModel
 import com.lhr.water.util.manager.jsonStringToJson
 
@@ -21,19 +15,19 @@ class AlreadyChooseGoodsAdapter(
     val historyViewModel: HistoryViewModel
 
 ) :
-    ListAdapter<StorageContentEntity, AlreadyChooseGoodsAdapter.ViewHolder>(LOCK_DIFF_UTIL) {
+    ListAdapter<StorageRecordEntity, AlreadyChooseGoodsAdapter.ViewHolder>(LOCK_DIFF_UTIL) {
     companion object {
-        val LOCK_DIFF_UTIL = object : DiffUtil.ItemCallback<StorageContentEntity>() {
+        val LOCK_DIFF_UTIL = object : DiffUtil.ItemCallback<StorageRecordEntity>() {
             override fun areItemsTheSame(
-                oldItem: StorageContentEntity,
-                newItem: StorageContentEntity
+                oldItem: StorageRecordEntity,
+                newItem: StorageRecordEntity
             ): Boolean {
                 return oldItem == newItem
             }
 
             override fun areContentsTheSame(
-                oldItem: StorageContentEntity,
-                newItem: StorageContentEntity
+                oldItem: StorageRecordEntity,
+                newItem: StorageRecordEntity
             ): Boolean {
                 return oldItem.hashCode() == newItem.hashCode()
             }
@@ -41,7 +35,7 @@ class AlreadyChooseGoodsAdapter(
     }
 
     interface Listener {
-        fun onRemoveClick(item: StorageContentEntity)
+        fun onRemoveClick(item: StorageRecordEntity)
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
@@ -61,7 +55,7 @@ class AlreadyChooseGoodsAdapter(
     inner class ViewHolder(private val binding: ItemAlreadyChooseGoodsBinding) :
         RecyclerView.ViewHolder(binding.root) {
 
-        fun bind(storageContentEntity: StorageContentEntity) {
+        fun bind(storageContentEntity: StorageRecordEntity) {
             binding.textMaterialName.text =
                 jsonStringToJson(storageContentEntity.itemInformation)["materialName"].toString()
             binding.textMaterialNumber.text =

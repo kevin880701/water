@@ -14,16 +14,13 @@ import com.google.android.material.tabs.TabLayout
 import com.google.android.material.tabs.TabLayoutMediator
 import com.lhr.water.R
 import com.lhr.water.databinding.ActivityMainBinding
-import com.lhr.water.model.LoginData
 import com.lhr.water.ui.base.APP
 import com.lhr.water.ui.base.BaseActivity
 import com.lhr.water.ui.form.FormFragment
-import com.lhr.water.ui.goods.GoodsFragment
 import com.lhr.water.ui.history.HistoryFragment
 import com.lhr.water.ui.regionChoose.RegionChooseFragment
 import com.lhr.water.ui.setting.SettingFragment
 import com.lhr.water.util.viewPager.MainViewPageAdapter
-import timber.log.Timber
 
 class MainActivity : BaseActivity() {
 
@@ -47,14 +44,12 @@ class MainActivity : BaseActivity() {
                 R.drawable.form,
                 R.drawable.region_choose,
                 R.drawable.history,
-                R.drawable.goods,
                 R.drawable.setting,
             )
             var fragments = arrayListOf(
                 FormFragment(),
                 RegionChooseFragment(),
                 HistoryFragment(),
-                GoodsFragment(),
                 SettingFragment()
             ) as ArrayList<Fragment>
             pageAdapter = MainViewPageAdapter(supportFragmentManager, lifecycle, fragments)

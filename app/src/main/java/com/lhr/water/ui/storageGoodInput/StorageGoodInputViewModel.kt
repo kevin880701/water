@@ -6,7 +6,7 @@ import androidx.lifecycle.MutableLiveData
 import com.lhr.water.data.WaitDealGoodsData
 import com.lhr.water.repository.FormRepository
 import com.lhr.water.room.SqlDatabase
-import com.lhr.water.room.StorageContentEntity
+import com.lhr.water.room.StorageRecordEntity
 import com.lhr.water.ui.base.APP
 import com.lhr.water.util.adapter.StorageInputAdapter
 import com.lhr.water.util.getCurrentDate
@@ -31,7 +31,7 @@ class StorageGoodInputViewModel(context: Context, formRepository: FormRepository
      */
     fun inputGoods(storageInputAdapter: StorageInputAdapter, region: String, map: String, storageNum: String) {
         // 遍歷數據集，檢查每個位置的 CheckBox 是否被選中
-        var storageContentEntities = ArrayList<StorageContentEntity>()
+        var storageContentEntities = ArrayList<StorageRecordEntity>()
         for (i in getWaitInputGoods().indices) {
             val isChecked = storageInputAdapter.isSelected(i)
 
@@ -48,7 +48,7 @@ class StorageGoodInputViewModel(context: Context, formRepository: FormRepository
                 // 入庫時間記錄到民國年月日就好
                 waitInputGoodsJson.put("inputDate", getCurrentDate())
 
-                var storageContentEntity = StorageContentEntity()
+                var storageContentEntity = StorageRecordEntity()
                 storageContentEntity.regionName = region
                 storageContentEntity.mapName = map
                 storageContentEntity.storageNum = storageNum
@@ -59,7 +59,7 @@ class StorageGoodInputViewModel(context: Context, formRepository: FormRepository
             }
         }
         if(storageContentEntities.size > 0){
-            SqlDatabase.getInstance().getStorageContentDao().insertStorageItemList(storageContentEntities)
+            SqlDatabase.getInstance().getStorageRecordDao().insertStorageRecordList(storageContentEntities)
         }
         formRepository.updateWaitInputGoods(formRepository.formRecordList.value!!)
     }

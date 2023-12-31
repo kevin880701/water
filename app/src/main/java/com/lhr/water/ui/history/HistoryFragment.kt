@@ -1,6 +1,5 @@
 package com.lhr.water.ui.history
 
-import android.content.Context
 import android.content.Intent
 import android.os.Bundle
 import android.text.Editable
@@ -16,7 +15,7 @@ import com.lhr.water.repository.FormRepository
 import com.lhr.water.databinding.FragmentHistoryBinding
 import com.lhr.water.ui.base.BaseFragment
 import com.lhr.water.ui.formContent.FormContentActivity
-import com.lhr.water.ui.history.inputActivity.InputActivity
+import com.lhr.water.ui.history.dealMaterial.DealMaterialActivity
 import com.lhr.water.util.popupWindow.FilterFormPopupWindow
 import com.lhr.water.util.adapter.HistoryAdapter
 import org.json.JSONObject
@@ -118,7 +117,7 @@ class HistoryFragment : BaseFragment(), View.OnClickListener, HistoryAdapter.Lis
 
     override fun onDealGoodsClick(json: JSONObject) {
         Timber.d(json.toString())
-        val intent = Intent(requireActivity(), InputActivity::class.java)
+        val intent = Intent(requireActivity(), DealMaterialActivity::class.java)
         intent.putExtra("jsonString", json.toString())
         requireActivity().startActivity(intent)
     }

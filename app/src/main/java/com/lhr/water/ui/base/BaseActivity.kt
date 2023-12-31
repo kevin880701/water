@@ -9,7 +9,6 @@ import androidx.activity.OnBackPressedCallback
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
 import com.lhr.water.R
-import com.lhr.water.util.MessageDialogFragment
 import io.reactivex.disposables.CompositeDisposable
 import timber.log.Timber
 
@@ -38,9 +37,6 @@ open class BaseActivity : AppCompatActivity() {
         ) == PackageManager.PERMISSION_GRANTED
     }
 
-    fun showConfirmDialog(msg: String, title: String? = null) {
-        MessageDialogFragment.newInstance(msg, title).show(supportFragmentManager, "")
-    }
 
     private var logLifeCycle = true
 

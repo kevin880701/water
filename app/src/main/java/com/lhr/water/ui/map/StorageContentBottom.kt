@@ -12,6 +12,7 @@ import com.lhr.water.data.StorageDetail
 import com.lhr.water.databinding.WidgetBottomStorageContentBinding
 import com.lhr.water.repository.FormRepository
 import com.lhr.water.room.StorageContentEntity
+import com.lhr.water.room.StorageRecordEntity
 import com.lhr.water.ui.base.APP
 import com.lhr.water.util.adapter.StorageContentAdapter
 import com.lhr.water.util.dialog.GoodsDialog
@@ -71,7 +72,7 @@ class StorageContentBottom(
 
 
     private fun bindViewModel() {
-        formRepository.storageGoods.observe(activity, Observer { _ ->
+        formRepository.storageRecords.observe(activity, Observer { _ ->
             storageContentAdapter.submitList(
                 viewModel.getStorageContent(
                     region,
@@ -133,25 +134,25 @@ class StorageContentBottom(
             resources.getStringArray(R.array.storage_Good_field_name_eng)
                 .toList() as ArrayList<String>
         val goodContent = ArrayList<String>()
-        val goodJsonObject = jsonStringToJson(storageContentEntity.itemInformation)
-        goodFieldNameEngList.forEach { key ->
-            if (goodJsonObject.has(key)) {
-                val value = goodJsonObject.getString(key)
-                goodContent.add(value)
-            } else {
-                // Handle the case where the key is not present in the JSON object
-                // You can choose to add a default value or take any other action
-                goodContent.add("Key $key not found")
-            }
-        }
-        val goodsDialog = GoodsDialog(
-            isAdd = true,
-            formItemFieldNameList = goodFieldNameList,
-            formItemFieldNameEngList = goodFieldNameEngList,
-            listener = this,
-            formItemFieldContentList = goodContent
-        )
-        goodsDialog.show(activity.supportFragmentManager, "GoodsDialog")
+//        val goodJsonObject = jsonStringToJson(storageContentEntity.itemInformation)
+//        goodFieldNameEngList.forEach { key ->
+//            if (goodJsonObject.has(key)) {
+//                val value = goodJsonObject.getString(key)
+//                goodContent.add(value)
+//            } else {
+//                // Handle the case where the key is not present in the JSON object
+//                // You can choose to add a default value or take any other action
+//                goodContent.add("Key $key not found")
+//            }
+//        }
+//        val goodsDialog = GoodsDialog(
+//            isAdd = true,
+//            formItemFieldNameList = goodFieldNameList,
+//            formItemFieldNameEngList = goodFieldNameEngList,
+//            listener = this,
+//            formItemFieldContentList = goodContent
+//        )
+//        goodsDialog.show(activity.supportFragmentManager, "GoodsDialog")
     }
 
     override fun onGoodsDialogConfirm(formItemJson: JSONObject) {

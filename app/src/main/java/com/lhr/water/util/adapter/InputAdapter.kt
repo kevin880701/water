@@ -7,16 +7,10 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
-import com.lhr.water.R
 import com.lhr.water.data.WaitDealGoodsData
 import com.lhr.water.databinding.ItemInputBinding
-import com.lhr.water.databinding.ItemWaitInputGoodsBinding
-import com.lhr.water.room.StorageContentEntity
-import com.lhr.water.ui.goods.GoodsViewModel
 import com.lhr.water.ui.history.HistoryViewModel
-import com.lhr.water.util.manager.jsonStringToJson
 import com.lhr.water.util.showToast
-import timber.log.Timber
 
 class InputAdapter(
     val context: Context,
@@ -68,7 +62,7 @@ class InputAdapter(
             binding.textMaterialNumber.text =
                 waitDealGoodsData.itemInformation["materialNumber"].toString()
             // 1.判斷是進貨還是出貨
-            // 2.需判斷暫存待入庫的貨物列表是否有相對應貨物，有的話需要減去數量
+            // 2.需判斷暫存待出入庫的貨物列表是否有相對應貨物，有的話需要減去數量
             var quantity = if (isInput) {
                 waitDealGoodsData.itemInformation.getInt("receivedQuantity") - viewModel.formRepository.getMaterialQuantityByTempWaitInputGoods(
                     reportTitle,
@@ -76,7 +70,7 @@ class InputAdapter(
                     waitDealGoodsData.itemInformation["number"].toString()
                 )
             } else {
-                waitDealGoodsData.itemInformation.getInt("actualQuantity") - viewModel.formRepository.getMaterialQuantityByTempWaitInputGoods(
+                waitDealGoodsData.itemInformation.getInt("actualQuantity") - viewModel.formRepository.getMaterialQuantityByTempWaitOutputGoods(
                     reportTitle,
                     formNumber,
                     waitDealGoodsData.itemInformation["number"].toString()

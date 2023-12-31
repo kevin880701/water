@@ -5,7 +5,8 @@ class SqlModel {
         const val DB_NAME : String = "WaterInfo.db"
         const val FORM_TABLE_NAME : String = "Form"
         const val TARGET_TABLE_NAME : String = "TargetInfo"
-        const val STORAGE_CONTENT_NAME : String = "StorageContent"
+        const val STORAGE_RECORD_TABLE_NAME : String = "StorageRecord"
+        const val STORAGE_CONTENT_TABLE_NAME : String = "StorageContent"
         const val SQLITE_SEQUENCE : String = "sqlite_sequence"
         const val id : String = "id"
         //Form
@@ -21,5 +22,13 @@ class SqlModel {
 
         const val reportTitle : String = "reportTitle"
         const val itemInformation : String = "itemInformation"
+
+        const val materialNumber : String = "materialNumber"
+        const val materialName : String = "materialName"
+        const val materialSpec : String = "materialSpec"
+        const val materialUnit : String = "materialUnit"
+        const val length : String = "length"
+        const val quantity : String = "quantity"
+
     }
 }

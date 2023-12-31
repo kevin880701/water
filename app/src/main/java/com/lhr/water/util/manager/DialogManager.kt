@@ -11,8 +11,6 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.databinding.DataBindingUtil
 import com.google.android.material.bottomsheet.BottomSheetDialog
 import com.lhr.water.R
-import com.lhr.water.databinding.DialogConfirmBinding
-import com.lhr.water.databinding.DialogFormGoodsBinding
 import com.lhr.water.ui.base.BaseActivity
 import java.util.Objects
 
@@ -92,73 +90,6 @@ object DialogManager {
         }
     }
 
-    fun showConfirmDialog(
-        activity: AppCompatActivity,
-        title: String?,
-        content: String?,
-        onClickListener: View.OnClickListener?
-    ) {
-        activity.runOnUiThread {
-//            cancelLoadDialog(activity)
-            val builder = AlertDialog.Builder(activity)
-            builder.setCancelable(false)
-            val binding: DialogConfirmBinding = DataBindingUtil.inflate(
-                LayoutInflater.from(activity), R.layout.dialog_confirm, null, false
-            )
-            binding.title.setText(title)
-            binding.content.setText(content)
-            binding.confirm.setOnClickListener(View.OnClickListener { v ->
-                dialog!!.dismiss()
-                onClickListener?.onClick(v)
-            })
-            binding.close.setOnClickListener(View.OnClickListener { v ->
-                dialog!!.dismiss()
-                onClickListener?.onClick(v)
-            })
-            builder.setView(binding.getRoot())
-            dialog = builder.create()
-            dialog?.setCancelable(false)
-            Objects.requireNonNull(dialog?.window)
-                ?.setBackgroundDrawableResource(R.color.transparent)
-            dialog?.show()
-            val lp = WindowManager.LayoutParams()
-            val dm = DisplayMetrics()
-            activity.windowManager.defaultDisplay.getMetrics(dm)
-            lp.copyFrom(dialog?.getWindow()!!.attributes)
-            lp.width = (dm.widthPixels * 0.7).toInt()
-            dialog?.getWindow()!!.attributes = lp
-        }
-    }
-
-//    fun showEditDialog(
-//        activity: AppCompatActivity, title: String?, onClickListener: OnEditListener?
-//    ) {
-//        activity.runOnUiThread {
-//            val builder = AlertDialog.Builder(activity)
-//            builder.setCancelable(false)
-//            val binding: DialogEditBinding = DataBindingUtil.inflate(
-//                LayoutInflater.from(activity), R.layout.dialog_edit, null, false
-//            )
-////            binding.title.setText(title)
-//            binding.confirm.setOnClickListener(View.OnClickListener {
-//                dialog!!.dismiss()
-////                onClickListener?.onEdit(binding.content.text.toString())
-//            })
-//            binding.imageClose.setOnClickListener(View.OnClickListener { dialog!!.dismiss() })
-//            builder.setView(binding.root)
-//            dialog = builder.create()
-//            dialog?.setCancelable(false)
-//            Objects.requireNonNull(dialog?.window)
-//                ?.setBackgroundDrawableResource(android.R.color.transparent)
-//            dialog?.show()
-//            val lp = WindowManager.LayoutParams()
-//            val dm = DisplayMetrics()
-//            activity.windowManager.defaultDisplay.getMetrics(dm)
-//            lp.copyFrom(dialog?.window!!.attributes)
-//            lp.width = (dm.widthPixels * 0.7).toInt()
-//            dialog?.window!!.attributes = lp
-//        }
-//    }
 
     /**
      * 關閉對話框

@@ -95,17 +95,6 @@ class MapActivity(): BaseActivity(), View.OnClickListener, StorageInfoBottom.Lis
                 markLayer!!.setMarkIsClickListener(object : MarkLayer.MarkIsClickListener {
                     override fun markIsClick(num: Int) {
                         if(markLayer!!.MARK_ALLOW_CLICK){
-//                            val choose = MarkInformationPopupWindow(this@MapActivity, viewModel.targetDataArrayList.value!![num])
-//                            val mLayoutInScreen: Field =
-//                                PopupWindow::class.java.getDeclaredField("mLayoutInScreen")
-//                            mLayoutInScreen.isAccessible = true
-//                            mLayoutInScreen.set(choose, true)
-//                            choose.isClippingEnabled = false
-//                            val view: View = LayoutInflater.from(this@MapActivity).inflate(
-//                                R.layout.popup_mark_name,
-//                                null
-//                            )
-//                            choose.showAtLocation(view, Gravity.NO_GRAVITY, 0, 0)
                             showStorageInfo(viewModel.storageDetailList.value!![num])
                         }
                     }})
@@ -167,7 +156,6 @@ class MapActivity(): BaseActivity(), View.OnClickListener, StorageInfoBottom.Lis
     }
 
     override fun onStorageContentClick(map: String, region: String, storageDetail: StorageDetail) {
-
         val storageContentBottom = StorageContentBottom(this, this, storageDetail, map, region)
         showBottomSheet(storageContentBottom)
     }

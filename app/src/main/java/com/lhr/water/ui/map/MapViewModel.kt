@@ -7,6 +7,7 @@ import com.lhr.water.repository.RegionRepository
 import com.lhr.water.data.StorageDetail
 import com.lhr.water.repository.FormRepository
 import com.lhr.water.room.StorageContentEntity
+import com.lhr.water.room.StorageRecordEntity
 import com.lhr.water.ui.base.APP
 
 class MapViewModel(context: Context, regionRepository: RegionRepository, formRepository: FormRepository): AndroidViewModel(context.applicationContext as APP) {

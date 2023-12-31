@@ -2,7 +2,6 @@ package com.lhr.water.util.dialog
 
 import android.app.AlertDialog
 import android.app.Dialog
-import android.content.Context
 import android.os.Bundle
 import android.view.View
 import android.widget.AdapterView
@@ -13,16 +12,13 @@ import com.lhr.water.R
 import com.lhr.water.data.RegionInformation
 import com.lhr.water.data.WaitDealGoodsData
 import com.lhr.water.databinding.DialogInputBinding
-import com.lhr.water.databinding.DialogInputGoodsBinding
-import com.lhr.water.room.StorageContentEntity
 import com.lhr.water.ui.base.APP
 import com.lhr.water.ui.base.AppViewModelFactory
-import com.lhr.water.ui.goods.GoodsViewModel
+import com.lhr.water.ui.history.HistoryViewModel
 import com.lhr.water.util.adapter.SpinnerAdapter
 import org.json.JSONObject
-import timber.log.Timber
 
-class InputDialog(
+class WaitDealMaterialDialog(
     waitDealGoodsData: WaitDealGoodsData,
     maxQuantity: String,
     val isInput: Boolean
@@ -42,7 +38,7 @@ class InputDialog(
 
     private val viewModelFactory: AppViewModelFactory
         get() = (requireContext().applicationContext as APP).appContainer.viewModelFactory
-    private val viewModel: GoodsViewModel by viewModels { viewModelFactory }
+    private val viewModel: HistoryViewModel by viewModels { viewModelFactory }
 
     override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
         _binding = DialogInputBinding.inflate(layoutInflater)
@@ -62,13 +58,12 @@ class InputDialog(
 
         materialName = waitDealGoodsData.itemInformation.getString("materialName")
         materialNumber = waitDealGoodsData.itemInformation.getString("materialNumber")
-//        maxQuantity = waitDealGoodsData.itemInformation.getString("receivedQuantity").toInt()
         binding.textQuantity.text = maxQuantity
 
         spinnerList = if (isInput){
             viewModel.regionRepository.storageInformationList
         }else{
-            viewModel.getOutputGoodsWhere(waitDealGoodsData.itemInformation.optString("materialName"),waitDealGoodsData.itemInformation.optString("materialNumber"))
+            viewModel.getOutputGoodsWhere(waitDealGoodsData.itemInformation)
         }
 
         initSpinner(binding.spinnerRegion, viewModel.getRegionNameList(spinnerList))
@@ -155,7 +150,7 @@ class InputDialog(
     override fun onClick(v: View?) {
         when (v?.id) {
             R.id.buttonConfirm -> {
-                // 先找出儲櫃代號，不可直接用櫥櫃名稱，因為可能會被修改
+                // 先找出儲櫃代號，不可直接用儲櫃名稱，因為可能會被修改
                 val storageNum = viewModel.regionRepository.findStorageNum(binding.spinnerRegion.selectedItem.toString(),
                     binding.spinnerMap.selectedItem.toString(),
                     binding.spinnerStorage.selectedItem.toString())

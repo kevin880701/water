@@ -25,7 +25,6 @@ class StorageContentAdapter(val listener: Listener): ListAdapter<StorageContentE
         }
     }
 
-
     interface Listener{
         fun onItemClick(item: StorageContentEntity)
     }
@@ -43,15 +42,17 @@ class StorageContentAdapter(val listener: Listener): ListAdapter<StorageContentE
     inner class ViewHolder(private val binding: ItemStorageContentBinding): RecyclerView.ViewHolder(binding.root){
 
         init {
-            // bindingAdapterPosition無法使用，所以用adapterPosition替代
             binding.root.setOnClickListener {
                 listener.onItemClick(getItem(adapterPosition))
             }
         }
 
         fun bind(storageContentEntity: StorageContentEntity){
-            binding.textGoodsNumber.text = jsonStringToJson(storageContentEntity.itemInformation)["materialNumber"].toString()
-            binding.textGoodsName.text = jsonStringToJson(storageContentEntity.itemInformation)["materialName"].toString()
+            binding.textMaterialName.text = storageContentEntity.materialName
+            binding.textMaterialNumber.text = storageContentEntity.materialNumber
+            binding.textMaterialSpec.text = storageContentEntity.materialSpec
+            binding.textMaterialUnit.text = storageContentEntity.materialUnit
+            binding.textQuantity.text = storageContentEntity.quantity.toString()
         }
     }
 }
