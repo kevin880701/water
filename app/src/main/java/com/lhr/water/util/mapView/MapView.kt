@@ -2,6 +2,7 @@ package com.lhr.water.mapView
 
 import android.content.Context
 import android.graphics.Bitmap
+import android.graphics.Color
 import android.graphics.Matrix
 import android.graphics.Picture
 import android.graphics.PointF
@@ -68,6 +69,7 @@ class MapView @JvmOverloads constructor(context: Context?, attrs: AttributeSet? 
      */
     private fun initMapView() {
         holder.addCallback(this)
+        layers?.clear()
         layers = object : ArrayList<MapBaseLayer>() {
             override fun add(layer: MapBaseLayer): Boolean {
                 if (layers!!.size != 0) {
@@ -117,6 +119,17 @@ class MapView @JvmOverloads constructor(context: Context?, attrs: AttributeSet? 
         }
     }
 
+    fun clear() {
+        if (mHolder != null) {
+            val canvas = mHolder!!.lockCanvas()
+            if (canvas != null) {
+
+                canvas.drawColor(Color.WHITE, android.graphics.PorterDuff.Mode.CLEAR)
+                invalidate()
+                mHolder!!.unlockCanvasAndPost(canvas)
+            }
+        }
+    }
     fun loadMap(bitmap: Bitmap?) {
         loadMap(getPictureFromBitmap(bitmap!!))
     }

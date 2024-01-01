@@ -59,11 +59,6 @@ class StorageGoodInputActivity : BaseActivity(), StorageInputAdapter.Listener, V
                 waitDealGoodsData.formNumber.contains(input)
             }
             storageInputAdapter.submitList(resultList)
-//            for (i in resultList){
-//                Timber.d(i.formNumber)
-//                Timber.d(i.reportTitle)
-//                Timber.d(i.itemInformation.toString())
-//            }
         }
     }
 

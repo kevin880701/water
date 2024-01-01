@@ -19,7 +19,7 @@ class RegionChooseViewModel(context: Context, regionRepository: RegionRepository
 
     init {
         pageStatus.postValue(MapPageStatus.RegionPage)
-        currentList.postValue(regionRepository.getRegionNameList(regionRepository.storageInformationList))
+        currentList.postValue(regionRepository.getRegionNameList(regionRepository.storageInformationList.value!!))
     }
 
 
@@ -29,8 +29,8 @@ class RegionChooseViewModel(context: Context, regionRepository: RegionRepository
      */
     fun changeList(region: String? = null) {
         currentList.postValue(region?.let {
-            regionRepository.getMapNameList(it, regionRepository.storageInformationList) }
+            regionRepository.getMapNameList(it, regionRepository.storageInformationList.value!!) }
             ?: run {
-                regionRepository.getRegionNameList(regionRepository.storageInformationList) })
+                regionRepository.getRegionNameList(regionRepository.storageInformationList.value!!) })
     }
 }

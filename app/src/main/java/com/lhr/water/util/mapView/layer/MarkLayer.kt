@@ -11,6 +11,7 @@ import com.lhr.water.mapView.utils.MapMath.getDistanceBetweenTwoPoints
 import com.lhr.water.R
 import com.lhr.water.data.StorageDetail
 import com.lhr.water.model.Model.Companion.markDrawableIdMap
+import com.lhr.water.ui.map.MapViewModel
 
 /**
  * MarkLayer
@@ -19,7 +20,7 @@ import com.lhr.water.model.Model.Companion.markDrawableIdMap
  */
 class MarkLayer(
     mapView: MapView?,
-    private var targetDataArrayList: ArrayList<StorageDetail>? = null
+    private var viewModel: MapViewModel
 ) : MapBaseLayer(mapView) {
     private var listener: MarkIsClickListener? = null
     private var bmpMarkTouch: Bitmap? = null
@@ -27,8 +28,7 @@ class MarkLayer(
     var markBitmapMap = HashMap<Int,Bitmap>()
     var isClickMark = false
     var MARK_ALLOW_CLICK = false
-
-        private set
+    private set
     var num = -1
     private var paint: Paint? = null
 
@@ -60,28 +60,30 @@ class MarkLayer(
         paint = Paint()
         paint!!.isAntiAlias = true
         paint!!.style = Paint.Style.FILL_AND_STROKE
+
+
     }
 
     override fun onTouch(event: MotionEvent?) {
-        if (targetDataArrayList != null) {
-            if (!targetDataArrayList!!.isEmpty()) {
+        if (viewModel.storageDetailList.value != null) {
+            if (!viewModel.storageDetailList.value!!.isEmpty()) {
                 val goal = mapView!!.convertMapXYToScreenXY(event!!.x, event!!.y)
                 Log.v("PPP", "" + event!!.x + ":" + event!!.y)
                 //點擊出現偏差 所以減50
                 goal[0] = goal[0] - 45
                 goal[1] = goal[1] - 50
                 Log.v("LLL", "" + goal[0] + ":" + goal[1])
-                for (i in targetDataArrayList!!.indices) {
+                for (i in viewModel.storageDetailList.value!!.indices) {
                     if (getDistanceBetweenTwoPoints(
                             goal[0], goal[1],
-                            targetDataArrayList!![i].StorageX.toFloat() - (markBitmapMap[0]!!.width / 2), targetDataArrayList!![i].StorageY.toFloat() - markBitmapMap[0]!!.getHeight() / 2
+                            viewModel.storageDetailList.value!![i].StorageX.toFloat() - (markBitmapMap[0]!!.width / 2), viewModel.storageDetailList.value!![i].StorageY.toFloat() - markBitmapMap[0]!!.getHeight() / 2
                         ) <= 50
                     ) {
                         num = i
                         isClickMark = true
                         break
                     }
-                    if (i == targetDataArrayList!!.size - 1) {
+                    if (i == viewModel.storageDetailList.value!!.size - 1) {
                         isClickMark = false
                     }
                 }
@@ -94,28 +96,30 @@ class MarkLayer(
     }
 
     override fun draw(canvas: Canvas?, currentMatrix: Matrix?, currentZoom: Float, currentRotateDegrees: Float) {
-        if (isVisible && targetDataArrayList != null) {
+        if (isVisible && viewModel.storageDetailList.value != null) {
             canvas!!.save()
-            if (!targetDataArrayList!!.isEmpty()) {
-                for (i in targetDataArrayList!!.indices) {
+            if (viewModel.storageDetailList.value!!.isNotEmpty()) {
+                for (i in viewModel.storageDetailList.value!!.indices) {
 //                    val mark = marks!![i]
-                    val goal = floatArrayOf(targetDataArrayList!![i].StorageX.toFloat(), targetDataArrayList!![i].StorageY.toFloat())
+                    val goal = floatArrayOf(viewModel.storageDetailList.value!![i].StorageX.toFloat(), viewModel.storageDetailList.value!![i].StorageY.toFloat())
                     currentMatrix!!.mapPoints(goal)
-                    paint!!.color = Color.BLACK
-                    paint!!.textSize = radiusMark
+                    paint?.color = Color.BLACK
+                    paint?.textSize = radiusMark
+                    paint?.textAlign = Paint.Align.CENTER
 
                     //mark name 當地圖放大到一定程度才顯示mark
                     // 原本mapView!!.currentZoom > 0.5，但因為希望不放大也能直接按所以設0.0
-                    if (mapView!!.currentZoom > 0.0 && targetDataArrayList!![i] != null && targetDataArrayList!!.size == targetDataArrayList!!.size) {
+                    if (mapView!!.currentZoom > 0.0 && viewModel.storageDetailList.value!![i] != null && viewModel.storageDetailList.value!!.size == viewModel.storageDetailList.value!!.size) {
                         // 隨著地圖放大縮小改變圖標透明度
                         MARK_ALLOW_CLICK = true
 //                        if(mapView!!.currentZoom<1.2) {
 //                            paint!!.alpha = (250 * (1 - (1.2 - mapView!!.currentZoom) / 0.7)).toInt()
 //                        }
-//                        canvas.drawText(
-//                            targetDataArrayList!![i].targetName, goal[0] - radiusMark, goal[1] -
-//                                    radiusMark / 2 + 75, paint!!
-//                        )
+                        var x = (viewModel.storageDetailList.value!![i].StorageName.length - 1) / 2 * 25
+                        canvas.drawText(
+                            viewModel.storageDetailList.value!![i].StorageName, goal[0], goal[1] -
+                                    radiusMark - 10, paint!!
+                        )
                         //mark ico
                         canvas.drawBitmap(
                             markBitmapMap[0]!!, goal[0] - markBitmapMap[0]!!.width / 2,

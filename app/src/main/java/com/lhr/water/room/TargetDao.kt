@@ -13,4 +13,7 @@ interface TargetDao {
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     fun insertTargetEntities(targetEntities: List<TargetEntity>)
+
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
+    fun insertTargetEntity(targetEntities: TargetEntity)
 }

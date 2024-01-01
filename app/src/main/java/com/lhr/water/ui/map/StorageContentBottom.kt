@@ -55,7 +55,6 @@ class StorageContentBottom(
             activity, // LifecycleOwner
             activity.onBackPressedCallback
         )
-        Timber.d("" + viewModel.storageDetailList.value!!.size)
 
         initView()
         bindViewModel()
@@ -66,8 +65,6 @@ class StorageContentBottom(
 
         binding.root.setOnClickListener(this)
         binding.constraintBack.setOnClickListener(this)
-        binding.linearLayoutGoodInput.setOnClickListener(this)
-        binding.linearLayoutGoodOutput.setOnClickListener(this)
     }
 
 

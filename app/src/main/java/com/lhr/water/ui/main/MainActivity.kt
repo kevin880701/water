@@ -18,6 +18,7 @@ import com.lhr.water.ui.base.APP
 import com.lhr.water.ui.base.BaseActivity
 import com.lhr.water.ui.form.FormFragment
 import com.lhr.water.ui.history.HistoryFragment
+import com.lhr.water.ui.materialSearch.MaterialSearchFragment
 import com.lhr.water.ui.regionChoose.RegionChooseFragment
 import com.lhr.water.ui.setting.SettingFragment
 import com.lhr.water.util.viewPager.MainViewPageAdapter
@@ -43,13 +44,13 @@ class MainActivity : BaseActivity() {
             var tabIconList = arrayListOf(
                 R.drawable.form,
                 R.drawable.region_choose,
-                R.drawable.history,
+                R.drawable.material_search,
                 R.drawable.setting,
             )
             var fragments = arrayListOf(
-                FormFragment(),
-                RegionChooseFragment(),
                 HistoryFragment(),
+                RegionChooseFragment(),
+                MaterialSearchFragment(),
                 SettingFragment()
             ) as ArrayList<Fragment>
             pageAdapter = MainViewPageAdapter(supportFragmentManager, lifecycle, fragments)

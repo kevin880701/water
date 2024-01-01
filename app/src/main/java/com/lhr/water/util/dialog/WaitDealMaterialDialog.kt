@@ -61,7 +61,7 @@ class WaitDealMaterialDialog(
         binding.textQuantity.text = maxQuantity
 
         spinnerList = if (isInput){
-            viewModel.regionRepository.storageInformationList
+            viewModel.regionRepository.storageInformationList.value!!
         }else{
             viewModel.getOutputGoodsWhere(waitDealGoodsData.itemInformation)
         }

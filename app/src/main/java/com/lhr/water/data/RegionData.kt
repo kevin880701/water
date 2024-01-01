@@ -17,14 +17,3 @@ data class StorageDetail(
     val StorageX: String,
     val StorageY: String
 )
-
-//data class StorageItemDetail(
-//    val reportId: String,
-//    val materialNumber: String,
-//    val materialName: String,
-//    val materialSpec: String,
-//    val materialUnit: String,
-//    val quantity: String,
-//    val price: String,
-//    val inputDate: String
-//)

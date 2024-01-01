@@ -10,19 +10,19 @@ import com.lhr.water.data.WaitDealGoodsData
 import com.lhr.water.databinding.FragmentWaitDealMaterialBinding
 import com.lhr.water.ui.base.BaseFragment
 import com.lhr.water.ui.history.HistoryViewModel
-import com.lhr.water.util.adapter.InputAdapter
+import com.lhr.water.util.adapter.WaitDealMaterialAdapter
 import com.lhr.water.util.dialog.WaitDealMaterialDialog
 import com.lhr.water.util.isInput
 import org.json.JSONObject
 
 
 class WaitDealMaterialFragment(jsonString: JSONObject) : BaseFragment(), View.OnClickListener,
-    InputAdapter.Listener {
+    WaitDealMaterialAdapter.Listener {
 
     private val viewModel: HistoryViewModel by viewModels { viewModelFactory }
     private var _binding: FragmentWaitDealMaterialBinding? = null
     private val binding get() = _binding!!
-    private lateinit var inputAdapter: InputAdapter
+    private lateinit var inputAdapter: WaitDealMaterialAdapter
     private var jsonString = jsonString
     private var isInput = true
 
@@ -58,7 +58,7 @@ class WaitDealMaterialFragment(jsonString: JSONObject) : BaseFragment(), View.On
     }
 
     private fun initRecyclerView() {
-        inputAdapter = InputAdapter(
+        inputAdapter = WaitDealMaterialAdapter(
             requireContext(), jsonString["reportTitle"].toString(),
             jsonString["formNumber"].toString(), this, viewModel, isInput
         )

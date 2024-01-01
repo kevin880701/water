@@ -2,6 +2,7 @@ package com.lhr.water.repository
 
 import android.content.Context
 import android.util.Log
+import androidx.lifecycle.MutableLiveData
 import com.google.gson.Gson
 import com.google.gson.JsonSyntaxException
 import com.google.gson.reflect.TypeToken
@@ -12,10 +13,14 @@ import com.lhr.water.room.SqlDatabase
 import com.lhr.water.room.StorageRecordEntity
 import com.lhr.water.room.TargetEntity
 import com.lhr.water.util.manager.jsonStringToJson
+import org.json.JSONObject
 import java.io.InputStreamReader
 
 class RegionRepository private constructor(private val context: Context) {
-    var storageInformationList: ArrayList<RegionInformation>
+//    var storageInformationList: ArrayList<RegionInformation>
+    // 所有表單列表
+    var storageInformationList: MutableLiveData<ArrayList<RegionInformation>> =
+        MutableLiveData<ArrayList<RegionInformation>>()
     companion object {
         private var instance: RegionRepository? = null
         fun getInstance(context: Context): RegionRepository {
@@ -27,7 +32,7 @@ class RegionRepository private constructor(private val context: Context) {
     }
 
     init {
-        storageInformationList = getStorageInformationFromSQL()
+        storageInformationList.value = getStorageInformationFromSQL()
     }
 
 
@@ -70,7 +75,7 @@ class RegionRepository private constructor(private val context: Context) {
     /**
      * 判斷Region資料表是否為空，如果為空代表第一次開。需從StorageInformation.json插入資料到資料庫
      */
-    fun checkRegionExist() {
+    fun loadStorageInformation() {
         var count = SqlDatabase.getInstance().getTargetDao().getRowCount()
         if(count == 0){
             val regionEntities = mutableListOf<TargetEntity>()
@@ -88,21 +93,20 @@ class RegionRepository private constructor(private val context: Context) {
                         val storageX = storageDetail.StorageX
                         val storageY = storageDetail.StorageY
 
-                        val regionEntity = TargetEntity().apply {
-                            this.regionName = regionName
-                            this.mapName = mapName
-                            this.storageNum = storageNum
-                            this.storageName = storageName
-                            this.storageX = storageX
-                            this.storageY = storageY
-                        }
-                        regionEntities.add(regionEntity)
+                        regionEntities.add(TargetEntity(
+                            regionName = regionName,
+                            mapName = mapName,
+                            storageNum = storageNum,
+                            storageName = storageName,
+                            storageX = storageX,
+                            storageY = storageY
+                        ))
                     }
                 }
             }
             SqlDatabase.getInstance().getTargetDao().insertTargetEntities(regionEntities)
         }
-        storageInformationList = getStorageInformationFromSQL()
+        storageInformationList.value = getStorageInformationFromSQL()
     }
 
     /**
@@ -183,7 +187,7 @@ class RegionRepository private constructor(private val context: Context) {
         mapName: String,
         storageName: String
     ): String {
-        val region = storageInformationList.find { it.RegionName == regionName }
+        val region = storageInformationList.value?.find { it.RegionName == regionName }
 
         return region?.MapDetail
             ?.find { it.MapName == mapName }
@@ -205,7 +209,7 @@ class RegionRepository private constructor(private val context: Context) {
         mapName: String,
         storageNum: String
     ): String {
-        val region = storageInformationList.find { it.RegionName == regionName }
+        val region = storageInformationList.value?.find { it.RegionName == regionName }
 
         return region?.MapDetail
             ?.find { it.MapName == mapName }

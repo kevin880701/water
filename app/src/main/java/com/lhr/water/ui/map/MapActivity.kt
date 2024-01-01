@@ -10,6 +10,7 @@ import android.transition.Slide
 import android.transition.Transition
 import android.transition.TransitionManager
 import android.view.Gravity
+import android.view.MotionEvent
 import android.view.View
 import android.widget.RelativeLayout
 import androidx.activity.OnBackPressedCallback
@@ -66,6 +67,7 @@ class MapActivity(): BaseActivity(), View.OnClickListener, StorageInfoBottom.Lis
         }
 
         initView()
+        bindViewModel()
     }
 
     private fun initView() {
@@ -77,11 +79,14 @@ class MapActivity(): BaseActivity(), View.OnClickListener, StorageInfoBottom.Lis
     }
 
     private fun bindViewModel() {
+        viewModel.regionRepository.storageInformationList.observe(this) {
+            viewModel.setStorageDetailList(region, map)
+            binding.mapView.refresh()
+        }
 
     }
+
     private fun initMapView() {
-//        viewModel.setTargetDataArrayList(region, map)
-        Timber.d(map)
         var bitmap: Bitmap? = null
         try {
             bitmap = BitmapFactory.decodeStream(this.assets.open( "map/$region/$map.jpg"))
@@ -91,7 +96,7 @@ class MapActivity(): BaseActivity(), View.OnClickListener, StorageInfoBottom.Lis
         binding.mapView.loadMap(bitmap)
         binding.mapView.setMapViewListener(object : MapViewListener {
             override fun onMapLoadSuccess() {
-                markLayer = MarkLayer(binding.mapView, viewModel.storageDetailList.value)
+                markLayer = MarkLayer(binding.mapView, viewModel)
                 markLayer!!.setMarkIsClickListener(object : MarkLayer.MarkIsClickListener {
                     override fun markIsClick(num: Int) {
                         if(markLayer!!.MARK_ALLOW_CLICK){

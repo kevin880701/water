@@ -464,4 +464,8 @@ class FormRepository(context: Context) {
         }
         return totalQuantity
     }
+
+    fun searchStorageContentByMaterialName(targetMaterialName: String): ArrayList<StorageContentEntity>{
+        return storageGoods.value!!.filter { it.materialName.contains(targetMaterialName) } as ArrayList<StorageContentEntity>
+    }
 }

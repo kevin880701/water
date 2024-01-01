@@ -12,6 +12,7 @@ import com.lhr.water.ui.history.HistoryViewModel
 import com.lhr.water.ui.login.LoginViewModel
 import com.lhr.water.ui.main.MainViewModel
 import com.lhr.water.ui.map.MapViewModel
+import com.lhr.water.ui.materialSearch.MaterialSearchViewModel
 import com.lhr.water.ui.qrCode.QrCodeViewModel
 import com.lhr.water.ui.regionChoose.RegionChooseViewModel
 import com.lhr.water.ui.setting.SettingViewModel
@@ -37,6 +38,7 @@ class AppViewModelFactory(
             MapViewModel::class.java -> MapViewModel(context, regionRepository, formRepository) as T
             QrCodeViewModel::class.java -> QrCodeViewModel(context) as T
             StorageGoodInputViewModel::class.java -> StorageGoodInputViewModel(context, formRepository) as T
+            MaterialSearchViewModel::class.java -> MaterialSearchViewModel(context, formRepository) as T
             else -> throw IllegalArgumentException("not support")
         }
     }

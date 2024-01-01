@@ -52,7 +52,7 @@
                 android:layout_marginRight="24dp"
                 android:layout_marginLeft="30dp"
                 android:textColor="@color/deep_gray"
-                android:hint="輸入表單代號"
+                android:hint="輸入貨物名稱"
                 android:background="@color/transparent"/>
 
             <ImageView
@@ -92,7 +92,7 @@
                     app:layout_constraintLeft_toLeftOf="parent"
                     android:layout_marginTop="8dp"
                     tools:itemCount="3"
-                    tools:listitem="@layout/item_history" />
+                    tools:listitem="@layout/item_material_search" />
             </androidx.constraintlayout.widget.ConstraintLayout>
         </androidx.core.widget.NestedScrollView>
     </androidx.constraintlayout.widget.ConstraintLayout>
