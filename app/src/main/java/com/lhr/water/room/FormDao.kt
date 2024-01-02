@@ -10,6 +10,9 @@ interface FormDao {
     @Query("SELECT $formContent FROM $FORM_TABLE_NAME")
     fun getAll(): List<String>
 
+    @Insert(onConflict = OnConflictStrategy.IGNORE)
+    fun insertNewForm(formEntity: FormEntity)
+
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     fun insertOrUpdate(formEntity: FormEntity)
 

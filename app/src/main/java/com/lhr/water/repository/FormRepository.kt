@@ -18,7 +18,6 @@ import com.lhr.water.util.manager.jsonStringToJson
 import com.lhr.water.util.transferStatus
 import org.json.JSONArray
 import org.json.JSONObject
-import timber.log.Timber
 
 class FormRepository(context: Context) {
     val context = context
@@ -256,12 +255,12 @@ class FormRepository(context: Context) {
     }
 
     /**
-     * 匯入新json時要清掉舊的SQL內容並插入新的
+     * 匯入新json時要同步插入到資料庫中
      * @param jsonArray 要匯入的JSONArray
      */
-    fun clearAndInsertData(jsonArray: JSONArray) {
+    fun insertNewForm(jsonArray: JSONArray) {
         // 清空表
-        SqlDatabase.getInstance().getDeliveryDao().clearTable()
+//        SqlDatabase.getInstance().getDeliveryDao().clearTable()
 
         // 將 JSONArray 中的數據逐一插入表中
         for (i in 0 until jsonArray.length()) {
@@ -270,54 +269,9 @@ class FormRepository(context: Context) {
             val formEntity = FormEntity()
             formEntity.formNumber = jsonObject.optString("formNumber").toString()
             formEntity.formContent = jsonObject.toString()
-            SqlDatabase.getInstance().getDeliveryDao().insertOrUpdate(formEntity)
+            SqlDatabase.getInstance().getDeliveryDao().insertNewForm(formEntity)
         }
     }
-
-
-    /**
-     * 判斷暫存入庫清單是否有指定貨物
-     */
-    fun isInTempWaitInputGoods(
-        targetFormNumber: String,
-        targetReportTitle: String,
-        targetMaterialName: String,
-        targetMaterialNumber: String,
-        targetNumber: String
-    ): Boolean {
-        return tempWaitInputGoods.value!!.any { entity ->
-            entity.formNumber == targetFormNumber &&
-                    entity.reportTitle == targetReportTitle &&
-                    jsonStringToJson(entity.itemInformation)["materialName"].toString() == targetMaterialName &&
-                    jsonStringToJson(entity.itemInformation)["materialNumber"].toString() == targetMaterialNumber &&
-                    jsonStringToJson(entity.itemInformation)["number"].toString() == targetNumber
-        }
-    }
-
-
-    /**
-     * 將選擇貨物從暫存待入庫的貨物列表移除
-     */
-    fun removeInTempGoods(
-        targetFormNumber: String,
-        targetReportTitle: String,
-        targetMaterialName: String,
-        targetMaterialNumber: String,
-        targetNumber: String
-    ) {
-
-        // 更新暫存進貨列表
-        val currentList = tempWaitInputGoods.value ?: ArrayList()
-        currentList.removeIf { entity ->
-            entity.formNumber == targetFormNumber &&
-                    entity.reportTitle == targetReportTitle &&
-                    jsonStringToJson(entity.itemInformation)["materialName"].toString() == targetMaterialName &&
-                    jsonStringToJson(entity.itemInformation)["materialNumber"].toString() == targetMaterialNumber &&
-                    jsonStringToJson(entity.itemInformation)["number"].toString() == targetNumber
-        }
-        tempWaitInputGoods.postValue(currentList)
-    }
-
 
     /**
      * 根據表單名稱和表單代號篩選待入庫清單

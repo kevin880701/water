@@ -36,8 +36,6 @@ class CoverActivity : BaseActivity() {
         _binding = ActivityCoverBinding.inflate(layoutInflater)
         setContentView(binding.root)
         window.statusBarColor = ResourcesCompat.getColor(resources, R.color.seed, null)
-
-        Timber.d("@@@@@@@@@@@@@@@@@@@@@@time = ${getCurrentDate()}")
         // 創建Model
         Model
 

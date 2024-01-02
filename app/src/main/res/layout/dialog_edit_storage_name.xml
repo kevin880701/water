@@ -48,6 +48,7 @@
                     android:layout_marginLeft="30dp"
                     android:textColor="@color/deep_gray"
                     android:hint="輸入儲櫃名稱"
+                    android:textColorHint="@color/deep_gray"
                     android:background="@color/transparent"/>
 
             </androidx.constraintlayout.widget.ConstraintLayout>

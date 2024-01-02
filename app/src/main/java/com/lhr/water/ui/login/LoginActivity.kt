@@ -43,7 +43,6 @@ class LoginActivity : BaseActivity(), View.OnClickListener {
     }
 
     private fun initView() {
-        Timber.d("" + viewModel.getRegionNameList().size)
         initSpinner(binding.spinnerRegion, viewModel.getRegionNameList())
         initSpinner(binding.spinnerMap, viewModel.getMapNameList(binding.spinnerRegion.selectedItem.toString(), viewModel.regionRepository.storageInformationList.value!!))
 

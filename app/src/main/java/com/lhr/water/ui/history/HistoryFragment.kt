@@ -58,11 +58,11 @@ class HistoryFragment : BaseFragment(), View.OnClickListener, HistoryAdapter.Lis
             historyAdapter.submitList(newFormRecordList)
         }
         // 表單類別篩選更新
-        formRepository.filterList.observe(viewLifecycleOwner) { newFilterList ->
+        formRepository.filterList.observe(viewLifecycleOwner) {
             formRepository.formFilterRecordList.postValue(formRepository.filterRecord())
         }
         // 表單代號輸入後篩選更新
-        formRepository.searchFormNumber.observe(viewLifecycleOwner) { newFilterList ->
+        formRepository.searchFormNumber.observe(viewLifecycleOwner) {
             formRepository.formFilterRecordList.postValue(formRepository.filterRecord())
         }
     }
@@ -70,7 +70,6 @@ class HistoryFragment : BaseFragment(), View.OnClickListener, HistoryAdapter.Lis
     private fun initView() {
         binding.widgetTitleBar.textTitle.text = requireActivity().getString(R.string.form_history)
         binding.widgetTitleBar.imageFilter.visibility = View.VISIBLE
-//        binding.widgetTitleBar.imageScanner.visibility = View.VISIBLE
         initRecyclerView()
         binding.editSearch.addTextChangedListener(object : TextWatcher {
             override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {
@@ -116,7 +115,6 @@ class HistoryFragment : BaseFragment(), View.OnClickListener, HistoryAdapter.Lis
     }
 
     override fun onDealGoodsClick(json: JSONObject) {
-        Timber.d(json.toString())
         val intent = Intent(requireActivity(), DealMaterialActivity::class.java)
         intent.putExtra("jsonString", json.toString())
         requireActivity().startActivity(intent)

@@ -53,6 +53,7 @@
                 android:layout_marginLeft="30dp"
                 android:textColor="@color/deep_gray"
                 android:hint="輸入貨物名稱"
+                android:textColorHint="@color/deep_gray"
                 android:background="@color/transparent"/>
 
             <ImageView

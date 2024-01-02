@@ -10,6 +10,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.lhr.water.R
 import com.lhr.water.databinding.ItemHistoryBinding
 import org.json.JSONObject
+import timber.log.Timber
 
 class HistoryAdapter(val listener: Listener, context: Context) :
     ListAdapter<JSONObject, HistoryAdapter.ViewHolder>(LOCK_DIFF_UTIL) {
@@ -62,7 +63,6 @@ class HistoryAdapter(val listener: Listener, context: Context) :
                     binding.imageDealGoods.visibility = View.INVISIBLE
                 }
             }
-
 
             binding.imageDealGoods.setOnClickListener {
                 listener.onDealGoodsClick(getItem(adapterPosition))

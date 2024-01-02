@@ -37,22 +37,23 @@ import com.lhr.water.util.widget.FormGoodsDataWidget
 import com.lhr.water.util.widget.FormContentDataWidget
 import org.json.JSONArray
 import org.json.JSONObject
+import timber.log.Timber
 
 class FormContentActivity : BaseActivity(), View.OnClickListener, FormGoodsAdd.Listener,
     FormContentDataWidget.Listener, FormGoodsDataWidget.Listener, GoodsDialog.Listener {
     private val viewModel: FormContentViewModel by viewModels { (applicationContext as APP).appContainer.viewModelFactory }
     private var _binding: ActivityFormContentBinding? = null
     private val binding get() = _binding!!
-    lateinit var formName: String
-    var jsonString: String? = null
-    var formFieldNameList = ArrayList<String>() //表單欄位
-    var formFieldNameEngList = ArrayList<String>() //表單欄位英文名
-    var formFieldContentList = ArrayList<String>() //表單欄位內容
-    var formItemFieldNameList = ArrayList<String>() //貨物欄位
-    var formItemFieldNameEngList = ArrayList<String>() //貨物欄位英文名
-    var formItemFieldContentList: JSONArray? = null //貨物欄位內容
-    lateinit var jsonObject: JSONObject
-    var isInput = true
+    private lateinit var formName: String
+    private var jsonString: String? = null
+    private var formFieldNameList = ArrayList<String>() //表單欄位
+    private var formFieldNameEngList = ArrayList<String>() //表單欄位英文名
+    private var formFieldContentList = ArrayList<String>() //表單欄位內容
+    private var formItemFieldNameList = ArrayList<String>() //貨物欄位
+    private var formItemFieldNameEngList = ArrayList<String>() //貨物欄位英文名
+    private var formItemFieldContentList: JSONArray? = null //貨物欄位內容
+    private lateinit var jsonObject: JSONObject
+    private var isInput = true
     private val qrcodeActivityResultLauncher = registerForActivityResult(
         ActivityResultContracts.StartActivityForResult()
     ) { result ->

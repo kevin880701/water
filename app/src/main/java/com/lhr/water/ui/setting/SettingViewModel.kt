@@ -7,6 +7,7 @@ import androidx.documentfile.provider.DocumentFile
 import androidx.lifecycle.AndroidViewModel
 import com.lhr.water.repository.FormRepository
 import com.lhr.water.ui.base.APP
+import com.lhr.water.util.manager.checkJson
 import com.lhr.water.util.manager.jsonAddInformation
 import com.lhr.water.util.manager.jsonStringToJsonArray
 import org.json.JSONArray
@@ -30,7 +31,6 @@ class SettingViewModel(context: Context, formRepository: FormRepository): Androi
     fun writeJsonObjectToFolder(context: Context, folderUri: Uri) {
         try {
             val jsonObject = JSONArray(formRepository.formRecordList.value)
-            Timber.d(jsonObject.toString() + "")
             val folder = DocumentFile.fromTreeUri(context, folderUri)
             // 當前日期時間
             val dateFormat = SimpleDateFormat("yyyyMMdd_HHmmss", Locale.getDefault())
@@ -64,8 +64,10 @@ class SettingViewModel(context: Context, formRepository: FormRepository): Androi
         var jsonContent = readJsonFromInputStream(inputStream)
         var jsonArray = jsonStringToJsonArray(jsonContent)
         jsonArray = jsonAddInformation(jsonArray, context)
-        formRepository.clearAndInsertData(jsonArray)
-        formRepository.loadRecord()
+        if(checkJson(jsonArray, context)){
+            formRepository.insertNewForm(jsonArray)
+            formRepository.loadRecord()
+        }
     }
 
 

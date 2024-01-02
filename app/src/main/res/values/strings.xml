@@ -369,7 +369,7 @@
         <item>備註</item>
         <item>合計</item>
         <item>委託or自取</item>
-w    </string-array>
+    </string-array>
 
     <string-array name="picking_form_field_name_eng">
         <item>dealStatus</item>
