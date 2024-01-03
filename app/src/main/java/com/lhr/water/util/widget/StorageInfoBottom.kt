@@ -8,6 +8,7 @@ import com.lhr.water.R
 import com.lhr.water.data.StorageDetail
 import com.lhr.water.databinding.WidgetBottomStorageInfoBinding
 import com.lhr.water.ui.map.MapActivity
+import com.lhr.water.util.dialog.ConfirmCancelDialog
 import com.lhr.water.util.dialog.EditStorageNameDialog
 import com.lhr.water.util.dialog.WaitDealMaterialDialog
 
@@ -51,6 +52,7 @@ class StorageInfoBottom : RelativeLayout, View.OnClickListener {
         binding.root.setOnClickListener(this)
         binding.constraintBack.setOnClickListener(this)
         binding.imageEdit.setOnClickListener(this)
+        binding.imageDelete.setOnClickListener(this)
         binding.linearLayoutStorageContent.setOnClickListener(this)
     }
 
@@ -72,6 +74,15 @@ class StorageInfoBottom : RelativeLayout, View.OnClickListener {
                     storageDetail
                 )
                 editStorageNameDialog.show(activity.supportFragmentManager, "InputGoodsDialog")
+                activity.onBackPressedCallback.handleOnBackPressed()
+            }
+            R.id.imageDelete -> {
+                val confirmCancelDialog = ConfirmCancelDialog(
+                    region,
+                    map,
+                    storageDetail.StorageNum
+                )
+                confirmCancelDialog.show(activity.supportFragmentManager, "InputGoodsDialog")
                 activity.onBackPressedCallback.handleOnBackPressed()
             }
         }

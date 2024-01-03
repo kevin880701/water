@@ -68,7 +68,7 @@ class AddPointActivity(): BaseActivity(), View.OnClickListener{
     }
 
     private fun initView() {
-        binding.widgetTitleBar.textTitle.text = map
+        binding.widgetTitleBar.textTitle.text = getString(R.string.choose_storage_point)
         binding.widgetTitleBar.imageBack.visibility = View.VISIBLE
         binding.buttonConfirm.visibility = View.VISIBLE
         setupBackButton(binding.widgetTitleBar.imageBack)

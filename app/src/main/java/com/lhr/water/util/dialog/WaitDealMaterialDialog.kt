@@ -174,7 +174,7 @@ class WaitDealMaterialDialog(
                 this.dismiss()
             }
 
-            R.id.imageCancel -> {
+            R.id.buttonCancel -> {
                 this.dismiss()
             }
 

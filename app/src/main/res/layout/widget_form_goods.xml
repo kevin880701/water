@@ -58,7 +58,7 @@
                 android:padding="12dp"
                 android:background="@color/background"
                 app:tint="@color/design_default_color_error"
-                android:src="@drawable/delete"/>
+                android:src="@drawable/remove"/>
         </androidx.constraintlayout.widget.ConstraintLayout>
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

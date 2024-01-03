@@ -16,4 +16,11 @@ interface TargetDao {
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     fun insertTargetEntity(targetEntities: TargetEntity)
+
+
+    @Query("DELETE FROM ${TARGET_TABLE_NAME} WHERE " +
+            "${SqlModel.regionName} = :regionName AND " +
+            "${SqlModel.mapName} = :mapName AND " +
+            "${SqlModel.storageNum} = :storageNum")
+    fun deleteByRegionMapAndStorage(regionName: String, mapName: String, storageNum: String)
 }

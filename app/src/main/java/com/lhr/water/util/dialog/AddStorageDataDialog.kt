@@ -6,26 +6,19 @@ import android.app.Dialog
 import android.content.Intent
 import android.os.Bundle
 import android.view.View
-import android.widget.AdapterView
-import android.widget.Spinner
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.fragment.app.DialogFragment
 import androidx.fragment.app.viewModels
 import com.lhr.water.R
 import com.lhr.water.data.RegionInformation
-import com.lhr.water.data.WaitDealGoodsData
 import com.lhr.water.databinding.DialogAddStorageDataBinding
-import com.lhr.water.databinding.DialogInputBinding
 import com.lhr.water.room.SqlDatabase
 import com.lhr.water.room.TargetEntity
 import com.lhr.water.ui.base.APP
 import com.lhr.water.ui.base.AppViewModelFactory
-import com.lhr.water.ui.history.HistoryViewModel
 import com.lhr.water.ui.map.AddPointActivity
 import com.lhr.water.ui.map.MapViewModel
-import com.lhr.water.util.adapter.SpinnerAdapter
 import com.lhr.water.util.showToast
-import org.json.JSONObject
 import timber.log.Timber
 
 class AddStorageDataDialog(
@@ -96,7 +89,7 @@ class AddStorageDataDialog(
                 }
             }
 
-            R.id.imageCancel -> {
+            R.id.buttonCancel -> {
                 this.dismiss()
             }
 

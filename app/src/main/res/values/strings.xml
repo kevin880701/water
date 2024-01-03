@@ -5,6 +5,7 @@
     <string name="region_choose">地區選擇</string>
     <string name="map_choose">地圖選擇</string>
     <string name="form_history">表單紀錄</string>
+    <string name="choose_storage_point">選擇儲櫃位置</string>
 
     <string name="reportTitle">報表名稱</string>
     <string name="enter_number">輸入代號</string>
@@ -50,6 +51,7 @@
     <string name="personal_information">個人資料</string>
     <string name="feedback">意見反饋</string>
     <string name="change_password">修改密碼</string>
+    <string name="check_delete">確定刪除資料？</string>
 
     <string name="new_goods">新增貨物</string>
     <string name="goods_information">貨物資訊</string>

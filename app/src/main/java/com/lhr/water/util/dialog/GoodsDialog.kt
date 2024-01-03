@@ -40,7 +40,7 @@ class GoodsDialog(
         val builder = AlertDialog.Builder(activity)
         builder.setCancelable(false)
 
-        binding.imageConfirm.setOnClickListener {
+        binding.buttonConfirm.setOnClickListener {
             var formItemFieldContentList = ArrayList<String>()
             for (i in 0 until binding.linearData.childCount) {
                 val linearLayoutItem = binding.linearData.getChildAt(i)
