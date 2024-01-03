@@ -63,7 +63,7 @@ class SettingViewModel(context: Context, formRepository: FormRepository): Androi
             context.contentResolver.openInputStream(fileUri)
         var jsonContent = readJsonFromInputStream(inputStream)
         var jsonArray = jsonStringToJsonArray(jsonContent)
-        jsonArray = jsonAddInformation(jsonArray, context)
+        jsonArray = jsonAddInformation(jsonArray)
         if(checkJson(jsonArray, context)){
             formRepository.insertNewForm(jsonArray)
             formRepository.loadRecord()

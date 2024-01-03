@@ -73,7 +73,7 @@ class MapLayer(mapView: MapView?) : MapBaseLayer(mapView) {
         return 0F
     }
 
-    override fun onTouch(event: MotionEvent?) {}
+    override fun onTouch(event: MotionEvent?, isAddPage: Boolean) {}
 
     override fun draw(canvas: Canvas?, currentMatrix: Matrix?, currentZoom: Float, currentRotateDegrees: Float) {
         canvas!!.save()

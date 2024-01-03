@@ -23,7 +23,7 @@ abstract class MapBaseLayer(protected var mapView: MapView?) {
      *
      * @param event
      */
-    abstract fun onTouch(event: MotionEvent?)
+    abstract fun onTouch(event: MotionEvent?, isAddPage: Boolean)
 
     /**
      * draw event

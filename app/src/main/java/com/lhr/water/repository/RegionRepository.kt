@@ -17,7 +17,6 @@ import org.json.JSONObject
 import java.io.InputStreamReader
 
 class RegionRepository private constructor(private val context: Context) {
-//    var storageInformationList: ArrayList<RegionInformation>
     // 所有表單列表
     var storageInformationList: MutableLiveData<ArrayList<RegionInformation>> =
         MutableLiveData<ArrayList<RegionInformation>>()

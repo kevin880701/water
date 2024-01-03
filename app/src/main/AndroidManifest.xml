@@ -29,6 +29,10 @@
             android:launchMode="singleTask"
             android:theme="@style/Theme.Water"/>
 
+        <activity android:name="com.lhr.water.ui.map.AddPointActivity"
+            android:launchMode="singleTask"
+            android:theme="@style/Theme.Water"/>
+
         <activity android:name="com.lhr.water.ui.main.MainActivity"
             android:launchMode="singleTask"
             android:theme="@style/Theme.Water"/>

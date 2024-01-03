@@ -64,8 +64,8 @@ class MarkLayer(
 
     }
 
-    override fun onTouch(event: MotionEvent?) {
-        if (viewModel.storageDetailList.value != null) {
+    override fun onTouch(event: MotionEvent?, isAddPage: Boolean) {
+        if (viewModel.storageDetailList.value != null && !isAddPage) {
             if (!viewModel.storageDetailList.value!!.isEmpty()) {
                 val goal = mapView!!.convertMapXYToScreenXY(event!!.x, event!!.y)
                 Log.v("PPP", "" + event!!.x + ":" + event!!.y)

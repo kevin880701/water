@@ -98,7 +98,7 @@ fun jsonStringToJsonArray(jsonString: String): JSONArray {
  * 在匯入資料後需要補齊一些缺少的欄位，目前是補["DealStatus"]，交貨要再補["DeliveryStatus"]
  * @param jsonArray 要補齊的JSONArray
  */
-fun jsonAddInformation(jsonArray: JSONArray, context: Context): JSONArray {
+fun jsonAddInformation(jsonArray: JSONArray): JSONArray {
     var jsonArray = jsonArray
     for (i in 0 until jsonArray.length()) {
         val jsonObject = jsonArray.getJSONObject(i)

@@ -119,17 +119,6 @@ class MapView @JvmOverloads constructor(context: Context?, attrs: AttributeSet? 
         }
     }
 
-    fun clear() {
-        if (mHolder != null) {
-            val canvas = mHolder!!.lockCanvas()
-            if (canvas != null) {
-
-                canvas.drawColor(Color.WHITE, android.graphics.PorterDuff.Mode.CLEAR)
-                invalidate()
-                mHolder!!.unlockCanvasAndPost(canvas)
-            }
-        }
-    }
     fun loadMap(bitmap: Bitmap?) {
         loadMap(getPictureFromBitmap(bitmap!!))
     }
@@ -171,6 +160,9 @@ class MapView @JvmOverloads constructor(context: Context?, attrs: AttributeSet? 
         val newDegree: Float
         when (event.action and MotionEvent.ACTION_MASK) {
             MotionEvent.ACTION_DOWN -> {
+                for (layer in layers!!) {
+                    layer.onTouch(event, true)
+                }
                 saveMatrix.set(currentMatrix)
                 startTouch[event.x] = event.y
                 lastMove[event.x] = event.y
@@ -191,86 +183,95 @@ class MapView @JvmOverloads constructor(context: Context?, attrs: AttributeSet? 
 //                    Log.i(TAG, event.getX() + " " + event.getY());
                     // layers on touch
                     for (layer in layers!!) {
-                        layer.onTouch(event)
+                        layer.onTouch(event, false)
                     }
                 }
                 currentTouchState = TOUCH_STATE_NO
             }
             MotionEvent.ACTION_POINTER_UP -> currentTouchState = TOUCH_STATE_NO
-            MotionEvent.ACTION_MOVE -> if (Math.abs(event.x - lastMove.x) > 0
-                && Math.abs(event.y - lastMove.y) > 0
-            ) {
-                when (currentTouchState) {
-                    TOUCH_STATE_SCROLL -> {
-                        currentMatrix.set(saveMatrix)
-                        currentMatrix.postTranslate(
-                            event.x - startTouch.x, event.y -
-                                    startTouch.y
-                        )
-                        refresh()
-                    }
-                    TOUCH_STATE_TWO_POINTED -> if (!isScaleAndRotateTogether) {
-                        val x = oldDist
-                        val y = getDistanceBetweenTwoPoints(
-                            event.getX(0),
-                            event.getY(0), startTouch.x, startTouch.y
-                        )
-                        val z = distance(event, mid)
-                        val cos = (x * x + y * y - z * z) / (2 * x * y)
-                        val degree = Math.toDegrees(Math.acos(cos.toDouble())).toFloat()
-                        if (degree < 120 && degree > 45) {
-                            oldDegree = rotation(event, mid)
-                            currentTouchState = TOUCH_STATE_ROTATE
-                        } else {
-                            oldDist = distance(event, mid)
-                            currentTouchState = TOUCH_STATE_SCALE
-                        }
-                    } else {
-                        currentMatrix.set(saveMatrix)
-                        newDist = distance(event, mid)
-                        newDegree = rotation(event, mid)
-                        val rotate = newDegree - oldDegree
-                        var scale = newDist / oldDist
-                        if (scale * saveZoom < minZoom) {
-                            scale = minZoom / saveZoom
-                        } else if (scale * saveZoom > maxZoom) {
-                            scale = maxZoom / saveZoom
-                        }
-                        currentZoom = scale * saveZoom
-                        currentRotateDegrees = ((newDegree - oldDegree + currentRotateDegrees)
-                                % 360)
-                        currentMatrix.postScale(scale, scale, mid.x, mid.y)
-                        currentMatrix.postRotate(rotate, mid.x, mid.y)
-                        refresh()
-                    }
-                    TOUCH_STATE_SCALE -> {
-                        currentMatrix.set(saveMatrix)
-                        newDist = distance(event, mid)
-                        //                            newDegree = rotation(event, mid);
-//                            float rotate = newDegree - oldDegree;
-                        var scale = newDist / oldDist
-                        if (scale * saveZoom < minZoom) {
-                            scale = minZoom / saveZoom
-                        } else if (scale * saveZoom > maxZoom) {
-                            scale = maxZoom / saveZoom
-                        }
-                        currentZoom = scale * saveZoom
-                        currentMatrix.postScale(scale, scale, mid.x, mid.y)
-                        refresh()
-                    }
-                    TOUCH_STATE_ROTATE -> {
-                        currentMatrix.set(saveMatrix)
-                        newDegree = rotation(event, mid)
-                        val rotate = newDegree - oldDegree
-                        currentRotateDegrees = (rotate + saveRotateDegrees) % 360
-                        currentRotateDegrees =
-                            if (currentRotateDegrees > 0) currentRotateDegrees else currentRotateDegrees + 360
-                        currentMatrix.postRotate(rotate, mid.x, mid.y)
-                        refresh()
-                    }
-                    else -> {}
+            MotionEvent.ACTION_MOVE -> {
+                for (layer in layers!!) {
+                    layer.onTouch(event, true)
                 }
-                lastMove[event.x] = event.y
+                if (Math.abs(event.x - lastMove.x) > 0
+                    && Math.abs(event.y - lastMove.y) > 0
+                ) {
+                    when (currentTouchState) {
+                        TOUCH_STATE_SCROLL -> {
+                            currentMatrix.set(saveMatrix)
+                            currentMatrix.postTranslate(
+                                event.x - startTouch.x, event.y -
+                                        startTouch.y
+                            )
+                            refresh()
+                        }
+
+                        TOUCH_STATE_TWO_POINTED -> if (!isScaleAndRotateTogether) {
+                            val x = oldDist
+                            val y = getDistanceBetweenTwoPoints(
+                                event.getX(0),
+                                event.getY(0), startTouch.x, startTouch.y
+                            )
+                            val z = distance(event, mid)
+                            val cos = (x * x + y * y - z * z) / (2 * x * y)
+                            val degree = Math.toDegrees(Math.acos(cos.toDouble())).toFloat()
+                            if (degree < 120 && degree > 45) {
+                                oldDegree = rotation(event, mid)
+                                currentTouchState = TOUCH_STATE_ROTATE
+                            } else {
+                                oldDist = distance(event, mid)
+                                currentTouchState = TOUCH_STATE_SCALE
+                            }
+                        } else {
+                            currentMatrix.set(saveMatrix)
+                            newDist = distance(event, mid)
+                            newDegree = rotation(event, mid)
+                            val rotate = newDegree - oldDegree
+                            var scale = newDist / oldDist
+                            if (scale * saveZoom < minZoom) {
+                                scale = minZoom / saveZoom
+                            } else if (scale * saveZoom > maxZoom) {
+                                scale = maxZoom / saveZoom
+                            }
+                            currentZoom = scale * saveZoom
+                            currentRotateDegrees = ((newDegree - oldDegree + currentRotateDegrees)
+                                    % 360)
+                            currentMatrix.postScale(scale, scale, mid.x, mid.y)
+                            currentMatrix.postRotate(rotate, mid.x, mid.y)
+                            refresh()
+                        }
+
+                        TOUCH_STATE_SCALE -> {
+                            currentMatrix.set(saveMatrix)
+                            newDist = distance(event, mid)
+                            //                            newDegree = rotation(event, mid);
+//                            float rotate = newDegree - oldDegree;
+                            var scale = newDist / oldDist
+                            if (scale * saveZoom < minZoom) {
+                                scale = minZoom / saveZoom
+                            } else if (scale * saveZoom > maxZoom) {
+                                scale = maxZoom / saveZoom
+                            }
+                            currentZoom = scale * saveZoom
+                            currentMatrix.postScale(scale, scale, mid.x, mid.y)
+                            refresh()
+                        }
+
+                        TOUCH_STATE_ROTATE -> {
+                            currentMatrix.set(saveMatrix)
+                            newDegree = rotation(event, mid)
+                            val rotate = newDegree - oldDegree
+                            currentRotateDegrees = (rotate + saveRotateDegrees) % 360
+                            currentRotateDegrees =
+                                if (currentRotateDegrees > 0) currentRotateDegrees else currentRotateDegrees + 360
+                            currentMatrix.postRotate(rotate, mid.x, mid.y)
+                            refresh()
+                        }
+
+                        else -> {}
+                    }
+                    lastMove[event.x] = event.y
+                }
             }
             else -> {}
         }
