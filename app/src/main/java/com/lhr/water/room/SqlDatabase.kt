@@ -6,7 +6,7 @@ import androidx.room.Room
 import androidx.room.RoomDatabase
 import com.lhr.water.room.SqlModel.Companion.DB_NAME
 
-@Database(entities = [TargetEntity::class, FormEntity::class, StorageRecordEntity::class, StorageContentEntity::class], version = 1, exportSchema = false)
+@Database(entities = [StorageEntity::class, RegionEntity::class, MapEntity::class, FormEntity::class, StorageRecordEntity::class, StorageContentEntity::class], version = 1, exportSchema = false)
 abstract class SqlDatabase : RoomDatabase() {
 
     companion object {
@@ -23,7 +23,9 @@ abstract class SqlDatabase : RoomDatabase() {
         }
     }
 
-    abstract fun getTargetDao(): TargetDao
+    abstract fun getRegionDao(): RegionDao
+    abstract fun getMapDao(): MapDao
+    abstract fun getStorageDao(): StorageDao
     abstract fun getDeliveryDao(): FormDao
     abstract fun getStorageRecordDao(): StorageRecordDao
     abstract fun getStorageContentDao(): StorageContentDao

@@ -13,7 +13,7 @@ import com.lhr.water.R
 import com.lhr.water.data.RegionInformation
 import com.lhr.water.databinding.DialogAddStorageDataBinding
 import com.lhr.water.room.SqlDatabase
-import com.lhr.water.room.TargetEntity
+import com.lhr.water.room.StorageEntity
 import com.lhr.water.ui.base.APP
 import com.lhr.water.ui.base.AppViewModelFactory
 import com.lhr.water.ui.map.AddPointActivity
@@ -74,8 +74,8 @@ class AddStorageDataDialog(
                 }else if(isStorageNumExists(viewModel.regionRepository.storageInformationList.value!!, binding.editStorageNumber.text.toString())){
                     showToast(this.requireContext(), "儲櫃代碼已存在")
                 }else{
-                    SqlDatabase.getInstance().getTargetDao().insertTargetEntity(
-                        TargetEntity(
+                    SqlDatabase.getInstance().getStorageDao().insertTargetEntity(
+                        StorageEntity(
                             regionName = region,
                             mapName = map,
                             storageNum = binding.editStorageNumber.text.toString(),
@@ -84,7 +84,7 @@ class AddStorageDataDialog(
                             storageY = pointY.toString()
                         )
                     )
-                    viewModel.regionRepository.loadStorageInformation()
+                    viewModel.regionRepository.loadStorageInformation2()
                     this.dismiss()
                 }
             }

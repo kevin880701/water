@@ -1,8 +1,6 @@
 package com.lhr.water.model
 
-import androidx.fragment.app.Fragment
 import com.lhr.water.R
-import com.lhr.water.room.TargetEntity
 
 class Model {
     companion object {

@@ -10,7 +10,7 @@ import com.lhr.water.R
 import com.lhr.water.data.StorageDetail
 import com.lhr.water.databinding.DialogEditStorageNameBinding
 import com.lhr.water.room.SqlDatabase
-import com.lhr.water.room.TargetEntity
+import com.lhr.water.room.StorageEntity
 import com.lhr.water.ui.base.APP
 import com.lhr.water.ui.base.AppViewModelFactory
 import com.lhr.water.ui.map.MapViewModel
@@ -53,8 +53,8 @@ class EditStorageNameDialog(
     override fun onClick(v: View?) {
         when (v?.id) {
             R.id.buttonConfirm -> {
-                SqlDatabase.getInstance().getTargetDao().insertTargetEntity(
-                    TargetEntity(
+                SqlDatabase.getInstance().getStorageDao().insertTargetEntity(
+                    StorageEntity(
                         regionName = region,
                         mapName = map,
                         storageNum = storageDetail.StorageNum,
@@ -63,7 +63,7 @@ class EditStorageNameDialog(
                         storageY = storageDetail.StorageY
                     )
                 )
-                viewModel.regionRepository.loadStorageInformation()
+                viewModel.regionRepository.loadStorageInformation2()
                 this.dismiss()
             }
 

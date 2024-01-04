@@ -30,11 +30,11 @@ class HistoryViewModel(
     }
 
     fun getRegionNameList(storageInformationList: ArrayList<RegionInformation>): ArrayList<String> {
-        return regionRepository.getRegionNameList(storageInformationList)
+        return regionRepository.getRegionNameList()
     }
 
     fun getMapNameList(regionName: String, storageInformationList: ArrayList<RegionInformation>): ArrayList<String> {
-        return regionRepository.getMapNameList(regionName, storageInformationList)
+        return regionRepository.getMapNameList(regionName)
     }
 
     fun getStorageNameList(regionName: String, mapName: String, storageInformationList: ArrayList<RegionInformation>): ArrayList<StorageDetail> {

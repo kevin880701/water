@@ -8,13 +8,13 @@ import androidx.room.PrimaryKey
 import java.io.Serializable
 
 @Entity(
-    tableName = SqlModel.TARGET_TABLE_NAME,
+    tableName = SqlModel.STORAGE_TABLE_NAME,
     indices = [Index(
         value = [SqlModel.regionName, SqlModel.mapName, SqlModel.storageNum],
         unique = true
     )]
 )
-class TargetEntity(
+class StorageEntity(
     regionName: String,
     mapName: String,
     storageNum: String,

@@ -4,22 +4,14 @@ import android.app.AlertDialog
 import android.app.Dialog
 import android.os.Bundle
 import android.view.View
-import android.widget.AdapterView
-import android.widget.Spinner
 import androidx.fragment.app.DialogFragment
 import androidx.fragment.app.viewModels
 import com.lhr.water.R
-import com.lhr.water.data.RegionInformation
-import com.lhr.water.data.StorageDetail
-import com.lhr.water.data.WaitDealGoodsData
 import com.lhr.water.databinding.DialogConfirmCancelBinding
-import com.lhr.water.databinding.DialogInputBinding
 import com.lhr.water.room.SqlDatabase
 import com.lhr.water.ui.base.APP
 import com.lhr.water.ui.base.AppViewModelFactory
 import com.lhr.water.ui.history.HistoryViewModel
-import com.lhr.water.util.adapter.SpinnerAdapter
-import org.json.JSONObject
 
 class ConfirmCancelDialog(
     val region: String,
@@ -56,8 +48,8 @@ class ConfirmCancelDialog(
     override fun onClick(v: View?) {
         when (v?.id) {
             R.id.buttonConfirm -> {
-                SqlDatabase.getInstance().getTargetDao().deleteByRegionMapAndStorage(region, map, storageNum)
-                viewModel.regionRepository.loadStorageInformation()
+                SqlDatabase.getInstance().getStorageDao().deleteByRegionMapAndStorage(region, map, storageNum)
+                viewModel.regionRepository.loadStorageInformation2()
                 this.dismiss()
             }
 

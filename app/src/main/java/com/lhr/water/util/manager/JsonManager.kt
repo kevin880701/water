@@ -1,6 +1,8 @@
 package com.lhr.water.util.manager
 
 import android.content.Context
+import com.lhr.water.room.MapEntity
+import com.lhr.water.room.RegionEntity
 import com.lhr.water.util.FormField.formFieldMap
 import com.lhr.water.util.showToast
 import org.json.JSONArray
@@ -151,4 +153,23 @@ fun checkJson(jsonArray: JSONArray, context: Context): Boolean {
         }
     }
     return true
+}
+
+fun JSONObject.toRegionEntity(): RegionEntity {
+    val regionName = this.getString("RegionName")
+    return RegionEntity(regionName)
+}
+
+fun JSONObject.toMapEntities(): List<MapEntity> {
+    val regionName = this.getString("RegionName")
+    val mapNames = this.getJSONArray("MapName")
+    val mapEntities = mutableListOf<MapEntity>()
+
+    for (i in 0 until mapNames.length()) {
+        val mapName = mapNames.getString(i)
+        val mapEntity = MapEntity(regionName, mapName)
+        mapEntities.add(mapEntity)
+    }
+
+    return mapEntities
 }

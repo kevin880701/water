@@ -1,24 +1,23 @@
 package com.lhr.water.room
 
 import androidx.room.*
-import com.lhr.water.room.SqlModel.Companion.TARGET_TABLE_NAME
+import com.lhr.water.room.SqlModel.Companion.STORAGE_TABLE_NAME
 
 @Dao
-interface TargetDao {
-    @Query("SELECT * FROM $TARGET_TABLE_NAME")
-    fun getAll(): List<TargetEntity>
+interface StorageDao {
+    @Query("SELECT * FROM $STORAGE_TABLE_NAME")
+    fun getAllStorage(): List<StorageEntity>
 
-    @Query("SELECT COUNT(*) FROM $TARGET_TABLE_NAME")
+    @Query("SELECT COUNT(*) FROM $STORAGE_TABLE_NAME")
     fun getRowCount(): Int
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    fun insertTargetEntities(targetEntities: List<TargetEntity>)
+    fun insertTargetEntities(storageEntities: List<StorageEntity>)
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    fun insertTargetEntity(targetEntities: TargetEntity)
+    fun insertTargetEntity(storageEntity: StorageEntity)
 
-
-    @Query("DELETE FROM ${TARGET_TABLE_NAME} WHERE " +
+    @Query("DELETE FROM $STORAGE_TABLE_NAME WHERE " +
             "${SqlModel.regionName} = :regionName AND " +
             "${SqlModel.mapName} = :mapName AND " +
             "${SqlModel.storageNum} = :storageNum")
