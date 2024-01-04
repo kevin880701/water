@@ -12,14 +12,14 @@ interface StorageDao {
     fun getRowCount(): Int
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    fun insertTargetEntities(storageEntities: List<StorageEntity>)
+    fun insertStorageEntities(storageEntities: List<StorageEntity>)
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    fun insertTargetEntity(storageEntity: StorageEntity)
+    fun insertStorageEntity(storageEntity: StorageEntity)
 
     @Query("DELETE FROM $STORAGE_TABLE_NAME WHERE " +
             "${SqlModel.regionName} = :regionName AND " +
             "${SqlModel.mapName} = :mapName AND " +
-            "${SqlModel.storageNum} = :storageNum")
-    fun deleteByRegionMapAndStorage(regionName: String, mapName: String, storageNum: String)
+            "${SqlModel.storageName} = :storageName")
+    fun deleteByRegionMapAndStorage(regionName: String, mapName: String, storageName: String)
 }

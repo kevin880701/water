@@ -12,6 +12,7 @@ import com.lhr.water.data.StorageDetail
 import com.lhr.water.databinding.WidgetBottomStorageContentBinding
 import com.lhr.water.repository.FormRepository
 import com.lhr.water.room.StorageContentEntity
+import com.lhr.water.room.StorageEntity
 import com.lhr.water.room.StorageRecordEntity
 import com.lhr.water.ui.base.APP
 import com.lhr.water.util.adapter.StorageContentAdapter
@@ -22,34 +23,24 @@ import org.json.JSONObject
 import timber.log.Timber
 
 class StorageContentBottom(
-    listener: Listener,
-    activity: MapActivity,
-    storageDetail: StorageDetail,
-    map: String,
-    region: String
+    var listener: Listener,
+    var activity: MapActivity,
+    var storageEntity: StorageEntity,
+    var map: String,
+    var region: String
 ) : RelativeLayout(activity), View.OnClickListener, StorageContentAdapter.Listener, GoodsDialog.Listener {
 
     val viewModel: MapViewModel by activity.viewModels {
         (activity.applicationContext as APP).appContainer.viewModelFactory
     }
     private var binding: WidgetBottomStorageContentBinding
-    private val listener: Listener
-    private val activity: MapActivity
     private lateinit var storageContentAdapter: StorageContentAdapter
-    private val storageDetail: StorageDetail
-    private val map: String
-    private val region: String
     val formRepository: FormRepository by lazy { FormRepository.getInstance(activity) }
 
     init {
         binding = DataBindingUtil.inflate(
             LayoutInflater.from(context), R.layout.widget_bottom_storage_content, this, true
         )
-        this@StorageContentBottom.listener = listener
-        this@StorageContentBottom.activity = activity
-        this@StorageContentBottom.storageDetail = storageDetail
-        this@StorageContentBottom.map = map
-        this@StorageContentBottom.region = region
 
         activity.onBackPressedDispatcher.addCallback(
             activity, // LifecycleOwner
@@ -74,7 +65,7 @@ class StorageContentBottom(
                 viewModel.getStorageContent(
                     region,
                     map,
-                    storageDetail.StorageNum
+                    storageEntity.storageName
                 )
             )
         })
@@ -87,7 +78,7 @@ class StorageContentBottom(
             viewModel.getStorageContent(
                 region,
                 map,
-                storageDetail.StorageNum
+                storageEntity.storageName
             )
         )
         binding.recyclerGoods.adapter = storageContentAdapter
@@ -105,18 +96,18 @@ class StorageContentBottom(
             }
 
             R.id.linearLayoutGoodInput -> {
-                listener.onGoodInputClick(map, region, storageDetail)
+                listener.onGoodInputClick(map, region, storageEntity)
             }
 
             R.id.linearLayoutGoodOutput -> {
-                listener.onGoodOutputClick(map, region, storageDetail)
+                listener.onGoodOutputClick(map, region, storageEntity)
             }
         }
     }
 
     interface Listener {
-        fun onGoodInputClick(map: String, region: String, storageDetail: StorageDetail)
-        fun onGoodOutputClick(map: String, region: String, storageDetail: StorageDetail)
+        fun onGoodInputClick(map: String, region: String, storageEntity: StorageEntity)
+        fun onGoodOutputClick(map: String, region: String, storageEntity: StorageEntity)
     }
 
 

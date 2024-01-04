@@ -20,7 +20,7 @@ import java.io.Serializable
 class StorageContentEntity(
     regionName: String,
     mapName: String,
-    storageNum: String,
+    storageName: String,
     materialName: String,
     materialNumber: String,
     materialSpec: String,
@@ -39,7 +39,7 @@ class StorageContentEntity(
     var mapName = mapName
 
     @ColumnInfo(name = SqlModel.storageNum, typeAffinity = ColumnInfo.TEXT)
-    var storageNum = storageNum
+    var storageName = storageName
 
     @ColumnInfo(name = SqlModel.materialName, typeAffinity = ColumnInfo.TEXT)
     var materialName = materialName

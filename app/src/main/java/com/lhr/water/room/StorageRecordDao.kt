@@ -14,6 +14,6 @@ interface StorageRecordDao {
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     fun insertStorageItem(storageContentEntities: StorageRecordEntity)
 
-    @Query("SELECT * FROM $STORAGE_RECORD_TABLE_NAME WHERE regionName = :region AND mapName = :map AND storageNum = :storage")
+    @Query("SELECT * FROM $STORAGE_RECORD_TABLE_NAME WHERE regionName = :region AND mapName = :map AND storageName = :storage")
     fun getStorageContentByConditions(region: String, map: String, storage: String): List<StorageRecordEntity>
 }

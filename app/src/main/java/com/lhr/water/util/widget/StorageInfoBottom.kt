@@ -7,22 +7,22 @@ import androidx.databinding.DataBindingUtil
 import com.lhr.water.R
 import com.lhr.water.data.StorageDetail
 import com.lhr.water.databinding.WidgetBottomStorageInfoBinding
+import com.lhr.water.room.StorageEntity
 import com.lhr.water.ui.map.MapActivity
 import com.lhr.water.util.dialog.ConfirmCancelDialog
 import com.lhr.water.util.dialog.EditStorageNameDialog
-import com.lhr.water.util.dialog.WaitDealMaterialDialog
 
 class StorageInfoBottom : RelativeLayout, View.OnClickListener {
     private var binding: WidgetBottomStorageInfoBinding
     private val listener: Listener
     private val activity: MapActivity
-    private val storageDetail: StorageDetail
+    private val storageEntity: StorageEntity
     private val map: String
     private val region: String
     constructor(
         listener: Listener,
         activity: MapActivity,
-        storageDetail: StorageDetail,
+        storageEntity: StorageEntity,
         map: String,
         region: String
     ) : super(activity) {
@@ -31,7 +31,7 @@ class StorageInfoBottom : RelativeLayout, View.OnClickListener {
         )
         this@StorageInfoBottom.listener = listener
         this@StorageInfoBottom.activity = activity
-        this@StorageInfoBottom.storageDetail = storageDetail
+        this@StorageInfoBottom.storageEntity = storageEntity
         this@StorageInfoBottom.map = map
         this@StorageInfoBottom.region = region
 
@@ -46,8 +46,7 @@ class StorageInfoBottom : RelativeLayout, View.OnClickListener {
     fun initView(){
         binding.textMapName.text = map
         binding.textRegionName.text = region
-        binding.textStorageName.text = storageDetail.StorageName
-        binding.textStorageNum.text = storageDetail.StorageNum
+        binding.textStorageName.text = storageEntity.storageName
 
         binding.root.setOnClickListener(this)
         binding.constraintBack.setOnClickListener(this)
@@ -65,13 +64,13 @@ class StorageInfoBottom : RelativeLayout, View.OnClickListener {
                 activity.onBackPressedCallback.handleOnBackPressed()
             }
             R.id.linearLayoutStorageContent -> {
-                listener.onStorageContentClick(map, region, storageDetail)
+                listener.onStorageContentClick(map, region, storageEntity)
             }
             R.id.imageEdit -> {
                 val editStorageNameDialog = EditStorageNameDialog(
                     region,
                     map,
-                    storageDetail
+                    storageEntity
                 )
                 editStorageNameDialog.show(activity.supportFragmentManager, "InputGoodsDialog")
                 activity.onBackPressedCallback.handleOnBackPressed()
@@ -80,7 +79,7 @@ class StorageInfoBottom : RelativeLayout, View.OnClickListener {
                 val confirmCancelDialog = ConfirmCancelDialog(
                     region,
                     map,
-                    storageDetail.StorageNum
+                    storageEntity.storageName
                 )
                 confirmCancelDialog.show(activity.supportFragmentManager, "InputGoodsDialog")
                 activity.onBackPressedCallback.handleOnBackPressed()
@@ -89,6 +88,6 @@ class StorageInfoBottom : RelativeLayout, View.OnClickListener {
     }
 
     interface Listener{
-        fun onStorageContentClick(map: String, region: String, storageDetail: StorageDetail)
+        fun onStorageContentClick(map: String, region: String, storageEntity: StorageEntity)
     }
 }

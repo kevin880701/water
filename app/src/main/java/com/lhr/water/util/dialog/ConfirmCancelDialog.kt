@@ -16,7 +16,7 @@ import com.lhr.water.ui.history.HistoryViewModel
 class ConfirmCancelDialog(
     val region: String,
     val map: String,
-    val storageNum: String
+    val storageName: String
 ) : DialogFragment(), View.OnClickListener {
 
     private var dialog: AlertDialog? = null
@@ -48,7 +48,7 @@ class ConfirmCancelDialog(
     override fun onClick(v: View?) {
         when (v?.id) {
             R.id.buttonConfirm -> {
-                SqlDatabase.getInstance().getStorageDao().deleteByRegionMapAndStorage(region, map, storageNum)
+                SqlDatabase.getInstance().getStorageDao().deleteByRegionMapAndStorage(region, map, storageName)
                 viewModel.regionRepository.loadStorageInformation2()
                 this.dismiss()
             }

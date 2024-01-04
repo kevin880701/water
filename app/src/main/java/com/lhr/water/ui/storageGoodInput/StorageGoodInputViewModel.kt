@@ -51,7 +51,7 @@ class StorageGoodInputViewModel(context: Context, formRepository: FormRepository
                 var storageContentEntity = StorageRecordEntity()
                 storageContentEntity.regionName = region
                 storageContentEntity.mapName = map
-                storageContentEntity.storageNum = storageNum
+                storageContentEntity.storageName = storageNum
                 storageContentEntity.formNumber = getWaitInputGoods()[i].formNumber
                 storageContentEntity.reportTitle = getWaitInputGoods()[i].reportTitle
                 storageContentEntity.itemInformation = waitInputGoodsJson.toString()

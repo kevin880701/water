@@ -10,7 +10,6 @@ import androidx.activity.result.contract.ActivityResultContracts
 import androidx.fragment.app.DialogFragment
 import androidx.fragment.app.viewModels
 import com.lhr.water.R
-import com.lhr.water.data.RegionInformation
 import com.lhr.water.databinding.DialogAddStorageDataBinding
 import com.lhr.water.room.SqlDatabase
 import com.lhr.water.room.StorageEntity
@@ -71,14 +70,13 @@ class AddStorageDataDialog(
             R.id.buttonConfirm -> {
                 if(binding.editStorageName.text.toString() == ""){
                     showToast(this.requireContext(), "儲櫃代碼已存在")
-                }else if(isStorageNumExists(viewModel.regionRepository.storageInformationList.value!!, binding.editStorageNumber.text.toString())){
+                }else if(isStorageNumExists(viewModel.regionRepository.storageEntities.value!!, binding.editStorageName.text.toString())){
                     showToast(this.requireContext(), "儲櫃代碼已存在")
                 }else{
-                    SqlDatabase.getInstance().getStorageDao().insertTargetEntity(
+                    SqlDatabase.getInstance().getStorageDao().insertStorageEntity(
                         StorageEntity(
                             regionName = region,
                             mapName = map,
-                            storageNum = binding.editStorageNumber.text.toString(),
                             storageName = binding.editStorageName.text.toString(),
                             storageX = pointX.toString(),
                             storageY = pointY.toString()
@@ -103,18 +101,9 @@ class AddStorageDataDialog(
         }
     }
 
-    fun isStorageNumExists(storageList: ArrayList<RegionInformation>, targetStorageNum: String): Boolean {
-        for (regionInfo in storageList) {
-            for (mapDetail in regionInfo.MapDetail) {
-                for (storageDetail in mapDetail.StorageDetail) {
-                    if (storageDetail.StorageNum == targetStorageNum) {
-                        // 找到匹配的 StorageNum
-                        return true
-                    }
-                }
-            }
+    fun isStorageNumExists(storageEntities: ArrayList<StorageEntity>, targetStorageName: String): Boolean {
+        return storageEntities.any { storageEntity ->
+            storageEntity.storageName == targetStorageName
         }
-        // 未找到匹配的 StorageNum
-        return false
     }
 }

@@ -12,11 +12,16 @@ import com.lhr.water.R
 import com.lhr.water.data.RegionInformation
 import com.lhr.water.data.WaitDealGoodsData
 import com.lhr.water.databinding.DialogInputBinding
+import com.lhr.water.room.MapEntity
+import com.lhr.water.room.RegionEntity
+import com.lhr.water.room.StorageEntity
 import com.lhr.water.ui.base.APP
 import com.lhr.water.ui.base.AppViewModelFactory
 import com.lhr.water.ui.history.HistoryViewModel
 import com.lhr.water.util.adapter.SpinnerAdapter
+import com.lhr.water.util.showToast
 import org.json.JSONObject
+import timber.log.Timber
 
 class WaitDealMaterialDialog(
     waitDealGoodsData: WaitDealGoodsData,
@@ -34,7 +39,10 @@ class WaitDealMaterialDialog(
     private var maxQuantity = maxQuantity
     private var materialName = ""
     private var materialNumber = ""
-    private var spinnerList = ArrayList<RegionInformation>()
+    private var spinnerList = ArrayList<StorageEntity>()
+    private var regionList = ArrayList<RegionEntity>()
+    private var mapList = ArrayList<MapEntity>()
+    private var storageList = ArrayList<StorageEntity>()
 
     private val viewModelFactory: AppViewModelFactory
         get() = (requireContext().applicationContext as APP).appContainer.viewModelFactory
@@ -60,13 +68,32 @@ class WaitDealMaterialDialog(
         materialNumber = waitDealGoodsData.itemInformation.getString("materialNumber")
         binding.textQuantity.text = maxQuantity
 
-        spinnerList = if (isInput){
-            viewModel.regionRepository.storageInformationList.value!!
+//        spinnerList = if (isInput){
+//            regionList
+//            mapList =
+//            storageLis
+//            viewModel.regionRepository.storageEntities.value!!
+//        }else{
+//            viewModel.getOutputGoodsWhere(waitDealGoodsData.itemInformation)
+//        }
+
+        if (isInput){
+            regionList = viewModel.regionRepository.regionEntities.value!!
+            mapList = viewModel.regionRepository.mapEntities.value!!
+            storageList = viewModel.regionRepository.storageEntities.value!!
         }else{
-            viewModel.getOutputGoodsWhere(waitDealGoodsData.itemInformation)
+            var storageContentList = viewModel.formRepository.storageGoods.value?.filter { entity ->
+                entity.materialName == waitDealGoodsData.itemInformation.getString("materialName") &&
+                        entity.materialNumber == waitDealGoodsData.itemInformation.getString("materialNumber") &&
+                        entity.materialSpec == waitDealGoodsData.itemInformation.getString("materialSpec") &&
+                        entity.materialUnit == waitDealGoodsData.itemInformation.getString("materialUnit")
+            } as ArrayList
+            regionList = viewModel.getOutputGoodsRegion(storageContentList)
+            mapList = viewModel.getOutputGoodsMap(storageContentList)
+            storageList = viewModel.getOutputGoodsStorage(storageContentList)
         }
 
-        initSpinner(binding.spinnerRegion, viewModel.getRegionNameList(spinnerList))
+        initSpinner(binding.spinnerRegion, viewModel.getRegionNameList(regionList))
 
         // 設定 Spinner 的選擇監聽器
         binding.spinnerRegion.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
@@ -78,7 +105,7 @@ class WaitDealMaterialDialog(
             ) {
                 // 通過 position 獲取當前選定項的文字
                 regionName = parent?.getItemAtPosition(position).toString()
-                initSpinner(binding.spinnerMap, viewModel.getMapNameList(regionName, spinnerList))
+                initSpinner(binding.spinnerMap, viewModel.getMapNameList(regionName, mapList))
 
             }
 
@@ -100,7 +127,7 @@ class WaitDealMaterialDialog(
                 initSpinner(
                     binding.spinnerStorage,
                     ArrayList(
-                        viewModel.getStorageNameList(regionName, mapName, spinnerList).map { it.StorageName })
+                        viewModel.getStorageNameList(regionName, mapName, storageList).map { it.storageName })
                 )
             }
 
@@ -123,7 +150,7 @@ class WaitDealMaterialDialog(
                     // 如果是出貨，需採儲櫃剩餘數量和出貨數量中較小的那個做為最大值
                     if(!isInput){
                         var goodsStoreInformation = viewModel.getOutputGoodsStorageInformation(waitDealGoodsData.itemInformation.optString("materialName"),waitDealGoodsData.itemInformation.optString("materialNumber"))
-                        var materialQuantity = viewModel.regionRepository.getMaterialQuantity(regionName, mapName, viewModel.regionRepository.findStorageNum(regionName, mapName, storageName), materialNumber, goodsStoreInformation).toInt()
+                        var materialQuantity = viewModel.regionRepository.getMaterialQuantity(regionName, mapName, storageName, materialNumber, goodsStoreInformation).toInt()
                         maxQuantity = kotlin.math.min(materialQuantity, maxQuantity.toInt()).toString()
                     }
                 }
@@ -150,31 +177,37 @@ class WaitDealMaterialDialog(
     override fun onClick(v: View?) {
         when (v?.id) {
             R.id.buttonConfirm -> {
-                // 先找出儲櫃代號，不可直接用儲櫃名稱，因為可能會被修改
-                val storageNum = viewModel.regionRepository.findStorageNum(binding.spinnerRegion.selectedItem.toString(),
-                    binding.spinnerMap.selectedItem.toString(),
-                    binding.spinnerStorage.selectedItem.toString())
-                if (isInput){
-                    viewModel.inputInTempGoods(
-                        waitDealGoodsData,
-                        binding.spinnerRegion.selectedItem.toString(),
-                        binding.spinnerMap.selectedItem.toString(),
-                        storageNum,
-                        binding.textQuantity.text.toString()
-                    )
-                }else{
-                    viewModel.outputInTempGoods(
-                        waitDealGoodsData,
-                        binding.spinnerRegion.selectedItem.toString(),
-                        binding.spinnerMap.selectedItem.toString(),
-                        storageNum,
-                        binding.textQuantity.text.toString()
-                    )
+                if(binding.spinnerStorage.selectedItem == null){
+                    showToast(requireContext(), "儲櫃未選擇")
+                }else {
+                    // 先找出儲櫃代號，不可直接用儲櫃名稱，因為可能會被修改
+//                    val storageNum = viewModel.regionRepository.findStorageNum(
+//                        binding.spinnerRegion.selectedItem.toString(),
+//                        binding.spinnerMap.selectedItem.toString(),
+//                        binding.spinnerStorage.selectedItem.toString()
+//                    )
+                    if (isInput) {
+                        viewModel.inputInTempGoods(
+                            waitDealGoodsData,
+                            binding.spinnerRegion.selectedItem.toString(),
+                            binding.spinnerMap.selectedItem.toString(),
+                            binding.spinnerStorage.selectedItem.toString(),
+                            binding.textQuantity.text.toString()
+                        )
+                    } else {
+                        viewModel.outputInTempGoods(
+                            waitDealGoodsData,
+                            binding.spinnerRegion.selectedItem.toString(),
+                            binding.spinnerMap.selectedItem.toString(),
+                            binding.spinnerStorage.selectedItem.toString(),
+                            binding.textQuantity.text.toString()
+                        )
+                    }
+                    this.dismiss()
                 }
-                this.dismiss()
             }
 
-            R.id.buttonCancel -> {
+            R.id.imageCancel -> {
                 this.dismiss()
             }
 

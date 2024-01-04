@@ -42,8 +42,8 @@ class MaterialSearchAdapter(val viewModel: MaterialSearchViewModel) :
         fun bind(storageContentEntity: StorageContentEntity) {
             binding.textRegion.text = storageContentEntity.regionName
             binding.textMap.text = storageContentEntity.mapName
-            binding.textStorageName.text = storageContentEntity.storageNum
-            binding.textStorageNumber.text = storageContentEntity.storageNum
+            binding.textStorageName.text = storageContentEntity.storageName
+            binding.textStorageNumber.text = storageContentEntity.storageName
             binding.textMaterialName.text = storageContentEntity.materialName
             binding.textMaterialNumber.text = storageContentEntity.materialNumber
             binding.textQuantity.text = storageContentEntity.quantity.toString()

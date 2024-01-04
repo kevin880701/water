@@ -9,7 +9,6 @@ import androidx.core.graphics.BlendModeCompat
 import com.lhr.water.mapView.MapView
 import com.lhr.water.mapView.utils.MapMath.getDistanceBetweenTwoPoints
 import com.lhr.water.R
-import com.lhr.water.data.StorageDetail
 import com.lhr.water.model.Model.Companion.markDrawableIdMap
 import com.lhr.water.ui.map.MapViewModel
 
@@ -65,25 +64,25 @@ class MarkLayer(
     }
 
     override fun onTouch(event: MotionEvent?, isAddPage: Boolean) {
-        if (viewModel.storageDetailList.value != null && !isAddPage) {
-            if (!viewModel.storageDetailList.value!!.isEmpty()) {
+        if (viewModel.storageEntityList.value != null && !isAddPage) {
+            if (!viewModel.storageEntityList.value!!.isEmpty()) {
                 val goal = mapView!!.convertMapXYToScreenXY(event!!.x, event!!.y)
                 Log.v("PPP", "" + event!!.x + ":" + event!!.y)
                 //點擊出現偏差 所以減50
                 goal[0] = goal[0] - 45
                 goal[1] = goal[1] - 50
                 Log.v("LLL", "" + goal[0] + ":" + goal[1])
-                for (i in viewModel.storageDetailList.value!!.indices) {
+                for (i in viewModel.storageEntityList.value!!.indices) {
                     if (getDistanceBetweenTwoPoints(
                             goal[0], goal[1],
-                            viewModel.storageDetailList.value!![i].StorageX.toFloat() - (markBitmapMap[0]!!.width / 2), viewModel.storageDetailList.value!![i].StorageY.toFloat() - markBitmapMap[0]!!.getHeight() / 2
+                            viewModel.storageEntityList.value!![i].storageX.toFloat() - (markBitmapMap[0]!!.width / 2), viewModel.storageEntityList.value!![i].storageY.toFloat() - markBitmapMap[0]!!.getHeight() / 2
                         ) <= 50
                     ) {
                         num = i
                         isClickMark = true
                         break
                     }
-                    if (i == viewModel.storageDetailList.value!!.size - 1) {
+                    if (i == viewModel.storageEntityList.value!!.size - 1) {
                         isClickMark = false
                     }
                 }
@@ -96,12 +95,12 @@ class MarkLayer(
     }
 
     override fun draw(canvas: Canvas?, currentMatrix: Matrix?, currentZoom: Float, currentRotateDegrees: Float) {
-        if (isVisible && viewModel.storageDetailList.value != null) {
+        if (isVisible && viewModel.storageEntityList.value != null) {
             canvas!!.save()
-            if (viewModel.storageDetailList.value!!.isNotEmpty()) {
-                for (i in viewModel.storageDetailList.value!!.indices) {
+            if (viewModel.storageEntityList.value!!.isNotEmpty()) {
+                for (i in viewModel.storageEntityList.value!!.indices) {
 //                    val mark = marks!![i]
-                    val goal = floatArrayOf(viewModel.storageDetailList.value!![i].StorageX.toFloat(), viewModel.storageDetailList.value!![i].StorageY.toFloat())
+                    val goal = floatArrayOf(viewModel.storageEntityList.value!![i].storageX.toFloat(), viewModel.storageEntityList.value!![i].storageY.toFloat())
                     currentMatrix!!.mapPoints(goal)
                     paint?.color = Color.BLACK
                     paint?.textSize = radiusMark
@@ -109,15 +108,15 @@ class MarkLayer(
 
                     //mark name 當地圖放大到一定程度才顯示mark
                     // 原本mapView!!.currentZoom > 0.5，但因為希望不放大也能直接按所以設0.0
-                    if (mapView!!.currentZoom > 0.0 && viewModel.storageDetailList.value!![i] != null && viewModel.storageDetailList.value!!.size == viewModel.storageDetailList.value!!.size) {
+                    if (mapView!!.currentZoom > 0.0 && viewModel.storageEntityList.value!![i] != null && viewModel.storageEntityList.value!!.size == viewModel.storageEntityList.value!!.size) {
                         // 隨著地圖放大縮小改變圖標透明度
                         MARK_ALLOW_CLICK = true
 //                        if(mapView!!.currentZoom<1.2) {
 //                            paint!!.alpha = (250 * (1 - (1.2 - mapView!!.currentZoom) / 0.7)).toInt()
 //                        }
-                        var x = (viewModel.storageDetailList.value!![i].StorageName.length - 1) / 2 * 25
+                        var x = (viewModel.storageEntityList.value!![i].storageName.length - 1) / 2 * 25
                         canvas.drawText(
-                            viewModel.storageDetailList.value!![i].StorageName, goal[0], goal[1] -
+                            viewModel.storageEntityList.value!![i].storageName, goal[0], goal[1] -
                                     radiusMark - 10, paint!!
                         )
                         //mark ico

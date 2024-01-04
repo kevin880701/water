@@ -62,11 +62,7 @@ class AlreadyChooseGoodsAdapter(
                 jsonStringToJson(storageContentEntity.itemInformation)["materialNumber"].toString()
             binding.textRegion.text = storageContentEntity.regionName
             binding.textMap.text = storageContentEntity.mapName
-            binding.textStorage.text = historyViewModel.regionRepository.findStorageName(
-                storageContentEntity.regionName,
-                storageContentEntity.mapName,
-                storageContentEntity.storageNum
-            )
+            binding.textStorage.text = storageContentEntity.storageName
             binding.textQuantity.text =
                 jsonStringToJson(storageContentEntity.itemInformation)["quantity"].toString()
 

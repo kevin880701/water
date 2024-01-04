@@ -10,7 +10,6 @@ import android.transition.Slide
 import android.transition.Transition
 import android.transition.TransitionManager
 import android.view.Gravity
-import android.view.MotionEvent
 import android.view.View
 import android.widget.RelativeLayout
 import androidx.activity.OnBackPressedCallback
@@ -20,14 +19,13 @@ import com.lhr.water.R
 import com.lhr.water.data.StorageDetail
 import com.lhr.water.databinding.ActivityMapBinding
 import com.lhr.water.mapView.layer.MarkLayer
+import com.lhr.water.room.StorageEntity
 import com.lhr.water.ui.base.APP
 import com.lhr.water.ui.base.BaseActivity
 import com.lhr.water.ui.storageGoodInput.StorageGoodInputActivity
 import com.lhr.water.util.dialog.AddStorageDataDialog
-import com.lhr.water.util.dialog.GoodsDialog
 import com.lhr.water.util.mapView.MapViewListener
 import com.lhr.water.util.widget.StorageInfoBottom
-import timber.log.Timber
 import java.io.IOException
 
 
@@ -103,7 +101,7 @@ class MapActivity(): BaseActivity(), View.OnClickListener, StorageInfoBottom.Lis
                 markLayer!!.setMarkIsClickListener(object : MarkLayer.MarkIsClickListener {
                     override fun markIsClick(num: Int) {
                         if(markLayer!!.MARK_ALLOW_CLICK){
-                            showStorageInfo(viewModel.storageDetailList.value!![num])
+                            showStorageInfo(viewModel.storageEntityList.value!![num])
                         }
                     }})
                 binding.mapView.addLayer(markLayer)
@@ -115,8 +113,8 @@ class MapActivity(): BaseActivity(), View.OnClickListener, StorageInfoBottom.Lis
         binding.widgetTitleBar.imageAdd.setOnClickListener(this)
     }
 
-    fun showStorageInfo(storageDetail: StorageDetail) {
-        val storageInfoBottom = StorageInfoBottom(this, this, storageDetail, map, region)
+    fun showStorageInfo(storageEntity: StorageEntity) {
+        val storageInfoBottom = StorageInfoBottom(this, this, storageEntity, map, region)
         showBottomSheet(storageInfoBottom)
     }
     private fun showBottomSheet(view: View?) {
@@ -167,20 +165,20 @@ class MapActivity(): BaseActivity(), View.OnClickListener, StorageInfoBottom.Lis
         }
     }
 
-    override fun onStorageContentClick(map: String, region: String, storageDetail: StorageDetail) {
-        val storageContentBottom = StorageContentBottom(this, this, storageDetail, map, region)
+    override fun onStorageContentClick(map: String, region: String, storageEntity: StorageEntity) {
+        val storageContentBottom = StorageContentBottom(this, this, storageEntity, map, region)
         showBottomSheet(storageContentBottom)
     }
 
-    override fun onGoodInputClick(map: String, region: String, storageDetail: StorageDetail) {
+    override fun onGoodInputClick(map: String, region: String, storageEntity: StorageEntity) {
         val intent = Intent(this, StorageGoodInputActivity::class.java)
         intent.putExtra("region", region)
         intent.putExtra("map", map)
-        intent.putExtra("storageNum", storageDetail.StorageNum)
+        intent.putExtra("storageName", storageEntity.storageName)
         startActivity(intent)
     }
 
-    override fun onGoodOutputClick(map: String, region: String, storageDetail: StorageDetail) {
+    override fun onGoodOutputClick(map: String, region: String, storageEntity: StorageEntity) {
 
     }
 }

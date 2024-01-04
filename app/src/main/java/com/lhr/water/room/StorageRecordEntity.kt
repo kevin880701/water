@@ -20,8 +20,8 @@ class StorageRecordEntity() : Serializable {
     @ColumnInfo(name = SqlModel.mapName, typeAffinity = ColumnInfo.TEXT)
     var mapName = ""
 
-    @ColumnInfo(name = SqlModel.storageNum, typeAffinity = ColumnInfo.TEXT)
-    var storageNum = ""
+    @ColumnInfo(name = SqlModel.storageName, typeAffinity = ColumnInfo.TEXT)
+    var storageName = ""
 
     @ColumnInfo(name = SqlModel.formNumber, typeAffinity = ColumnInfo.TEXT)
     var formNumber = ""

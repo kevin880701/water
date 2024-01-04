@@ -9,7 +9,6 @@ import com.lhr.water.room.StorageRecordEntity
 import com.lhr.water.ui.base.APP
 import com.lhr.water.util.manager.jsonStringToJson
 import org.json.JSONArray
-import timber.log.Timber
 
 class FormContentViewModel(context: Context, formRepository: FormRepository): AndroidViewModel(context.applicationContext as APP) {
     var context = context
@@ -42,7 +41,7 @@ class FormContentViewModel(context: Context, formRepository: FormRepository): An
             val existingSqlEntity = SqlDatabase.getInstance().getStorageContentDao().getStorageContentByConditions(
                 regionName = record.regionName,
                 mapName = record.mapName,
-                storageNum = record.storageNum,
+                storageNum = record.storageName,
                 materialName = jsonStringToJson(record.itemInformation).getString("materialName"),
                 materialNumber = jsonStringToJson(record.itemInformation).getString("materialNumber"),
                 materialSpec = jsonStringToJson(record.itemInformation).getString("materialSpec"),
@@ -53,7 +52,7 @@ class FormContentViewModel(context: Context, formRepository: FormRepository): An
             val existingCurrentEntity = storageContentEntities.find {
                 it.regionName == record.regionName &&
                 it.mapName == record.mapName &&
-                it.storageNum == record.storageNum &&
+                it.storageName == record.storageName &&
                 it.materialName == jsonStringToJson(record.itemInformation).getString("materialName") &&
                 it.materialNumber == jsonStringToJson(record.itemInformation).getString("materialNumber") &&
                 it.materialSpec == jsonStringToJson(record.itemInformation).getString("materialSpec") &&
@@ -71,7 +70,7 @@ class FormContentViewModel(context: Context, formRepository: FormRepository): An
                 storageContentEntities.add(StorageContentEntity(
                     regionName = record.regionName,
                     mapName = record.mapName,
-                    storageNum = record.storageNum,
+                    storageName = record.storageName,
                     materialName = jsonStringToJson(record.itemInformation).getString("materialName"),
                     materialNumber = jsonStringToJson(record.itemInformation).getString("materialNumber"),
                     materialSpec = jsonStringToJson(record.itemInformation).getString("materialSpec"),
@@ -106,7 +105,7 @@ class FormContentViewModel(context: Context, formRepository: FormRepository): An
             val existingSqlEntity = SqlDatabase.getInstance().getStorageContentDao().getStorageContentByConditions(
                 regionName = record.regionName,
                 mapName = record.mapName,
-                storageNum = record.storageNum,
+                storageNum = record.storageName,
                 materialName = jsonStringToJson(record.itemInformation).getString("materialName"),
                 materialNumber = jsonStringToJson(record.itemInformation).getString("materialNumber"),
                 materialSpec = jsonStringToJson(record.itemInformation).getString("materialSpec"),
@@ -117,7 +116,7 @@ class FormContentViewModel(context: Context, formRepository: FormRepository): An
             val existingCurrentEntity = storageContentEntities.find {
                 it.regionName == record.regionName &&
                 it.mapName == record.mapName &&
-                it.storageNum == record.storageNum &&
+                it.storageName == record.storageName &&
                 it.materialName == jsonStringToJson(record.itemInformation).getString("materialName") &&
                 it.materialNumber == jsonStringToJson(record.itemInformation).getString("materialNumber") &&
                 it.materialSpec == jsonStringToJson(record.itemInformation).getString("materialSpec") &&
@@ -132,7 +131,7 @@ class FormContentViewModel(context: Context, formRepository: FormRepository): An
             storageContentEntities.add(StorageContentEntity(
                 regionName = record.regionName,
                 mapName = record.mapName,
-                storageNum = record.storageNum,
+                storageName = record.storageName,
                 materialName = jsonStringToJson(record.itemInformation).getString("materialName"),
                 materialNumber = jsonStringToJson(record.itemInformation).getString("materialNumber"),
                 materialSpec = jsonStringToJson(record.itemInformation).getString("materialSpec"),

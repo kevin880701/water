@@ -29,7 +29,7 @@ class StorageGoodInputActivity : BaseActivity(), StorageInputAdapter.Listener, V
     lateinit var storageInputAdapter: StorageInputAdapter
     lateinit var region: String
     lateinit var map: String
-    lateinit var storageNum: String
+    lateinit var storageName: String
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -41,11 +41,11 @@ class StorageGoodInputActivity : BaseActivity(), StorageInputAdapter.Listener, V
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
             region = intent.getParcelableExtra("region", String::class.java) as String
             map = intent.getParcelableExtra("map", String::class.java) as String
-            storageNum = intent.getParcelableExtra("storageNum", String::class.java) as String
+            storageName = intent.getParcelableExtra("storageName", String::class.java) as String
         } else {
             region = intent.getSerializableExtra("region") as String
             map = intent.getSerializableExtra("map") as String
-            storageNum = intent.getSerializableExtra("storageNum") as String
+            storageName = intent.getSerializableExtra("storageName") as String
         }
 
         initView()
@@ -134,7 +134,7 @@ class StorageGoodInputActivity : BaseActivity(), StorageInputAdapter.Listener, V
     override fun onClick(v: View) {
         when (v.id) {
             R.id.buttonConfirm -> {
-                viewModel.inputGoods(storageInputAdapter, region, map, storageNum)
+                viewModel.inputGoods(storageInputAdapter, region, map, storageName)
                 finish()
             }
         }

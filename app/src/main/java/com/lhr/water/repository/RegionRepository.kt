@@ -6,8 +6,6 @@ import androidx.lifecycle.MutableLiveData
 import com.google.gson.Gson
 import com.google.gson.JsonSyntaxException
 import com.google.gson.reflect.TypeToken
-import com.lhr.water.data.MapDetail
-import com.lhr.water.data.StorageDetail
 import com.lhr.water.data.RegionInformation
 import com.lhr.water.room.MapEntity
 import com.lhr.water.room.RegionEntity
@@ -56,37 +54,37 @@ class RegionRepository private constructor(private val context: Context) {
     /**
      * 從資料庫取得儲櫃資料
      */
-    private fun getStorageInformationFromSQL(): ArrayList<RegionInformation> {
-        var targetEntities = SqlDatabase.getInstance().getStorageDao().getAllStorage()
-        val groupedByRegionMap = targetEntities.groupBy { it.regionName }
-
-        val regionInformationList = ArrayList<RegionInformation>()
-
-        for ((regionName, entitiesInRegion) in groupedByRegionMap) {
-            val mapDetails = entitiesInRegion.groupBy { it.mapName }
-                .map { (mapName, entitiesInMap) ->
-                    MapDetail(
-                        MapName = mapName,
-                        StorageDetail = entitiesInMap.map {
-                            StorageDetail(
-                                StorageNum = it.storageNum,
-                                StorageName = it.storageName,
-                                StorageX = it.storageX,
-                                StorageY = it.storageY
-                            )
-                        }
-                    )
-                }
-
-            regionInformationList.add(
-                RegionInformation(
-                    RegionName = regionName,
-                    MapDetail = mapDetails
-                )
-            )
-        }
-        return regionInformationList
-    }
+//    private fun getStorageInformationFromSQL(): ArrayList<RegionInformation> {
+//        var targetEntities = SqlDatabase.getInstance().getStorageDao().getAllStorage()
+//        val groupedByRegionMap = targetEntities.groupBy { it.regionName }
+//
+//        val regionInformationList = ArrayList<RegionInformation>()
+//
+//        for ((regionName, entitiesInRegion) in groupedByRegionMap) {
+//            val mapDetails = entitiesInRegion.groupBy { it.mapName }
+//                .map { (mapName, entitiesInMap) ->
+//                    MapDetail(
+//                        MapName = mapName,
+//                        StorageDetail = entitiesInMap.map {
+//                            StorageDetail(
+//                                StorageNum = it.storageNum,
+//                                StorageName = it.storageName,
+//                                StorageX = it.storageX,
+//                                StorageY = it.storageY
+//                            )
+//                        }
+//                    )
+//                }
+//
+//            regionInformationList.add(
+//                RegionInformation(
+//                    RegionName = regionName,
+//                    MapDetail = mapDetails
+//                )
+//            )
+//        }
+//        return regionInformationList
+//    }
 
     /**
      * 判斷Region資料表是否為空，如果為空代表第一次開。需從StorageInformation.json插入資料到資料庫
@@ -212,9 +210,9 @@ class RegionRepository private constructor(private val context: Context) {
     /**
      * 區域列表
      */
-    fun getRegionNameList(): ArrayList<String> {
+    fun getRegionNameList(regionEntities: ArrayList<RegionEntity>): ArrayList<String> {
 //        return storageInformationList.map { it.RegionName } as ArrayList<String>
-        return regionEntities.value?.map { it.regionName } as ArrayList<String>
+        return regionEntities.map { it.regionName } as ArrayList<String>
     }
 
 
@@ -223,13 +221,14 @@ class RegionRepository private constructor(private val context: Context) {
      * @param regionName 區域名稱
      */
     fun getMapNameList(
-        targetRegionName: String
+        targetRegionName: String,
+        mapEntities: ArrayList<MapEntity>
     ): ArrayList<String> {
 //        // 查找 StorageInformation 中指定的 regionName
 //        val regionStorageInformation = storageInformationList.find { it.RegionName == targetRegionName }
 //        // 提取該 regionName 下的 mapName 列表
 //        return regionStorageInformation?.MapDetail?.map { it.MapName } as ArrayList<String>
-        return mapEntities.value?.filter { it.regionName == targetRegionName }
+        return mapEntities.filter { it.regionName == targetRegionName }
             ?.map { it.mapName } as ArrayList<String>
     }
 
@@ -240,20 +239,28 @@ class RegionRepository private constructor(private val context: Context) {
      * @param mapName 地圖名稱
      */
     fun getStorageDetailList(
-        regionName: String,
-        mapName: String,
-        storageInformationList: ArrayList<RegionInformation>
-    ): ArrayList<StorageDetail> {
-        // 查找 StorageInformation 中指定 regionName
-        val regionStorageInformation =
-            storageInformationList.find { it.RegionName == regionName }
-
-        // 查找指定 mapName 的 StorageDetail
-        val mapStorageDetail =
-            regionStorageInformation?.MapDetail?.find { it.MapName == mapName }
-
-        // 提取該 mapName 下的 ItemDetail 列表
-        return mapStorageDetail?.StorageDetail as ArrayList<StorageDetail>
+        targetRegionName: String,
+        targetMapName: String,
+        storageEntities: ArrayList<StorageEntity>
+    ): ArrayList<StorageEntity> {
+//        // 查找 StorageInformation 中指定 regionName
+//        val regionStorageInformation =
+//            storageInformationList.find { it.RegionName == targetRegionName }
+//
+//        // 查找指定 mapName 的 StorageDetail
+//        val mapStorageDetail =
+//            regionStorageInformation?.MapDetail?.find { it.MapName == targetMapName }
+//
+//        // 提取該 mapName 下的 ItemDetail 列表
+//        return mapStorageDetail?.StorageDetail as ArrayList<StorageDetail>
+//
+//
+        val filteredStorageList: ArrayList<StorageEntity> = ArrayList()
+        filteredStorageList.addAll(storageEntities.filter { storageEntity ->
+            storageEntity.regionName == targetRegionName && storageEntity.mapName == targetMapName
+        })
+        // 使用 filter 函數來篩選符合條件的 StorageEntity
+        return filteredStorageList
     }
 
 
@@ -316,7 +323,7 @@ class RegionRepository private constructor(private val context: Context) {
         val matchingItem = storageInformationList.find { item ->
             item.regionName == regionName &&
                     item.mapName == mapName &&
-                    item.storageNum == storageNum &&
+                    item.storageName == storageNum &&
                     jsonStringToJson(item.itemInformation)["materialNumber"] == materialNum
         }
 

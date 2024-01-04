@@ -7,7 +7,6 @@ import android.view.View
 import androidx.fragment.app.DialogFragment
 import androidx.fragment.app.viewModels
 import com.lhr.water.R
-import com.lhr.water.data.StorageDetail
 import com.lhr.water.databinding.DialogEditStorageNameBinding
 import com.lhr.water.room.SqlDatabase
 import com.lhr.water.room.StorageEntity
@@ -18,7 +17,7 @@ import com.lhr.water.ui.map.MapViewModel
 class EditStorageNameDialog(
     var region: String,
     var map: String,
-    private var storageDetail: StorageDetail
+    private var storageEntity: StorageEntity
 ) : DialogFragment(), View.OnClickListener {
 
     private var dialog: AlertDialog? = null
@@ -53,14 +52,13 @@ class EditStorageNameDialog(
     override fun onClick(v: View?) {
         when (v?.id) {
             R.id.buttonConfirm -> {
-                SqlDatabase.getInstance().getStorageDao().insertTargetEntity(
+                SqlDatabase.getInstance().getStorageDao().insertStorageEntity(
                     StorageEntity(
                         regionName = region,
                         mapName = map,
-                        storageNum = storageDetail.StorageNum,
                         storageName = binding.editSearch.text.toString(),
-                        storageX = storageDetail.StorageX,
-                        storageY = storageDetail.StorageY
+                        storageX = storageEntity.storageX,
+                        storageY = storageEntity.storageY
                     )
                 )
                 viewModel.regionRepository.loadStorageInformation2()

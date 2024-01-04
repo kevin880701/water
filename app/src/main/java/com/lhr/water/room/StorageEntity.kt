@@ -10,14 +10,13 @@ import java.io.Serializable
 @Entity(
     tableName = SqlModel.STORAGE_TABLE_NAME,
     indices = [Index(
-        value = [SqlModel.regionName, SqlModel.mapName, SqlModel.storageNum],
+        value = [SqlModel.regionName, SqlModel.mapName, SqlModel.storageName],
         unique = true
     )]
 )
 class StorageEntity(
     regionName: String,
     mapName: String,
-    storageNum: String,
     storageName: String,
     storageX: String,
     storageY: String
@@ -32,9 +31,6 @@ class StorageEntity(
 
     @ColumnInfo(name = SqlModel.mapName, typeAffinity = ColumnInfo.TEXT)
     var mapName = mapName
-
-    @ColumnInfo(name = SqlModel.storageNum, typeAffinity = ColumnInfo.TEXT)
-    var storageNum = storageNum
 
     @ColumnInfo(name = SqlModel.storageName, typeAffinity = ColumnInfo.TEXT)
     var storageName = storageName
