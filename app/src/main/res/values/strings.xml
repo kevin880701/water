@@ -574,22 +574,6 @@
     </string-array>
     <!--  盤點單  -->
 
-
-    <!--  儲櫃資訊  -->
-    <string-array name="storage_form_field_name">
-        <item>櫥櫃代號</item>
-        <item>櫥櫃名稱</item>
-        <item>區域名稱</item>
-        <item>地圖名稱</item>
-    </string-array>
-
-    <string-array name="storage_form_field_name_eng">
-        <item>storageNum</item>
-        <item>storageName</item>
-        <item>regionName</item>
-        <item>mapName</item>
-    </string-array>
-
     <!--  儲櫃貨物資訊  -->
     <string-array name="storage_Good_field_name">
         <item>報表名稱</item>

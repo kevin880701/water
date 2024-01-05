@@ -41,7 +41,7 @@ class FormContentViewModel(context: Context, formRepository: FormRepository): An
             val existingSqlEntity = SqlDatabase.getInstance().getStorageContentDao().getStorageContentByConditions(
                 regionName = record.regionName,
                 mapName = record.mapName,
-                storageNum = record.storageName,
+                storageName = record.storageName,
                 materialName = jsonStringToJson(record.itemInformation).getString("materialName"),
                 materialNumber = jsonStringToJson(record.itemInformation).getString("materialNumber"),
                 materialSpec = jsonStringToJson(record.itemInformation).getString("materialSpec"),
@@ -105,7 +105,7 @@ class FormContentViewModel(context: Context, formRepository: FormRepository): An
             val existingSqlEntity = SqlDatabase.getInstance().getStorageContentDao().getStorageContentByConditions(
                 regionName = record.regionName,
                 mapName = record.mapName,
-                storageNum = record.storageName,
+                storageName = record.storageName,
                 materialName = jsonStringToJson(record.itemInformation).getString("materialName"),
                 materialNumber = jsonStringToJson(record.itemInformation).getString("materialNumber"),
                 materialSpec = jsonStringToJson(record.itemInformation).getString("materialSpec"),

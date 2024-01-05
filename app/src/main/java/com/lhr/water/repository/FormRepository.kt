@@ -18,6 +18,7 @@ import com.lhr.water.util.manager.jsonStringToJson
 import com.lhr.water.util.transferStatus
 import org.json.JSONArray
 import org.json.JSONObject
+import timber.log.Timber
 
 class FormRepository(context: Context) {
     val context = context
@@ -139,6 +140,7 @@ class FormRepository(context: Context) {
         // 更新已入庫的貨物
         updateStorageRecords()
         updateStorageGoods()
+
         // 這裡需要把已入庫的貨物從waitInputGoods中刪除
         waitInputGoodsList.removeAll { waitDealGoodsData ->
             storageRecords.value!!.any { storageContentEntity ->
@@ -240,18 +242,18 @@ class FormRepository(context: Context) {
     }
 
     /**
-     * 根據 regionName、mapName 和 storageNum 查詢指定儲櫃內容物
+     * 根據 regionName、mapName 和 storageName 查詢指定儲櫃內容物
      * @param regionName 地區名稱
      * @param mapName 地圖名稱
-     * @param storageNum 儲櫃代號
+     * @param storageName 儲櫃代號
      */
     fun getStorageContentByCondition(
         regionName: String,
         mapName: String,
-        storageNum: String
+        storageName: String
     ): ArrayList<StorageContentEntity> {
         return SqlDatabase.getInstance().getStorageContentDao()
-            .getStorageContentByConditions(regionName, mapName, storageNum) as ArrayList
+            .getStorageContentByConditions(regionName, mapName, storageName) as ArrayList
     }
 
     /**

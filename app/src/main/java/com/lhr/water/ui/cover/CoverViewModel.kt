@@ -11,6 +11,6 @@ class CoverViewModel(context: Context, regionRepository: RegionRepository): Andr
 
     fun checkTable(){
 //        regionRepository.loadStorageInformation()
-        regionRepository.loadStorageInformation2()
+        regionRepository.loadStorageInformation()
     }
 }

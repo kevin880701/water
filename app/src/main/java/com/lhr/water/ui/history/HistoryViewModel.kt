@@ -23,12 +23,6 @@ class HistoryViewModel(
     val regionRepository = regionRepository
     val formRepository = formRepository
 
-    companion object {
-    }
-
-    init {
-    }
-
     fun getRegionNameList(regionEntities: ArrayList<RegionEntity>): ArrayList<String> {
         return regionRepository.getRegionNameList(regionEntities)
     }
@@ -51,14 +45,14 @@ class HistoryViewModel(
      * @param waitDealGoodsData 貨物資訊
      * @param region 地區名稱
      * @param map 地區名稱
-     * @param storageNum 櫥櫃代號
+     * @param storageName 櫥櫃名稱
      * @param materialQuantity 貨物數量
      */
     fun inputInTempGoods(
         waitDealGoodsData: WaitDealGoodsData,
         region: String,
         map: String,
-        storageNum: String,
+        storageName: String,
         materialQuantity: String
     ) {
 
@@ -67,7 +61,7 @@ class HistoryViewModel(
 
         waitInputGoodsJson.put("regionName", region)
         waitInputGoodsJson.put("mapName", map)
-        waitInputGoodsJson.put("storageNum", storageNum)
+        waitInputGoodsJson.put("storageName", storageName)
         waitInputGoodsJson.put("formNumber", waitDealGoodsData.formNumber)
         waitInputGoodsJson.put("reportTitle", waitDealGoodsData.reportTitle)
         // 入庫時間記錄到民國年月日就好
@@ -77,7 +71,7 @@ class HistoryViewModel(
         var storageContentEntity = StorageRecordEntity()
         storageContentEntity.regionName = region
         storageContentEntity.mapName = map
-        storageContentEntity.storageName = storageNum
+        storageContentEntity.storageName = storageName
         storageContentEntity.formNumber = waitDealGoodsData.formNumber
         storageContentEntity.reportTitle = waitDealGoodsData.reportTitle
         storageContentEntity.itemInformation = waitInputGoodsJson.toString()
@@ -159,6 +153,33 @@ class HistoryViewModel(
     }
 
     fun getOutputGoodsStorage(storageContentList: ArrayList<StorageContentEntity>): ArrayList<StorageEntity> {
+        // 取出不重複的 regionName、mapName 和 storageName 並轉為 StorageEntity
+        return storageContentList
+            .distinctBy { Triple(it.regionName, it.mapName, it.storageName) }
+            .map {
+                StorageEntity(
+                    it.regionName,
+                    it.mapName,
+                    it.storageName,
+                    "",
+                    ""
+                )
+            } as ArrayList<StorageEntity>
+    }
+
+    fun getInputGoodsRegion(storageContentList: ArrayList<StorageEntity>): ArrayList<RegionEntity> {
+        return storageContentList?.distinctBy { it.regionName }
+            ?.map { RegionEntity(it.regionName) } as ArrayList<RegionEntity>
+    }
+
+    fun getInputGoodsMap(storageContentList: ArrayList<StorageEntity>): ArrayList<MapEntity> {
+        // 取出不重複的 regionName 和 mapName 並轉為 MapEntity
+        return storageContentList
+            .distinctBy { Pair(it.regionName, it.mapName) }
+            .map { MapEntity(it.regionName, it.mapName) } as ArrayList<MapEntity>
+    }
+
+    fun getInputGoodsStorage(storageContentList: ArrayList<StorageEntity>): ArrayList<StorageEntity> {
         // 取出不重複的 regionName、mapName 和 storageName 並轉為 StorageEntity
         return storageContentList
             .distinctBy { Triple(it.regionName, it.mapName, it.storageName) }

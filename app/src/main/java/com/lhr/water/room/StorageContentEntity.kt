@@ -11,7 +11,7 @@ import java.io.Serializable
     tableName = SqlModel.STORAGE_CONTENT_TABLE_NAME,
     indices = [Index(
         value = [SqlModel.regionName, SqlModel.mapName,
-            SqlModel.storageNum, SqlModel.materialName,
+            SqlModel.storageName, SqlModel.materialName,
             SqlModel.materialNumber, SqlModel.materialSpec,
             SqlModel.materialUnit],
         unique = true
@@ -38,7 +38,7 @@ class StorageContentEntity(
     @ColumnInfo(name = SqlModel.mapName, typeAffinity = ColumnInfo.TEXT)
     var mapName = mapName
 
-    @ColumnInfo(name = SqlModel.storageNum, typeAffinity = ColumnInfo.TEXT)
+    @ColumnInfo(name = SqlModel.storageName, typeAffinity = ColumnInfo.TEXT)
     var storageName = storageName
 
     @ColumnInfo(name = SqlModel.materialName, typeAffinity = ColumnInfo.TEXT)

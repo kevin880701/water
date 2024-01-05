@@ -49,7 +49,7 @@ class ConfirmCancelDialog(
         when (v?.id) {
             R.id.buttonConfirm -> {
                 SqlDatabase.getInstance().getStorageDao().deleteByRegionMapAndStorage(region, map, storageName)
-                viewModel.regionRepository.loadStorageInformation2()
+                viewModel.regionRepository.loadStorageInformation()
                 this.dismiss()
             }
 

@@ -80,11 +80,10 @@ class MapActivity(): BaseActivity(), View.OnClickListener, StorageInfoBottom.Lis
     }
 
     private fun bindViewModel() {
-        viewModel.regionRepository.storageInformationList.observe(this) {
+        viewModel.regionRepository.storageEntities.observe(this) {
             viewModel.setStorageDetailList(region, map)
             binding.mapView.refresh()
         }
-
     }
 
     private fun initMapView() {

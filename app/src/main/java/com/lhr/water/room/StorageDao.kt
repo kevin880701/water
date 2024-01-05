@@ -17,9 +17,20 @@ interface StorageDao {
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     fun insertStorageEntity(storageEntity: StorageEntity)
 
-    @Query("DELETE FROM $STORAGE_TABLE_NAME WHERE " +
-            "${SqlModel.regionName} = :regionName AND " +
-            "${SqlModel.mapName} = :mapName AND " +
-            "${SqlModel.storageName} = :storageName")
+    @Query("UPDATE $STORAGE_TABLE_NAME SET storageName = :newStorageName WHERE " +
+            "regionName = :regionName AND mapName = :mapName AND storageName = :oldStorageName")
+    fun updateStorage(
+        regionName: String,
+        mapName: String,
+        oldStorageName: String,
+        newStorageName: String
+    )
+
+    @Query(
+        "DELETE FROM $STORAGE_TABLE_NAME WHERE " +
+                "${SqlModel.regionName} = :regionName AND " +
+                "${SqlModel.mapName} = :mapName AND " +
+                "${SqlModel.storageName} = :storageName"
+    )
     fun deleteByRegionMapAndStorage(regionName: String, mapName: String, storageName: String)
 }

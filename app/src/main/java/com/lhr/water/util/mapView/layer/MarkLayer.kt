@@ -69,14 +69,14 @@ class MarkLayer(
                 val goal = mapView!!.convertMapXYToScreenXY(event!!.x, event!!.y)
                 Log.v("PPP", "" + event!!.x + ":" + event!!.y)
                 //點擊出現偏差 所以減50
-                goal[0] = goal[0] - 45
-                goal[1] = goal[1] - 50
+                goal[0] = goal[0] - 0
+                goal[1] = goal[1] - 0
                 Log.v("LLL", "" + goal[0] + ":" + goal[1])
                 for (i in viewModel.storageEntityList.value!!.indices) {
                     if (getDistanceBetweenTwoPoints(
                             goal[0], goal[1],
                             viewModel.storageEntityList.value!![i].storageX.toFloat() - (markBitmapMap[0]!!.width / 2), viewModel.storageEntityList.value!![i].storageY.toFloat() - markBitmapMap[0]!!.getHeight() / 2
-                        ) <= 50
+                        ) <= 75
                     ) {
                         num = i
                         isClickMark = true
@@ -114,7 +114,6 @@ class MarkLayer(
 //                        if(mapView!!.currentZoom<1.2) {
 //                            paint!!.alpha = (250 * (1 - (1.2 - mapView!!.currentZoom) / 0.7)).toInt()
 //                        }
-                        var x = (viewModel.storageEntityList.value!![i].storageName.length - 1) / 2 * 25
                         canvas.drawText(
                             viewModel.storageEntityList.value!![i].storageName, goal[0], goal[1] -
                                     radiusMark - 10, paint!!

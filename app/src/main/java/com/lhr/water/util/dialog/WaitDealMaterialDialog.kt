@@ -9,7 +9,6 @@ import android.widget.Spinner
 import androidx.fragment.app.DialogFragment
 import androidx.fragment.app.viewModels
 import com.lhr.water.R
-import com.lhr.water.data.RegionInformation
 import com.lhr.water.data.WaitDealGoodsData
 import com.lhr.water.databinding.DialogInputBinding
 import com.lhr.water.room.MapEntity
@@ -20,8 +19,6 @@ import com.lhr.water.ui.base.AppViewModelFactory
 import com.lhr.water.ui.history.HistoryViewModel
 import com.lhr.water.util.adapter.SpinnerAdapter
 import com.lhr.water.util.showToast
-import org.json.JSONObject
-import timber.log.Timber
 
 class WaitDealMaterialDialog(
     waitDealGoodsData: WaitDealGoodsData,
@@ -68,19 +65,11 @@ class WaitDealMaterialDialog(
         materialNumber = waitDealGoodsData.itemInformation.getString("materialNumber")
         binding.textQuantity.text = maxQuantity
 
-//        spinnerList = if (isInput){
-//            regionList
-//            mapList =
-//            storageLis
-//            viewModel.regionRepository.storageEntities.value!!
-//        }else{
-//            viewModel.getOutputGoodsWhere(waitDealGoodsData.itemInformation)
-//        }
-
         if (isInput){
-            regionList = viewModel.regionRepository.regionEntities.value!!
-            mapList = viewModel.regionRepository.mapEntities.value!!
             storageList = viewModel.regionRepository.storageEntities.value!!
+            regionList = viewModel.getInputGoodsRegion(storageList)
+            mapList = viewModel.getInputGoodsMap(storageList)
+            storageList = viewModel.getInputGoodsStorage(storageList)
         }else{
             var storageContentList = viewModel.formRepository.storageGoods.value?.filter { entity ->
                 entity.materialName == waitDealGoodsData.itemInformation.getString("materialName") &&
@@ -91,6 +80,11 @@ class WaitDealMaterialDialog(
             regionList = viewModel.getOutputGoodsRegion(storageContentList)
             mapList = viewModel.getOutputGoodsMap(storageContentList)
             storageList = viewModel.getOutputGoodsStorage(storageContentList)
+        }
+        if(storageList.size == 0){
+            binding.textNoData.visibility = View.VISIBLE
+        }else{
+            binding.textNoData.visibility = View.INVISIBLE
         }
 
         initSpinner(binding.spinnerRegion, viewModel.getRegionNameList(regionList))
@@ -170,22 +164,12 @@ class WaitDealMaterialDialog(
         spinner.adapter = adapter
     }
 
-    interface Listener {
-        fun onGoodsDialogConfirm(formItemJson: JSONObject)
-    }
-
     override fun onClick(v: View?) {
         when (v?.id) {
             R.id.buttonConfirm -> {
                 if(binding.spinnerStorage.selectedItem == null){
                     showToast(requireContext(), "儲櫃未選擇")
                 }else {
-                    // 先找出儲櫃代號，不可直接用儲櫃名稱，因為可能會被修改
-//                    val storageNum = viewModel.regionRepository.findStorageNum(
-//                        binding.spinnerRegion.selectedItem.toString(),
-//                        binding.spinnerMap.selectedItem.toString(),
-//                        binding.spinnerStorage.selectedItem.toString()
-//                    )
                     if (isInput) {
                         viewModel.inputInTempGoods(
                             waitDealGoodsData,

@@ -29,7 +29,7 @@ class StorageGoodInputViewModel(context: Context, formRepository: FormRepository
     /**
      * 將選擇貨物加入儲櫃中並更新資料庫和表單列表
      */
-    fun inputGoods(storageInputAdapter: StorageInputAdapter, region: String, map: String, storageNum: String) {
+    fun inputGoods(storageInputAdapter: StorageInputAdapter, region: String, map: String, storageName: String) {
         // 遍歷數據集，檢查每個位置的 CheckBox 是否被選中
         var storageContentEntities = ArrayList<StorageRecordEntity>()
         for (i in getWaitInputGoods().indices) {
@@ -42,7 +42,7 @@ class StorageGoodInputViewModel(context: Context, formRepository: FormRepository
 
                 waitInputGoodsJson.put("regionName", region)
                 waitInputGoodsJson.put("mapName", map)
-                waitInputGoodsJson.put("storageNum", storageNum)
+                waitInputGoodsJson.put("storageName", storageName)
                 waitInputGoodsJson.put("formNumber", getWaitInputGoods()[i].formNumber)
                 waitInputGoodsJson.put("reportTitle", getWaitInputGoods()[i].reportTitle)
                 // 入庫時間記錄到民國年月日就好
@@ -51,7 +51,7 @@ class StorageGoodInputViewModel(context: Context, formRepository: FormRepository
                 var storageContentEntity = StorageRecordEntity()
                 storageContentEntity.regionName = region
                 storageContentEntity.mapName = map
-                storageContentEntity.storageName = storageNum
+                storageContentEntity.storageName = storageName
                 storageContentEntity.formNumber = getWaitInputGoods()[i].formNumber
                 storageContentEntity.reportTitle = getWaitInputGoods()[i].reportTitle
                 storageContentEntity.itemInformation = waitInputGoodsJson.toString()

@@ -40,11 +40,6 @@ class CoverActivity : BaseActivity() {
         Model
 
         viewModel.checkTable()
-        Timber.d("---------------------------------------")
-        Timber.d("SIZE：${viewModel.regionRepository.regionEntities.value?.size}")
-        Timber.d("SIZE：${viewModel.regionRepository.mapEntities.value?.size}")
-        Timber.d("SIZE：${viewModel.regionRepository.mapEntities.value?.size}")
-        Timber.d("---------------------------------------")
 
         GlobalScope.launch {
             val layout = findViewById<ConstraintLayout>(R.id.constrain)

@@ -69,9 +69,9 @@ class AddStorageDataDialog(
         when (v?.id) {
             R.id.buttonConfirm -> {
                 if(binding.editStorageName.text.toString() == ""){
-                    showToast(this.requireContext(), "儲櫃代碼已存在")
-                }else if(isStorageNumExists(viewModel.regionRepository.storageEntities.value!!, binding.editStorageName.text.toString())){
-                    showToast(this.requireContext(), "儲櫃代碼已存在")
+                    showToast(this.requireContext(), "儲櫃名稱不可為空")
+                }else if(isStorageNameExists(viewModel.regionRepository.storageEntities.value!!, binding.editStorageName.text.toString())){
+                    showToast(this.requireContext(), "儲櫃名稱已存在")
                 }else{
                     SqlDatabase.getInstance().getStorageDao().insertStorageEntity(
                         StorageEntity(
@@ -82,7 +82,7 @@ class AddStorageDataDialog(
                             storageY = pointY.toString()
                         )
                     )
-                    viewModel.regionRepository.loadStorageInformation2()
+                    viewModel.regionRepository.loadStorageInformation()
                     this.dismiss()
                 }
             }
@@ -101,7 +101,7 @@ class AddStorageDataDialog(
         }
     }
 
-    fun isStorageNumExists(storageEntities: ArrayList<StorageEntity>, targetStorageName: String): Boolean {
+    fun isStorageNameExists(storageEntities: ArrayList<StorageEntity>, targetStorageName: String): Boolean {
         return storageEntities.any { storageEntity ->
             storageEntity.storageName == targetStorageName
         }

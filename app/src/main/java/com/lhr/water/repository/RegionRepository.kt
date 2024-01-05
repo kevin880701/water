@@ -29,9 +29,6 @@ class RegionRepository private constructor(private val context: Context) {
     // 所有儲櫃單列表
     var storageEntities: MutableLiveData<ArrayList<StorageEntity>> =
         MutableLiveData<ArrayList<StorageEntity>>()
-    // 所有表單列表
-    var storageInformationList: MutableLiveData<ArrayList<RegionInformation>> =
-        MutableLiveData<ArrayList<RegionInformation>>()
 
     companion object {
         private var instance: RegionRepository? = null
@@ -44,91 +41,15 @@ class RegionRepository private constructor(private val context: Context) {
     }
 
     init {
-//        storageInformationList.value = getStorageInformationFromSQL()
         storageEntities.value = SqlDatabase.getInstance().getStorageDao().getAllStorage() as ArrayList
         regionEntities.value = SqlDatabase.getInstance().getRegionDao().getAllRegion() as ArrayList
         mapEntities.value = SqlDatabase.getInstance().getMapDao().getAllMap() as ArrayList
     }
 
-
-    /**
-     * 從資料庫取得儲櫃資料
-     */
-//    private fun getStorageInformationFromSQL(): ArrayList<RegionInformation> {
-//        var targetEntities = SqlDatabase.getInstance().getStorageDao().getAllStorage()
-//        val groupedByRegionMap = targetEntities.groupBy { it.regionName }
-//
-//        val regionInformationList = ArrayList<RegionInformation>()
-//
-//        for ((regionName, entitiesInRegion) in groupedByRegionMap) {
-//            val mapDetails = entitiesInRegion.groupBy { it.mapName }
-//                .map { (mapName, entitiesInMap) ->
-//                    MapDetail(
-//                        MapName = mapName,
-//                        StorageDetail = entitiesInMap.map {
-//                            StorageDetail(
-//                                StorageNum = it.storageNum,
-//                                StorageName = it.storageName,
-//                                StorageX = it.storageX,
-//                                StorageY = it.storageY
-//                            )
-//                        }
-//                    )
-//                }
-//
-//            regionInformationList.add(
-//                RegionInformation(
-//                    RegionName = regionName,
-//                    MapDetail = mapDetails
-//                )
-//            )
-//        }
-//        return regionInformationList
-//    }
-
-    /**
-     * 判斷Region資料表是否為空，如果為空代表第一次開。需從StorageInformation.json插入資料到資料庫
-     */
-//    fun loadStorageInformation() {
-//        var count = SqlDatabase.getInstance().getStorageDao().getRowCount()
-//        if (count == 0) {
-//            val regionEntities = mutableListOf<StorageEntity>()
-//            var regionInformationList = getStorageInformationFromAssets()
-//
-//            for (regionInformation in regionInformationList) {
-//                val regionName = regionInformation.RegionName
-//
-//                for (mapDetail in regionInformation.MapDetail) {
-//                    val mapName = mapDetail.MapName
-//
-//                    for (storageDetail in mapDetail.StorageDetail) {
-//                        val storageNum = storageDetail.StorageNum
-//                        val storageName = storageDetail.StorageName
-//                        val storageX = storageDetail.StorageX
-//                        val storageY = storageDetail.StorageY
-//
-//                        regionEntities.add(
-//                            StorageEntity(
-//                                regionName = regionName,
-//                                mapName = mapName,
-//                                storageNum = storageNum,
-//                                storageName = storageName,
-//                                storageX = storageX,
-//                                storageY = storageY
-//                            )
-//                        )
-//                    }
-//                }
-//            }
-//            SqlDatabase.getInstance().getStorageDao().insertTargetEntities(regionEntities)
-//        }
-//        storageInformationList.value = getStorageInformationFromSQL()
-//    }
-
     /**
      * 判斷Region資料表是否為空，如果為空代表第一次開。需從MapInformation.json插入資料到資料庫
      */
-    fun loadStorageInformation2() {
+    fun loadStorageInformation() {
         var count = SqlDatabase.getInstance().getRegionDao().getRowCount()
         if (count == 0) {
             getMapInformationFromAssets()
@@ -224,10 +145,6 @@ class RegionRepository private constructor(private val context: Context) {
         targetRegionName: String,
         mapEntities: ArrayList<MapEntity>
     ): ArrayList<String> {
-//        // 查找 StorageInformation 中指定的 regionName
-//        val regionStorageInformation = storageInformationList.find { it.RegionName == targetRegionName }
-//        // 提取該 regionName 下的 mapName 列表
-//        return regionStorageInformation?.MapDetail?.map { it.MapName } as ArrayList<String>
         return mapEntities.filter { it.regionName == targetRegionName }
             ?.map { it.mapName } as ArrayList<String>
     }
@@ -243,18 +160,6 @@ class RegionRepository private constructor(private val context: Context) {
         targetMapName: String,
         storageEntities: ArrayList<StorageEntity>
     ): ArrayList<StorageEntity> {
-//        // 查找 StorageInformation 中指定 regionName
-//        val regionStorageInformation =
-//            storageInformationList.find { it.RegionName == targetRegionName }
-//
-//        // 查找指定 mapName 的 StorageDetail
-//        val mapStorageDetail =
-//            regionStorageInformation?.MapDetail?.find { it.MapName == targetMapName }
-//
-//        // 提取該 mapName 下的 ItemDetail 列表
-//        return mapStorageDetail?.StorageDetail as ArrayList<StorageDetail>
-//
-//
         val filteredStorageList: ArrayList<StorageEntity> = ArrayList()
         filteredStorageList.addAll(storageEntities.filter { storageEntity ->
             storageEntity.regionName == targetRegionName && storageEntity.mapName == targetMapName
@@ -263,67 +168,24 @@ class RegionRepository private constructor(private val context: Context) {
         return filteredStorageList
     }
 
-
-    /**
-     * 根據區域名稱、地圖名稱、儲櫃名稱找出對應的儲櫃代號StorageNum
-     * @param regionName 區域名稱
-     * @param mapName 地圖名稱
-     * @param storageName 儲櫃名稱
-     */
-    fun findStorageNum(
-        regionName: String,
-        mapName: String,
-        storageName: String
-    ): String {
-        val region = storageInformationList.value?.find { it.RegionName == regionName }
-
-        return region?.MapDetail
-            ?.find { it.MapName == mapName }
-            ?.StorageDetail
-            ?.find { it.StorageName == storageName }
-            ?.StorageNum as String
-    }
-
-
-    /**
-     * 根據區域名稱、地圖名稱、儲櫃代號找出對應的儲櫃名稱StorageName
-     * @param regionName 區域名稱
-     * @param mapName 地圖名稱
-     * @param storageNum 儲櫃代號
-     */
-    fun findStorageName(
-        regionName: String,
-        mapName: String,
-        storageNum: String
-    ): String {
-        val region = storageInformationList.value?.find { it.RegionName == regionName }
-
-        return region?.MapDetail
-            ?.find { it.MapName == mapName }
-            ?.StorageDetail
-            ?.find { it.StorageNum == storageNum }
-            ?.StorageName as String
-    }
-
-
     /**
      * 根據區域名稱、地圖名稱、儲櫃代號、貨物代號找出對應的數量
      * @param regionName 區域名稱
      * @param mapName 地圖名稱
-     * @param storageNum 儲櫃代號
+     * @param storageName 儲櫃名稱
      * @param materialNum 貨物代號
      */
     fun getMaterialQuantity(
         regionName: String,
         mapName: String,
-        storageNum: String,
+        storageName: String,
         materialNum: String,
         storageInformationList: ArrayList<StorageRecordEntity>
     ): String {
         val matchingItem = storageInformationList.find { item ->
             item.regionName == regionName &&
                     item.mapName == mapName &&
-                    item.storageName == storageNum &&
+                    item.storageName == storageName &&
                     jsonStringToJson(item.itemInformation)["materialNumber"] == materialNum
         }
 

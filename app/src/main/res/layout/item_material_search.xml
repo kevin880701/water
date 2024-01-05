@@ -51,17 +51,6 @@
                 android:textAppearance="@style/TextAppearance.Astec.HeadLine5"
                 android:textColor="@color/seed"
                 app:layout_constraintTop_toTopOf="parent"
-                app:layout_constraintLeft_toRightOf="@+id/textRegion" />
-            <TextView
-                android:id="@+id/textStorageNumber"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                app:layout_constraintWidth_percent="0.2"
-                android:text="@string/map"
-                android:background="@color/transparent"
-                android:textAppearance="@style/TextAppearance.Astec.Body2"
-                android:textColor="@color/black"
-                app:layout_constraintTop_toBottomOf="@+id/textMaterialName"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintLeft_toRightOf="@+id/textRegion" />
             <TextView

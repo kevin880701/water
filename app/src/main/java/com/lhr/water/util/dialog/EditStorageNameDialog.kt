@@ -17,7 +17,7 @@ import com.lhr.water.ui.map.MapViewModel
 class EditStorageNameDialog(
     var region: String,
     var map: String,
-    private var storageEntity: StorageEntity
+    private var oldStorageEntity: StorageEntity
 ) : DialogFragment(), View.OnClickListener {
 
     private var dialog: AlertDialog? = null
@@ -52,16 +52,13 @@ class EditStorageNameDialog(
     override fun onClick(v: View?) {
         when (v?.id) {
             R.id.buttonConfirm -> {
-                SqlDatabase.getInstance().getStorageDao().insertStorageEntity(
-                    StorageEntity(
-                        regionName = region,
-                        mapName = map,
-                        storageName = binding.editSearch.text.toString(),
-                        storageX = storageEntity.storageX,
-                        storageY = storageEntity.storageY
-                    )
+                SqlDatabase.getInstance().getStorageDao().updateStorage(
+                    regionName = oldStorageEntity.regionName,
+                    mapName = oldStorageEntity.mapName,
+                    oldStorageName = oldStorageEntity.storageName,
+                    newStorageName = binding.editSearch.text.toString()
                 )
-                viewModel.regionRepository.loadStorageInformation2()
+                viewModel.regionRepository.loadStorageInformation()
                 this.dismiss()
             }
 

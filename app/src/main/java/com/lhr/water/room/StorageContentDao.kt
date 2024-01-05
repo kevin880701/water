@@ -15,7 +15,7 @@ interface StorageContentDao {
     @Query("SELECT * FROM $STORAGE_CONTENT_TABLE_NAME WHERE " +
             "${SqlModel.regionName} = :regionName AND " +
             "${SqlModel.mapName} = :mapName AND " +
-            "${SqlModel.storageNum} = :storageNum AND " +
+            "${SqlModel.storageName} = :storageName AND " +
             "${SqlModel.materialName} = :materialName AND " +
             "${SqlModel.materialNumber} = :materialNumber AND " +
             "${SqlModel.materialSpec} = :materialSpec AND " +
@@ -23,14 +23,14 @@ interface StorageContentDao {
     fun getStorageContentByConditions(
         regionName: String,
         mapName: String,
-        storageNum: String,
+        storageName: String,
         materialName: String,
         materialNumber: String,
         materialSpec: String,
         materialUnit: String,
     ): StorageContentEntity?
 
-    @Query("SELECT * FROM $STORAGE_CONTENT_TABLE_NAME WHERE regionName = :region AND mapName = :map AND storageNum = :storage")
-    fun getStorageContentByConditions(region: String, map: String, storage: String): List<StorageContentEntity>
+    @Query("SELECT * FROM $STORAGE_CONTENT_TABLE_NAME WHERE regionName = :region AND mapName = :map AND storageName = :storageName")
+    fun getStorageContentByConditions(region: String, map: String, storageName: String): List<StorageContentEntity>
 
 }

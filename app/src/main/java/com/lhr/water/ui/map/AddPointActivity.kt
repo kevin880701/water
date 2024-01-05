@@ -77,7 +77,7 @@ class AddPointActivity(): BaseActivity(), View.OnClickListener{
     }
 
     private fun bindViewModel() {
-        viewModel.regionRepository.storageInformationList.observe(this) {
+        viewModel.regionRepository.storageEntities.observe(this) {
             viewModel.setStorageDetailList(region, map)
             binding.mapView.refresh()
         }
