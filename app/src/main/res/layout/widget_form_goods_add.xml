@@ -30,6 +30,7 @@
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintRight_toRightOf="parent"
             app:tint="@color/seed"
+            android:visibility="invisible"
             android:src="@drawable/add"/>
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

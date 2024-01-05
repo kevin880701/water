@@ -8,45 +8,63 @@
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/constraintGoods"
         android:layout_width="match_parent"
-        android:layout_height="48dp"
+        android:layout_height="72dp"
         android:paddingLeft="12dp"
         android:paddingRight="12dp">
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="0dp"
             android:layout_height="wrap_content"
+            app:layout_constraintWidth_percent="0.8"
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintRight_toRightOf="parent">
-
             <TextView
-                android:id="@+id/textGoodsNumber"
+                android:id="@+id/textMaterialName"
                 android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                app:layout_constraintWidth_percent="0.5"
-                android:gravity="center"
-                android:text="@string/goods_number"
+                android:layout_height="0dp"
+                app:layout_constraintHeight_percent="0.5"
+                app:layout_constraintWidth_percent="0.3"
+                android:text="@string/goods_name"
                 android:textAppearance="@style/TextAppearance.Astec.HeadLine5"
                 android:textColor="@color/seed"
                 app:layout_constraintTop_toTopOf="parent"
-                app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintLeft_toLeftOf="parent" />
             <TextView
-                android:id="@+id/textGoodsName"
+                android:id="@+id/textMaterialNumber"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                app:layout_constraintWidth_percent="0.5"
-                android:layout_marginLeft="8dp"
-                android:layout_marginBottom="1dp"
-                android:text="@string/goods_name"
+                app:layout_constraintWidth_percent="0.3"
+                android:text="@string/goods_number"
                 android:background="@color/transparent"
                 android:textAppearance="@style/TextAppearance.Astec.Body2"
                 android:textColor="@color/black"
-                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/textMaterialName"
                 app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintLeft_toRightOf="@+id/textGoodsNumber"
-                app:layout_constraintRight_toRightOf="parent" />
-
+                app:layout_constraintLeft_toLeftOf="parent" />
+            <TextView
+                android:id="@+id/textMaterialSpec"
+                android:layout_width="0dp"
+                android:layout_height="0dp"
+                app:layout_constraintHeight_percent="0.5"
+                app:layout_constraintWidth_percent="0.3"
+                android:text="規格"
+                android:textAppearance="@style/TextAppearance.Astec.HeadLine5"
+                android:textColor="@color/seed"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintLeft_toRightOf="@+id/textMaterialName" />
+            <TextView
+                android:id="@+id/textMaterialUnit"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                app:layout_constraintWidth_percent="0.3"
+                android:text="單位"
+                android:background="@color/transparent"
+                android:textAppearance="@style/TextAppearance.Astec.Body2"
+                android:textColor="@color/black"
+                app:layout_constraintTop_toBottomOf="@+id/textMaterialName"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintLeft_toRightOf="@+id/textMaterialName" />
             <ImageView
                 android:id="@+id/imageDelete"
                 android:layout_width="0dp"
@@ -58,6 +76,7 @@
                 android:padding="12dp"
                 android:background="@color/background"
                 app:tint="@color/design_default_color_error"
+                android:visibility="gone"
                 android:src="@drawable/remove"/>
         </androidx.constraintlayout.widget.ConstraintLayout>
     </androidx.constraintlayout.widget.ConstraintLayout>

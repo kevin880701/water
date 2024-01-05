@@ -21,7 +21,6 @@ import com.lhr.water.mapView.layer.MarkLayer
 import com.lhr.water.room.StorageEntity
 import com.lhr.water.ui.base.APP
 import com.lhr.water.ui.base.BaseActivity
-import com.lhr.water.ui.storageGoodInput.StorageGoodInputActivity
 import com.lhr.water.util.dialog.AddStorageDataDialog
 import com.lhr.water.util.mapView.MapViewListener
 import com.lhr.water.util.widget.StorageContentBottom
@@ -29,7 +28,7 @@ import com.lhr.water.util.widget.StorageInfoBottom
 import java.io.IOException
 
 
-class MapActivity(): BaseActivity(), View.OnClickListener, StorageInfoBottom.Listener, StorageContentBottom.Listener{
+class MapActivity(): BaseActivity(), View.OnClickListener, StorageInfoBottom.Listener{
     private val viewModel: MapViewModel by viewModels{(applicationContext as APP).appContainer.viewModelFactory}
     private var _binding: ActivityMapBinding? = null
     private val binding get() = _binding!!
@@ -165,19 +164,7 @@ class MapActivity(): BaseActivity(), View.OnClickListener, StorageInfoBottom.Lis
     }
 
     override fun onStorageContentClick(map: String, region: String, storageEntity: StorageEntity) {
-        val storageContentBottom = StorageContentBottom(this, this, storageEntity, map, region)
+        val storageContentBottom = StorageContentBottom(this, storageEntity, map, region)
         showBottomSheet(storageContentBottom)
-    }
-
-    override fun onGoodInputClick(map: String, region: String, storageEntity: StorageEntity) {
-        val intent = Intent(this, StorageGoodInputActivity::class.java)
-        intent.putExtra("region", region)
-        intent.putExtra("map", map)
-        intent.putExtra("storageName", storageEntity.storageName)
-        startActivity(intent)
-    }
-
-    override fun onGoodOutputClick(map: String, region: String, storageEntity: StorageEntity) {
-
     }
 }

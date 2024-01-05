@@ -91,9 +91,6 @@ class AlreadyChooseGoodsFragment(jsonString: JSONObject) : BaseFragment(), View.
 
     override fun onClick(v: View?) {
         when (v?.id) {
-            R.id.linearLayoutGoodInput -> {
-
-            }
         }
     }
 

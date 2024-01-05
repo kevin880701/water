@@ -547,8 +547,10 @@ class FormContentActivity : BaseActivity(), View.OnClickListener, FormGoodsAdd.L
         formItemJson: JSONObject,
         formGoodsDataWidget: FormGoodsDataWidget
     ) {
-        formGoodsDataWidget.binding.textGoodsName.text = formItemJson.getString("materialName")
-        formGoodsDataWidget.binding.textGoodsNumber.text = formItemJson.getString("materialNumber")
+        formGoodsDataWidget.binding.textMaterialName.text = formItemJson.getString("materialName")
+        formGoodsDataWidget.binding.textMaterialNumber.text = formItemJson.getString("materialNumber")
+        formGoodsDataWidget.binding.textMaterialSpec.text = formItemJson.getString("materialSpec")
+        formGoodsDataWidget.binding.textMaterialUnit.text = formItemJson.getString("materialUnit")
         formGoodsDataWidget.formItemJson = formItemJson
         binding.scrollViewData.smoothScrollTo(0, formGoodsDataWidget.top)
     }

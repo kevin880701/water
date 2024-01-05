@@ -44,7 +44,7 @@ class GoodsDialog(
             var formItemFieldContentList = ArrayList<String>()
             for (i in 0 until binding.linearData.childCount) {
                 val linearLayoutItem = binding.linearData.getChildAt(i)
-                val editText = linearLayoutItem.findViewById<EditText>(R.id.editDataContent)
+                val editText = linearLayoutItem.findViewById<EditText>(R.id.textDataContent)
                 val editTextValue = editText.text.toString()
                 formItemFieldContentList.add(editTextValue)
             }

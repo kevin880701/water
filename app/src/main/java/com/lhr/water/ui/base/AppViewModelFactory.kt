@@ -16,7 +16,6 @@ import com.lhr.water.ui.materialSearch.MaterialSearchViewModel
 import com.lhr.water.ui.qrCode.QrCodeViewModel
 import com.lhr.water.ui.regionChoose.RegionChooseViewModel
 import com.lhr.water.ui.setting.SettingViewModel
-import com.lhr.water.ui.storageGoodInput.StorageGoodInputViewModel
 
 class AppViewModelFactory(
     private val context: Context,
@@ -37,7 +36,6 @@ class AppViewModelFactory(
             RegionChooseViewModel::class.java -> RegionChooseViewModel(context, regionRepository) as T
             MapViewModel::class.java -> MapViewModel(context, regionRepository, formRepository) as T
             QrCodeViewModel::class.java -> QrCodeViewModel(context) as T
-            StorageGoodInputViewModel::class.java -> StorageGoodInputViewModel(context, formRepository) as T
             MaterialSearchViewModel::class.java -> MaterialSearchViewModel(context, formRepository) as T
             else -> throw IllegalArgumentException("not support")
         }

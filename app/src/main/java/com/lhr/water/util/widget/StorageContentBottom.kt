@@ -20,7 +20,6 @@ import com.lhr.water.util.dialog.GoodsDialog
 import org.json.JSONObject
 
 class StorageContentBottom(
-    var listener: Listener,
     var activity: MapActivity,
     var storageEntity: StorageEntity,
     var map: String,
@@ -68,7 +67,6 @@ class StorageContentBottom(
         })
     }
 
-
     private fun initRecyclerView() {
         storageContentAdapter = StorageContentAdapter(this)
         storageContentAdapter.submitList(
@@ -91,22 +89,8 @@ class StorageContentBottom(
             R.id.imageBack -> {
                 activity.onBackPressedCallback.handleOnBackPressed()
             }
-
-            R.id.linearLayoutGoodInput -> {
-                listener.onGoodInputClick(map, region, storageEntity)
-            }
-
-            R.id.linearLayoutGoodOutput -> {
-                listener.onGoodOutputClick(map, region, storageEntity)
-            }
         }
     }
-
-    interface Listener {
-        fun onGoodInputClick(map: String, region: String, storageEntity: StorageEntity)
-        fun onGoodOutputClick(map: String, region: String, storageEntity: StorageEntity)
-    }
-
 
     /**
      * 點擊列顯示對應貨物資訊的Dialog

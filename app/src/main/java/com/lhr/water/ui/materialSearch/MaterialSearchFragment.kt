@@ -35,7 +35,6 @@ class MaterialSearchFragment : BaseFragment(), View.OnClickListener, HistoryAdap
                 requireActivity().finish()
         }
     }
-    private var currentMaterialName = ""
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?, savedInstanceState: Bundle?
@@ -52,25 +51,10 @@ class MaterialSearchFragment : BaseFragment(), View.OnClickListener, HistoryAdap
     }
 
     private fun bindViewModel() {
-//        formRepository.formRecordList.observe(viewLifecycleOwner) { newFormRecordList ->
-//            historyAdapter.submitList(newFormRecordList)
-//        }
-//        // 根據篩選的表單類別和表單代號更新列表
-//        formRepository.formFilterRecordList.observe(viewLifecycleOwner) { newFormRecordList ->
-//            historyAdapter.submitList(newFormRecordList)
-//        }
-//        // 表單類別篩選更新
-//        formRepository.filterList.observe(viewLifecycleOwner) { newFilterList ->
-//            formRepository.formFilterRecordList.postValue(formRepository.filterRecord())
-//        }
-//        // 表單代號輸入後篩選更新
-//        formRepository.searchFormNumber.observe(viewLifecycleOwner) { newFilterList ->
-//            formRepository.formFilterRecordList.postValue(formRepository.filterRecord())
-//        }
     }
 
     private fun initView() {
-        binding.widgetTitleBar.textTitle.text = requireActivity().getString(R.string.form_history)
+        binding.widgetTitleBar.textTitle.text = requireActivity().getString(R.string.search_material)
         initRecyclerView()
         binding.editSearch.addTextChangedListener(object : TextWatcher {
             override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {
