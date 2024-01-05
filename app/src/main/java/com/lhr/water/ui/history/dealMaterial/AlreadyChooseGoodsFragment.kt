@@ -7,6 +7,7 @@ import android.view.ViewGroup
 import androidx.fragment.app.viewModels
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.lhr.water.R
+import com.lhr.water.databinding.FragmentAlreadyChooseMaterialBinding
 import com.lhr.water.databinding.FragmentWaitDealMaterialBinding
 import com.lhr.water.room.StorageRecordEntity
 import com.lhr.water.ui.base.BaseFragment
@@ -20,7 +21,7 @@ class AlreadyChooseGoodsFragment(jsonString: JSONObject) : BaseFragment(), View.
     AlreadyChooseGoodsAdapter.Listener {
 
     private val viewModel: HistoryViewModel by viewModels { viewModelFactory }
-    private var _binding: FragmentWaitDealMaterialBinding? = null
+    private var _binding: FragmentAlreadyChooseMaterialBinding? = null
     private val binding get() = _binding!!
     private lateinit var alreadyChooseGoodsAdapter: AlreadyChooseGoodsAdapter
     private var jsonString = jsonString
@@ -30,7 +31,7 @@ class AlreadyChooseGoodsFragment(jsonString: JSONObject) : BaseFragment(), View.
         inflater: LayoutInflater,
         container: ViewGroup?, savedInstanceState: Bundle?
     ): View? {
-        _binding = FragmentWaitDealMaterialBinding.inflate(layoutInflater)
+        _binding = FragmentAlreadyChooseMaterialBinding.inflate(layoutInflater)
 
         isInput = isInput(jsonString)
         initView()
@@ -61,6 +62,7 @@ class AlreadyChooseGoodsFragment(jsonString: JSONObject) : BaseFragment(), View.
     }
 
     private fun initView() {
+        binding.widgetField.imageRemove.visibility = View.INVISIBLE
         initRecyclerView()
     }
 

@@ -37,7 +37,7 @@ class StorageGoodInputViewModel(context: Context, formRepository: FormRepository
 
             // CheckBox 在位置 i 處於選中狀態
             if (isChecked) {
-                // 需要為貨物加上地區、地圖、儲櫃代號、報表名稱、報表代號、入庫時間欄位
+                // 需要為貨物加上地區、地圖、儲櫃名稱、報表名稱、報表代號、入庫時間欄位
                 var waitInputGoodsJson = getWaitInputGoods()[i].itemInformation
 
                 waitInputGoodsJson.put("regionName", region)

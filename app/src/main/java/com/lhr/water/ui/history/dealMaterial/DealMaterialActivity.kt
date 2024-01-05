@@ -20,8 +20,6 @@ import org.json.JSONObject
 
 class DealMaterialActivity : BaseActivity(), View.OnClickListener {
 
-    private val viewModel: HistoryViewModel by viewModels{(applicationContext as APP).appContainer.viewModelFactory}
-
     private var _binding: ActivityDealMaterialBinding? = null
     private val binding get() = _binding!!
     private lateinit var jsonString: JSONObject

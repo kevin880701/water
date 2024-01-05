@@ -245,7 +245,7 @@ class FormRepository(context: Context) {
      * 根據 regionName、mapName 和 storageName 查詢指定儲櫃內容物
      * @param regionName 地區名稱
      * @param mapName 地圖名稱
-     * @param storageName 儲櫃代號
+     * @param storageName 儲櫃名稱
      */
     fun getStorageContentByCondition(
         regionName: String,

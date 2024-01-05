@@ -14,7 +14,7 @@
 
         <include
             android:id="@+id/widgetField"
-            layout="@layout/item_wait_deal_material"
+            layout="@layout/item_already_choose_goods"
             app:layout_constraintTop_toTopOf="parent" />
 
 
@@ -25,6 +25,6 @@
             app:layout_constraintTop_toBottomOf="@+id/widgetField"
             app:layout_constraintLeft_toLeftOf="parent"
             tools:itemCount="3"
-            tools:listitem="@layout/item_wait_deal_material" />
+            tools:listitem="@layout/item_already_choose_goods" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

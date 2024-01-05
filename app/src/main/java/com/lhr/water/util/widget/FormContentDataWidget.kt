@@ -19,7 +19,7 @@ class FormContentDataWidget : RelativeLayout {
     private val fieldName: String
     private var fieldContent: String? = null
     private val textDataName: TextView
-    private val editDataContent: EditText
+    private val textDataContent: TextView
     var content = ""
     constructor(
         activity: Activity,
@@ -33,7 +33,7 @@ class FormContentDataWidget : RelativeLayout {
         this@FormContentDataWidget.fieldName = fieldName
         this@FormContentDataWidget.fieldContent = fieldContent
         textDataName = binding.textDataName
-        editDataContent = binding.editDataContent
+        textDataContent = binding.textDataContent
 
         initView()
     }
@@ -41,26 +41,26 @@ class FormContentDataWidget : RelativeLayout {
     fun initView(){
         textDataName.text = fieldName
         fieldContent?.let {
-            editDataContent.text = Editable.Factory.getInstance().newEditable(fieldContent)
+            textDataContent.text = Editable.Factory.getInstance().newEditable(fieldContent)
             content = fieldContent as String
         }
-        editDataContent.addTextChangedListener(object : TextWatcher {
-            override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {
-                // 在文本變化之前執行的操作
-                Log.v("QQQQQQQQbeforeTextChanged", "" + s)
-            }
-
-            override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
-                // 文本變化時執行的操作
-                Log.v("QQQQQQQQonTextChanged", "" + s)
-            }
-
-            override fun afterTextChanged(s: Editable?) {
-                // 在文本變化之後執行的操作
-                Log.v("QQQQQQQQafterTextChanged", "" + s)
-                content = s.toString()
-            }
-        })
+//        textDataContent.addTextChangedListener(object : TextWatcher {
+//            override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {
+//                // 在文本變化之前執行的操作
+//                Log.v("QQQQQQQQbeforeTextChanged", "" + s)
+//            }
+//
+//            override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
+//                // 文本變化時執行的操作
+//                Log.v("QQQQQQQQonTextChanged", "" + s)
+//            }
+//
+//            override fun afterTextChanged(s: Editable?) {
+//                // 在文本變化之後執行的操作
+//                Log.v("QQQQQQQQafterTextChanged", "" + s)
+//                content = s.toString()
+//            }
+//        })
     }
 
     interface Listener{

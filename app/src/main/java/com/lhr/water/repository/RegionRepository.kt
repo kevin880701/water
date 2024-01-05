@@ -169,7 +169,7 @@ class RegionRepository private constructor(private val context: Context) {
     }
 
     /**
-     * 根據區域名稱、地圖名稱、儲櫃代號、貨物代號找出對應的數量
+     * 根據區域名稱、地圖名稱、儲櫃名稱、貨物代號找出對應的數量
      * @param regionName 區域名稱
      * @param mapName 地圖名稱
      * @param storageName 儲櫃名稱

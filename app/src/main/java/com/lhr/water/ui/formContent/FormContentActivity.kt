@@ -128,7 +128,6 @@ class FormContentActivity : BaseActivity(), View.OnClickListener, FormGoodsAdd.L
     private fun initView() {
         binding.widgetTitleBar.textTitle.text = formName
         binding.widgetTitleBar.imageBack.visibility = View.VISIBLE
-        binding.widgetTitleBar.imageScanner.visibility = View.VISIBLE
         when (formName) {
             getString(R.string.delivery_form) -> {
                 formFieldNameList = resources.getStringArray(R.array.delivery_form_field_name)
@@ -232,25 +231,6 @@ class FormContentActivity : BaseActivity(), View.OnClickListener, FormGoodsAdd.L
                     )
                 }
                 binding.linearFormData.addView(formContentDataSpinnerWidget)
-            } else if (fieldName == getString(R.string.reportTitle)) {
-                // 這部分之後formName可能會改成fieldContent
-                val formContentDataSpinnerWidget = if (formName != null) {
-                    FormContentDataSpinnerWidget(
-                        activity = this,
-                        spinnerList = resources.getStringArray(R.array.form_array)
-                            .toList() as ArrayList<String>,
-                        fieldName = fieldName,
-                        fieldContent = formName
-                    )
-                } else {
-                    FormContentDataSpinnerWidget(
-                        activity = this,
-                        spinnerList = resources.getStringArray(R.array.form_array)
-                            .toList() as ArrayList<String>,
-                        fieldName = fieldName
-                    )
-                }
-                binding.linearFormData.addView(formContentDataSpinnerWidget)
             } else {
                 val formContentDataWidget = if (fieldContent != null) {
                     FormContentDataWidget(
@@ -292,7 +272,6 @@ class FormContentActivity : BaseActivity(), View.OnClickListener, FormGoodsAdd.L
         var formContentList = ArrayList<String>()
         formFieldNameList.forEachIndexed { index, fieldName ->
             when (fieldName) {
-                getString(R.string.reportTitle) -> formContentList.add((binding.linearFormData[index] as FormContentDataSpinnerWidget).content)
                 getString(R.string.deal_status) -> formContentList.add((binding.linearFormData[index] as FormContentDataSpinnerWidget).content)
                 else -> formContentList.add((binding.linearFormData[index] as FormContentDataWidget).content)
             }

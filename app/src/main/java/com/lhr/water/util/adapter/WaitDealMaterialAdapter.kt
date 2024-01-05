@@ -8,7 +8,7 @@ import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.lhr.water.data.WaitDealGoodsData
-import com.lhr.water.databinding.ItemInputBinding
+import com.lhr.water.databinding.ItemWaitDealMaterialBinding
 import com.lhr.water.ui.history.HistoryViewModel
 import com.lhr.water.util.showToast
 
@@ -45,7 +45,7 @@ class WaitDealMaterialAdapter(
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         val binding =
-            ItemInputBinding.inflate(LayoutInflater.from(parent.context), parent, false)
+            ItemWaitDealMaterialBinding.inflate(LayoutInflater.from(parent.context), parent, false)
         return ViewHolder(binding)
     }
 
@@ -53,7 +53,7 @@ class WaitDealMaterialAdapter(
         holder.bind(getItem(position))
     }
 
-    inner class ViewHolder(private val binding: ItemInputBinding) :
+    inner class ViewHolder(private val binding: ItemWaitDealMaterialBinding) :
         RecyclerView.ViewHolder(binding.root) {
 
         fun bind(waitDealGoodsData: WaitDealGoodsData) {
@@ -61,6 +61,10 @@ class WaitDealMaterialAdapter(
                 waitDealGoodsData.itemInformation["materialName"].toString()
             binding.textMaterialNumber.text =
                 waitDealGoodsData.itemInformation["materialNumber"].toString()
+            binding.textMaterialSpec.text =
+                waitDealGoodsData.itemInformation["materialSpec"].toString()
+            binding.textMaterialUnit.text =
+                waitDealGoodsData.itemInformation["materialUnit"].toString()
             // 1.判斷是進貨還是出貨
             // 2.需判斷暫存待出入庫的貨物列表是否有相對應貨物，有的話需要減去數量
             var quantity = if (isInput) {

@@ -1,4 +1,4 @@
-package com.lhr.water.ui.map
+package com.lhr.water.util.widget
 
 import android.view.LayoutInflater
 import android.view.View
@@ -8,19 +8,16 @@ import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.lhr.water.R
-import com.lhr.water.data.StorageDetail
 import com.lhr.water.databinding.WidgetBottomStorageContentBinding
 import com.lhr.water.repository.FormRepository
 import com.lhr.water.room.StorageContentEntity
 import com.lhr.water.room.StorageEntity
-import com.lhr.water.room.StorageRecordEntity
 import com.lhr.water.ui.base.APP
+import com.lhr.water.ui.map.MapActivity
+import com.lhr.water.ui.map.MapViewModel
 import com.lhr.water.util.adapter.StorageContentAdapter
 import com.lhr.water.util.dialog.GoodsDialog
-import com.lhr.water.util.manager.jsonStringToJson
-import com.lhr.water.util.widget.FormGoodsDataWidget
 import org.json.JSONObject
-import timber.log.Timber
 
 class StorageContentBottom(
     var listener: Listener,

@@ -56,7 +56,7 @@ class HistoryViewModel(
         materialQuantity: String
     ) {
 
-        // 需要為貨物加上地區、地圖、儲櫃代號、報表名稱、報表代號、入庫時間欄位
+        // 需要為貨物加上地區、地圖、儲櫃名稱、報表名稱、報表代號、入庫時間欄位
         var waitInputGoodsJson = waitDealGoodsData.itemInformation
 
         waitInputGoodsJson.put("regionName", region)
@@ -88,7 +88,7 @@ class HistoryViewModel(
      * @param waitDealGoodsData 貨物資訊
      * @param region 地區名稱
      * @param map 地區名稱
-     * @param storageName 櫥櫃代號
+     * @param storageName 儲櫃名稱
      * @param materialQuantity 貨物數量
      */
     fun outputInTempGoods(
@@ -98,7 +98,7 @@ class HistoryViewModel(
         storageName: String,
         materialQuantity: String
     ) {
-        // 需要為貨物加上地區、地圖、儲櫃代號、報表名稱、報表代號、入庫時間欄位
+        // 需要為貨物加上地區、地圖、儲櫃名稱、報表名稱、報表代號、入庫時間欄位
         var waitOutputGoodsJson = waitDealGoodsData.itemInformation
 
         waitOutputGoodsJson.put("regionName", region)

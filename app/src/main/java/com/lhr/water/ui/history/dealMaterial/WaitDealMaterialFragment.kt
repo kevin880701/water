@@ -22,7 +22,7 @@ class WaitDealMaterialFragment(jsonString: JSONObject) : BaseFragment(), View.On
     private val viewModel: HistoryViewModel by viewModels { viewModelFactory }
     private var _binding: FragmentWaitDealMaterialBinding? = null
     private val binding get() = _binding!!
-    private lateinit var inputAdapter: WaitDealMaterialAdapter
+    private lateinit var waitDealMaterialAdapter: WaitDealMaterialAdapter
     private var jsonString = jsonString
     private var isInput = true
 
@@ -44,11 +44,11 @@ class WaitDealMaterialFragment(jsonString: JSONObject) : BaseFragment(), View.On
     private fun bindViewModel() {
         if(isInput){
             viewModel.formRepository.tempWaitInputGoods.observe(viewLifecycleOwner) { newList ->
-                inputAdapter.notifyDataSetChanged()
+                waitDealMaterialAdapter.notifyDataSetChanged()
             }
         }else{
             viewModel.formRepository.tempWaitOutputGoods.observe(viewLifecycleOwner) { newList ->
-                inputAdapter.notifyDataSetChanged()
+                waitDealMaterialAdapter.notifyDataSetChanged()
             }
         }
     }
@@ -58,26 +58,26 @@ class WaitDealMaterialFragment(jsonString: JSONObject) : BaseFragment(), View.On
     }
 
     private fun initRecyclerView() {
-        inputAdapter = WaitDealMaterialAdapter(
+        waitDealMaterialAdapter = WaitDealMaterialAdapter(
             requireContext(), jsonString["reportTitle"].toString(),
             jsonString["formNumber"].toString(), this, viewModel, isInput
         )
         if (isInput) {
-            inputAdapter.submitList(
+            waitDealMaterialAdapter.submitList(
                 viewModel.filterWaitInputGoods(
                     jsonString["reportTitle"].toString(),
                     jsonString["formNumber"].toString()
                 )
             )
         } else {
-            inputAdapter.submitList(
+            waitDealMaterialAdapter.submitList(
                 viewModel.filterWaitOutputGoods(
                     jsonString["reportTitle"].toString(),
                     jsonString["formNumber"].toString()
                 )
             )
         }
-        binding.recyclerGoods.adapter = inputAdapter
+        binding.recyclerGoods.adapter = waitDealMaterialAdapter
         binding.recyclerGoods.layoutManager =
             LinearLayoutManager(this@WaitDealMaterialFragment.requireActivity())
     }

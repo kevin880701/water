@@ -16,7 +16,6 @@ import androidx.activity.OnBackPressedCallback
 import androidx.activity.viewModels
 import androidx.core.content.res.ResourcesCompat
 import com.lhr.water.R
-import com.lhr.water.data.StorageDetail
 import com.lhr.water.databinding.ActivityMapBinding
 import com.lhr.water.mapView.layer.MarkLayer
 import com.lhr.water.room.StorageEntity
@@ -25,6 +24,7 @@ import com.lhr.water.ui.base.BaseActivity
 import com.lhr.water.ui.storageGoodInput.StorageGoodInputActivity
 import com.lhr.water.util.dialog.AddStorageDataDialog
 import com.lhr.water.util.mapView.MapViewListener
+import com.lhr.water.util.widget.StorageContentBottom
 import com.lhr.water.util.widget.StorageInfoBottom
 import java.io.IOException
 

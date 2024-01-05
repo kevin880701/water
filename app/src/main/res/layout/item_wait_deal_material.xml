@@ -10,8 +10,9 @@
         android:layout_width="match_parent"
         android:layout_height="72dp">
         <androidx.constraintlayout.widget.ConstraintLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_width="0dp"
+            android:layout_height="48dp"
+            app:layout_constraintWidth_percent="0.8"
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintLeft_toLeftOf="parent"
@@ -44,6 +45,30 @@
                 app:layout_constraintLeft_toLeftOf="parent" />
 
             <TextView
+                android:id="@+id/textMaterialSpec"
+                android:layout_width="0dp"
+                android:layout_height="0dp"
+                app:layout_constraintHeight_percent="0.5"
+                app:layout_constraintWidth_percent="0.3"
+                android:text="貨物規格"
+                android:textAppearance="@style/TextAppearance.Astec.HeadLine5"
+                android:textColor="@color/seed"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintLeft_toRightOf="@+id/textMaterialNumber" />
+            <TextView
+                android:id="@+id/textMaterialUnit"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                app:layout_constraintWidth_percent="0.3"
+                android:text="貨物單位"
+                android:background="@color/transparent"
+                android:textAppearance="@style/TextAppearance.Astec.Body2"
+                android:textColor="@color/black"
+                app:layout_constraintTop_toBottomOf="@+id/textMaterialName"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintLeft_toRightOf="@+id/textMaterialNumber" />
+
+            <TextView
                 android:id="@+id/textQuantity"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
@@ -54,7 +79,7 @@
                 android:textColor="@color/seed"
                 app:layout_constraintTop_toTopOf="parent"
                 app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintLeft_toRightOf="@+id/textMaterialNumber" />
+                app:layout_constraintLeft_toRightOf="@+id/textMaterialUnit" />
         </androidx.constraintlayout.widget.ConstraintLayout>
         <View
             android:id="@+id/cover"
@@ -62,5 +87,13 @@
             android:layout_height="match_parent"
             android:visibility="invisible"
             android:background="@color/cover_gray"/>
+
+        <View
+            android:layout_width="0dp"
+            android:layout_height="1dp"
+            android:background="@drawable/black_line"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>
