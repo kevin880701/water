@@ -35,7 +35,7 @@
                 app:layout_constraintTop_toTopOf="parent">
 
                 <EditText
-                    android:id="@+id/editSearch"
+                    android:id="@+id/editStorageName"
                     android:layout_width="0dp"
                     android:layout_height="match_parent"
                     app:layout_constraintLeft_toLeftOf="parent"
@@ -44,7 +44,7 @@
                     android:layout_marginBottom="12dp"
                     android:layout_marginRight="24dp"
                     android:layout_marginLeft="30dp"
-                    android:textColor="@color/deep_gray"
+                    android:textColor="@color/seed"
                     android:hint="輸入儲櫃名稱"
                     android:textColorHint="@color/deep_gray"
                     android:background="@color/transparent"/>

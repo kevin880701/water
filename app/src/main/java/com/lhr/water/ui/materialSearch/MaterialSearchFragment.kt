@@ -51,6 +51,9 @@ class MaterialSearchFragment : BaseFragment(), View.OnClickListener, HistoryAdap
     }
 
     private fun bindViewModel() {
+        viewModel.formRepository.storageGoods.observe(viewLifecycleOwner) { newStorageGoods ->
+            materialSearchAdapter.submitList(newStorageGoods)
+        }
     }
 
     private fun initView() {

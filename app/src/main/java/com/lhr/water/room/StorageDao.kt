@@ -26,6 +26,9 @@ interface StorageDao {
         newStorageName: String
     )
 
+    @Query("SELECT EXISTS (SELECT 1 FROM $STORAGE_TABLE_NAME WHERE storageName = :storageName LIMIT 1)")
+    fun isStorageNameExist(storageName: String): Boolean
+
     @Query(
         "DELETE FROM $STORAGE_TABLE_NAME WHERE " +
                 "${SqlModel.regionName} = :regionName AND " +

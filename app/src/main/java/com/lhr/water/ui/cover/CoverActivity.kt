@@ -3,6 +3,7 @@ package com.lhr.water.ui.cover
 import android.content.Intent
 import android.icu.util.TaiwanCalendar
 import android.os.Bundle
+import android.os.Environment
 import android.view.animation.AlphaAnimation
 import android.view.animation.Animation
 import androidx.activity.viewModels
@@ -15,9 +16,11 @@ import com.lhr.water.ui.base.APP
 import com.lhr.water.ui.base.BaseActivity
 import com.lhr.water.ui.login.LoginActivity
 import com.lhr.water.util.getCurrentDate
+import com.lhr.water.util.showToast
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
 import timber.log.Timber
+import java.io.File
 import java.text.SimpleDateFormat
 import java.util.Calendar
 import java.util.Date
@@ -36,6 +39,7 @@ class CoverActivity : BaseActivity() {
         _binding = ActivityCoverBinding.inflate(layoutInflater)
         setContentView(binding.root)
         window.statusBarColor = ResourcesCompat.getColor(resources, R.color.seed, null)
+        createWaterFolder()
         // 創建Model
         Model
 
@@ -64,6 +68,15 @@ class CoverActivity : BaseActivity() {
                     println("動畫重覆執行")
                 }
             })
+        }
+    }
+
+    private fun createWaterFolder() {
+        val downloadFolder = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS)
+        val waterFolder = File(downloadFolder, "water")
+
+        if (!waterFolder.exists()) {
+            waterFolder.mkdir()
         }
     }
 }

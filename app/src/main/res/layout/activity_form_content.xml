@@ -36,7 +36,7 @@
                 android:background="@drawable/bg_r25_white"/>
 
             <EditText
-                android:id="@+id/editSearch"
+                android:id="@+id/editStorageName"
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
                 app:layout_constraintLeft_toLeftOf="parent"

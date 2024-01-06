@@ -23,6 +23,7 @@ import com.lhr.water.mapView.layer.MarkLayer
 import com.lhr.water.ui.base.APP
 import com.lhr.water.ui.base.BaseActivity
 import com.lhr.water.util.mapView.MapViewListener
+import com.lhr.water.util.showToast
 import timber.log.Timber
 import java.io.IOException
 
@@ -139,11 +140,15 @@ class AddPointActivity(): BaseActivity(), View.OnClickListener{
     override fun onClick(v: View) {
         when (v.id) {
             R.id.buttonConfirm -> {
-                val resultIntent = Intent()
-                addMarkLayer?.let { resultIntent.putExtra("pointX", it.clickX) } // 替换成你要传递的数据
-                addMarkLayer?.let { resultIntent.putExtra("pointY", it.clickY) } // 替换成你要传递的数据
-                setResult(Activity.RESULT_OK, resultIntent)
-                finish()
+                if(addMarkLayer?.clickX == 0f || addMarkLayer?.clickY == 0f){
+                    showToast(this, "未選擇位置")
+                }else{
+                    val resultIntent = Intent()
+                    addMarkLayer?.let { resultIntent.putExtra("pointX", it.clickX) }
+                    addMarkLayer?.let { resultIntent.putExtra("pointY", it.clickY) }
+                    setResult(Activity.RESULT_OK, resultIntent)
+                    finish()
+                }
             }
         }
     }
