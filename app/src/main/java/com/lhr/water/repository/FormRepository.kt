@@ -96,9 +96,12 @@ class FormRepository(context: Context) {
         for (formData in loadFormList) {
             formJsonList.add(jsonStringToJson(formData))
         }
-        formRecordList.value = formJsonList
-        formFilterRecordList.value = formJsonList
-        formFilterRecordList.value = filterRecord()
+//        formRecordList.value = formJsonList
+//        formFilterRecordList.value = formJsonList
+//        formFilterRecordList.value = filterRecord()
+        formRecordList.postValue(formJsonList)
+//        formFilterRecordList.postValue(formJsonList)
+        formFilterRecordList.postValue(filterRecord(formJsonList))
         updateWaitInputGoods(formJsonList)
         updateWaitOutputGoods(formJsonList)
         return formJsonList
@@ -164,15 +167,15 @@ class FormRepository(context: Context) {
             )
         } as ArrayList<WaitDealGoodsData>
 
-        waitInputGoods.value = modWaitInputGoodsList
+//        waitInputGoods.value = modWaitInputGoodsList
+        waitInputGoods.postValue(modWaitInputGoodsList)
     }
 
     /**
      * 更新儲櫃中的所有貨物
      */
     private fun updateStorageRecords() {
-        storageRecords.value =
-            SqlDatabase.getInstance().getStorageRecordDao().getAllStorageContent() as ArrayList
+        storageRecords.postValue(SqlDatabase.getInstance().getStorageRecordDao().getAllStorageContent() as ArrayList)
     }
 
 
@@ -180,8 +183,7 @@ class FormRepository(context: Context) {
      * 更新儲櫃中的所有貨物
      */
     private fun updateStorageGoods() {
-        storageGoods.value =
-            SqlDatabase.getInstance().getStorageContentDao().getAllStorageContent() as ArrayList
+        storageGoods.postValue(SqlDatabase.getInstance().getStorageContentDao().getAllStorageContent() as ArrayList)
     }
 
     /**
@@ -216,14 +218,14 @@ class FormRepository(context: Context) {
                 }
             }
         }
-        waitOutputGoods.value = waitOutputGoodsList
+        waitOutputGoods.postValue(waitOutputGoodsList)
     }
 
     /**
      * 篩選表單內容
      */
-    fun filterRecord(): ArrayList<JSONObject>? {
-        return formRecordList.value?.filter { jsonObject ->
+    fun filterRecord(formJsonList: ArrayList<JSONObject>): ArrayList<JSONObject>? {
+        return formJsonList.filter { jsonObject ->
             // 根據 "FormClass" 判斷是否在 filterList 中
             val reportTitle = jsonObject.optString("reportTitle")
             val reportTitleFilterCondition = filterList.value?.contains(reportTitle)

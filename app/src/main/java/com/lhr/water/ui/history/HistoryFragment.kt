@@ -59,11 +59,11 @@ class HistoryFragment : BaseFragment(), View.OnClickListener, HistoryAdapter.Lis
         }
         // 表單類別篩選更新
         formRepository.filterList.observe(viewLifecycleOwner) {
-            formRepository.formFilterRecordList.postValue(formRepository.filterRecord())
+            formRepository.formFilterRecordList.postValue(formRepository.filterRecord(formRepository.formRecordList.value!!))
         }
         // 表單代號輸入後篩選更新
         formRepository.searchFormNumber.observe(viewLifecycleOwner) {
-            formRepository.formFilterRecordList.postValue(formRepository.filterRecord())
+            formRepository.formFilterRecordList.postValue(formRepository.filterRecord(formRepository.formRecordList.value!!))
         }
     }
 

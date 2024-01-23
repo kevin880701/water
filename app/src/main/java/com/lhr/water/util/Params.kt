@@ -1,5 +1,6 @@
 package com.lhr.water.util
 
+val API_BASE: String = "http://localhost:8080"
 object MapPageStatus {
     const val RegionPage = "Region"
     const val MapPage = "Map"

@@ -1,0 +1,62 @@
+package com.example.taiwanwater_syncpda
+
+data class UpdateRequestBodyDto(
+    val reportId: String,
+    val reportTitle: String,
+    val date: String,
+    val formNumber: String,
+    val underwriter: String?,
+    val contractNumber: String?,
+    val deliveryDate: String?,
+    val extendDate1: String?,
+    val extendDate2: String?,
+    val extendDate3: String?,
+    val receiptDept: String?,
+    val deliveryLocation: String?,
+    val extendNo1: String?,
+    val extendNo2: String?,
+    val extendNo3: String?,
+    val projectNumber: String?,
+    val contact: String?,
+    val contactPhone: String?,
+    val applyNo: String?,
+    val itemDetail: List<ItemDetail>,
+    val sumAddition: String?,
+    val deliveryDay: String?,
+    val deliveryStatus: String?,
+    val dealStatus: String?,
+    val ano: String?,
+    // 特定于第二种报告类型的字段
+    val issuingUnit: String?,
+    val pickingDate: String?,
+    val pickingDept: String?,
+    val originalVoucherNumber: String?,
+    val costAllocationUnit: String?,
+    val accountingSubject: String?,
+    val systemCode: String?,
+    val usageCode: String?,
+    val projectName: String?,
+    val materialReservationNumber: String?,
+    val caseNumber: String?,
+    val remark: String?,
+    val collectionMethod: String?
+)
+
+data class ItemDetail(
+    val number: Int,
+    val itemNo: Int?,
+    val batch: String?,
+    val no: String?,
+    val materialNumber: String,
+    val materialName: String,
+    val materialSpec: String,
+    val materialUnit: String,
+    val length: String?,
+    val deliveryQuantity: Int?,
+    val receivedQuantity: Int?,
+    val price: Int?,
+    val itemCost: Int?,
+    // 特定于第二种报告类型的字段
+    val requestedQuantity: String?,
+    val actualQuantity: String?
+)
