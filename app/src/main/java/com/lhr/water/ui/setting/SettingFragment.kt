@@ -46,6 +46,7 @@ class SettingFragment : BaseFragment(), View.OnClickListener {
 
         binding.constraintUpdate.setOnClickListener(this)
         binding.constraintUpload.setOnClickListener(this)
+        binding.constraintUpdate2.setOnClickListener(this)
     }
 
     override fun onClick(v: View?) {
@@ -59,27 +60,30 @@ class SettingFragment : BaseFragment(), View.OnClickListener {
 //                pickFile.launch("application/json")
                 viewModel.uploadFiles(this.requireActivity())
             }
+            R.id.constraintUpdate2 -> {
+                pickFile.launch("application/json")
+            }
         }
     }
 
     /**
      * 選擇資料夾並儲存JSON檔
      */
-//    private val saveFile =
-//        registerForActivityResult(ActivityResultContracts.OpenDocumentTree()) { uri ->
-//            uri?.let {
-//                // 將 JSONObject 寫入到資料夾
-//                viewModel.writeJsonObjectToFolder(requireContext(), it)
-//            }
-//        }
+    private val saveFile =
+        registerForActivityResult(ActivityResultContracts.OpenDocumentTree()) { uri ->
+            uri?.let {
+                // 將 JSONObject 寫入到資料夾
+                viewModel.writeJsonObjectToFolder2(requireContext(), it)
+            }
+        }
 
     /**
      * 選擇JSON檔案並讀取
      */
-//    private val pickFile =
-//        registerForActivityResult(ActivityResultContracts.GetContent()) { uri: Uri? ->
-//            uri?.let {
-//                viewModel.updateFormData(requireContext(), it)
-//            }
-//        }
+    private val pickFile =
+        registerForActivityResult(ActivityResultContracts.GetContent()) { uri: Uri? ->
+            uri?.let {
+                viewModel.updateFormData2(requireContext(), it)
+            }
+        }
 }

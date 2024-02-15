@@ -368,11 +368,7 @@
         <item>用途代號</item>
         <item>工程編號</item>
         <item>工程名稱</item>
-        <item>備料單號</item>
         <item>案號</item>
-        <item>備註</item>
-        <item>合計</item>
-        <item>委託or自取</item>
     </string-array>
 
     <string-array name="picking_form_field_name_eng">
@@ -391,11 +387,7 @@
         <item>usageCode</item>
         <item>projectNumber</item>
         <item>projectName</item>
-        <item>materialReservationNumber</item>
         <item>caseNumber</item>
-        <item>remark</item>
-        <item>sumAddition</item>
-        <item>collectionMethod</item>
     </string-array>
 
     <string-array name="picking_item_field_name">
@@ -404,8 +396,6 @@
         <item>材料名稱</item>
         <item>規格</item>
         <item>單位</item>
-        <item>水量計號碼起</item>
-        <item>水量計號碼迄</item>
         <item>請領數量</item>
         <item>實領數量</item>
         <item>單價</item>
@@ -418,8 +408,6 @@
         <item>materialName</item>
         <item>materialSpec</item>
         <item>materialUnit</item>
-        <item>waterMeterStar</item>
-        <item>waterMeterEnd</item>
         <item>requestedQuantity</item>
         <item>actualQuantity</item>
         <item>price</item>
@@ -432,8 +420,6 @@
         <item>報表代號</item>
         <item>報表名稱</item>
         <item>印表日期</item>
-        <item>請撥單號</item>
-        <item>請撥日期</item>
         <item>撥方調撥單號</item>
         <item>收方撥入單號</item>
         <item>撥方單位</item>
@@ -453,8 +439,6 @@
         <item>reportId</item>
         <item>reportTitle</item>
         <item>date</item>
-        <item>formNumber</item>
-        <item>transferDate</item>
         <item>transferringTransferNumber</item>
         <item>receivingTransferNumber</item>
         <item>transferringDept</item>
@@ -475,8 +459,6 @@
         <item>材料名稱</item>
         <item>規格</item>
         <item>單位</item>
-        <item>水量計號碼起</item>
-        <item>水量計號碼迄</item>
         <item>核撥數量</item>
         <item>請撥序號</item>
         <item>實撥數量</item>
@@ -490,8 +472,6 @@
         <item>materialName</item>
         <item>materialSpec</item>
         <item>materialUnit</item>
-        <item>waterMeterStar</item>
-        <item>waterMeterEnd</item>
         <item>approvedQuantity</item>
         <item>applyNumber</item>
         <item>allocatedQuantity</item>

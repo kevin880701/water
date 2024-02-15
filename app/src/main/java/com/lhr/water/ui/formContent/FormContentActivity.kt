@@ -201,7 +201,6 @@ class FormContentActivity : BaseActivity(), View.OnClickListener, FormGoodsAdd.L
         addFormData()
         setupBackButton(binding.widgetTitleBar.imageBack)
         binding.buttonSend.setOnClickListener(this)
-        binding.widgetFormGoodsAdd.imageAdd.setOnClickListener(this)
     }
 
 

@@ -88,10 +88,6 @@
                 android:layout_height="wrap_content"
                 android:orientation="vertical"/>
 
-            <include
-                android:id="@+id/widgetFormGoodsAdd"
-                layout="@layout/widget_form_goods_add" />
-
             <LinearLayout
                 android:id="@+id/linearItemData"
                 android:layout_width="match_parent"
