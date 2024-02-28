@@ -2,6 +2,7 @@ package com.lhr.water.util.widget
 
 import android.app.Activity
 import android.text.Editable
+import android.text.InputType
 import android.text.TextWatcher
 import android.util.Log
 import android.view.LayoutInflater
@@ -18,13 +19,18 @@ class FormContentDataWidget : RelativeLayout {
     private val activity: Activity
     private val fieldName: String
     private var fieldContent: String? = null
+    private var isEnable: Boolean? = null
+    private var inputType: Int? = null
     private val textDataName: TextView
-    private val textDataContent: TextView
+    private val textDataContent: EditText
     var content = ""
+
     constructor(
         activity: Activity,
         fieldName: String,
-        fieldContent: String? = null
+        fieldContent: String? = null,
+        isEnable: Boolean? = false,
+        inputType: Int? = InputType.TYPE_CLASS_TEXT
     ) : super(activity) {
         binding = DataBindingUtil.inflate(
             LayoutInflater.from(context), R.layout.widget_form_content, this, true
@@ -32,38 +38,42 @@ class FormContentDataWidget : RelativeLayout {
         this@FormContentDataWidget.activity = activity
         this@FormContentDataWidget.fieldName = fieldName
         this@FormContentDataWidget.fieldContent = fieldContent
+        this@FormContentDataWidget.isEnable = isEnable
+        this@FormContentDataWidget.inputType = inputType
         textDataName = binding.textDataName
         textDataContent = binding.textDataContent
 
         initView()
     }
 
-    fun initView(){
+    fun initView() {
         textDataName.text = fieldName
         fieldContent?.let {
             textDataContent.text = Editable.Factory.getInstance().newEditable(fieldContent)
             content = fieldContent as String
         }
-//        textDataContent.addTextChangedListener(object : TextWatcher {
-//            override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {
-//                // 在文本變化之前執行的操作
-//                Log.v("QQQQQQQQbeforeTextChanged", "" + s)
-//            }
-//
-//            override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
-//                // 文本變化時執行的操作
-//                Log.v("QQQQQQQQonTextChanged", "" + s)
-//            }
-//
-//            override fun afterTextChanged(s: Editable?) {
-//                // 在文本變化之後執行的操作
-//                Log.v("QQQQQQQQafterTextChanged", "" + s)
-//                content = s.toString()
-//            }
-//        })
+        textDataContent.inputType = inputType!!
+        textDataContent.isEnabled = isEnable!!
+        textDataContent.addTextChangedListener(object : TextWatcher {
+            override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {
+                // 在文本變化之前執行的操作
+                Log.v("QQQQQQQQbeforeTextChanged", "" + s)
+            }
+
+            override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
+                // 文本變化時執行的操作
+                Log.v("QQQQQQQQonTextChanged", "" + s)
+            }
+
+            override fun afterTextChanged(s: Editable?) {
+                // 在文本變化之後執行的操作
+                Log.v("QQQQQQQQafterTextChanged", "" + s)
+                content = s.toString()
+            }
+        })
     }
 
-    interface Listener{
+    interface Listener {
         fun onDeleteGoodsClick(view: View)
     }
 }

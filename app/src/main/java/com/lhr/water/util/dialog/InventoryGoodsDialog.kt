@@ -3,9 +3,11 @@ package com.lhr.water.util.dialog
 import android.app.AlertDialog
 import android.app.Dialog
 import android.os.Bundle
+import android.text.InputType
 import android.view.LayoutInflater
 import android.view.View
 import android.widget.EditText
+import android.widget.TextView
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.DialogFragment
 import com.lhr.water.R
@@ -63,15 +65,6 @@ class InventoryGoodsDialog(
 
 
         dialog = builder.create()
-//        Objects.requireNonNull(dialog?.window)
-//            ?.setBackgroundDrawableResource(android.R.color.transparent)
-//        dialog?.show()
-//        val lp = WindowManager.LayoutParams()
-//        val dm = DisplayMetrics()
-//        activity?.windowManager?.defaultDisplay?.getMetrics(dm)
-//        lp.copyFrom(dialog?.window!!.attributes)
-//        lp.width = (dm.widthPixels * 0.7).toInt()
-//        dialog?.window!!.attributes = lp
         return builder.create()
     }
 
@@ -81,20 +74,32 @@ class InventoryGoodsDialog(
         binding.widgetTitleBar.imageCancel.visibility = View.VISIBLE
         initGoodsData(binding)
 
+        binding.buttonConfirm.setOnClickListener {
+            var formItemFieldContentList = ArrayList<String>()
+            for (i in 0 until binding.linearData.childCount) {
+                val linearLayoutItem = binding.linearData.getChildAt(i)
+                val editText = linearLayoutItem.findViewById<TextView>(R.id.textDataContent)
+                val editTextValue = editText.text.toString()
+                formItemFieldContentList.add(editTextValue)
+            }
+//            listener.onChangeGoodsInfo(listToJsonObject(formItemFieldNameEngList, formItemFieldContentList),
+//                it
+//            )
+            this.dismiss()
+        }
     }
 
     fun initGoodsData(binding: DialogFormGoodsBinding) {
-        var dataNameList =
-            activity?.resources?.getStringArray(R.array.delivery_Item_field_name)?.toList() as ArrayList<String>
-
-        Timber.d("@@@@：${formItemFieldContentList!!.size}")
         formItemFieldNameList.forEachIndexed { index, fieldName ->
             if (fieldName == "實盤數量") {
-                val formContentDataEditWidget = FormContentDataEditWidget(
+                val formInputDataWidgetView = FormContentDataWidget(
                     activity = requireActivity(),
                     fieldName = fieldName,
-                    fieldContent = formItemFieldContentList!![index])
-                binding.linearData.addView(formContentDataEditWidget)
+                    fieldContent = formItemFieldContentList!![index],
+                    isEnable = true,
+                    inputType = InputType.TYPE_CLASS_NUMBER
+                )
+                binding.linearData.addView(formInputDataWidgetView)
             }else{
                 val formInputDataWidgetView = FormContentDataWidget(
                     activity = requireActivity(),

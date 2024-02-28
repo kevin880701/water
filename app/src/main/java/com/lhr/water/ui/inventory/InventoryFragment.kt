@@ -58,8 +58,8 @@ class InventoryFragment : BaseFragment(), View.OnClickListener, InventoryAdapter
     }
 
     private fun bindViewModel() {
-        formRepository.inventoryFormList.observe(viewLifecycleOwner) { inventoryFormList ->
-            inventoryAdapter.submitList(inventoryFormList)
+        formRepository.inventoryEntities.observe(viewLifecycleOwner) { inventoryEntities ->
+            inventoryAdapter.submitList(inventoryEntities)
         }
     }
 
@@ -72,6 +72,7 @@ class InventoryFragment : BaseFragment(), View.OnClickListener, InventoryAdapter
 
         binding.widgetTitleBar.textTitle.text = requireActivity().getString(R.string.search_inventory)
         binding.widgetTitleBar.imageAdd.visibility = View.VISIBLE
+        binding.widgetTitleBar.imageBackup.visibility = View.VISIBLE
         initRecyclerView()
         binding.editSearch.addTextChangedListener(object : TextWatcher {
             override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {
@@ -84,11 +85,12 @@ class InventoryFragment : BaseFragment(), View.OnClickListener, InventoryAdapter
 
             override fun afterTextChanged(s: Editable?) {
                 // 在文本改變之後執行的操作
-                formRepository.searchFormNumber.postValue(s.toString())
+//                formRepository.searchFormNumber.postValue(s.toString())
             }
         })
 
         binding.widgetTitleBar.imageAdd.setOnClickListener(this)
+        binding.widgetTitleBar.imageBackup.setOnClickListener(this)
     }
 
     private fun initRecyclerView() {
@@ -102,6 +104,9 @@ class InventoryFragment : BaseFragment(), View.OnClickListener, InventoryAdapter
             R.id.imageAdd -> {
                 pickFile.launch("application/json")
             }
+            R.id.imageBackup -> {
+
+            }
         }
     }
 
@@ -110,8 +115,6 @@ class InventoryFragment : BaseFragment(), View.OnClickListener, InventoryAdapter
      * @param json 被點擊的列資料
      */
     override fun onItemClick(json: JSONObject) {
-
-
         val extractedValues = ArrayList<String>()
         for (fieldName in formFieldNameEngList) {
             try {

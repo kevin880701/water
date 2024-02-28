@@ -6,8 +6,8 @@ import com.lhr.water.room.SqlModel.Companion.formContent
 
 @Dao
 interface InventoryDao {
-    @Query("SELECT $formContent FROM $INVENTORY_TABLE_NAME")
-    fun getInventoryForms(): List<String>
+    @Query("SELECT * FROM $INVENTORY_TABLE_NAME")
+    fun getInventoryForms(): List<InventoryEntity>
 
     @Insert(onConflict = OnConflictStrategy.IGNORE)
     fun insertNewForm(inventoryEntity: InventoryEntity)

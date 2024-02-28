@@ -1,6 +1,9 @@
 package com.lhr.water.util.adapter
 
 import android.content.Context
+import android.content.res.ColorStateList
+import android.graphics.Color
+import android.text.Editable
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -10,23 +13,28 @@ import androidx.recyclerview.widget.RecyclerView
 import com.lhr.water.R
 import com.lhr.water.databinding.ItemHistoryBinding
 import com.lhr.water.databinding.ItemInventoryMaterialBinding
+import com.lhr.water.repository.FormRepository
+import com.lhr.water.room.InventoryEntity
+import com.lhr.water.room.SqlDatabase
+import com.lhr.water.util.manager.jsonObjectToJsonString
+import com.lhr.water.util.manager.jsonStringToJson
 import com.lhr.water.util.showToast
 import org.json.JSONObject
 import timber.log.Timber
 
 class InventoryAdapter(val listener: Listener, context: Context) :
-    ListAdapter<JSONObject, InventoryAdapter.ViewHolder>(LOCK_DIFF_UTIL) {
+    ListAdapter<InventoryEntity, InventoryAdapter.ViewHolder>(LOCK_DIFF_UTIL) {
     var context = context
 
     companion object {
-        val LOCK_DIFF_UTIL = object : DiffUtil.ItemCallback<JSONObject>() {
-            override fun areItemsTheSame(oldItem: JSONObject, newItem: JSONObject): Boolean {
+        val LOCK_DIFF_UTIL = object : DiffUtil.ItemCallback<InventoryEntity>() {
+            override fun areItemsTheSame(oldItem: InventoryEntity, newItem: InventoryEntity): Boolean {
                 return oldItem == newItem
             }
 
             override fun areContentsTheSame(
-                oldItem: JSONObject,
-                newItem: JSONObject
+                oldItem: InventoryEntity,
+                newItem: InventoryEntity
             ): Boolean {
                 return oldItem.hashCode() == newItem.hashCode()
             }
@@ -46,17 +54,33 @@ class InventoryAdapter(val listener: Listener, context: Context) :
     inner class ViewHolder(private val binding: ItemInventoryMaterialBinding) :
         RecyclerView.ViewHolder(binding.root) {
 
-        fun bind(json: JSONObject) {
-            binding.textMaterialName.text = json.getString("materialName")
-            binding.textMaterialSpec.text = json.getString("materialSpec")
-            binding.textMaterialUnit.text = json.getString("materialUnit")
-            binding.textQuantity.text = json.getString("actualQuantity")
+        fun bind(inventoryEntity: InventoryEntity) {
+            var jsonObject = jsonStringToJson(inventoryEntity.formContent)
+            binding.textMaterialName.text = jsonObject.getString("materialName")
+            binding.textMaterialSpec.text = jsonObject.getString("materialSpec")
+            binding.textMaterialUnit.text = jsonObject.getString("materialUnit")
+            binding.textQuantity.text = Editable.Factory.getInstance().newEditable(jsonObject.getString("actualQuantity"))
 
+            binding.imageEdit.setOnClickListener {
+                binding.imageEdit.visibility = View.GONE
+                binding.imageOk.visibility = View.VISIBLE
+                binding.textQuantity.isEnabled = true
+                binding.textQuantity.isEnabled = true
+                binding.textQuantity.setBackgroundColor(Color.LTGRAY)
+            }
 
-            binding.root.setOnClickListener {
-                 listener.onItemClick(
-                    getItem(adapterPosition)
-                )
+            binding.imageOk.setOnClickListener {
+                binding.imageEdit.visibility = View.VISIBLE
+                binding.imageOk.visibility = View.GONE
+                binding.textQuantity.isEnabled = false
+                binding.textQuantity.setBackgroundColor(Color.TRANSPARENT)
+                jsonObject.put("actualQuantity", binding.textQuantity.text)
+
+                var tempInventoryEntity = InventoryEntity()
+                tempInventoryEntity.formNumber = inventoryEntity.formNumber
+                tempInventoryEntity.formContent = jsonObjectToJsonString(jsonObject)
+                SqlDatabase.getInstance().getInventoryDao().insertOrUpdate(tempInventoryEntity)
+                FormRepository.getInstance(context).loadInventoryForm()
             }
         }
     }
