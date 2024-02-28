@@ -18,6 +18,7 @@ import com.lhr.water.ui.base.APP
 import com.lhr.water.ui.base.BaseActivity
 import com.lhr.water.ui.form.FormFragment
 import com.lhr.water.ui.history.HistoryFragment
+import com.lhr.water.ui.inventory.InventoryFragment
 import com.lhr.water.ui.materialSearch.MaterialSearchFragment
 import com.lhr.water.ui.regionChoose.RegionChooseFragment
 import com.lhr.water.ui.setting.SettingFragment
@@ -42,13 +43,15 @@ class MainActivity : BaseActivity() {
     fun initTabLayout(tabLayoutMain: TabLayout) {
         tabLayoutMain.apply {
             var tabIconList = arrayListOf(
-                R.drawable.form,
+                R.drawable.shipment_in_out,
+                R.drawable.shipment_inventory,
                 R.drawable.region_choose,
                 R.drawable.material_search,
                 R.drawable.setting,
             )
             var fragments = arrayListOf(
                 HistoryFragment(),
+                InventoryFragment(),
                 RegionChooseFragment(),
                 MaterialSearchFragment(),
                 SettingFragment()

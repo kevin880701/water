@@ -9,6 +9,7 @@ import com.lhr.water.ui.cover.CoverViewModel
 import com.lhr.water.ui.form.FormViewModel
 import com.lhr.water.ui.formContent.FormContentViewModel
 import com.lhr.water.ui.history.HistoryViewModel
+import com.lhr.water.ui.inventory.InventoryViewModel
 import com.lhr.water.ui.login.LoginViewModel
 import com.lhr.water.ui.main.MainViewModel
 import com.lhr.water.ui.map.MapViewModel
@@ -37,6 +38,7 @@ class AppViewModelFactory(
             MapViewModel::class.java -> MapViewModel(context, regionRepository, formRepository) as T
             QrCodeViewModel::class.java -> QrCodeViewModel(context) as T
             MaterialSearchViewModel::class.java -> MaterialSearchViewModel(context, formRepository) as T
+            InventoryViewModel::class.java -> InventoryViewModel(context, formRepository) as T
             else -> throw IllegalArgumentException("not support")
         }
     }

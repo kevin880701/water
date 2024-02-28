@@ -37,7 +37,6 @@ import com.lhr.water.util.widget.FormGoodsDataWidget
 import com.lhr.water.util.widget.FormContentDataWidget
 import org.json.JSONArray
 import org.json.JSONObject
-import timber.log.Timber
 
 class FormContentActivity : BaseActivity(), View.OnClickListener, FormGoodsAdd.Listener,
     FormContentDataWidget.Listener, FormGoodsDataWidget.Listener, GoodsDialog.Listener {
@@ -371,7 +370,7 @@ class FormContentActivity : BaseActivity(), View.OnClickListener, FormGoodsAdd.L
      * @param formEntity 更新的表單資訊
      */
     fun updateForm(formEntity: FormEntity) {
-        SqlDatabase.getInstance().getDeliveryDao().insertOrUpdate(formEntity)
+        SqlDatabase.getInstance().getFormDao().insertOrUpdate(formEntity)
         FormRepository.getInstance(this).loadRecord()
     }
 

@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools" >
+
+    <data></data>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/constraintGoods"
+        android:layout_width="match_parent"
+        android:layout_height="72dp"
+        android:paddingLeft="12dp"
+        android:paddingRight="12dp">
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent">
+            <TextView
+                android:id="@+id/textMaterialName"
+                android:layout_width="0dp"
+                android:layout_height="0dp"
+                app:layout_constraintWidth_percent="0.35"
+                android:text="@string/goods_name"
+                android:textAppearance="@style/TextAppearance.Astec.HeadLine5"
+                android:textColor="@color/seed"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintLeft_toLeftOf="parent" />
+            <TextView
+                android:id="@+id/textMaterialSpec"
+                android:layout_width="0dp"
+                android:layout_height="0dp"
+                app:layout_constraintHeight_percent="0.5"
+                android:text="規格"
+                android:textAppearance="@style/TextAppearance.Astec.HeadLine5"
+                android:textColor="@color/seed"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintLeft_toRightOf="@+id/textMaterialName"
+                app:layout_constraintRight_toLeftOf="@+id/textQuantity" />
+            <TextView
+                android:id="@+id/textMaterialUnit"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:text="單位"
+                android:background="@color/transparent"
+                android:textAppearance="@style/TextAppearance.Astec.Body2"
+                android:textColor="@color/black"
+                app:layout_constraintTop_toBottomOf="@+id/textMaterialSpec"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintLeft_toRightOf="@+id/textMaterialName"
+                app:layout_constraintRight_toLeftOf="@+id/textQuantity" />
+            <TextView
+                android:id="@+id/textQuantity"
+                android:layout_width="0dp"
+                android:layout_height="0dp"
+                app:layout_constraintWidth_percent="0.2"
+                android:text="數量"
+                android:background="@color/transparent"
+                android:textAppearance="@style/TextAppearance.Astec.Body2"
+                android:textColor="@color/black"
+                android:gravity="center"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintRight_toLeftOf="@+id/imageRight" />
+
+            <ImageView
+                android:id="@+id/imageRight"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:padding="12dp"
+                android:src="@drawable/right"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintDimensionRatio="1:1"
+                app:layout_constraintRight_toRightOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:tint="@color/seed" />
+        </androidx.constraintlayout.widget.ConstraintLayout>
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>

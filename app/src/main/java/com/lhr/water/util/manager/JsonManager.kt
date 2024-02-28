@@ -155,6 +155,43 @@ fun checkJson(jsonArray: JSONArray, context: Context): Boolean {
     return true
 }
 
+
+
+/**
+ * 檢查匯入的json格式是否有問題
+ * @param jsonArray 要檢查的JSONArray
+ */
+fun checkInventoryJson(jsonArray: JSONArray, context: Context): Boolean {
+    // 遍歷每個 JSONObject
+    for (i in 0 until jsonArray.length()) {
+        val jsonObject = jsonArray.getJSONObject(i)
+        // 檢查是否存在 reportTitle 欄位
+        if (jsonObject.has("reportTitle")) {
+            // reportTitle 存在，檢查表單名稱是否正確
+            if (formFieldMap.containsKey(jsonObject.getString("reportTitle"))) {
+                    // 確認表單名稱和formNumber正確後，開始檢查欄位。只要有不符合的不待後續檢查馬上回傳FALSE
+                    for (field in formFieldMap[jsonObject.getString("reportTitle")]!![0]) {
+                        if (!jsonObject.has(field)) {
+                            showToast(
+                                context,
+                                "表單代號${jsonObject.getString("formNumber")}：${field}欄位錯誤"
+                            )
+                            return false
+                        }
+                    }
+
+            } else {
+                showToast(context, "表單名稱錯誤")
+                return false
+            }
+        } else {
+            showToast(context, "reportTitle欄位錯誤")
+            return false
+        }
+    }
+    return true
+}
+
 fun JSONObject.toRegionEntity(): RegionEntity {
     val regionName = this.getString("RegionName")
     return RegionEntity(regionName)

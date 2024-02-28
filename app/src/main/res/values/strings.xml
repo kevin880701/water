@@ -5,6 +5,7 @@
     <string name="region_choose">地區選擇</string>
     <string name="map_choose">地圖選擇</string>
     <string name="form_history">表單紀錄</string>
+    <string name="search_inventory">貨物盤點</string>
     <string name="choose_storage_point">選擇儲櫃位置</string>
     <string name="search_material">搜尋貨物</string>
 
@@ -266,6 +267,7 @@
 
     <!--  交貨單  -->
     <string-array name="delivery_form_field_name">
+        <item>id</item>
         <item>處理狀態</item>
         <item>交貨狀態</item>
         <item>報表代號</item>
@@ -293,6 +295,7 @@
     </string-array>
 
     <string-array name="delivery_form_field_name_eng">
+        <item>id</item>
         <item>dealStatus</item>
         <item>deliveryStatus</item>
         <item>reportId</item>
@@ -353,6 +356,7 @@
 
     <!--  領料單  -->
     <string-array name="picking_form_field_name">
+        <item>id</item>
         <item>處理狀態</item>
         <item>報表代號</item>
         <item>報表名稱</item>
@@ -372,6 +376,7 @@
     </string-array>
 
     <string-array name="picking_form_field_name_eng">
+        <item>id</item>
         <item>dealStatus</item>
         <item>reportId</item>
         <item>reportTitle</item>
@@ -416,6 +421,7 @@
 
     <!--  調撥單  -->
     <string-array name="transfer_form_field_name">
+        <item>id</item>
         <item>處理狀態</item>
         <item>報表代號</item>
         <item>報表名稱</item>
@@ -437,6 +443,7 @@
     </string-array>
 
     <string-array name="transfer_form_field_name_eng">
+        <item>id</item>
         <item>dealStatus</item>
         <item>reportId</item>
         <item>reportTitle</item>
@@ -483,6 +490,7 @@
 
     <!--  退料單  -->
     <string-array name="returning_form_field_name">
+        <item>id</item>
         <item>處理狀態</item>
         <item>報表代號</item>
         <item>報表名稱</item>
@@ -503,6 +511,7 @@
     </string-array>
 
     <string-array name="returning_form_field_name_eng">
+        <item>id</item>
         <item>dealStatus</item>
         <item>reportId</item>
         <item>reportTitle</item>
@@ -543,7 +552,45 @@
         <item>receivedQuantity</item>
         <item>stockingPrice</item>
     </string-array>
+
     <!--  盤點單  -->
+    <string-array name="inventory_form_field_name">
+        <item>id</item>
+        <item>處理狀態</item>
+        <item>報表代號</item>
+        <item>報表名稱</item>
+        <item>印表日期</item>
+        <item>單位代號</item>
+        <item>單位名稱</item>
+        <item>次數</item>
+        <item>材料編號</item>
+        <item>材料單位</item>
+        <item>材料名稱</item>
+        <item>材料規格</item>
+        <item>實盤數量</item>
+        <item>盤點日期</item>
+        <item>最後使用日期</item>
+        <item>區處審核日期</item>
+    </string-array>
+
+    <string-array name="inventory_form_field_name_eng">
+        <item>id</item>
+        <item>dealStatus</item>
+        <item>reportId</item>
+        <item>reportTitle</item>
+        <item>date</item>
+        <item>inventoryUnit</item>
+        <item>deptName</item>
+        <item>seq</item>
+        <item>materialNumber</item>
+        <item>materialUnit</item>
+        <item>materialName</item>
+        <item>materialSpec</item>
+        <item>actualQuantity</item>
+        <item>checkDate</item>
+        <item>lastUseDate</item>
+        <item>approvedDate</item>
+    </string-array>
 
     <!--  儲櫃貨物資訊  -->
     <string-array name="storage_Good_field_name">

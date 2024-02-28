@@ -4,6 +4,7 @@ class SqlModel {
     companion object {
         const val DB_NAME : String = "WaterInfo.db"
         const val FORM_TABLE_NAME : String = "Form"
+        const val INVENTORY_TABLE_NAME : String = "inventory"
         const val REGION_TABLE_NAME : String = "Region"
         const val MAP_TABLE_NAME : String = "Map"
         const val STORAGE_TABLE_NAME : String = "Storage"

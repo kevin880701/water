@@ -52,7 +52,7 @@
                 android:layout_marginRight="24dp"
                 android:layout_marginLeft="30dp"
                 android:textColor="@color/deep_gray"
-                android:hint="輸入貨物名稱"
+                android:hint="輸入表單代號"
                 android:textColorHint="@color/deep_gray"
                 android:background="@color/transparent"/>
 
@@ -85,17 +85,15 @@
                 android:layout_height="wrap_content"
                 android:layout_width="match_parent"
                 app:layout_constraintTop_toBottomOf="@+id/viewUserBackground" >
-
-
                 <androidx.recyclerview.widget.RecyclerView
-                    android:id="@+id/recyclerHistory"
+                    android:id="@+id/recyclerInventory"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     app:layout_constraintTop_toTopOf="parent"
                     app:layout_constraintLeft_toLeftOf="parent"
+                    android:layout_marginTop="8dp"
                     tools:itemCount="3"
-                    tools:listitem="@layout/item_material_search" />
-
+                    tools:listitem="@layout/item_inventory_material" />
             </androidx.constraintlayout.widget.ConstraintLayout>
         </androidx.core.widget.NestedScrollView>
     </androidx.constraintlayout.widget.ConstraintLayout>

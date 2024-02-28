@@ -41,16 +41,20 @@ object FormField {
     // 材料退料單欄位
     private val returningFormField = arrayOf("dealStatus", "reportId", "reportTitle", "date", "receiptDept", "formNumber", "leadDept", "returnReceiptNumber", "receivedDate", "accountingSubject", "costAllocationUnit", "returnDept", "systemCode", "usageCode", "projectNumber", "projectName", "originalVoucherNumber")
     private val returningMaterialField = arrayOf("number", "materialNumber", "materialName", "materialSpec", "materialUnit", "returnedQuantity", "receivedQuantity", "stockingPrice")
+    // 材料盤點單欄位
+    private val inventoryFormField = arrayOf("dealStatus", "reportId", "reportTitle", "date", "inventoryUnit", "deptName", "materialNumber", "materialUnit", "materialName", "materialSpec", "actualQuantity", "checkDate", "lastUseDate", "approvedDate")
 
     private const val deliveryFormName = "交貨通知單"
     private const val pickingFormName = "材料領料單"
     private const val transferFormName = "材料調撥單"
     private const val returningFormName = "材料退料單"
+    private const val inventoryFormName = "材料盤點單"
 
     val formFieldMap: Map<String, Array<Array<String>>> = mapOf(
         deliveryFormName to arrayOf(deliveryFormField, deliveryMaterialField),
         pickingFormName to arrayOf(pickFormField, pickMaterialField),
         transferFormName to arrayOf(transferFormField, transferMaterialField),
-        returningFormName to arrayOf(returningFormField, returningMaterialField)
+        returningFormName to arrayOf(returningFormField, returningMaterialField),
+        inventoryFormName to arrayOf(inventoryFormField)
     )
 }

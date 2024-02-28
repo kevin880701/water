@@ -5,6 +5,7 @@ import androidx.lifecycle.MutableLiveData
 import com.lhr.water.R
 import com.lhr.water.data.WaitDealGoodsData
 import com.lhr.water.room.FormEntity
+import com.lhr.water.room.InventoryEntity
 import com.lhr.water.room.SqlDatabase
 import com.lhr.water.room.StorageContentEntity
 import com.lhr.water.room.StorageRecordEntity
@@ -18,7 +19,6 @@ import com.lhr.water.util.manager.jsonStringToJson
 import com.lhr.water.util.transferStatus
 import org.json.JSONArray
 import org.json.JSONObject
-import timber.log.Timber
 
 class FormRepository(context: Context) {
     val context = context
@@ -61,6 +61,11 @@ class FormRepository(context: Context) {
     // 篩選表單代號formNumber的String
     var searchFormNumber = MutableLiveData<String>()
 
+    // 盤點表單
+//    var inventoryFormList = MutableLiveData<String>()
+    var inventoryFormList: MutableLiveData<ArrayList<JSONObject>> =
+        MutableLiveData<ArrayList<JSONObject>>()
+
     companion object {
         private var instance: FormRepository? = null
         fun getInstance(context: Context): FormRepository {
@@ -73,7 +78,7 @@ class FormRepository(context: Context) {
 
     init {
         filterList.value = ArrayList(context.resources.getStringArray(R.array.form_array).toList())
-        val loadFormList: List<String> = SqlDatabase.getInstance().getDeliveryDao().getAll()
+        val loadFormList: List<String> = SqlDatabase.getInstance().getFormDao().getAll()
         val formJsonList = ArrayList<JSONObject>()
         for (formData in loadFormList) {
             formJsonList.add(jsonStringToJson(formData))
@@ -85,13 +90,14 @@ class FormRepository(context: Context) {
         storageRecords.value = ArrayList<StorageRecordEntity>()
         storageGoods.value = ArrayList<StorageContentEntity>()
         formRecordList.value = loadRecord()
+        inventoryFormList.value = loadInventoryForm()
     }
 
     /**
      * 抓取表單全部記錄
      */
     fun loadRecord(): ArrayList<JSONObject> {
-        val loadFormList: List<String> = SqlDatabase.getInstance().getDeliveryDao().getAll()
+        val loadFormList: List<String> = SqlDatabase.getInstance().getFormDao().getAll()
         val formJsonList = ArrayList<JSONObject>()
         for (formData in loadFormList) {
             formJsonList.add(jsonStringToJson(formData))
@@ -273,7 +279,7 @@ class FormRepository(context: Context) {
             val formEntity = FormEntity()
             formEntity.formNumber = jsonObject.optString("formNumber").toString()
             formEntity.formContent = jsonObject.toString()
-            SqlDatabase.getInstance().getDeliveryDao().insertNewForm(formEntity)
+            SqlDatabase.getInstance().getFormDao().insertNewForm(formEntity)
         }
     }
 
@@ -425,5 +431,43 @@ class FormRepository(context: Context) {
 
     fun searchStorageContentByMaterialName(targetMaterialName: String): ArrayList<StorageContentEntity>{
         return storageGoods.value!!.filter { it.materialName.contains(targetMaterialName) } as ArrayList<StorageContentEntity>
+    }
+
+
+    /**
+     * 匯入新json時要同步插入到資料庫中
+     * @param jsonArray 要匯入的JSONArray
+     */
+    fun insertInventoryForm(jsonArray: JSONArray) {
+        // 清空表
+//        SqlDatabase.getInstance().getDeliveryDao().clearTable()
+        // 將 JSONArray 中的數據逐一插入表中
+        for (i in 0 until jsonArray.length()) {
+            val jsonObject = jsonArray.getJSONObject(i)
+            val inventoryEntity = InventoryEntity()
+            inventoryEntity.formNumber = jsonObject.optString("deptName").toString() + jsonObject.optString("date").toString() + jsonObject.optString("seq").toString()
+            inventoryEntity.formContent = jsonObject.toString()
+            SqlDatabase.getInstance().getInventoryDao().insertNewForm(inventoryEntity)
+        }
+    }
+
+    /**
+     * 抓取表單全部記錄
+     */
+    fun loadInventoryForm(): ArrayList<JSONObject> {
+        val loadFormList: List<String> = SqlDatabase.getInstance().getInventoryDao().getInventoryForms()
+        val formJsonList = ArrayList<JSONObject>()
+        for (formData in loadFormList) {
+            formJsonList.add(jsonStringToJson(formData))
+        }
+//        formRecordList.value = formJsonList
+//        formFilterRecordList.value = formJsonList
+//        formFilterRecordList.value = filterRecord()
+        inventoryFormList.postValue(formJsonList)
+//        formFilterRecordList.postValue(formJsonList)
+//        formFilterRecordList.postValue(filterRecord(formJsonList))
+//        updateWaitInputGoods(formJsonList)
+//        updateWaitOutputGoods(formJsonList)
+        return formJsonList
     }
 }
