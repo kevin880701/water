@@ -331,7 +331,6 @@
         <item>材料名稱</item>
         <item>規格</item>
         <item>單位</item>
-        <item>長度</item>
         <item>發出數量</item>
         <item>實收數量</item>
         <item>單價</item>
@@ -347,7 +346,6 @@
         <item>materialName</item>
         <item>materialSpec</item>
         <item>materialUnit</item>
-        <item>length</item>
         <item>deliveryQuantity</item>
         <item>receivedQuantity</item>
         <item>price</item>

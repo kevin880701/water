@@ -71,8 +71,8 @@ class InventoryFragment : BaseFragment(), View.OnClickListener, InventoryAdapter
                 .toList() as ArrayList<String>
 
         binding.widgetTitleBar.textTitle.text = requireActivity().getString(R.string.search_inventory)
-        binding.widgetTitleBar.imageAdd.visibility = View.VISIBLE
         binding.widgetTitleBar.imageBackup.visibility = View.VISIBLE
+        binding.widgetTitleBar.imageAdd.visibility = View.VISIBLE
         initRecyclerView()
         binding.editSearch.addTextChangedListener(object : TextWatcher {
             override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {
