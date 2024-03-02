@@ -58,6 +58,22 @@
         <activity android:name="com.lhr.water.ui.history.dealMaterial.DealMaterialActivity"
             android:launchMode="singleTask"
             android:theme="@style/Theme.Water"/>
+        <activity
+            android:name="com.lhr.water.ui.setting.DeepLinkActivity"
+            android:exported="true"
+            android:launchMode="singleTop">
+            <intent-filter>
+                <action android:name="android.intent.action.VIEW" />
+
+                <category android:name="android.intent.category.DEFAULT" />
+                <category android:name="android.intent.category.BROWSABLE" />
+
+                <!-- 處理特定網域的URL -->
+                <data
+                    android:host="pda-internal.water.gov.tw"
+                    android:scheme="https" />
+            </intent-filter>
+        </activity>
     </application>
 
 </manifest>

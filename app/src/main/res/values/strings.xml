@@ -515,9 +515,9 @@
         <item>reportTitle</item>
         <item>date</item>
         <item>receiptDept</item>
-        <item>formNumber</item>
+        <item>leadNumber</item>
         <item>leadDept</item>
-        <item>returnReceiptNumber</item>
+        <item>formNumber</item>
         <item>receivedDate</item>
         <item>accountingSubject</item>
         <item>costAllocationUnit</item>

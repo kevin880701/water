@@ -113,7 +113,7 @@ object Execute {
     fun postRecord(
         activity: Activity, requestBody: RequestBody, callback: Callback
     ) {
-        val api = "/PDA/ExportList"
+        val api = "/PDA/UpdateStatus"
         Execute.post(activity, api, requestBody, callback)
     }
 }

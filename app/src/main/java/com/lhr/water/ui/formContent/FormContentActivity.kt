@@ -37,6 +37,9 @@ import com.lhr.water.util.widget.FormGoodsDataWidget
 import com.lhr.water.util.widget.FormContentDataWidget
 import org.json.JSONArray
 import org.json.JSONObject
+import timber.log.Timber
+import java.time.LocalDate
+import java.time.format.DateTimeFormatter
 
 class FormContentActivity : BaseActivity(), View.OnClickListener, FormGoodsAdd.Listener,
     FormContentDataWidget.Listener, FormGoodsDataWidget.Listener, GoodsDialog.Listener {
@@ -140,11 +143,9 @@ class FormContentActivity : BaseActivity(), View.OnClickListener, FormGoodsAdd.L
                     resources.getStringArray(R.array.delivery_item_field_name_eng)
                         .toList() as ArrayList<String>
             }
-
             getString(R.string.check_form) -> {
 
             }
-
             getString(R.string.picking_form) -> {
                 formFieldNameList = resources.getStringArray(R.array.picking_form_field_name)
                     .toList() as ArrayList<String>
@@ -182,9 +183,6 @@ class FormContentActivity : BaseActivity(), View.OnClickListener, FormGoodsAdd.L
                 formItemFieldNameEngList =
                     resources.getStringArray(R.array.returning_item_field_name_eng)
                         .toList() as ArrayList<String>
-            }
-
-            getString(R.string.inventory_form) -> {
             }
         }
         // 如果是開啟已有紀錄
@@ -305,6 +303,16 @@ class FormContentActivity : BaseActivity(), View.OnClickListener, FormGoodsAdd.L
                     reportTitle
                 )
             ) {
+
+                // 如果是退料單取得目前日期並轉換為民國年份
+                if(reportTitle == getString(R.string.returning_form) && formContentJsonObject.getString("receivedDate") != ""){
+                    val currentDate = LocalDate.now()
+                    val rocYear = currentDate.year - 1911
+                    val formattedDate = String.format("%03d/%02d/%02d", rocYear, currentDate.monthValue, currentDate.dayOfMonth)
+                    formContentJsonObject.put("receivedDate", formattedDate)
+                    formEntity.formContent = jsonObjectToJsonString(formContentJsonObject)
+                }
+
                 SqlDatabase.getInstance().getStorageRecordDao().insertStorageRecordList(
                     viewModel.getInsertGoodsFromTempWaitDealGoods(
                         itemDetailArray,

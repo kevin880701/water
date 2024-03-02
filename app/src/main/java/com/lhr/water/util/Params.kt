@@ -1,6 +1,6 @@
 package com.lhr.water.util
 
-val API_BASE: String = "http://localhost:8080"
+val API_BASE: String = "http://localhost:8081"
 object MapPageStatus {
     const val RegionPage = "Region"
     const val MapPage = "Map"
@@ -30,19 +30,19 @@ object DealStatus {
 
 object FormField {
     // 交貨通知單欄位
-    private val deliveryFormField = arrayOf("deliveryStatus", "reportId", "reportTitle", "date", "formNumber", "underwriter", "ano", "contractNumber", "deliveryDay", "deliveryDate", "extendDate1", "extendDate2", "extendDate3", "receiptDept", "deliverylocation", "extendNo1", "extendNo2", "extendNo3", "projectNumber", "contact", "contactPhone", "applyNo", "sumAddition")
+    private val deliveryFormField = arrayOf("id", "deliveryStatus", "reportId", "reportTitle", "date", "formNumber", "underwriter", "ano", "contractNumber", "deliveryDay", "deliveryDate", "extendDate1", "extendDate2", "extendDate3", "receiptDept", "deliverylocation", "extendNo1", "extendNo2", "extendNo3", "projectNumber", "contact", "contactPhone", "applyNo", "sumAddition")
     private val deliveryMaterialField = arrayOf("number", "itemNo", "batch", "no", "materialNumber", "materialName", "materialSpec", "materialUnit", "length", "deliveryQuantity", "receivedQuantity", "price", "itemCost")
     // 材料領料單欄位
-    private val pickFormField = arrayOf("dealStatus", "reportId", "reportTitle", "date", "issuingUnit", "pickingDate", "pickingDept", "formNumber", "originalVoucherNumber", "costAllocationUnit", "accountingSubject", "systemCode", "usageCode", "projectNumber", "projectName", "caseNumber")
+    private val pickFormField = arrayOf("id", "dealStatus", "reportId", "reportTitle", "date", "issuingUnit", "pickingDate", "pickingDept", "formNumber", "originalVoucherNumber", "costAllocationUnit", "accountingSubject", "systemCode", "usageCode", "projectNumber", "projectName", "caseNumber")
     private val pickMaterialField = arrayOf("number", "materialNumber", "materialName", "materialSpec", "materialUnit", "requestedQuantity", "actualQuantity", "price", "itemCost")
     // 材料調撥單欄位
-    private val transferFormField = arrayOf("dealStatus", "reportId", "reportTitle", "date", "transferringTransferNumber", "ReceivingApplyTransferNumber", "receivingTransferNumber", "transferringDept", "originalVoucherNumber", "requiredDate", "transferringTransferDate", "receivingTransferDate", "receivingApplyTransferDate", "receivingDept", "receivingLocation", "contact", "contactPhone", "transferDescription")
+    private val transferFormField = arrayOf("id", "dealStatus", "reportId", "reportTitle", "date", "transferringTransferNumber", "ReceivingApplyTransferNumber", "receivingTransferNumber", "transferringDept", "originalVoucherNumber", "requiredDate", "transferringTransferDate", "receivingTransferDate", "receivingApplyTransferDate", "receivingDept", "receivingLocation", "contact", "contactPhone", "transferDescription")
     private val transferMaterialField = arrayOf("number", "materialNumber", "materialName", "materialSpec", "materialUnit", "approvedQuantity", "applyNumber", "allocatedQuantity", "receivedQuantity")
     // 材料退料單欄位
-    private val returningFormField = arrayOf("dealStatus", "reportId", "reportTitle", "date", "receiptDept", "formNumber", "leadDept", "returnReceiptNumber", "receivedDate", "accountingSubject", "costAllocationUnit", "returnDept", "systemCode", "usageCode", "projectNumber", "projectName", "originalVoucherNumber")
+    private val returningFormField = arrayOf("id", "dealStatus", "reportId", "reportTitle", "date", "receiptDept", "leadNumber", "leadDept", "formNumber", "receivedDate", "accountingSubject", "costAllocationUnit", "returnDept", "systemCode", "usageCode", "projectNumber", "projectName", "originalVoucherNumber")
     private val returningMaterialField = arrayOf("number", "materialNumber", "materialName", "materialSpec", "materialUnit", "returnedQuantity", "receivedQuantity", "stockingPrice")
     // 材料盤點單欄位
-    private val inventoryFormField = arrayOf("dealStatus", "reportId", "reportTitle", "date", "inventoryUnit", "deptName", "materialNumber", "materialUnit", "materialName", "materialSpec", "actualQuantity", "checkDate", "lastUseDate", "approvedDate")
+    private val inventoryFormField = arrayOf("id", "dealStatus", "reportId", "reportTitle", "date", "inventoryUnit", "deptName", "materialNumber", "materialUnit", "materialName", "materialSpec", "actualQuantity", "checkDate", "lastUseDate", "approvedDate")
 
     private const val deliveryFormName = "交貨通知單"
     private const val pickingFormName = "材料領料單"
