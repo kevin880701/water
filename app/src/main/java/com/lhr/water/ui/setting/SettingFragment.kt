@@ -6,6 +6,7 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.activity.result.ActivityResultLauncher
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.fragment.app.viewModels
 import com.lhr.water.R
@@ -22,12 +23,37 @@ class SettingFragment : BaseFragment(), View.OnClickListener {
     private var _binding: FragmentSettingBinding? = null
     private val binding get() = _binding!!
     private val viewModel: SettingViewModel by viewModels { viewModelFactory }
+    /**
+     * 選擇JSON檔案並讀取
+     */
+    private lateinit var pickFile: ActivityResultLauncher<String>
+
+
+    /**
+     * 選擇資料夾並儲存JSON檔
+     */
+    private lateinit var saveFile: ActivityResultLauncher<Uri?>
 
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?, savedInstanceState: Bundle?
     ): View? {
         _binding = FragmentSettingBinding.inflate(layoutInflater)
+
+        pickFile =
+            registerForActivityResult(ActivityResultContracts.GetContent()) { uri: Uri? ->
+                uri?.let {
+                    viewModel.updateFormData2(requireContext(), it)
+                }
+            }
+
+        saveFile =
+            registerForActivityResult(ActivityResultContracts.OpenDocumentTree()) { uri ->
+                uri?.let {
+                    // 將 JSONObject 寫入到資料夾
+                    viewModel.writeJsonObjectToFolder2(requireContext(), it)
+                }
+            }
 
         initView()
         return binding.root
@@ -65,25 +91,4 @@ class SettingFragment : BaseFragment(), View.OnClickListener {
             }
         }
     }
-
-    /**
-     * 選擇資料夾並儲存JSON檔
-     */
-    private val saveFile =
-        registerForActivityResult(ActivityResultContracts.OpenDocumentTree()) { uri ->
-            uri?.let {
-                // 將 JSONObject 寫入到資料夾
-                viewModel.writeJsonObjectToFolder2(requireContext(), it)
-            }
-        }
-
-    /**
-     * 選擇JSON檔案並讀取
-     */
-    private val pickFile =
-        registerForActivityResult(ActivityResultContracts.GetContent()) { uri: Uri? ->
-            uri?.let {
-                viewModel.updateFormData2(requireContext(), it)
-            }
-        }
 }

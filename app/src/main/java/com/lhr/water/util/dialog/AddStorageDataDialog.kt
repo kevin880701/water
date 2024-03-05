@@ -56,7 +56,7 @@ class AddStorageDataDialog(
         binding.widgetTitleBar.imageCancel.setOnClickListener(this)
     }
 
-    private val addPointLauncher = registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
+    private var addPointLauncher = registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
         if (result.resultCode == Activity.RESULT_OK) {
             val data: Intent? = result.data
             pointX = data?.getFloatExtra("pointX", 0.0f)
