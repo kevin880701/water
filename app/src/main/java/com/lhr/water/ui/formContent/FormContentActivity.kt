@@ -21,7 +21,6 @@ import com.lhr.water.room.StorageRecordEntity
 import com.lhr.water.ui.base.APP
 import com.lhr.water.ui.base.BaseActivity
 import com.lhr.water.util.dialog.GoodsDialog
-import com.lhr.water.ui.qrCode.QrcodeActivity
 import com.lhr.water.util.FormName.pickingFormName
 import com.lhr.water.util.TransferStatus.transferInput
 import com.lhr.water.util.TransferStatus.transferOutput
@@ -56,16 +55,6 @@ class FormContentActivity : BaseActivity(), View.OnClickListener, FormGoodsAdd.L
     private var formItemFieldContentList: JSONArray? = null //貨物欄位內容
     private lateinit var jsonObject: JSONObject
     private var isInput = true
-    private val qrcodeActivityResultLauncher = registerForActivityResult(
-        ActivityResultContracts.StartActivityForResult()
-    ) { result ->
-        if (result.resultCode == Activity.RESULT_OK) {
-            val data: Intent? = result.data
-            if (data != null) {
-                val resultData = data.getStringExtra("keyName")
-            }
-        }
-    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -89,36 +78,6 @@ class FormContentActivity : BaseActivity(), View.OnClickListener, FormGoodsAdd.L
 
         isInput = isInput(JSONObject(jsonString))
 
-        when (formName) {
-            getString(R.string.delivery) -> {
-                formName = getString(R.string.delivery_form)
-            }
-
-            getString(R.string.check) -> {
-                formName = getString(R.string.check_form)
-            }
-
-            getString(R.string.picking) -> {
-                formName = getString(R.string.picking_form)
-            }
-
-            getString(R.string.transfer) -> {
-                formName = getString(R.string.transfer_form)
-            }
-
-            getString(R.string.returning) -> {
-                formName = getString(R.string.returning_form)
-            }
-
-            getString(R.string.inventory) -> {
-                formName = getString(R.string.inventory_form)
-            }
-        }
-
-        binding.widgetTitleBar.imageScanner.setOnClickListener(View.OnClickListener {
-            val intent = Intent(this, QrcodeActivity::class.java)
-            qrcodeActivityResultLauncher.launch(intent)
-        })
         bindViewModel()
         initView()
     }
@@ -142,9 +101,6 @@ class FormContentActivity : BaseActivity(), View.OnClickListener, FormGoodsAdd.L
                 formItemFieldNameEngList =
                     resources.getStringArray(R.array.delivery_item_field_name_eng)
                         .toList() as ArrayList<String>
-            }
-            getString(R.string.check_form) -> {
-
             }
             getString(R.string.picking_form) -> {
                 formFieldNameList = resources.getStringArray(R.array.picking_form_field_name)

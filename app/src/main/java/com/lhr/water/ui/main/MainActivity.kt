@@ -16,7 +16,6 @@ import com.lhr.water.R
 import com.lhr.water.databinding.ActivityMainBinding
 import com.lhr.water.ui.base.APP
 import com.lhr.water.ui.base.BaseActivity
-import com.lhr.water.ui.form.FormFragment
 import com.lhr.water.ui.history.HistoryFragment
 import com.lhr.water.ui.inventory.InventoryFragment
 import com.lhr.water.ui.materialSearch.MaterialSearchFragment

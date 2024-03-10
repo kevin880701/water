@@ -23,7 +23,6 @@
     <string name="inventory">盤點</string>
 
     <string name="delivery_form">交貨通知單</string>
-    <string name="check_form">財務驗收單</string>
     <string name="picking_form">材料領料單</string>
     <string name="transfer_form">材料調撥單</string>
     <string name="returning_form">材料退料單</string>
@@ -420,6 +419,7 @@
     <!--  調撥單  -->
     <string-array name="transfer_form_field_name">
         <item>id</item>
+        <item>調撥單號</item>
         <item>處理狀態</item>
         <item>報表代號</item>
         <item>報表名稱</item>
@@ -442,6 +442,7 @@
 
     <string-array name="transfer_form_field_name_eng">
         <item>id</item>
+        <item>formNumber</item>
         <item>dealStatus</item>
         <item>reportId</item>
         <item>reportTitle</item>

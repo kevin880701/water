@@ -103,11 +103,7 @@ class FormRepository(context: Context) {
         for (formData in loadFormList) {
             formJsonList.add(jsonStringToJson(formData))
         }
-//        formRecordList.value = formJsonList
-//        formFilterRecordList.value = formJsonList
-//        formFilterRecordList.value = filterRecord()
         formRecordList.postValue(formJsonList)
-//        formFilterRecordList.postValue(formJsonList)
         formFilterRecordList.postValue(filterRecord(formJsonList))
         updateWaitInputGoods(formJsonList)
         updateWaitOutputGoods(formJsonList)
@@ -128,6 +124,7 @@ class FormRepository(context: Context) {
                 reportTitle == transferFormName,
                 jsonObject
             )
+            println("reportTitle：${reportTitle} + ${transferStatus}")
 
             if ((reportTitle == deliveryFormName ||
                         reportTitle == returningFormName ||
