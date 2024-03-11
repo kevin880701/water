@@ -11,13 +11,12 @@ import androidx.activity.OnBackPressedCallback
 import androidx.fragment.app.viewModels
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.lhr.water.R
-import com.lhr.water.repository.FormRepository
-import com.lhr.water.databinding.FragmentHistoryBinding
+import com.lhr.water.data.Form
+import com.lhr.water.data.Form.Companion.toJsonString
 import com.lhr.water.databinding.FragmentMaterialSearchBinding
 import com.lhr.water.ui.base.BaseFragment
 import com.lhr.water.ui.formContent.FormContentActivity
 import com.lhr.water.ui.history.dealMaterial.DealMaterialActivity
-import com.lhr.water.util.popupWindow.FilterFormPopupWindow
 import com.lhr.water.util.adapter.HistoryAdapter
 import com.lhr.water.util.adapter.MaterialSearchAdapter
 import org.json.JSONObject
@@ -93,12 +92,12 @@ class MaterialSearchFragment : BaseFragment(), View.OnClickListener, HistoryAdap
 
     /**
      * 表單列表點擊
-     * @param json 被點擊的列資料
+     * @param form 被點擊的列資料
      */
-    override fun onItemClick(json: JSONObject) {
+    override fun onItemClick(form: Form) {
         val intent = Intent(requireActivity(), FormContentActivity::class.java)
-        intent.putExtra("reportTitle", json.getString("reportTitle"))
-        intent.putExtra("jsonString", json.toString())
+        intent.putExtra("reportTitle", form.reportTitle)
+        intent.putExtra("jsonString", form.toJsonString())
         requireActivity().startActivity(intent)
     }
 

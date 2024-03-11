@@ -13,6 +13,16 @@ import androidx.core.content.res.ResourcesCompat
 import androidx.core.view.get
 import androidx.core.view.iterator
 import com.lhr.water.R
+import com.lhr.water.data.Form
+import com.lhr.water.data.Form.Companion.formFromJson
+import com.lhr.water.data.deliveryFieldMap
+import com.lhr.water.data.deliveryItemFieldMap
+import com.lhr.water.data.pickingFieldMap
+import com.lhr.water.data.pickingItemFieldMap
+import com.lhr.water.data.returningFieldMap
+import com.lhr.water.data.returningItemFieldMap
+import com.lhr.water.data.transferFieldMap
+import com.lhr.water.data.transferItemFieldMap
 import com.lhr.water.repository.FormRepository
 import com.lhr.water.databinding.ActivityFormContentBinding
 import com.lhr.water.room.FormEntity
@@ -39,6 +49,7 @@ import org.json.JSONObject
 import timber.log.Timber
 import java.time.LocalDate
 import java.time.format.DateTimeFormatter
+import kotlin.reflect.full.memberProperties
 
 class FormContentActivity : BaseActivity(), View.OnClickListener, FormGoodsAdd.Listener,
     FormContentDataWidget.Listener, FormGoodsDataWidget.Listener, GoodsDialog.Listener {
@@ -47,13 +58,17 @@ class FormContentActivity : BaseActivity(), View.OnClickListener, FormGoodsAdd.L
     private val binding get() = _binding!!
     private lateinit var formName: String
     private var jsonString: String? = null
+    private var formFieldNameMap: MutableMap<String, String> = linkedMapOf()
     private var formFieldNameList = ArrayList<String>() //表單欄位
     private var formFieldNameEngList = ArrayList<String>() //表單欄位英文名
     private var formFieldContentList = ArrayList<String>() //表單欄位內容
+
+    private var formItemFieldNameMap: MutableMap<String, String> = linkedMapOf()
     private var formItemFieldNameList = ArrayList<String>() //貨物欄位
     private var formItemFieldNameEngList = ArrayList<String>() //貨物欄位英文名
     private var formItemFieldContentList: JSONArray? = null //貨物欄位內容
     private lateinit var jsonObject: JSONObject
+    private lateinit var form: Form
     private var isInput = true
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -75,10 +90,11 @@ class FormContentActivity : BaseActivity(), View.OnClickListener, FormGoodsAdd.L
                 jsonString = intent.getStringExtra("jsonString")
             }
         }
+        form = formFromJson(jsonString!!)
 
-        isInput = isInput(JSONObject(jsonString))
-
-        bindViewModel()
+//        isInput = isInput(JSONObject(jsonString))
+//
+//        bindViewModel()
         initView()
     }
 
@@ -101,6 +117,9 @@ class FormContentActivity : BaseActivity(), View.OnClickListener, FormGoodsAdd.L
                 formItemFieldNameEngList =
                     resources.getStringArray(R.array.delivery_item_field_name_eng)
                         .toList() as ArrayList<String>
+
+                formFieldNameMap = deliveryFieldMap.toMutableMap()
+                formItemFieldNameMap = deliveryItemFieldMap.toMutableMap()
             }
             getString(R.string.picking_form) -> {
                 formFieldNameList = resources.getStringArray(R.array.picking_form_field_name)
@@ -113,8 +132,10 @@ class FormContentActivity : BaseActivity(), View.OnClickListener, FormGoodsAdd.L
                 formItemFieldNameEngList =
                     resources.getStringArray(R.array.picking_item_field_name_eng)
                         .toList() as ArrayList<String>
-            }
 
+                formFieldNameMap = pickingFieldMap.toMutableMap()
+                formItemFieldNameMap = pickingItemFieldMap.toMutableMap()
+            }
             getString(R.string.transfer_form) -> {
                 formFieldNameList = resources.getStringArray(R.array.transfer_form_field_name)
                     .toList() as ArrayList<String>
@@ -126,6 +147,9 @@ class FormContentActivity : BaseActivity(), View.OnClickListener, FormGoodsAdd.L
                 formItemFieldNameEngList =
                     resources.getStringArray(R.array.transfer_item_field_name_eng)
                         .toList() as ArrayList<String>
+
+                formFieldNameMap = transferFieldMap.toMutableMap()
+                formItemFieldNameMap = transferItemFieldMap.toMutableMap()
             }
 
             getString(R.string.returning_form) -> {
@@ -139,18 +163,21 @@ class FormContentActivity : BaseActivity(), View.OnClickListener, FormGoodsAdd.L
                 formItemFieldNameEngList =
                     resources.getStringArray(R.array.returning_item_field_name_eng)
                         .toList() as ArrayList<String>
+
+                formFieldNameMap = returningFieldMap.toMutableMap()
+                formItemFieldNameMap = returningItemFieldMap.toMutableMap()
             }
         }
         // 如果是開啟已有紀錄
-        jsonString?.let {
-            // 將jsonString轉成jsonObject
-            jsonObject = JSONObject(jsonString)
-            // 使用 map 函數根據key列表提取值並創建新的列表
-            formFieldContentList = formFieldNameEngList.map { key ->
-                jsonObject.getString(key)
-            } as ArrayList<String>
-            formItemFieldContentList = jsonObject.getJSONArray("itemDetail")
-        }
+//        jsonString?.let {
+//            // 將jsonString轉成jsonObject
+//            jsonObject = JSONObject(jsonString)
+//            // 使用 map 函數根據key列表提取值並創建新的列表
+//            formFieldContentList = formFieldNameEngList.map { key ->
+//                jsonObject.getString(key)
+//            } as ArrayList<String>
+//            formItemFieldContentList = jsonObject.getJSONArray("itemDetail")
+//        }
         addFormData()
         setupBackButton(binding.widgetTitleBar.imageBack)
         binding.buttonSend.setOnClickListener(this)
@@ -161,41 +188,68 @@ class FormContentActivity : BaseActivity(), View.OnClickListener, FormGoodsAdd.L
      * 根據string.xml來增加要輸入的欄位
      */
     private fun addFormData() {
-        formFieldNameList.forEachIndexed { index, fieldName ->
-            val fieldContent =
-                if (index < formFieldContentList.size) formFieldContentList[index] else null
-            // 創建FormContentDataWidget
-            if (fieldName == getString(R.string.deal_status)) {
-                val formContentDataSpinnerWidget = if (fieldContent != null) {
-                    FormContentDataSpinnerWidget(
-                        activity = this,
-                        spinnerList = resources.getStringArray(R.array.deal_status)
-                            .toList() as ArrayList<String>,
-                        fieldName = fieldName,
-                        fieldContent = fieldContent
-                    )
-                } else {
-                    FormContentDataSpinnerWidget(
-                        activity = this,
-                        spinnerList = resources.getStringArray(R.array.deal_status)
-                            .toList() as ArrayList<String>,
-                        fieldName = fieldName
-                    )
-                }
+        println("@@Ｌ${formFieldNameMap}")
+        formFieldNameMap.forEach { (english, chinese) ->
+            val value = Form::class.java.getDeclaredField(english).let { field ->
+                field.isAccessible = true
+
+                val fieldValue = field.get(form)
+                fieldValue?.toString() ?: ""
+            }
+
+            if (chinese == getString(R.string.deal_status)) {
+                val formContentDataSpinnerWidget = FormContentDataSpinnerWidget(
+                    activity = this,
+                    spinnerList = resources.getStringArray(R.array.deal_status)
+                        .toList() as ArrayList<String>,
+                    fieldName = chinese,
+                    fieldContent = value.toString()
+                )
                 binding.linearFormData.addView(formContentDataSpinnerWidget)
             } else {
-                val formContentDataWidget = if (fieldContent != null) {
-                    FormContentDataWidget(
-                        activity = this,
-                        fieldName = fieldName,
-                        fieldContent = fieldContent
-                    )
-                } else {
-                    FormContentDataWidget(activity = this, fieldName = fieldName)
-                }
+                val formContentDataWidget = FormContentDataWidget(
+                    activity = this,
+                    fieldName = chinese,
+                    fieldContent = value.toString()
+                )
                 binding.linearFormData.addView(formContentDataWidget)
             }
         }
+//        formFieldNameList.forEachIndexed { index, fieldName ->
+//            val fieldContent =
+//                if (index < formFieldContentList.size) formFieldContentList[index] else null
+//            // 創建FormContentDataWidget
+//            if (fieldName == getString(R.string.deal_status)) {
+//                val formContentDataSpinnerWidget = if (fieldContent != null) {
+//                    FormContentDataSpinnerWidget(
+//                        activity = this,
+//                        spinnerList = resources.getStringArray(R.array.deal_status)
+//                            .toList() as ArrayList<String>,
+//                        fieldName = fieldName,
+//                        fieldContent = fieldContent
+//                    )
+//                } else {
+//                    FormContentDataSpinnerWidget(
+//                        activity = this,
+//                        spinnerList = resources.getStringArray(R.array.deal_status)
+//                            .toList() as ArrayList<String>,
+//                        fieldName = fieldName
+//                    )
+//                }
+//                binding.linearFormData.addView(formContentDataSpinnerWidget)
+//            } else {
+//                val formContentDataWidget = if (fieldContent != null) {
+//                    FormContentDataWidget(
+//                        activity = this,
+//                        fieldName = fieldName,
+//                        fieldContent = fieldContent
+//                    )
+//                } else {
+//                    FormContentDataWidget(activity = this, fieldName = fieldName)
+//                }
+//                binding.linearFormData.addView(formContentDataWidget)
+//            }
+//        }
         formItemFieldContentList?.let { formItemFieldContentList ->
             // 遍历 JSONArray 中的每个对象
             for (i in 0 until formItemFieldContentList.length()) {

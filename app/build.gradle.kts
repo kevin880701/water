@@ -105,4 +105,6 @@ dependencies {
     annotationProcessor ("com.github.bumptech.glide:compiler:$glide")
 
     implementation ("com.google.code.gson:gson:2.8.9")
+    implementation ("com.fasterxml.jackson.module:jackson-module-kotlin:2.9.10")
+
 }

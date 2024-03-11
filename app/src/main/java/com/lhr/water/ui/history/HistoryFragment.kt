@@ -11,6 +11,8 @@ import androidx.activity.OnBackPressedCallback
 import androidx.fragment.app.viewModels
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.lhr.water.R
+import com.lhr.water.data.Form
+import com.lhr.water.data.Form.Companion.toJsonString
 import com.lhr.water.repository.FormRepository
 import com.lhr.water.databinding.FragmentHistoryBinding
 import com.lhr.water.ui.base.BaseFragment
@@ -50,21 +52,21 @@ class HistoryFragment : BaseFragment(), View.OnClickListener, HistoryAdapter.Lis
     }
 
     private fun bindViewModel() {
-        formRepository.formRecordList.observe(viewLifecycleOwner) { newFormRecordList ->
+        formRepository.formRecordList2.observe(viewLifecycleOwner) { newFormRecordList ->
             historyAdapter.submitList(newFormRecordList)
         }
         // 根據篩選的表單類別和表單代號更新列表
-        formRepository.formFilterRecordList.observe(viewLifecycleOwner) { newFormRecordList ->
-            historyAdapter.submitList(newFormRecordList)
-        }
+//        formRepository.formFilterRecordList.observe(viewLifecycleOwner) { newFormRecordList ->
+//            historyAdapter.submitList(newFormRecordList)
+//        }
         // 表單類別篩選更新
-        formRepository.filterList.observe(viewLifecycleOwner) {
-            formRepository.formFilterRecordList.postValue(formRepository.filterRecord(formRepository.formRecordList.value!!))
-        }
-        // 表單代號輸入後篩選更新
-        formRepository.searchFormNumber.observe(viewLifecycleOwner) {
-            formRepository.formFilterRecordList.postValue(formRepository.filterRecord(formRepository.formRecordList.value!!))
-        }
+//        formRepository.filterList.observe(viewLifecycleOwner) {
+//            formRepository.formFilterRecordList.postValue(formRepository.filterRecord(formRepository.formRecordList.value!!))
+//        }
+//        // 表單代號輸入後篩選更新
+//        formRepository.searchFormNumber.observe(viewLifecycleOwner) {
+//            formRepository.formFilterRecordList.postValue(formRepository.filterRecord(formRepository.formRecordList.value!!))
+//        }
     }
 
     private fun initView() {
@@ -105,12 +107,12 @@ class HistoryFragment : BaseFragment(), View.OnClickListener, HistoryAdapter.Lis
 
     /**
      * 表單列表點擊
-     * @param json 被點擊的列資料
+     * @param form 被點擊的列資料
      */
-    override fun onItemClick(json: JSONObject) {
+    override fun onItemClick(form: Form) {
         val intent = Intent(requireActivity(), FormContentActivity::class.java)
-        intent.putExtra("reportTitle", json.getString("reportTitle"))
-        intent.putExtra("jsonString", json.toString())
+        intent.putExtra("reportTitle", form.reportTitle)
+        intent.putExtra("jsonString", form.toJsonString())
         requireActivity().startActivity(intent)
     }
 

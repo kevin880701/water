@@ -8,23 +8,23 @@ import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.lhr.water.R
+import com.lhr.water.data.Form
 import com.lhr.water.databinding.ItemHistoryBinding
 import org.json.JSONObject
-import timber.log.Timber
 
 class HistoryAdapter(val listener: Listener, context: Context) :
-    ListAdapter<JSONObject, HistoryAdapter.ViewHolder>(LOCK_DIFF_UTIL) {
+    ListAdapter<Form, HistoryAdapter.ViewHolder>(LOCK_DIFF_UTIL) {
     var context = context
 
     companion object {
-        val LOCK_DIFF_UTIL = object : DiffUtil.ItemCallback<JSONObject>() {
-            override fun areItemsTheSame(oldItem: JSONObject, newItem: JSONObject): Boolean {
+        val LOCK_DIFF_UTIL = object : DiffUtil.ItemCallback<Form>() {
+            override fun areItemsTheSame(oldItem: Form, newItem: Form): Boolean {
                 return oldItem == newItem
             }
 
             override fun areContentsTheSame(
-                oldItem: JSONObject,
-                newItem: JSONObject
+                oldItem: Form,
+                newItem: Form
             ): Boolean {
                 return oldItem.hashCode() == newItem.hashCode()
             }
@@ -43,11 +43,11 @@ class HistoryAdapter(val listener: Listener, context: Context) :
     inner class ViewHolder(private val binding: ItemHistoryBinding) :
         RecyclerView.ViewHolder(binding.root) {
 
-        fun bind(json: JSONObject) {
-            binding.textReportTitle.text = json.getString("reportTitle")
-            binding.textFormNumber.text = json.getString("formNumber")
-            binding.textDate.text = json.getString("date")
-            when (json.getString("dealStatus")) {
+        fun bind(form: Form) {
+            binding.textReportTitle.text = form.reportId
+            binding.textFormNumber.text = form.formNumber
+            binding.textDate.text = form.date
+            when (form.dealStatus) {
                 context.getString(R.string.wait_deal) -> {
                     binding.imageStatus.setImageDrawable(context.getDrawable(R.drawable.red_light))
                     binding.imageDealGoods.visibility = View.INVISIBLE
@@ -64,9 +64,9 @@ class HistoryAdapter(val listener: Listener, context: Context) :
                 }
             }
 
-            binding.imageDealGoods.setOnClickListener {
-                listener.onDealGoodsClick(getItem(adapterPosition))
-            }
+//            binding.imageDealGoods.setOnClickListener {
+//                listener.onDealGoodsClick(getItem(adapterPosition))
+//            }
             binding.root.setOnClickListener {
                 listener.onItemClick(getItem(adapterPosition))
             }
@@ -74,7 +74,7 @@ class HistoryAdapter(val listener: Listener, context: Context) :
     }
 
     interface Listener {
-        fun onItemClick(item: JSONObject)
+        fun onItemClick(item: Form)
         fun onDealGoodsClick(item: JSONObject)
     }
 }

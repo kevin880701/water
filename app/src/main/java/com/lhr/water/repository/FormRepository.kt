@@ -3,6 +3,9 @@ package com.lhr.water.repository
 import android.content.Context
 import androidx.lifecycle.MutableLiveData
 import com.lhr.water.R
+import com.lhr.water.data.Form
+import com.lhr.water.data.Form.Companion.formFromJson
+import com.lhr.water.data.Form.Companion.toJsonString
 import com.lhr.water.data.WaitDealGoodsData
 import com.lhr.water.room.FormEntity
 import com.lhr.water.room.InventoryEntity
@@ -26,6 +29,8 @@ class FormRepository(context: Context) {
     // 所有表單列表
     var formRecordList: MutableLiveData<ArrayList<JSONObject>> =
         MutableLiveData<ArrayList<JSONObject>>()
+    var formRecordList2: MutableLiveData<ArrayList<Form>> =
+        MutableLiveData<ArrayList<Form>>()
 
     // 待出貨的貨物列表
     var waitOutputGoods: MutableLiveData<ArrayList<WaitDealGoodsData>> =
@@ -89,7 +94,8 @@ class FormRepository(context: Context) {
         tempWaitInputGoods.value = ArrayList<StorageRecordEntity>()
         storageRecords.value = ArrayList<StorageRecordEntity>()
         storageGoods.value = ArrayList<StorageContentEntity>()
-        formRecordList.value = loadRecord()
+        loadRecord()
+//        formRecordList.value = loadRecord()
 //        inventoryFormList.value = loadInventoryForm()
         inventoryEntities.value = loadInventoryForm()
     }
@@ -97,17 +103,21 @@ class FormRepository(context: Context) {
     /**
      * 抓取表單全部記錄
      */
-    fun loadRecord(): ArrayList<JSONObject> {
+    fun loadRecord() {
         val loadFormList: List<String> = SqlDatabase.getInstance().getFormDao().getAll()
-        val formJsonList = ArrayList<JSONObject>()
+        val tempFormList = ArrayList<Form>()
+//        val formJsonList = ArrayList<JSONObject>()
         for (formData in loadFormList) {
-            formJsonList.add(jsonStringToJson(formData))
+            tempFormList.add(formFromJson(formData))
+//            formJsonList.add(jsonStringToJson(formData))
         }
-        formRecordList.postValue(formJsonList)
-        formFilterRecordList.postValue(filterRecord(formJsonList))
-        updateWaitInputGoods(formJsonList)
-        updateWaitOutputGoods(formJsonList)
-        return formJsonList
+        println("UUUUUUUUUUUUUU：${tempFormList.size}")
+        formRecordList2.postValue(tempFormList)
+//        formRecordList.postValue(formJsonList)
+//        formFilterRecordList.postValue(filterRecord(formJsonList))
+//        updateWaitInputGoods(formJsonList)
+//        updateWaitOutputGoods(formJsonList)
+//        return formJsonList
     }
 
     /**
@@ -274,10 +284,17 @@ class FormRepository(context: Context) {
         for (i in 0 until jsonArray.length()) {
             val jsonObject = jsonArray.getJSONObject(i)
 
+
+            val form: Form = formFromJson(jsonObject.toString())
+            println("@@@@@@@@@@：${jsonObject.toString()}")
+            println("@@@@@@@@@@：${form.formNumber}")
+            println("@@@@@@@@@@：${form.toJsonString()}")
+
             val formEntity = FormEntity()
-            formEntity.formNumber = jsonObject.optString("formNumber").toString()
-            formEntity.formContent = jsonObject.toString()
+            formEntity.formNumber = form.formNumber.toString()
+            formEntity.formContent = form.toJsonString()
             SqlDatabase.getInstance().getFormDao().insertNewForm(formEntity)
+
         }
     }
 
