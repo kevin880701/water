@@ -6,6 +6,7 @@ import android.widget.ImageView
 import android.widget.Toast
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.engine.DiskCacheStrategy
+import com.lhr.water.data.Form
 import com.lhr.water.model.LoginData
 import com.lhr.water.util.FormName.deliveryFormName
 import com.lhr.water.util.FormName.pickingFormName
@@ -19,6 +20,7 @@ import java.text.SimpleDateFormat
 import java.util.Calendar
 import java.util.Date
 import java.util.Locale
+import kotlin.reflect.full.memberProperties
 
 
 /**
@@ -96,15 +98,28 @@ fun isInput(formContentJsonObject: JSONObject): Boolean{
  * 判斷調撥單是否是進貨
  * @return formContentJsonObject 表單JSON
  */
-fun transferStatus(isTransferForm: Boolean, jsonObject: JSONObject): String{
+fun transferStatus(isTransferForm: Boolean, form: Form): String{
     return if(isTransferForm){
-        if (jsonObject.getString("receivingDept") == LoginData.region && jsonObject.getString("receivingLocation") == LoginData.map){
+        if (form.receivingDept == LoginData.region && form.receivingLocation == LoginData.map){
             transferInput
         }else{
             transferOutput
         }
     }else{
         notTransfer
+    }
+}
+
+/**
+ * 設定屬性值的函數
+ * @param obj
+ * @param propertyName CLASS的變數名稱
+ * @param value 要設定的值
+ */
+fun setPropertyValue(obj: Any, propertyName: String, value: Any?) {
+    val property = obj::class.memberProperties.find { it.name == propertyName }
+    if (property != null && property.returnType.isMarkedNullable) {
+        (property as? kotlin.reflect.KMutableProperty<*>)?.setter?.call(obj, value)
     }
 }
 

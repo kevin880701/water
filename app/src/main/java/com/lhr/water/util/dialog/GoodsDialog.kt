@@ -9,6 +9,8 @@ import android.widget.EditText
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.DialogFragment
 import com.lhr.water.R
+import com.lhr.water.data.Form
+import com.lhr.water.data.ItemDetail
 import com.lhr.water.databinding.DialogFormGoodsBinding
 import com.lhr.water.util.manager.listToJsonObject
 import com.lhr.water.util.widget.FormGoodsDataWidget
@@ -20,7 +22,7 @@ class GoodsDialog(
     formItemFieldNameList: ArrayList<String>,
     formItemFieldNameEngList: ArrayList<String>,
     listener: Listener,
-    var formItemFieldContentList: ArrayList<String>? = null,
+    var itemDetail: ItemDetail? = null,
     var formGoodsDataWidget: FormGoodsDataWidget? = null
 ) : DialogFragment() {
 
@@ -49,13 +51,19 @@ class GoodsDialog(
                 formItemFieldContentList.add(editTextValue)
             }
             if (isAdd) {
-                listener.onGoodsDialogConfirm(listToJsonObject(formItemFieldNameEngList, formItemFieldContentList))
+                listener.onGoodsDialogConfirm(
+                    listToJsonObject(
+                        formItemFieldNameEngList,
+                        formItemFieldContentList
+                    )
+                )
             } else {
-                    formGoodsDataWidget?.let { it ->
-                        listener.onChangeGoodsInfo(listToJsonObject(formItemFieldNameEngList, formItemFieldContentList),
-                            it
-                        )
-                    }
+                formGoodsDataWidget?.let { it ->
+                    listener.onChangeGoodsInfo(
+                        listToJsonObject(formItemFieldNameEngList, formItemFieldContentList),
+                        it
+                    )
+                }
             }
             this.dismiss()
         }
@@ -67,15 +75,6 @@ class GoodsDialog(
 
 
         dialog = builder.create()
-//        Objects.requireNonNull(dialog?.window)
-//            ?.setBackgroundDrawableResource(android.R.color.transparent)
-//        dialog?.show()
-//        val lp = WindowManager.LayoutParams()
-//        val dm = DisplayMetrics()
-//        activity?.windowManager?.defaultDisplay?.getMetrics(dm)
-//        lp.copyFrom(dialog?.window!!.attributes)
-//        lp.width = (dm.widthPixels * 0.7).toInt()
-//        dialog?.window!!.attributes = lp
         return builder.create()
     }
 
@@ -89,18 +88,25 @@ class GoodsDialog(
 
     fun initGoodsData(binding: DialogFormGoodsBinding) {
         var dataNameList =
-            activity?.resources?.getStringArray(R.array.delivery_Item_field_name)?.toList() as ArrayList<String>
+            activity?.resources?.getStringArray(R.array.delivery_Item_field_name)
+                ?.toList() as ArrayList<String>
 
-        formItemFieldContentList?.let { formItemFieldContentList ->
-            formItemFieldNameList.forEachIndexed { index, fieldName ->
-                    val formInputDataWidgetView = FormContentDataWidget(
-                        activity = requireActivity(),
-                        fieldName = fieldName,
-                        fieldContent = formItemFieldContentList[index]
-                    )
+        itemDetail?.let { itemDetail1 ->
+            formItemFieldNameEngList.forEachIndexed { index, fieldName ->
+                val value = ItemDetail::class.java.getDeclaredField(fieldName).let { field ->
+                    field.isAccessible = true
 
-                    binding.linearData.addView(formInputDataWidgetView)
+                    val fieldValue = field.get(itemDetail1)
+                    fieldValue?.toString() ?: ""
                 }
+                val formInputDataWidgetView = FormContentDataWidget(
+                    activity = requireActivity(),
+                    fieldName = formItemFieldNameList[index],
+                    fieldContent = value
+                )
+
+                binding.linearData.addView(formInputDataWidgetView)
+            }
         } ?: run {
             dataNameList.forEach { fieldName ->
                 val formInputDataWidgetView = FormContentDataWidget(

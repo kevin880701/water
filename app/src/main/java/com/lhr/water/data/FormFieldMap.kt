@@ -29,6 +29,9 @@ val deliveryFieldMap = mapOf(
 
 val deliveryItemFieldMap = mapOf(
     "number" to "序號",
+    "itemNo" to "標項",
+    "batch" to "批次",
+    "no" to "契約項次",
     "materialNumber" to "材料編號",
     "materialName" to "材料名稱",
     "materialSpec" to "規格",

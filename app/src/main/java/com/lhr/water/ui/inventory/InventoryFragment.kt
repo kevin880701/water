@@ -155,10 +155,10 @@ class InventoryFragment : BaseFragment(), View.OnClickListener, InventoryAdapter
         formItemJson: JSONObject,
         formGoodsDataWidget: FormGoodsDataWidget
     ) {
-        formGoodsDataWidget.binding.textMaterialName.text = formItemJson.getString("materialName")
-        formGoodsDataWidget.binding.textMaterialNumber.text = formItemJson.getString("materialNumber")
-        formGoodsDataWidget.binding.textMaterialSpec.text = formItemJson.getString("materialSpec")
-        formGoodsDataWidget.binding.textMaterialUnit.text = formItemJson.getString("materialUnit")
-        formGoodsDataWidget.formItemJson = formItemJson
+//        formGoodsDataWidget.binding.textMaterialName.text = formItemJson.getString("materialName")
+//        formGoodsDataWidget.binding.textMaterialNumber.text = formItemJson.getString("materialNumber")
+//        formGoodsDataWidget.binding.textMaterialSpec.text = formItemJson.getString("materialSpec")
+//        formGoodsDataWidget.binding.textMaterialUnit.text = formItemJson.getString("materialUnit")
+//        formGoodsDataWidget.itemDetail = formItemJson
     }
 }

@@ -4,7 +4,6 @@ import android.app.Activity
 import android.view.LayoutInflater
 import android.view.View
 import android.widget.AdapterView
-import android.widget.ArrayAdapter
 import android.widget.RelativeLayout
 import android.widget.Spinner
 import android.widget.TextView
@@ -12,16 +11,17 @@ import androidx.databinding.DataBindingUtil
 import com.lhr.water.R
 import com.lhr.water.databinding.WidgetFormContentSpinnerBinding
 import com.lhr.water.util.adapter.SpinnerAdapter
+import com.lhr.water.util.interfaces.FormContentData
 
-class FormContentDataSpinnerWidget : RelativeLayout {
+class FormContentDataSpinnerWidget : RelativeLayout, FormContentData {
     var binding: WidgetFormContentSpinnerBinding
     private val activity: Activity
-    private val fieldName: String
+    override val fieldName: String
     private val spinnerList: ArrayList<String>
     private var fieldContent: String? = null
     private val textDataName: TextView
     private val spinnerDataContent: Spinner
-    var content = "待處理"
+    override var content = "待處理"
 
     constructor(
         activity: Activity,

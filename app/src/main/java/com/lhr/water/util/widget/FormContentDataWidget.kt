@@ -13,17 +13,18 @@ import android.widget.TextView
 import androidx.databinding.DataBindingUtil
 import com.lhr.water.R
 import com.lhr.water.databinding.WidgetFormContentBinding
+import com.lhr.water.util.interfaces.FormContentData
 
-class FormContentDataWidget : RelativeLayout {
+class FormContentDataWidget : RelativeLayout, FormContentData {
     var binding: WidgetFormContentBinding
     private val activity: Activity
-    private val fieldName: String
+    override val fieldName: String
     private var fieldContent: String? = null
     private var isEnable: Boolean? = null
     private var inputType: Int? = null
     private val textDataName: TextView
     private val textDataContent: EditText
-    var content = ""
+    override var content = ""
 
     constructor(
         activity: Activity,

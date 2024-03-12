@@ -27,9 +27,7 @@ class FormRepository(context: Context) {
     val context = context
 
     // 所有表單列表
-    var formRecordList: MutableLiveData<ArrayList<JSONObject>> =
-        MutableLiveData<ArrayList<JSONObject>>()
-    var formRecordList2: MutableLiveData<ArrayList<Form>> =
+    var formRecordList: MutableLiveData<ArrayList<Form>> =
         MutableLiveData<ArrayList<Form>>()
 
     // 待出貨的貨物列表
@@ -106,33 +104,29 @@ class FormRepository(context: Context) {
     fun loadRecord() {
         val loadFormList: List<String> = SqlDatabase.getInstance().getFormDao().getAll()
         val tempFormList = ArrayList<Form>()
-//        val formJsonList = ArrayList<JSONObject>()
         for (formData in loadFormList) {
             tempFormList.add(formFromJson(formData))
-//            formJsonList.add(jsonStringToJson(formData))
         }
-        println("UUUUUUUUUUUUUU：${tempFormList.size}")
-        formRecordList2.postValue(tempFormList)
-//        formRecordList.postValue(formJsonList)
-//        formFilterRecordList.postValue(filterRecord(formJsonList))
-//        updateWaitInputGoods(formJsonList)
-//        updateWaitOutputGoods(formJsonList)
+        formRecordList.postValue(tempFormList)
+        formFilterRecordList.postValue(filterRecord(tempFormList))
+        updateWaitInputGoods(tempFormList)
+        updateWaitOutputGoods(tempFormList)
 //        return formJsonList
     }
 
     /**
      * 更新待入庫貨物列表
      */
-    fun updateWaitInputGoods(formRecordList: ArrayList<JSONObject>) {
+    fun updateWaitInputGoods(formList: ArrayList<Form>) {
         var waitInputGoodsList = ArrayList<WaitDealGoodsData>()
-        for (jsonObject in formRecordList) {
-            val reportTitle = jsonObject.optString("reportTitle", "")
-            val dealStatus = jsonObject.optString("dealStatus", "")
+        for (form in formList) {
+            val reportTitle = form.reportTitle
+            val dealStatus = form.dealStatus
 
 
             var transferStatus = transferStatus(
                 reportTitle == transferFormName,
-                jsonObject
+                form
             )
             println("reportTitle：${reportTitle} + ${transferStatus}")
 
@@ -140,14 +134,13 @@ class FormRepository(context: Context) {
                         reportTitle == returningFormName ||
                         transferStatus == TransferStatus.transferInput) && dealStatus == nowDeal
             ) {
-                val itemDetailArray = jsonObject.optJSONArray("itemDetail")
-                if (itemDetailArray != null && itemDetailArray.length() > 0) {
-                    for (i in 0 until itemDetailArray.length()) {
-                        val itemDetailObject = itemDetailArray.getJSONObject(i)
+                val itemDetails = form.itemDetails
+                if (itemDetails != null && itemDetails.size > 0) {
+                    for (itemDetail in itemDetails) {
                         val waitDealGoodsData = WaitDealGoodsData(
-                            reportTitle = jsonObject.optString("reportTitle", ""),
-                            formNumber = jsonObject.optString("formNumber", ""),
-                            itemInformation = itemDetailObject
+                            reportTitle = form.reportTitle.toString(),
+                            formNumber = form.formNumber.toString(),
+                            itemDetail = itemDetail
                         )
                         waitInputGoodsList.add(waitDealGoodsData)
                     }
@@ -163,27 +156,56 @@ class FormRepository(context: Context) {
             storageRecords.value!!.any { storageContentEntity ->
                 // 透過表單代號(formNumber)和物品編號(number)來做篩選
                 storageContentEntity.formNumber == waitDealGoodsData.formNumber &&
-                        jsonStringToJson(storageContentEntity.itemInformation).getString("number") == waitDealGoodsData.itemInformation.getString(
-                    "number"
-                )
+                        jsonStringToJson(storageContentEntity.itemInformation).getString("number") == waitDealGoodsData.itemDetail.number
             }
         }
         val modWaitInputGoodsList = waitInputGoodsList.map { originalItem ->
-            val modifiedItemInformation = JSONObject(originalItem.itemInformation.toString())
-            modifiedItemInformation.put("reportTitle", originalItem.reportTitle)
-            modifiedItemInformation.put("formNumber", originalItem.formNumber)
-
-            // 创建新的 WaitDealGoodsData 实例
+            // 創建新的 WaitDealGoodsData
             WaitDealGoodsData(
                 reportTitle = originalItem.reportTitle,
                 formNumber = originalItem.formNumber,
-                itemInformation = modifiedItemInformation
+                itemDetail = originalItem.itemDetail
             )
         } as ArrayList<WaitDealGoodsData>
 
-//        waitInputGoods.value = modWaitInputGoodsList
         waitInputGoods.postValue(modWaitInputGoodsList)
     }
+
+
+    /**
+     * 更新待出庫貨物列表
+     */
+    fun updateWaitOutputGoods(formList: ArrayList<Form>) {
+        var waitOutputGoodsList = ArrayList<WaitDealGoodsData>()
+        for (form in formList) {
+            val reportTitle = form.reportTitle
+            val dealStatus = form.dealStatus
+
+            var transferStatus = transferStatus(
+                reportTitle == transferFormName,
+                form
+            )
+
+            if ((reportTitle == pickingFormName ||
+                        reportTitle == returningFormName ||
+                        transferStatus == TransferStatus.transferOutput) && dealStatus == nowDeal
+            ) {
+                val itemDetails = form.itemDetails
+                if (itemDetails != null && itemDetails.size > 0) {
+                    for (itemDetail in itemDetails) {
+                        val waitDealGoodsData = WaitDealGoodsData(
+                            reportTitle = reportTitle.toString(),
+                            formNumber = form.formNumber.toString(),
+                            itemDetail = itemDetail
+                        )
+                        waitOutputGoodsList.add(waitDealGoodsData)
+                    }
+                }
+            }
+        }
+        waitOutputGoods.postValue(waitOutputGoodsList)
+    }
+
 
     /**
      * 更新儲櫃中的所有貨物
@@ -201,50 +223,14 @@ class FormRepository(context: Context) {
     }
 
     /**
-     * 更新待出庫貨物列表
-     */
-    fun updateWaitOutputGoods(formRecordList: ArrayList<JSONObject>) {
-        var waitOutputGoodsList = ArrayList<WaitDealGoodsData>()
-        for (jsonObject in formRecordList) {
-            val reportTitle = jsonObject.optString("reportTitle", "")
-            val dealStatus = jsonObject.optString("dealStatus", "")
-
-            var transferStatus = transferStatus(
-                reportTitle == transferFormName,
-                jsonObject
-            )
-
-            if ((reportTitle == pickingFormName ||
-                        reportTitle == returningFormName ||
-                        transferStatus == TransferStatus.transferOutput) && dealStatus == nowDeal
-            ) {
-                val itemDetailArray = jsonObject.optJSONArray("itemDetail")
-                if (itemDetailArray != null && itemDetailArray.length() > 0) {
-                    for (i in 0 until itemDetailArray.length()) {
-                        val itemDetailObject = itemDetailArray.getJSONObject(i)
-                        val waitDealGoodsData = WaitDealGoodsData(
-                            reportTitle = jsonObject.optString("reportTitle", ""),
-                            formNumber = jsonObject.optString("formNumber", ""),
-                            itemInformation = itemDetailObject
-                        )
-                        waitOutputGoodsList.add(waitDealGoodsData)
-                    }
-                }
-            }
-        }
-        waitOutputGoods.postValue(waitOutputGoodsList)
-    }
-
-    /**
      * 篩選表單內容
      */
-    fun filterRecord(formJsonList: ArrayList<JSONObject>): ArrayList<JSONObject>? {
-        return formJsonList.filter { jsonObject ->
+    fun filterRecord(formList: ArrayList<Form>): ArrayList<JSONObject>? {
+        return formList.filter { form ->
             // 根據 "FormClass" 判斷是否在 filterList 中
-            val reportTitle = jsonObject.optString("reportTitle")
+            val reportTitle = form.reportTitle.toString()
             val reportTitleFilterCondition = filterList.value?.contains(reportTitle)
-
-            val formNumber = jsonObject.optString("formNumber")
+            val formNumber = form.formNumber.toString()
 
             // 如果搜尋框(EditText)中的文本不為空，則判斷 "formNumber" 是否包含該文本
             val editTextFilterCondition = if (searchFormNumber.value?.isNotEmpty() == true) {
@@ -278,7 +264,7 @@ class FormRepository(context: Context) {
      */
     fun insertNewForm(jsonArray: JSONArray) {
         // 清空表
-//        SqlDatabase.getInstance().getDeliveryDao().clearTable()
+        SqlDatabase.getInstance().getFormDao().clearTable()
 
         // 將 JSONArray 中的數據逐一插入表中
         for (i in 0 until jsonArray.length()) {

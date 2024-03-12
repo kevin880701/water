@@ -52,7 +52,7 @@ class HistoryFragment : BaseFragment(), View.OnClickListener, HistoryAdapter.Lis
     }
 
     private fun bindViewModel() {
-        formRepository.formRecordList2.observe(viewLifecycleOwner) { newFormRecordList ->
+        formRepository.formRecordList.observe(viewLifecycleOwner) { newFormRecordList ->
             historyAdapter.submitList(newFormRecordList)
         }
         // 根據篩選的表單類別和表單代號更新列表

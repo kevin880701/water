@@ -1,22 +1,21 @@
 package com.lhr.water.ui.formContent
 
-import android.app.Activity
 import android.content.Context
-import android.content.Intent
 import android.os.Build
 import android.os.Bundle
 import android.view.View
 import android.view.inputmethod.InputMethodManager
-import androidx.activity.result.contract.ActivityResultContracts
 import androidx.activity.viewModels
 import androidx.core.content.res.ResourcesCompat
-import androidx.core.view.get
 import androidx.core.view.iterator
 import com.lhr.water.R
 import com.lhr.water.data.Form
 import com.lhr.water.data.Form.Companion.formFromJson
+import com.lhr.water.data.Form.Companion.toJsonString
+import com.lhr.water.data.ItemDetail
 import com.lhr.water.data.deliveryFieldMap
 import com.lhr.water.data.deliveryItemFieldMap
+import com.lhr.water.data.form.getEnglishFieldName
 import com.lhr.water.data.pickingFieldMap
 import com.lhr.water.data.pickingItemFieldMap
 import com.lhr.water.data.returningFieldMap
@@ -34,10 +33,9 @@ import com.lhr.water.util.dialog.GoodsDialog
 import com.lhr.water.util.FormName.pickingFormName
 import com.lhr.water.util.TransferStatus.transferInput
 import com.lhr.water.util.TransferStatus.transferOutput
-import com.lhr.water.util.isInput
-import com.lhr.water.util.manager.jsonObjectToJsonString
+import com.lhr.water.util.interfaces.FormContentData
 import com.lhr.water.util.manager.jsonStringToJson
-import com.lhr.water.util.manager.listToJsonObject
+import com.lhr.water.util.setPropertyValue
 import com.lhr.water.util.showToast
 import com.lhr.water.util.transferStatus
 import com.lhr.water.util.widget.FormContentDataSpinnerWidget
@@ -48,15 +46,13 @@ import org.json.JSONArray
 import org.json.JSONObject
 import timber.log.Timber
 import java.time.LocalDate
-import java.time.format.DateTimeFormatter
-import kotlin.reflect.full.memberProperties
 
 class FormContentActivity : BaseActivity(), View.OnClickListener, FormGoodsAdd.Listener,
     FormContentDataWidget.Listener, FormGoodsDataWidget.Listener, GoodsDialog.Listener {
     private val viewModel: FormContentViewModel by viewModels { (applicationContext as APP).appContainer.viewModelFactory }
     private var _binding: ActivityFormContentBinding? = null
     private val binding get() = _binding!!
-    private lateinit var formName: String
+    private lateinit var reportTitle: String
     private var jsonString: String? = null
     private var formFieldNameMap: MutableMap<String, String> = linkedMapOf()
     private var formFieldNameList = ArrayList<String>() //表單欄位
@@ -79,9 +75,9 @@ class FormContentActivity : BaseActivity(), View.OnClickListener, FormGoodsAdd.L
 
         // 檢查版本
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
-            formName = intent.getParcelableExtra("reportTitle", String::class.java) as String
+            reportTitle = intent.getParcelableExtra("reportTitle", String::class.java) as String
         } else {
-            formName = intent.getSerializableExtra("reportTitle") as String
+            reportTitle = intent.getSerializableExtra("reportTitle") as String
         }
         if (intent.hasExtra("jsonString")) {
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
@@ -91,9 +87,8 @@ class FormContentActivity : BaseActivity(), View.OnClickListener, FormGoodsAdd.L
             }
         }
         form = formFromJson(jsonString!!)
-
 //        isInput = isInput(JSONObject(jsonString))
-//
+
 //        bindViewModel()
         initView()
     }
@@ -103,9 +98,9 @@ class FormContentActivity : BaseActivity(), View.OnClickListener, FormGoodsAdd.L
     }
 
     private fun initView() {
-        binding.widgetTitleBar.textTitle.text = formName
+        binding.widgetTitleBar.textTitle.text = reportTitle
         binding.widgetTitleBar.imageBack.visibility = View.VISIBLE
-        when (formName) {
+        when (reportTitle) {
             getString(R.string.delivery_form) -> {
                 formFieldNameList = resources.getStringArray(R.array.delivery_form_field_name)
                     .toList() as ArrayList<String>
@@ -188,7 +183,6 @@ class FormContentActivity : BaseActivity(), View.OnClickListener, FormGoodsAdd.L
      * 根據string.xml來增加要輸入的欄位
      */
     private fun addFormData() {
-        println("@@Ｌ${formFieldNameMap}")
         formFieldNameMap.forEach { (english, chinese) ->
             val value = Form::class.java.getDeclaredField(english).let { field ->
                 field.isAccessible = true
@@ -203,7 +197,7 @@ class FormContentActivity : BaseActivity(), View.OnClickListener, FormGoodsAdd.L
                     spinnerList = resources.getStringArray(R.array.deal_status)
                         .toList() as ArrayList<String>,
                     fieldName = chinese,
-                    fieldContent = value.toString()
+                    fieldContent = value
                 )
                 binding.linearFormData.addView(formContentDataSpinnerWidget)
             } else {
@@ -215,91 +209,45 @@ class FormContentActivity : BaseActivity(), View.OnClickListener, FormGoodsAdd.L
                 binding.linearFormData.addView(formContentDataWidget)
             }
         }
-//        formFieldNameList.forEachIndexed { index, fieldName ->
-//            val fieldContent =
-//                if (index < formFieldContentList.size) formFieldContentList[index] else null
-//            // 創建FormContentDataWidget
-//            if (fieldName == getString(R.string.deal_status)) {
-//                val formContentDataSpinnerWidget = if (fieldContent != null) {
-//                    FormContentDataSpinnerWidget(
-//                        activity = this,
-//                        spinnerList = resources.getStringArray(R.array.deal_status)
-//                            .toList() as ArrayList<String>,
-//                        fieldName = fieldName,
-//                        fieldContent = fieldContent
-//                    )
-//                } else {
-//                    FormContentDataSpinnerWidget(
-//                        activity = this,
-//                        spinnerList = resources.getStringArray(R.array.deal_status)
-//                            .toList() as ArrayList<String>,
-//                        fieldName = fieldName
-//                    )
-//                }
-//                binding.linearFormData.addView(formContentDataSpinnerWidget)
-//            } else {
-//                val formContentDataWidget = if (fieldContent != null) {
-//                    FormContentDataWidget(
-//                        activity = this,
-//                        fieldName = fieldName,
-//                        fieldContent = fieldContent
-//                    )
-//                } else {
-//                    FormContentDataWidget(activity = this, fieldName = fieldName)
-//                }
-//                binding.linearFormData.addView(formContentDataWidget)
-//            }
-//        }
-        formItemFieldContentList?.let { formItemFieldContentList ->
-            // 遍历 JSONArray 中的每个对象
-            for (i in 0 until formItemFieldContentList.length()) {
-                val itemObject = formItemFieldContentList.getJSONObject(i)
-
+        Timber.d(form.toJsonString())
+        form.itemDetails?.forEachIndexed { index, itemDetail ->
                 val formGoodsDataWidget =
                     FormGoodsDataWidget(
                         activity = this@FormContentActivity,
-                        formItemFieldJson = itemObject,
+                        itemDetail = itemDetail,
                         listener = this@FormContentActivity
                     )
                 binding.linearItemData.addView(formGoodsDataWidget)
-            }
         }
-
     }
 
     /**
      * 點擊確認
      */
     private fun onClickSend() {
-        val itemDetailArray = JSONArray()
+        var form = Form()
+        val itemDetailList = ArrayList<ItemDetail>()
         for (formGoodsDataWidget in binding.linearItemData) {
-            itemDetailArray.put((formGoodsDataWidget as FormGoodsDataWidget).formItemJson)
+            itemDetailList.add((formGoodsDataWidget as FormGoodsDataWidget).itemDetail)
         }
-        var formContentList = ArrayList<String>()
-        formFieldNameList.forEachIndexed { index, fieldName ->
-            when (fieldName) {
-                getString(R.string.deal_status) -> formContentList.add((binding.linearFormData[index] as FormContentDataSpinnerWidget).content)
-                else -> formContentList.add((binding.linearFormData[index] as FormContentDataWidget).content)
-            }
+        for (formGoodsDataWidget in binding.linearFormData) {
+            var fieldName =
+            getEnglishFieldName<Form>((binding.linearFormData as FormContentData).fieldName)
+            var value = (binding.linearFormData as FormContentData).content
+            setPropertyValue(form, fieldName!!, value)
         }
+        form.itemDetails = itemDetailList
 
-        val formContentJsonObject = listToJsonObject(
-            formFieldNameEngList,
-            formContentList
-        )
-
-        formContentJsonObject.put("itemDetail", itemDetailArray)
-        var reportTitle = formContentJsonObject.getString("reportTitle")
-        var dealStatus = formContentJsonObject.getString("dealStatus")
+        var dealStatus = form.dealStatus
         // 調撥需根據receivingDept(收方單位)和receivingLocation(收料地點)來判斷是進貨還是出貨
         var transferStatus = transferStatus(
             reportTitle == getString(R.string.transfer_form),
-            formContentJsonObject
+            form
         )
 
         var formEntity = FormEntity()
-        formEntity.formNumber = formContentJsonObject.getString("formNumber")
-        formEntity.formContent = jsonObjectToJsonString(formContentJsonObject)
+        formEntity.formNumber = form.formNumber.toString()
+        formEntity.formContent = form.toJsonString()
 
         // 如果表單是交貨、退料、進貨調撥並且處理狀態是處理完成的話要判斷表單中的貨物是否已經全部入庫
         if ((reportTitle == getString(R.string.delivery_form) ||
@@ -308,19 +256,19 @@ class FormContentActivity : BaseActivity(), View.OnClickListener, FormGoodsAdd.L
         ) {
             if (isMaterialAlreadyInput(
                     viewModel.formRepository.tempWaitInputGoods.value!!,
-                    itemDetailArray,
-                    formContentJsonObject.getString("formNumber"),
+                    itemDetailList,
+                    form.formNumber.toString(),
                     reportTitle
                 )
             ) {
 
                 // 如果是退料單取得目前日期並轉換為民國年份
-                if(reportTitle == getString(R.string.returning_form) && formContentJsonObject.getString("receivedDate") != ""){
+                if(reportTitle == getString(R.string.returning_form) && form.receivedDate != ""){
                     val currentDate = LocalDate.now()
                     val rocYear = currentDate.year - 1911
                     val formattedDate = String.format("%03d/%02d/%02d", rocYear, currentDate.monthValue, currentDate.dayOfMonth)
-                    formContentJsonObject.put("receivedDate", formattedDate)
-                    formEntity.formContent = jsonObjectToJsonString(formContentJsonObject)
+                    form.receivedDate = formattedDate
+                    formEntity.formContent = form.toJsonString()
                 }
 
                 SqlDatabase.getInstance().getStorageRecordDao().insertStorageRecordList(
@@ -331,8 +279,8 @@ class FormContentActivity : BaseActivity(), View.OnClickListener, FormGoodsAdd.L
                     )
                 )
                 viewModel.inputStorageContent(
-                    formContentJsonObject.getString("reportTitle"),
-                    formContentJsonObject.getString("formNumber")
+                    reportTitle,
+                    form.formNumber.toString()
                 )
                 updateForm(formEntity)
                 updateTempWaitInputGoods(
@@ -395,38 +343,36 @@ class FormContentActivity : BaseActivity(), View.OnClickListener, FormGoodsAdd.L
 
     /**
      * 判斷進貨類表單(交貨、退料、調撥)表單中的貨物是否已經放入暫存入庫清單(tempWaitInputGoods)
-     * @param itemDetailArray 要確認的貨物陣列
+     * @param itemDetailList 要確認的貨物陣列
      * @param targetFormNumber 表單代號
      * @param targetReportTitle 表單名稱
      * @return 回傳Boolean
      */
     fun isMaterialAlreadyInput(
         tempWaitGoods: ArrayList<StorageRecordEntity>,
-        itemDetailArray: JSONArray,
+        itemDetailList: ArrayList<ItemDetail>,
         targetFormNumber: String,
         targetReportTitle: String
     ): Boolean {
-        for (i in 0 until itemDetailArray.length()) {
-            val itemDetail = itemDetailArray.getJSONObject(i)
+        for (i in 0 until itemDetailList.size) {
+            val itemDetail = itemDetailList[i]
             var totalQuantity = 0
             for (storageContentEntity in tempWaitGoods) {
                 // 檢查條件
                 if (
                     storageContentEntity.formNumber == targetFormNumber &&
                     storageContentEntity.reportTitle == targetReportTitle &&
-                    JSONObject(storageContentEntity.itemInformation).getString("number") == itemDetail.getString(
-                        "number"
-                    )
+                    JSONObject(storageContentEntity.itemInformation).getString("number") == itemDetail.number
                 ) {
                     totalQuantity += JSONObject(storageContentEntity.itemInformation).getInt("quantity")
                 }
             }
             if (isInput) {
-                if (totalQuantity < itemDetail.getInt("receivedQuantity")) {
+                if (totalQuantity < itemDetail.receivedQuantity!!) {
                     return false
                 }
             } else {
-                if (totalQuantity < itemDetail.getInt("actualQuantity")) {
+                if (totalQuantity < itemDetail.actualQuantity!!) {
                     return false
                 }
             }
@@ -530,7 +476,7 @@ class FormContentActivity : BaseActivity(), View.OnClickListener, FormGoodsAdd.L
      * 點擊已有的貨物，在Dialog中顯示貨物資訊
      */
     override fun onGoodsColClick(
-        formItemFieldContentList: ArrayList<String>,
+        itemDetail: ItemDetail,
         formGoodsDataWidget: FormGoodsDataWidget
     ) {
         val goodsDialog = GoodsDialog(
@@ -538,7 +484,7 @@ class FormContentActivity : BaseActivity(), View.OnClickListener, FormGoodsAdd.L
             formItemFieldNameList,
             formItemFieldNameEngList,
             this,
-            formItemFieldContentList,
+            itemDetail,
             formGoodsDataWidget
         )
         goodsDialog.show(supportFragmentManager, "GoodsDialog")
@@ -549,14 +495,14 @@ class FormContentActivity : BaseActivity(), View.OnClickListener, FormGoodsAdd.L
      * 在Dialog中輸入完新增的貨物資訊並送出後，新增一列
      */
     override fun onGoodsDialogConfirm(formItemJson: JSONObject) {
-        val formGoodsDataWidget =
-            FormGoodsDataWidget(this@FormContentActivity, formItemJson, this@FormContentActivity)
-        // 創建一個點擊事件
-        binding.linearItemData.addView(formGoodsDataWidget)
-        //新增後能下移顯示新增的widget
-        binding.scrollViewData.post {
-            binding.scrollViewData.fullScroll(View.FOCUS_DOWN)
-        }
+//        val formGoodsDataWidget =
+//            FormGoodsDataWidget(this@FormContentActivity, formItemJson, this@FormContentActivity)
+//        // 創建一個點擊事件
+//        binding.linearItemData.addView(formGoodsDataWidget)
+//        //新增後能下移顯示新增的widget
+//        binding.scrollViewData.post {
+//            binding.scrollViewData.fullScroll(View.FOCUS_DOWN)
+//        }
     }
 
     override fun onChangeGoodsInfo(
@@ -567,7 +513,7 @@ class FormContentActivity : BaseActivity(), View.OnClickListener, FormGoodsAdd.L
         formGoodsDataWidget.binding.textMaterialNumber.text = formItemJson.getString("materialNumber")
         formGoodsDataWidget.binding.textMaterialSpec.text = formItemJson.getString("materialSpec")
         formGoodsDataWidget.binding.textMaterialUnit.text = formItemJson.getString("materialUnit")
-        formGoodsDataWidget.formItemJson = formItemJson
+//        formGoodsDataWidget.itemDetail = formItemJson
         binding.scrollViewData.smoothScrollTo(0, formGoodsDataWidget.top)
     }
 }
