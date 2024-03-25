@@ -1,14 +1,15 @@
 package com.lhr.water.data
 
+// 交貨
 val deliveryFieldMap = mapOf(
     "dealStatus" to "處理狀態",
     "reportId" to "報表代號",
-    "reportTitle" to "財物驗收單",
+    "reportTitle" to "報表標題",
     "id" to "id",
     "date" to "印表日期",
     "dealTime" to "處理時間",
     "ano" to "單位代號",
-    "formNumber" to "交貨通知單號",
+    "formNumber" to "表單單號",
     "underwriter" to "承售廠商",
     "contractNumber" to "契約字號",
     "deliveryDate" to "交貨期限",
@@ -42,17 +43,18 @@ val deliveryItemFieldMap = mapOf(
     "itemCost" to "複價"
 )
 
+// 領料
 val pickingFieldMap = mapOf(
     "dealStatus" to "處理狀態",
     "reportId" to "報表代號",
-    "reportTitle" to "材料領料單",
+    "reportTitle" to "報表標題",
     "id" to "id",
     "date" to "印表日期",
     "dealTime" to "處理時間",
     "issuingUnit" to "發料單位",
     "pickingDate" to "領料日期",
     "pickingDept" to "領料單位",
-    "formNumber" to "領料單號",
+    "formNumber" to "表單單號",
     "originalVoucherNumber" to "原憑証字號",
     "costAllocationUnit" to "成本分攤單位",
     "accountingSubject" to "會計科目",
@@ -75,11 +77,12 @@ val pickingItemFieldMap = mapOf(
     "itemCost" to "複價"
 )
 
+// 盤點
 val transferFieldMap = mapOf(
-    "formNumber" to "表單代號",
+    "formNumber" to "表單單號",
     "dealStatus" to "處理狀態",
     "reportId" to "報表代號",
-    "reportTitle" to "財物驗收單",
+    "reportTitle" to "報表標題",
     "id" to "id",
     "date" to "印表日期",
     "dealTime" to "處理時間",
@@ -109,17 +112,18 @@ val transferItemFieldMap = mapOf(
     "receivedQuantity" to "實收數量"
 )
 
+// 退料
 val returningFieldMap = mapOf(
     "dealStatus" to "處理狀態",
     "reportId" to "報表代號",
-    "reportTitle" to "材料退料單",
+    "reportTitle" to "報表標題",
     "id" to "id",
     "date" to "印表日期",
     "dealTime" to "處理時間",
     "receiptDept" to "收料單位",
     "leadNumber" to "領調單號",
     "leadDept" to "領調單位",
-    "formNumber" to "退料單號",
+    "formNumber" to "表單單號",
     "receivedDate" to "實收日期",
     "accountingSubject" to "會計科目",
     "costAllocationUnit" to "成本分攤單位",
@@ -144,7 +148,7 @@ val returningItemFieldMap = mapOf(
 )
 
 val inventoryFieldMap = mapOf(
-    "formNumber" to "盤點通知單號",
+    "formNumber" to "表單單號",
     "dealStatus" to "處理狀態",
     "reportId" to "報表代號",
     "reportTitle" to "材料盤點單",

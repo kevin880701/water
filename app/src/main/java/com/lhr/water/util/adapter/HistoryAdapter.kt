@@ -64,9 +64,9 @@ class HistoryAdapter(val listener: Listener, context: Context) :
                 }
             }
 
-//            binding.imageDealGoods.setOnClickListener {
-//                listener.onDealGoodsClick(getItem(adapterPosition))
-//            }
+            binding.imageDealGoods.setOnClickListener {
+                listener.onDealGoodsClick(getItem(adapterPosition))
+            }
             binding.root.setOnClickListener {
                 listener.onItemClick(getItem(adapterPosition))
             }
@@ -75,6 +75,6 @@ class HistoryAdapter(val listener: Listener, context: Context) :
 
     interface Listener {
         fun onItemClick(item: Form)
-        fun onDealGoodsClick(item: JSONObject)
+        fun onDealGoodsClick(item: Form)
     }
 }

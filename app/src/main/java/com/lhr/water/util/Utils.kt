@@ -15,7 +15,6 @@ import com.lhr.water.util.FormName.transferFormName
 import com.lhr.water.util.TransferStatus.notTransfer
 import com.lhr.water.util.TransferStatus.transferInput
 import com.lhr.water.util.TransferStatus.transferOutput
-import org.json.JSONObject
 import java.text.SimpleDateFormat
 import java.util.Calendar
 import java.util.Date
@@ -79,15 +78,15 @@ fun getCurrentDate(): String {
  * 判斷表單是否是進貨
  * @return formContentJsonObject 表單JSON
  */
-fun isInput(formContentJsonObject: JSONObject): Boolean{
-    if(formContentJsonObject.getString("reportTitle") == deliveryFormName ||
-        formContentJsonObject.getString("reportTitle") == returningFormName
+fun isInput(form: Form): Boolean{
+    if(form.reportTitle == deliveryFormName ||
+        form.reportTitle == returningFormName
     ){
         return true
-    }else if(formContentJsonObject.getString("reportTitle") == pickingFormName){
+    }else if(form.reportTitle == pickingFormName){
         return false
-    }else if(formContentJsonObject.getString("reportTitle") == transferFormName){
-        return formContentJsonObject.getString("receivingDept") == LoginData.region && formContentJsonObject.getString("receivingLocation") == LoginData.map
+    }else if(form.reportTitle == transferFormName){
+        return form.receivingDept == LoginData.region && form.receivingLocation == LoginData.map
     }else{
         return true
     }

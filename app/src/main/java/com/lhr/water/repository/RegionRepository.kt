@@ -10,6 +10,7 @@ import com.lhr.water.data.RegionInformation
 import com.lhr.water.room.MapEntity
 import com.lhr.water.room.RegionEntity
 import com.lhr.water.room.SqlDatabase
+import com.lhr.water.room.StorageContentEntity
 import com.lhr.water.room.StorageRecordEntity
 import com.lhr.water.room.StorageEntity
 import com.lhr.water.util.manager.jsonStringToJson
@@ -180,17 +181,20 @@ class RegionRepository private constructor(private val context: Context) {
         mapName: String,
         storageName: String,
         materialNum: String,
-        storageInformationList: ArrayList<StorageRecordEntity>
+        storageInformationList: ArrayList<StorageContentEntity>
     ): String {
         val matchingItem = storageInformationList.find { item ->
             item.regionName == regionName &&
                     item.mapName == mapName &&
                     item.storageName == storageName &&
-                    jsonStringToJson(item.itemInformation)["materialNumber"] == materialNum
+                    item.materialNumber == materialNum
+        }
+        if (matchingItem != null) {
+            println("@@@@@@：${matchingItem.quantity}")
         }
 
         return matchingItem!!.let {
-            jsonStringToJson(it.itemInformation)["receivedQuantity"].toString()
+            matchingItem.quantity.toString()
         }
     }
 }

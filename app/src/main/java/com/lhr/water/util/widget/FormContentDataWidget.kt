@@ -18,7 +18,8 @@ import com.lhr.water.util.interfaces.FormContentData
 class FormContentDataWidget : RelativeLayout, FormContentData {
     var binding: WidgetFormContentBinding
     private val activity: Activity
-    override val fieldName: String
+    override var fieldName = ""
+    override var fieldEngName = ""
     private var fieldContent: String? = null
     private var isEnable: Boolean? = null
     private var inputType: Int? = null
@@ -29,6 +30,7 @@ class FormContentDataWidget : RelativeLayout, FormContentData {
     constructor(
         activity: Activity,
         fieldName: String,
+        fieldEngName: String,
         fieldContent: String? = null,
         isEnable: Boolean? = false,
         inputType: Int? = InputType.TYPE_CLASS_TEXT
@@ -38,6 +40,7 @@ class FormContentDataWidget : RelativeLayout, FormContentData {
         )
         this@FormContentDataWidget.activity = activity
         this@FormContentDataWidget.fieldName = fieldName
+        this@FormContentDataWidget.fieldEngName = fieldEngName
         this@FormContentDataWidget.fieldContent = fieldContent
         this@FormContentDataWidget.isEnable = isEnable
         this@FormContentDataWidget.inputType = inputType

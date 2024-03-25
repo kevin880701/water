@@ -21,11 +21,14 @@ class StorageContentEntity(
     regionName: String,
     mapName: String,
     storageName: String,
+    formNumber: String,
+    date: String,
+    type: Int,
+    quantity: Int,
     materialName: String,
     materialNumber: String,
     materialSpec: String,
-    materialUnit: String,
-    quantity: Int
+    materialUnit: String
 ) : Serializable {
 
     @NonNull
@@ -41,6 +44,18 @@ class StorageContentEntity(
     @ColumnInfo(name = SqlModel.storageName, typeAffinity = ColumnInfo.TEXT)
     var storageName = storageName
 
+    @ColumnInfo(name = SqlModel.formNumber, typeAffinity = ColumnInfo.TEXT)
+    var formNumber = formNumber
+
+    @ColumnInfo(name = SqlModel.date, typeAffinity = ColumnInfo.TEXT)
+    var date = date
+
+    @ColumnInfo(name = SqlModel.type, typeAffinity = ColumnInfo.INTEGER)
+    var type = type
+
+    @ColumnInfo(name = SqlModel.quantity, typeAffinity = ColumnInfo.INTEGER)
+    var quantity = quantity
+
     @ColumnInfo(name = SqlModel.materialName, typeAffinity = ColumnInfo.TEXT)
     var materialName = materialName
 
@@ -52,7 +67,4 @@ class StorageContentEntity(
 
     @ColumnInfo(name = SqlModel.materialUnit, typeAffinity = ColumnInfo.TEXT)
     var materialUnit = materialUnit
-
-    @ColumnInfo(name = SqlModel.quantity, typeAffinity = ColumnInfo.INTEGER)
-    var quantity = quantity
 }

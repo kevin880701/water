@@ -3,6 +3,8 @@ package com.lhr.water.data
 import com.fasterxml.jackson.module.kotlin.jacksonObjectMapper
 import com.fasterxml.jackson.module.kotlin.readValue
 import com.lhr.water.data.form.FieldName
+import kotlin.reflect.full.findAnnotation
+import kotlin.reflect.full.memberProperties
 
 data class Form(
     @FieldName(chinese = "處理狀態", english = "dealStatus")
@@ -10,7 +12,7 @@ data class Form(
     @FieldName(chinese = "報表代號", english = "reportId")
     var reportId: String? = null,
     @FieldName(chinese = "報表ID", english = "id")
-    var id: Int? = null,
+    var id: String? = null,
     @FieldName(chinese = "報表標題", english = "reportTitle")
     var reportTitle: String? = null,
     @FieldName(chinese = "印表日期", english = "date")
@@ -93,6 +95,15 @@ data class Form(
     var receivingTransferDate: String? = null,
     @FieldName(chinese = "收料地點", english = "receivingLocation")
     var receivingLocation: String? = null,
+    @FieldName(chinese = "發料單位", english = "issuingUnit")
+    var issuingUnit: String? = null,
+    @FieldName(chinese = "領料日期", english = "pickingDate")
+    var pickingDate: String? = null,
+    @FieldName(chinese = "領料單位", english = "pickingDept")
+    var pickingDept: String? = null,
+    @FieldName(chinese = "案號", english = "caseNumber")
+    var caseNumber: String? = null,
+
     @FieldName(chinese = "聯絡人", english = "contact")
     var contact: String? = null,
     @FieldName(chinese = "電話", english = "contactPhone")
@@ -111,7 +122,7 @@ data class Form(
             return Form(
                 dealStatus = jsonMap["dealStatus"] as? String,
                 reportId = jsonMap["reportId"] as? String,
-                id = jsonMap["id"] as? Int,
+                id = jsonMap["id"] as? String,
                 reportTitle = jsonMap["reportTitle"] as? String,
                 date = jsonMap["date"] as? String,
                 dealTime = jsonMap["dealTime"] as? String,
@@ -153,6 +164,11 @@ data class Form(
                 transferringTransferDate = jsonMap["transferringTransferDate"] as? String,
                 receivingTransferDate = jsonMap["receivingTransferDate"] as? String,
                 receivingLocation = jsonMap["receivingLocation"] as? String,
+
+                issuingUnit = jsonMap["issuingUnit"] as? String,
+                pickingDate = jsonMap["pickingDate"] as? String,
+                pickingDept = jsonMap["pickingDept"] as? String,
+                caseNumber = jsonMap["caseNumber"] as? String,
                 contact = jsonMap["contact"] as? String,
                 contactPhone = jsonMap["contactPhone"] as? String,
                 transferDescription = jsonMap["transferDescription"] as? String,
@@ -212,6 +228,13 @@ data class Form(
                 "transferringTransferDate" to transferringTransferDate,
                 "receivingTransferDate" to receivingTransferDate,
                 "receivingLocation" to receivingLocation,
+
+                "issuingUnit" to issuingUnit,
+                "pickingDate" to pickingDate,
+                "pickingDept" to pickingDept,
+                "caseNumber" to caseNumber,
+
+
                 "contact" to contact,
                 "contactPhone" to contactPhone,
                 "transferDescription" to transferDescription,
@@ -220,6 +243,18 @@ data class Form(
                 }
             )
             return objectMapper.writeValueAsString(formMap)
+        }
+
+
+        fun getEnglishFieldName(chineseFieldName: String): String? {
+            val formProperties = Form::class.memberProperties
+            for (property in formProperties) {
+                val fieldNameAnnotation = property.findAnnotation<FieldName>()
+                if (fieldNameAnnotation != null && fieldNameAnnotation.chinese == chineseFieldName) {
+                    return fieldNameAnnotation.english
+                }
+            }
+            return null
         }
     }
 }

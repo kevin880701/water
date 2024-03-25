@@ -36,7 +36,6 @@ class WaitDealMaterialDialog(
     private var maxQuantity = maxQuantity
     private var materialName = ""
     private var materialNumber = ""
-    private var spinnerList = ArrayList<StorageEntity>()
     private var regionList = ArrayList<RegionEntity>()
     private var mapList = ArrayList<MapEntity>()
     private var storageList = ArrayList<StorageEntity>()
@@ -61,8 +60,8 @@ class WaitDealMaterialDialog(
             activity?.resources?.getString(R.string.goods_information)
         binding.widgetTitleBar.imageCancel.visibility = View.VISIBLE
 
-        materialName = waitDealGoodsData.itemInformation.getString("materialName")
-        materialNumber = waitDealGoodsData.itemInformation.getString("materialNumber")
+        materialName = waitDealGoodsData.itemDetail.materialName.toString()
+        materialNumber = waitDealGoodsData.itemDetail.materialNumber.toString()
         binding.textQuantity.text = maxQuantity
 
         if (isInput){
@@ -72,10 +71,10 @@ class WaitDealMaterialDialog(
             storageList = viewModel.getInputGoodsStorage(storageList)
         }else{
             var storageContentList = viewModel.formRepository.storageGoods.value?.filter { entity ->
-                entity.materialName == waitDealGoodsData.itemInformation.getString("materialName") &&
-                        entity.materialNumber == waitDealGoodsData.itemInformation.getString("materialNumber") &&
-                        entity.materialSpec == waitDealGoodsData.itemInformation.getString("materialSpec") &&
-                        entity.materialUnit == waitDealGoodsData.itemInformation.getString("materialUnit")
+                entity.materialName == waitDealGoodsData.itemDetail.materialName &&
+                        entity.materialNumber == waitDealGoodsData.itemDetail.materialNumber &&
+                        entity.materialSpec == waitDealGoodsData.itemDetail.materialSpec &&
+                        entity.materialUnit == waitDealGoodsData.itemDetail.materialUnit
             } as ArrayList
             regionList = viewModel.getOutputGoodsRegion(storageContentList)
             mapList = viewModel.getOutputGoodsMap(storageContentList)
@@ -143,9 +142,13 @@ class WaitDealMaterialDialog(
                     storageName = parent?.getItemAtPosition(position).toString()
                     // 如果是出貨，需採儲櫃剩餘數量和出貨數量中較小的那個做為最大值
                     if(!isInput){
-                        var goodsStoreInformation = viewModel.getOutputGoodsStorageInformation(waitDealGoodsData.itemInformation.optString("materialName"),waitDealGoodsData.itemInformation.optString("materialNumber"))
+                        var goodsStoreInformation = viewModel.getOutputGoodsStorageInformation(waitDealGoodsData.itemDetail.materialName.toString(),waitDealGoodsData.itemDetail.materialNumber.toString())
                         var materialQuantity = viewModel.regionRepository.getMaterialQuantity(regionName, mapName, storageName, materialNumber, goodsStoreInformation).toInt()
                         maxQuantity = kotlin.math.min(materialQuantity, maxQuantity.toInt()).toString()
+                        println("==========================")
+                        println("goodsStoreInformation：${goodsStoreInformation}")
+                        println("materialQuantity：${materialQuantity}")
+                        println("-----------------------------")
                     }
                 }
                 override fun onNothingSelected(parent: AdapterView<*>?) {

@@ -19,7 +19,6 @@ import com.lhr.water.ui.formContent.FormContentActivity
 import com.lhr.water.ui.history.dealMaterial.DealMaterialActivity
 import com.lhr.water.util.adapter.HistoryAdapter
 import com.lhr.water.util.adapter.MaterialSearchAdapter
-import org.json.JSONObject
 import timber.log.Timber
 
 class MaterialSearchFragment : BaseFragment(), View.OnClickListener, HistoryAdapter.Listener {
@@ -101,9 +100,9 @@ class MaterialSearchFragment : BaseFragment(), View.OnClickListener, HistoryAdap
         requireActivity().startActivity(intent)
     }
 
-    override fun onDealGoodsClick(json: JSONObject) {
+    override fun onDealGoodsClick(form: Form) {
         val intent = Intent(requireActivity(), DealMaterialActivity::class.java)
-        intent.putExtra("jsonString", json.toString())
+        intent.putExtra("jsonString", form.toJsonString())
         requireActivity().startActivity(intent)
     }
 

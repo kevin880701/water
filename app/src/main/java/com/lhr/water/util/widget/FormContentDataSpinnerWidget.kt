@@ -16,7 +16,8 @@ import com.lhr.water.util.interfaces.FormContentData
 class FormContentDataSpinnerWidget : RelativeLayout, FormContentData {
     var binding: WidgetFormContentSpinnerBinding
     private val activity: Activity
-    override val fieldName: String
+    override var fieldName: String
+    override var fieldEngName: String
     private val spinnerList: ArrayList<String>
     private var fieldContent: String? = null
     private val textDataName: TextView
@@ -27,6 +28,7 @@ class FormContentDataSpinnerWidget : RelativeLayout, FormContentData {
         activity: Activity,
         spinnerList: ArrayList<String>,
         fieldName: String,
+        fieldEngName: String,
         fieldContent: String? = null
     ) : super(activity) {
         binding = DataBindingUtil.inflate(
@@ -35,6 +37,7 @@ class FormContentDataSpinnerWidget : RelativeLayout, FormContentData {
         this@FormContentDataSpinnerWidget.activity = activity
         this@FormContentDataSpinnerWidget.spinnerList = spinnerList
         this@FormContentDataSpinnerWidget.fieldName = fieldName
+        this@FormContentDataSpinnerWidget.fieldEngName = fieldEngName
         this@FormContentDataSpinnerWidget.fieldContent = fieldContent
         textDataName = binding.textDataName
         spinnerDataContent = binding.spinnerDataContent

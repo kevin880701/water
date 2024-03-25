@@ -58,26 +58,37 @@ class WaitDealMaterialAdapter(
 
         fun bind(waitDealGoodsData: WaitDealGoodsData) {
             binding.textMaterialName.text =
-                waitDealGoodsData.itemInformation["materialName"].toString()
+                waitDealGoodsData.itemDetail.materialName
             binding.textMaterialNumber.text =
-                waitDealGoodsData.itemInformation["materialNumber"].toString()
+                waitDealGoodsData.itemDetail.materialNumber
             binding.textMaterialSpec.text =
-                waitDealGoodsData.itemInformation["materialSpec"].toString()
+                waitDealGoodsData.itemDetail.materialSpec
             binding.textMaterialUnit.text =
-                waitDealGoodsData.itemInformation["materialUnit"].toString()
+                waitDealGoodsData.itemDetail.materialUnit
             // 1.判斷是進貨還是出貨
             // 2.需判斷暫存待出入庫的貨物列表是否有相對應貨物，有的話需要減去數量
             var quantity = if (isInput) {
-                waitDealGoodsData.itemInformation.getInt("receivedQuantity") - viewModel.formRepository.getMaterialQuantityByTempWaitInputGoods(
+                waitDealGoodsData.itemDetail.receivedQuantity!! - viewModel.formRepository.getMaterialQuantityByTempWaitInputGoods(
                     reportTitle,
                     formNumber,
-                    waitDealGoodsData.itemInformation["number"].toString()
+                    waitDealGoodsData.itemDetail.number.toString()
                 )
             } else {
-                waitDealGoodsData.itemInformation.getInt("actualQuantity") - viewModel.formRepository.getMaterialQuantityByTempWaitOutputGoods(
+                println("reportTitle：${reportTitle}")
+                println("formNumber：${formNumber}")
+                println("waitDealGoodsData.itemDetail.number.toString()：${waitDealGoodsData.itemDetail.number.toString()}")
+                println("waitDealGoodsData.itemDetail.actualQuantity：${waitDealGoodsData.itemDetail.actualQuantity}")
+                println("waitDealGoodsData.itemDetail.number.toString()：${waitDealGoodsData.itemDetail.number.toString()}")
+                println("被減掉：${viewModel.formRepository.getMaterialQuantityByTempWaitOutputGoods(
                     reportTitle,
                     formNumber,
-                    waitDealGoodsData.itemInformation["number"].toString()
+                    waitDealGoodsData.itemDetail.number.toString()
+                )}")
+
+                waitDealGoodsData.itemDetail.actualQuantity!! - viewModel.formRepository.getMaterialQuantityByTempWaitOutputGoods(
+                    reportTitle,
+                    formNumber,
+                    waitDealGoodsData.itemDetail.number.toString()
                 )
             }
 

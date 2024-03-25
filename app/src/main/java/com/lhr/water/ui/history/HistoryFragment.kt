@@ -20,7 +20,6 @@ import com.lhr.water.ui.formContent.FormContentActivity
 import com.lhr.water.ui.history.dealMaterial.DealMaterialActivity
 import com.lhr.water.util.popupWindow.FilterFormPopupWindow
 import com.lhr.water.util.adapter.HistoryAdapter
-import org.json.JSONObject
 import timber.log.Timber
 
 class HistoryFragment : BaseFragment(), View.OnClickListener, HistoryAdapter.Listener {
@@ -116,9 +115,9 @@ class HistoryFragment : BaseFragment(), View.OnClickListener, HistoryAdapter.Lis
         requireActivity().startActivity(intent)
     }
 
-    override fun onDealGoodsClick(json: JSONObject) {
+    override fun onDealGoodsClick(form: Form) {
         val intent = Intent(requireActivity(), DealMaterialActivity::class.java)
-        intent.putExtra("jsonString", json.toString())
+        intent.putExtra("jsonString", form.toJsonString())
         requireActivity().startActivity(intent)
     }
 

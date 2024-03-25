@@ -14,7 +14,6 @@ object TransferStatus {
 
 object FormName {
     const val deliveryFormName = "交貨通知單"
-    const val checkFormName = "財務驗收單"
     const val pickingFormName = "材料領料單"
     const val transferFormName = "材料調撥單"
     const val returningFormName = "材料退料單"

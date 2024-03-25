@@ -6,25 +6,23 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.viewModels
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.lhr.water.R
+import com.lhr.water.data.Form
+import com.lhr.water.data.TempDealGoodsData
 import com.lhr.water.databinding.FragmentAlreadyChooseMaterialBinding
-import com.lhr.water.databinding.FragmentWaitDealMaterialBinding
-import com.lhr.water.room.StorageRecordEntity
 import com.lhr.water.ui.base.BaseFragment
 import com.lhr.water.ui.history.HistoryViewModel
 import com.lhr.water.util.adapter.AlreadyChooseGoodsAdapter
 import com.lhr.water.util.isInput
-import org.json.JSONObject
 
 
-class AlreadyChooseGoodsFragment(jsonString: JSONObject) : BaseFragment(), View.OnClickListener,
+class AlreadyChooseGoodsFragment(form: Form) : BaseFragment(), View.OnClickListener,
     AlreadyChooseGoodsAdapter.Listener {
 
     private val viewModel: HistoryViewModel by viewModels { viewModelFactory }
     private var _binding: FragmentAlreadyChooseMaterialBinding? = null
     private val binding get() = _binding!!
     private lateinit var alreadyChooseGoodsAdapter: AlreadyChooseGoodsAdapter
-    private var jsonString = jsonString
+    private var form = form
     private var isInput = true
 
     override fun onCreateView(
@@ -33,7 +31,7 @@ class AlreadyChooseGoodsFragment(jsonString: JSONObject) : BaseFragment(), View.
     ): View? {
         _binding = FragmentAlreadyChooseMaterialBinding.inflate(layoutInflater)
 
-        isInput = isInput(jsonString)
+        isInput = isInput(form)
         initView()
         bindViewModel()
         return binding.root
@@ -44,8 +42,8 @@ class AlreadyChooseGoodsFragment(jsonString: JSONObject) : BaseFragment(), View.
             viewModel.formRepository.tempWaitInputGoods.observe(viewLifecycleOwner) { _ ->
                 alreadyChooseGoodsAdapter.submitList(
                     viewModel.filterTempWaitInputGoods(
-                        jsonString["reportTitle"].toString(),
-                        jsonString["formNumber"].toString()
+                        form.reportTitle.toString(),
+                        form.formNumber.toString()
                     )
                 )
             }
@@ -53,8 +51,8 @@ class AlreadyChooseGoodsFragment(jsonString: JSONObject) : BaseFragment(), View.
             viewModel.formRepository.tempWaitOutputGoods.observe(viewLifecycleOwner) { _ ->
                 alreadyChooseGoodsAdapter.submitList(
                     viewModel.filterTempWaitOutputGoods(
-                        jsonString["reportTitle"].toString(),
-                        jsonString["formNumber"].toString()
+                        form.reportTitle.toString(),
+                        form.formNumber.toString()
                     )
                 )
             }
@@ -68,19 +66,19 @@ class AlreadyChooseGoodsFragment(jsonString: JSONObject) : BaseFragment(), View.
 
 
     private fun initRecyclerView() {
-        alreadyChooseGoodsAdapter = AlreadyChooseGoodsAdapter(this, viewModel)
+        alreadyChooseGoodsAdapter = AlreadyChooseGoodsAdapter(this)
         if(isInput){
             alreadyChooseGoodsAdapter.submitList(
                 viewModel.filterTempWaitInputGoods(
-                    jsonString["reportTitle"].toString(),
-                    jsonString["formNumber"].toString()
+                    form.reportTitle.toString(),
+                    form.formNumber.toString()
                 )
             )
         }else{
             alreadyChooseGoodsAdapter.submitList(
                 viewModel.filterTempWaitOutputGoods(
-                    jsonString["reportTitle"].toString(),
-                    jsonString["formNumber"].toString()
+                    form.reportTitle.toString(),
+                    form.formNumber.toString()
                 )
             )
         }
@@ -97,14 +95,14 @@ class AlreadyChooseGoodsFragment(jsonString: JSONObject) : BaseFragment(), View.
     /**
      * 移除暫存列表的指定內容
      */
-    override fun onRemoveClick(storageContentEntity: StorageRecordEntity) {
+    override fun onRemoveClick(tempDealGoodsData: TempDealGoodsData) {
         if (isInput){
             var tempArrayList = viewModel.formRepository.tempWaitInputGoods.value!!
-            tempArrayList.removeIf { it == storageContentEntity }
+            tempArrayList.removeIf { it == tempDealGoodsData }
             viewModel.formRepository.tempWaitInputGoods.value = tempArrayList
         }else{
             var tempArrayList = viewModel.formRepository.tempWaitOutputGoods.value!!
-            tempArrayList.removeIf { it == storageContentEntity }
+            tempArrayList.removeIf { it == tempDealGoodsData }
             viewModel.formRepository.tempWaitOutputGoods.value = tempArrayList
         }
     }

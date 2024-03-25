@@ -19,8 +19,7 @@ import org.json.JSONObject
 
 class GoodsDialog(
     isAdd: Boolean,
-    formItemFieldNameList: ArrayList<String>,
-    formItemFieldNameEngList: ArrayList<String>,
+    formItemFieldNameMap: MutableMap<String, String>,
     listener: Listener,
     var itemDetail: ItemDetail? = null,
     var formGoodsDataWidget: FormGoodsDataWidget? = null
@@ -28,8 +27,7 @@ class GoodsDialog(
 
     private var dialog: AlertDialog? = null
     private var listener = listener
-    private var formItemFieldNameList = formItemFieldNameList
-    private var formItemFieldNameEngList = formItemFieldNameEngList
+    private var formItemFieldNameMap = formItemFieldNameMap
     private var isAdd = isAdd
 
     override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
@@ -50,21 +48,21 @@ class GoodsDialog(
                 val editTextValue = editText.text.toString()
                 formItemFieldContentList.add(editTextValue)
             }
-            if (isAdd) {
-                listener.onGoodsDialogConfirm(
-                    listToJsonObject(
-                        formItemFieldNameEngList,
-                        formItemFieldContentList
-                    )
-                )
-            } else {
-                formGoodsDataWidget?.let { it ->
-                    listener.onChangeGoodsInfo(
-                        listToJsonObject(formItemFieldNameEngList, formItemFieldContentList),
-                        it
-                    )
-                }
-            }
+//            if (isAdd) {
+//                listener.onGoodsDialogConfirm(
+//                    listToJsonObject(
+//                        formItemFieldNameEngList,
+//                        formItemFieldContentList
+//                    )
+//                )
+//            } else {
+//                formGoodsDataWidget?.let { it ->
+//                    listener.onChangeGoodsInfo(
+//                        listToJsonObject(formItemFieldNameEngList, formItemFieldContentList),
+//                        it
+//                    )
+//                }
+//            }
             this.dismiss()
         }
         binding.widgetTitleBar.imageCancel.setOnClickListener(View.OnClickListener {
@@ -92,8 +90,9 @@ class GoodsDialog(
                 ?.toList() as ArrayList<String>
 
         itemDetail?.let { itemDetail1 ->
-            formItemFieldNameEngList.forEachIndexed { index, fieldName ->
-                val value = ItemDetail::class.java.getDeclaredField(fieldName).let { field ->
+            formItemFieldNameMap.forEach { (english, chinese) ->
+
+                val value = ItemDetail::class.java.getDeclaredField(english).let { field ->
                     field.isAccessible = true
 
                     val fieldValue = field.get(itemDetail1)
@@ -101,18 +100,11 @@ class GoodsDialog(
                 }
                 val formInputDataWidgetView = FormContentDataWidget(
                     activity = requireActivity(),
-                    fieldName = formItemFieldNameList[index],
+                    fieldName = chinese,
+                    fieldEngName = english,
                     fieldContent = value
                 )
 
-                binding.linearData.addView(formInputDataWidgetView)
-            }
-        } ?: run {
-            dataNameList.forEach { fieldName ->
-                val formInputDataWidgetView = FormContentDataWidget(
-                    activity = requireActivity(),
-                    fieldName = fieldName
-                )
                 binding.linearData.addView(formInputDataWidgetView)
             }
         }

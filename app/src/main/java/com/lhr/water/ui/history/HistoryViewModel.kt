@@ -2,6 +2,7 @@ package com.lhr.water.ui.history
 
 import android.content.Context
 import androidx.lifecycle.AndroidViewModel
+import com.lhr.water.data.TempDealGoodsData
 import com.lhr.water.data.WaitDealGoodsData
 import com.lhr.water.repository.FormRepository
 import com.lhr.water.repository.RegionRepository
@@ -46,7 +47,7 @@ class HistoryViewModel(
      * @param region 地區名稱
      * @param map 地區名稱
      * @param storageName 櫥櫃名稱
-     * @param materialQuantity 貨物數量
+     * @param materialQuantity 選擇貨物數量
      */
     fun inputInTempGoods(
         waitDealGoodsData: WaitDealGoodsData,
@@ -57,28 +58,20 @@ class HistoryViewModel(
     ) {
 
         // 需要為貨物加上地區、地圖、儲櫃名稱、報表名稱、報表代號、入庫時間欄位
-        var waitInputGoodsJson = waitDealGoodsData.itemInformation
-
-        waitInputGoodsJson.put("regionName", region)
-        waitInputGoodsJson.put("mapName", map)
-        waitInputGoodsJson.put("storageName", storageName)
-        waitInputGoodsJson.put("formNumber", waitDealGoodsData.formNumber)
-        waitInputGoodsJson.put("reportTitle", waitDealGoodsData.reportTitle)
-        // 入庫時間記錄到民國年月日就好
-        waitInputGoodsJson.put("inputDate", getCurrentDate())
-        waitInputGoodsJson.put("quantity", materialQuantity)
-
-        var storageContentEntity = StorageRecordEntity()
-        storageContentEntity.regionName = region
-        storageContentEntity.mapName = map
-        storageContentEntity.storageName = storageName
-        storageContentEntity.formNumber = waitDealGoodsData.formNumber
-        storageContentEntity.reportTitle = waitDealGoodsData.reportTitle
-        storageContentEntity.itemInformation = waitInputGoodsJson.toString()
+        var tempDealGoodsData = TempDealGoodsData(
+            reportTitle = waitDealGoodsData.reportTitle,
+            formNumber =  waitDealGoodsData.formNumber,
+            regionName = region,
+            mapName =  map,
+            storageName = storageName,
+            date = getCurrentDate(),
+            itemDetail = waitDealGoodsData.itemDetail,
+            quantity = materialQuantity.toInt(),
+        )
 
         // 更新暫存進貨列表
         val currentList = formRepository.tempWaitInputGoods.value ?: ArrayList()
-        currentList.add(storageContentEntity)
+        currentList.add(tempDealGoodsData)
         formRepository.tempWaitInputGoods.postValue(currentList)
     }
 
@@ -99,44 +92,30 @@ class HistoryViewModel(
         materialQuantity: String
     ) {
         // 需要為貨物加上地區、地圖、儲櫃名稱、報表名稱、報表代號、入庫時間欄位
-        var waitOutputGoodsJson = waitDealGoodsData.itemInformation
-
-        waitOutputGoodsJson.put("regionName", region)
-        waitOutputGoodsJson.put("mapName", map)
-        waitOutputGoodsJson.put("storageName", storageName)
-        waitOutputGoodsJson.put("formNumber", waitDealGoodsData.formNumber)
-        waitOutputGoodsJson.put("reportTitle", waitDealGoodsData.reportTitle)
-        // 入庫時間記錄到民國年月日就好
-        waitOutputGoodsJson.put("outputDate", getCurrentDate())
-        waitOutputGoodsJson.put("quantity", materialQuantity)
-
-        var storageContentEntity = StorageRecordEntity()
-        storageContentEntity.regionName = region
-        storageContentEntity.mapName = map
-        storageContentEntity.storageName = storageName
-        storageContentEntity.formNumber = waitDealGoodsData.formNumber
-        storageContentEntity.reportTitle = waitDealGoodsData.reportTitle
-        storageContentEntity.itemInformation = waitOutputGoodsJson.toString()
+        var tempDealGoodsData = TempDealGoodsData(
+            reportTitle = waitDealGoodsData.reportTitle,
+            formNumber =  waitDealGoodsData.formNumber,
+            regionName = region,
+            mapName =  map,
+            storageName = storageName,
+            date = getCurrentDate(),
+            itemDetail = waitDealGoodsData.itemDetail,
+            quantity = materialQuantity.toInt(),
+        )
 
         // 更新暫存進貨列表
         val currentList = formRepository.tempWaitOutputGoods.value ?: ArrayList()
-        currentList.add(storageContentEntity)
+        currentList.add(tempDealGoodsData)
         formRepository.tempWaitOutputGoods.postValue(currentList)
     }
 
     fun getOutputGoodsStorageInformation(
         materialName: String,
         materialNumber: String
-    ): ArrayList<StorageRecordEntity> {
-        var storageContentList = formRepository.storageRecords.value?.filter { entity ->
-            entity.itemInformation?.let { itemInfo ->
-                // 將itemInformation轉換為JsonObject
-                val json = JSONObject(itemInfo)
-                // 判斷是否與目標值匹配
-                materialName == json.optString("materialName") && materialNumber == json.optString("materialNumber")
-            } ?: false
+    ): ArrayList<StorageContentEntity> {
+        var storageContentList = formRepository.storageGoods.value?.filter { entity ->
+            materialName == entity.materialName && materialNumber == entity.materialNumber
         }
-
         return storageContentList as ArrayList
     }
 

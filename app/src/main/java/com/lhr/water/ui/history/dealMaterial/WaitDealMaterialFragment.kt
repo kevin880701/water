@@ -6,6 +6,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.viewModels
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.lhr.water.data.Form
 import com.lhr.water.data.WaitDealGoodsData
 import com.lhr.water.databinding.FragmentWaitDealMaterialBinding
 import com.lhr.water.ui.base.BaseFragment
@@ -13,17 +14,16 @@ import com.lhr.water.ui.history.HistoryViewModel
 import com.lhr.water.util.adapter.WaitDealMaterialAdapter
 import com.lhr.water.util.dialog.WaitDealMaterialDialog
 import com.lhr.water.util.isInput
-import org.json.JSONObject
 
 
-class WaitDealMaterialFragment(jsonString: JSONObject) : BaseFragment(), View.OnClickListener,
+class WaitDealMaterialFragment(form: Form) : BaseFragment(), View.OnClickListener,
     WaitDealMaterialAdapter.Listener {
 
     private val viewModel: HistoryViewModel by viewModels { viewModelFactory }
     private var _binding: FragmentWaitDealMaterialBinding? = null
     private val binding get() = _binding!!
     private lateinit var waitDealMaterialAdapter: WaitDealMaterialAdapter
-    private var jsonString = jsonString
+    private var form = form
     private var isInput = true
 
     override fun onCreateView(
@@ -31,7 +31,7 @@ class WaitDealMaterialFragment(jsonString: JSONObject) : BaseFragment(), View.On
         container: ViewGroup?, savedInstanceState: Bundle?
     ): View? {
         _binding = FragmentWaitDealMaterialBinding.inflate(layoutInflater)
-        isInput = isInput(jsonString)
+        isInput = isInput(form)
         return binding.root
     }
 
@@ -42,11 +42,11 @@ class WaitDealMaterialFragment(jsonString: JSONObject) : BaseFragment(), View.On
     }
 
     private fun bindViewModel() {
-        if(isInput){
+        if (isInput) {
             viewModel.formRepository.tempWaitInputGoods.observe(viewLifecycleOwner) { newList ->
                 waitDealMaterialAdapter.notifyDataSetChanged()
             }
-        }else{
+        } else {
             viewModel.formRepository.tempWaitOutputGoods.observe(viewLifecycleOwner) { newList ->
                 waitDealMaterialAdapter.notifyDataSetChanged()
             }
@@ -59,21 +59,21 @@ class WaitDealMaterialFragment(jsonString: JSONObject) : BaseFragment(), View.On
 
     private fun initRecyclerView() {
         waitDealMaterialAdapter = WaitDealMaterialAdapter(
-            requireContext(), jsonString["reportTitle"].toString(),
-            jsonString["formNumber"].toString(), this, viewModel, isInput
+            requireContext(), form.reportTitle.toString(),
+            form.formNumber.toString(), this, viewModel, isInput
         )
         if (isInput) {
             waitDealMaterialAdapter.submitList(
                 viewModel.filterWaitInputGoods(
-                    jsonString["reportTitle"].toString(),
-                    jsonString["formNumber"].toString()
+                    form.reportTitle.toString(),
+                    form.formNumber.toString()
                 )
             )
         } else {
             waitDealMaterialAdapter.submitList(
                 viewModel.filterWaitOutputGoods(
-                    jsonString["reportTitle"].toString(),
-                    jsonString["formNumber"].toString()
+                    form.reportTitle.toString(),
+                    form.formNumber.toString()
                 )
             )
         }

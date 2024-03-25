@@ -29,6 +29,15 @@ class StorageRecordEntity() : Serializable {
     @ColumnInfo(name = SqlModel.reportTitle, typeAffinity = ColumnInfo.TEXT)
     var reportTitle = ""
 
-    @ColumnInfo(name = SqlModel.itemInformation, typeAffinity = ColumnInfo.TEXT)
-    var itemInformation = ""
+    @ColumnInfo(name = SqlModel.date, typeAffinity = ColumnInfo.TEXT)
+    var date = ""
+
+    @ColumnInfo(name = SqlModel.type, typeAffinity = ColumnInfo.INTEGER)
+    var type = 0
+
+    @ColumnInfo(name = SqlModel.quantity, typeAffinity = ColumnInfo.INTEGER)
+    var quantity = 0
+
+    @ColumnInfo(name = SqlModel.itemDetail, typeAffinity = ColumnInfo.TEXT)
+    var itemDetail = ""
 }

@@ -90,25 +90,25 @@ class InventoryGoodsDialog(
     }
 
     fun initGoodsData(binding: DialogFormGoodsBinding) {
-        formItemFieldNameList.forEachIndexed { index, fieldName ->
-            if (fieldName == "實盤數量") {
-                val formInputDataWidgetView = FormContentDataWidget(
-                    activity = requireActivity(),
-                    fieldName = fieldName,
-                    fieldContent = formItemFieldContentList!![index],
-                    isEnable = true,
-                    inputType = InputType.TYPE_CLASS_NUMBER
-                )
-                binding.linearData.addView(formInputDataWidgetView)
-            }else{
-                val formInputDataWidgetView = FormContentDataWidget(
-                    activity = requireActivity(),
-                    fieldName = fieldName,
-                    fieldContent = formItemFieldContentList!![index]
-                )
-                binding.linearData.addView(formInputDataWidgetView)
-            }
-        }
+//        formItemFieldNameList.forEachIndexed { index, fieldName ->
+//            if (fieldName == "實盤數量") {
+//                val formInputDataWidgetView = FormContentDataWidget(
+//                    activity = requireActivity(),
+//                    fieldName = fieldName,
+//                    fieldContent = formItemFieldContentList!![index],
+//                    isEnable = true,
+//                    inputType = InputType.TYPE_CLASS_NUMBER
+//                )
+//                binding.linearData.addView(formInputDataWidgetView)
+//            }else{
+//                val formInputDataWidgetView = FormContentDataWidget(
+//                    activity = requireActivity(),
+//                    fieldName = fieldName,
+//                    fieldContent = formItemFieldContentList!![index]
+//                )
+//                binding.linearData.addView(formInputDataWidgetView)
+//            }
+//        }
     }
 
     interface Listener {

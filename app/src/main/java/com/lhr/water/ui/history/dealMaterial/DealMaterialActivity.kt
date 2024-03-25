@@ -9,6 +9,8 @@ import androidx.fragment.app.Fragment
 import com.google.android.material.tabs.TabLayout
 import com.google.android.material.tabs.TabLayoutMediator
 import com.lhr.water.R
+import com.lhr.water.data.Form
+import com.lhr.water.data.Form.Companion.formFromJson
 import com.lhr.water.databinding.ActivityDealMaterialBinding
 import com.lhr.water.ui.base.APP
 import com.lhr.water.ui.base.BaseActivity
@@ -22,8 +24,9 @@ class DealMaterialActivity : BaseActivity(), View.OnClickListener {
 
     private var _binding: ActivityDealMaterialBinding? = null
     private val binding get() = _binding!!
-    private lateinit var jsonString: JSONObject
+    private lateinit var jsonString: String
     private lateinit var pageAdapter: ViewPageAdapter
+    private lateinit var form: Form
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -33,16 +36,16 @@ class DealMaterialActivity : BaseActivity(), View.OnClickListener {
 
         // 檢查版本
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
-            jsonString = jsonStringToJson(intent.getParcelableExtra("jsonString", String::class.java) as String)
+            jsonString = intent.getParcelableExtra("jsonString", String::class.java) as String
         } else {
-            jsonString = jsonStringToJson(intent.getSerializableExtra("jsonString") as String)
+            jsonString = intent.getSerializableExtra("jsonString") as String
         }
-
+        form = formFromJson(jsonString)
         initView()
     }
 
     private fun initView() {
-        binding.widgetTitleBar.textTitle.text = jsonString.getString("formNumber")
+        binding.widgetTitleBar.textTitle.text = form.formNumber
         binding.widgetTitleBar.imageBack.visibility = View.VISIBLE
         setupBackButton(binding.widgetTitleBar.imageBack)
 
@@ -52,8 +55,8 @@ class DealMaterialActivity : BaseActivity(), View.OnClickListener {
     private fun initTabLayout(tabLayoutMain: TabLayout) {
         tabLayoutMain.apply {
             val fragments = arrayListOf(
-                WaitDealMaterialFragment(jsonString),
-                AlreadyChooseGoodsFragment(jsonString),
+                WaitDealMaterialFragment(form),
+                AlreadyChooseGoodsFragment(form),
             ) as ArrayList<Fragment>
             val tabTextList = arrayListOf(
                 getString(R.string.wait_input_good),
