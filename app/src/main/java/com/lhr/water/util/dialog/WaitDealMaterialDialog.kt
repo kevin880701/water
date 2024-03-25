@@ -64,12 +64,12 @@ class WaitDealMaterialDialog(
         materialNumber = waitDealGoodsData.itemDetail.materialNumber.toString()
         binding.textQuantity.text = maxQuantity
 
-        if (isInput){
+        if (isInput) {
             storageList = viewModel.regionRepository.storageEntities.value!!
             regionList = viewModel.getInputGoodsRegion(storageList)
             mapList = viewModel.getInputGoodsMap(storageList)
             storageList = viewModel.getInputGoodsStorage(storageList)
-        }else{
+        } else {
             var storageContentList = viewModel.formRepository.storageGoods.value?.filter { entity ->
                 entity.materialName == waitDealGoodsData.itemDetail.materialName &&
                         entity.materialNumber == waitDealGoodsData.itemDetail.materialNumber &&
@@ -80,9 +80,9 @@ class WaitDealMaterialDialog(
             mapList = viewModel.getOutputGoodsMap(storageContentList)
             storageList = viewModel.getOutputGoodsStorage(storageContentList)
         }
-        if(storageList.size == 0){
+        if (storageList.size == 0) {
             binding.textNoData.visibility = View.VISIBLE
-        }else{
+        } else {
             binding.textNoData.visibility = View.INVISIBLE
         }
 
@@ -120,7 +120,8 @@ class WaitDealMaterialDialog(
                 initSpinner(
                     binding.spinnerStorage,
                     ArrayList(
-                        viewModel.getStorageNameList(regionName, mapName, storageList).map { it.storageName })
+                        viewModel.getStorageNameList(regionName, mapName, storageList)
+                            .map { it.storageName })
                 )
             }
 
@@ -141,16 +142,24 @@ class WaitDealMaterialDialog(
                     // 通過 position 獲取當前選定項的文字
                     storageName = parent?.getItemAtPosition(position).toString()
                     // 如果是出貨，需採儲櫃剩餘數量和出貨數量中較小的那個做為最大值
-                    if(!isInput){
-                        var goodsStoreInformation = viewModel.getOutputGoodsStorageInformation(waitDealGoodsData.itemDetail.materialName.toString(),waitDealGoodsData.itemDetail.materialNumber.toString())
-                        var materialQuantity = viewModel.regionRepository.getMaterialQuantity(regionName, mapName, storageName, materialNumber, goodsStoreInformation).toInt()
-                        maxQuantity = kotlin.math.min(materialQuantity, maxQuantity.toInt()).toString()
-                        println("==========================")
-                        println("goodsStoreInformation：${goodsStoreInformation}")
-                        println("materialQuantity：${materialQuantity}")
-                        println("-----------------------------")
+                    if (!isInput) {
+                        var goodsStoreInformation = viewModel.getOutputGoodsStorageInformation(
+                            waitDealGoodsData.itemDetail.materialName.toString(),
+                            waitDealGoodsData.itemDetail.materialNumber.toString()
+                        )
+                        var materialQuantity = viewModel.regionRepository.getMaterialQuantity(
+                            regionName,
+                            mapName,
+                            storageName,
+                            materialNumber,
+                            goodsStoreInformation
+                        ).toInt()
+                        maxQuantity =
+                            kotlin.math.min(materialQuantity, maxQuantity.toInt()).toString()
+                        binding.textQuantity.text = maxQuantity
                     }
                 }
+
                 override fun onNothingSelected(parent: AdapterView<*>?) {
                     // 在沒有選中項的情況下觸發
                 }
@@ -170,9 +179,9 @@ class WaitDealMaterialDialog(
     override fun onClick(v: View?) {
         when (v?.id) {
             R.id.buttonConfirm -> {
-                if(binding.spinnerStorage.selectedItem == null){
+                if (binding.spinnerStorage.selectedItem == null) {
                     showToast(requireContext(), "儲櫃未選擇")
-                }else {
+                } else {
                     if (isInput) {
                         viewModel.inputInTempGoods(
                             waitDealGoodsData,
@@ -200,12 +209,16 @@ class WaitDealMaterialDialog(
 
             R.id.imageSubtract -> {
                 // 減少數量，但不小於 1
-                binding.textQuantity.text = maxOf(1, binding.textQuantity.text.toString().toInt() - 1).toString()
+                binding.textQuantity.text =
+                    maxOf(0, binding.textQuantity.text.toString().toInt() - 1).toString()
             }
 
             R.id.imageAdd -> {
                 // 增加數量，但不大於 maxQuantity
-                binding.textQuantity.text = minOf(maxQuantity.toInt(), binding.textQuantity.text.toString().toInt() + 1).toString()
+                binding.textQuantity.text = minOf(
+                    maxQuantity.toInt(),
+                    binding.textQuantity.text.toString().toInt() + 1
+                ).toString()
             }
         }
     }
