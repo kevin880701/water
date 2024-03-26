@@ -175,7 +175,7 @@
                     android:gravity="center"
                     android:text="100"
                     android:textColor="@color/seed"
-                    android:textAppearance="@style/TextAppearance.Astec.HeadLine1"
+                    style="@style/TextStyle_16dp_black"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintLeft_toRightOf="@+id/imageSubtract"
                     app:layout_constraintTop_toTopOf="parent" />
@@ -202,7 +202,7 @@
                 android:background="@color/white"
                 android:text="無儲櫃資料"
                 android:textColor="@color/seed"
-                android:textAppearance="@style/TextAppearance.Astec.HeadLine1"
+                style="@style/TextStyle_16dp_black"
                 android:gravity="center"
                 android:visibility="invisible"/>
         </androidx.constraintlayout.widget.ConstraintLayout>

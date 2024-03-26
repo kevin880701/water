@@ -45,8 +45,8 @@
             app:layout_constraintRight_toRightOf="parent"
             android:gravity="center"
             android:text="標題列"
-            android:textColor="@color/white"
-            android:textAppearance="@style/TextAppearance.Astec.HeadLine1"/>
+            style="@style/TextStyle_24dp_black"
+            android:textColor="@color/white"/>
 
         <ImageView
             android:id="@+id/imageScanner"

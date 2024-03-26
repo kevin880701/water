@@ -17,7 +17,7 @@
             android:layout_height="match_parent"
             android:gravity="center"
             android:text="@string/new_goods"
-            android:textAppearance="@style/TextAppearance.Astec.HeadLine5"
+            style="@style/TextStyle_16dp_black"
             android:textColor="@color/seed"
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintLeft_toLeftOf="parent" />

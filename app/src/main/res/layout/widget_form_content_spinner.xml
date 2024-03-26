@@ -17,7 +17,7 @@
             android:layout_height="match_parent"
             android:gravity="center"
             android:text="交貨通知單號"
-            android:textAppearance="@style/TextAppearance.Astec.HeadLine5"
+            style="@style/TextStyle_16dp_black"
             android:textColor="@color/seed"
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintLeft_toLeftOf="parent" />
@@ -29,7 +29,7 @@
             android:layout_marginLeft="8dp"
             android:padding="4dp"
             android:background="@drawable/bg_border_seed"
-            android:textAppearance="@style/TextAppearance.Astec.Body2"
+            style="@style/TextStyle_16dp_black"
             android:textColor="@color/black"
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintBottom_toBottomOf="parent"

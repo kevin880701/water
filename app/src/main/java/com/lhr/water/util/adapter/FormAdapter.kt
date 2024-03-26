@@ -43,7 +43,7 @@ class FormAdapter(val listener: Listener, context: Context) :
         RecyclerView.ViewHolder(binding.root) {
 
         fun bind(form: Form) {
-            binding.textReportTitle.text = form.reportId
+            binding.textReportTitle.text = form.reportTitle
             binding.textFormNumber.text = form.formNumber
             binding.textDate.text = form.date
             when (form.dealStatus) {

@@ -27,7 +27,7 @@
                 android:text="@string/storage_name"
                 android:textColor="@color/seed"
                 android:gravity="center"
-                android:textAppearance="@style/TextAppearance.Astec.HeadLine3" />
+                style="@style/TextStyle_16dp_black" />
 
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:id="@+id/constraintStorageNameEdit"
@@ -50,7 +50,7 @@
                     android:layout_marginRight="24dp"
                     android:layout_marginLeft="30dp"
                     android:textColor="@color/seed"
-                    android:textAppearance="@style/TextAppearance.Astec.HeadLine5"
+                    style="@style/TextStyle_16dp_black"
                     android:hint="輸入儲櫃名稱"
                     android:textColorHint="@color/deep_gray"
                     android:background="@color/transparent"/>
@@ -67,7 +67,7 @@
             android:text="儲櫃座標"
             android:textColor="@color/seed"
             android:gravity="center"
-            android:textAppearance="@style/TextAppearance.Astec.HeadLine3" />
+            style="@style/TextStyle_16dp_black" />
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:id="@+id/constraintStoragePointEdit"
@@ -92,7 +92,7 @@
                 android:text="0, 0"
                 android:gravity="center_vertical"
                 android:textColor="@color/seed"
-                android:textAppearance="@style/TextAppearance.Astec.HeadLine5"
+                style="@style/TextStyle_16dp_black"
                 android:background="@color/transparent"/>
 
             <ImageView

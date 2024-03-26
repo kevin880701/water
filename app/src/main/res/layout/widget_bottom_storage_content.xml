@@ -48,7 +48,7 @@
                     android:layout_height="60dp"
                     android:gravity="center"
                     android:text="@string/storage_content"
-                    android:textAppearance="@style/TextAppearance.Astec.HeadLine1"
+                    style="@style/TextStyle_16dp_black"
                     android:textColor="@color/seed"
                     app:layout_constraintTop_toTopOf="parent"
                     app:layout_constraintBottom_toBottomOf="parent"
