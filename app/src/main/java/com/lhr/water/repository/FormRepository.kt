@@ -54,8 +54,8 @@ class FormRepository(context: Context) {
         MutableLiveData<ArrayList<StorageContentEntity>>()
 
     // 篩選後的表單
-    var formFilterRecordList: MutableLiveData<ArrayList<JSONObject>> =
-        MutableLiveData<ArrayList<JSONObject>>()
+    var formFilterRecordList: MutableLiveData<ArrayList<Form>> =
+        MutableLiveData<ArrayList<Form>>()
 
     // 篩選表單類別FormClass的List
     var filterList = MutableLiveData<ArrayList<String>>()
@@ -223,7 +223,7 @@ class FormRepository(context: Context) {
     /**
      * 篩選表單內容
      */
-    fun filterRecord(formList: ArrayList<Form>): ArrayList<JSONObject>? {
+    fun filterRecord(formList: ArrayList<Form>): ArrayList<Form>? {
         return formList.filter { form ->
             // 根據 "FormClass" 判斷是否在 filterList 中
             val reportTitle = form.reportTitle.toString()
@@ -237,8 +237,7 @@ class FormRepository(context: Context) {
                 true // 搜尋框(EditText)，不添加 formNumber 的篩選條件
             }
             reportTitleFilterCondition!! && editTextFilterCondition
-        }?.toMutableList()!! as ArrayList<JSONObject>?
-//        )
+        }?.toMutableList()!! as ArrayList<Form>?
     }
 
     /**
