@@ -73,7 +73,6 @@ class InventoryFragment : BaseFragment(), View.OnClickListener, InventoryAdapter
 
         binding.widgetTitleBar.textTitle.text = requireActivity().getString(R.string.search_inventory)
         binding.widgetTitleBar.imageBackup.visibility = View.VISIBLE
-        binding.widgetTitleBar.imageAdd.visibility = View.VISIBLE
         initRecyclerView()
         binding.editSearch.addTextChangedListener(object : TextWatcher {
             override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {
@@ -90,7 +89,6 @@ class InventoryFragment : BaseFragment(), View.OnClickListener, InventoryAdapter
             }
         })
 
-        binding.widgetTitleBar.imageAdd.setOnClickListener(this)
         binding.widgetTitleBar.imageBackup.setOnClickListener(this)
     }
 
@@ -102,12 +100,6 @@ class InventoryFragment : BaseFragment(), View.OnClickListener, InventoryAdapter
 
     override fun onClick(v: View?) {
         when (v?.id) {
-            R.id.imageAdd -> {
-                pickFile.launch("application/json")
-            }
-            R.id.imageBackup -> {
-
-            }
         }
     }
 
@@ -128,16 +120,6 @@ class InventoryFragment : BaseFragment(), View.OnClickListener, InventoryAdapter
         val inventoryGoodsDialog = InventoryGoodsDialog(formFieldNameList, formFieldNameEngList, this, formItemFieldContentList = extractedValues)
         inventoryGoodsDialog.show(requireActivity().supportFragmentManager, "GoodsDialog")
     }
-
-    /**
-     * 選擇JSON檔案並讀取
-     */
-    private val pickFile =
-        registerForActivityResult(ActivityResultContracts.GetContent()) { uri: Uri? ->
-            uri?.let {
-                viewModel.updateFormData(requireContext(), it)
-            }
-        }
 
     override fun onPause() {
         super.onPause()
