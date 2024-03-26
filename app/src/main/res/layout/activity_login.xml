@@ -33,6 +33,8 @@
             app:layout_constraintRight_toRightOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/imageLoginIcon"
             android:layout_marginTop="12dp"
+
+            style="@style/TextStyle_16dp_black"
             android:textSize="28dp"
             android:gravity="center"
             android:textStyle="bold"
@@ -71,8 +73,7 @@
                 android:layout_marginRight="50dp"
                 android:layout_marginBottom="15dp"
                 android:background="@null"
-                android:textColor="@color/seed"
-                android:textSize="15dp"
+                style="@style/TextStyle_16dp_black"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintLeft_toRightOf="@+id/imageRegion"
                 app:layout_constraintRight_toRightOf="parent"
@@ -113,8 +114,7 @@
                 android:layout_marginRight="50dp"
                 android:layout_marginBottom="15dp"
                 android:background="@null"
-                android:textColor="@color/seed"
-                android:textSize="15dp"
+                style="@style/TextStyle_16dp_black"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintLeft_toRightOf="@+id/imageMap"
                 app:layout_constraintRight_toRightOf="parent"
@@ -131,7 +131,7 @@
             app:layout_constraintTop_toBottomOf="@id/constraintMap"
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintRight_toRightOf="parent"
-            android:textStyle="bold"
+            style="@style/TextStyle_16dp_black"
             android:textColor="@color/white"
             android:text="@string/login"/>
 
