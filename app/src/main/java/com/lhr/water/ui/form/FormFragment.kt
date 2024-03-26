@@ -59,9 +59,9 @@ class FormFragment : BaseFragment(), View.OnClickListener, FormAdapter.Listener 
             formAdapter.submitList(newFormRecordList)
         }
         // 表單類別篩選更新
-//        formRepository.filterList.observe(viewLifecycleOwner) {
-//            formRepository.formFilterRecordList.postValue(formRepository.filterRecord(formRepository.formRecordList.value!!))
-//        }
+        formRepository.filterList.observe(viewLifecycleOwner) {
+            formRepository.formFilterRecordList.postValue(formRepository.filterRecord(formRepository.formRecordList.value!!))
+        }
         // 表單代號輸入後篩選更新
         formRepository.searchFormNumber.observe(viewLifecycleOwner) {
             formRepository.formFilterRecordList.postValue(formRepository.filterRecord(formRepository.formRecordList.value!!))
