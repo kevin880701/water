@@ -16,12 +16,12 @@ import com.lhr.water.data.Form.Companion.toJsonString
 import com.lhr.water.databinding.FragmentMaterialSearchBinding
 import com.lhr.water.ui.base.BaseFragment
 import com.lhr.water.ui.formContent.FormContentActivity
-import com.lhr.water.ui.history.dealMaterial.DealMaterialActivity
-import com.lhr.water.util.adapter.HistoryAdapter
+import com.lhr.water.ui.form.dealMaterial.DealMaterialActivity
+import com.lhr.water.util.adapter.FormAdapter
 import com.lhr.water.util.adapter.MaterialSearchAdapter
 import timber.log.Timber
 
-class MaterialSearchFragment : BaseFragment(), View.OnClickListener, HistoryAdapter.Listener {
+class MaterialSearchFragment : BaseFragment(), View.OnClickListener, FormAdapter.Listener {
 
     private var _binding: FragmentMaterialSearchBinding? = null
     private val binding get() = _binding!!
@@ -78,8 +78,8 @@ class MaterialSearchFragment : BaseFragment(), View.OnClickListener, HistoryAdap
     private fun initRecyclerView() {
         materialSearchAdapter = MaterialSearchAdapter(viewModel)
         materialSearchAdapter.submitList(viewModel.formRepository.storageGoods.value)
-        binding.recyclerHistory.adapter = materialSearchAdapter
-        binding.recyclerHistory.layoutManager = LinearLayoutManager(activity)
+        binding.recyclerForm.adapter = materialSearchAdapter
+        binding.recyclerForm.layoutManager = LinearLayoutManager(activity)
     }
 
     override fun onClick(v: View?) {

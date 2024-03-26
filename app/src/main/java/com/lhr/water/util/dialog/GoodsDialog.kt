@@ -85,10 +85,6 @@ class GoodsDialog(
     }
 
     fun initGoodsData(binding: DialogFormGoodsBinding) {
-        var dataNameList =
-            activity?.resources?.getStringArray(R.array.delivery_Item_field_name)
-                ?.toList() as ArrayList<String>
-
         itemDetail?.let { itemDetail1 ->
             formItemFieldNameMap.forEach { (english, chinese) ->
 

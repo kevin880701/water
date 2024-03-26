@@ -10,17 +10,13 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
-import com.lhr.water.R
-import com.lhr.water.databinding.ItemHistoryBinding
 import com.lhr.water.databinding.ItemInventoryMaterialBinding
 import com.lhr.water.repository.FormRepository
 import com.lhr.water.room.InventoryEntity
 import com.lhr.water.room.SqlDatabase
 import com.lhr.water.util.manager.jsonObjectToJsonString
 import com.lhr.water.util.manager.jsonStringToJson
-import com.lhr.water.util.showToast
 import org.json.JSONObject
-import timber.log.Timber
 
 class InventoryAdapter(val listener: Listener, context: Context) :
     ListAdapter<InventoryEntity, InventoryAdapter.ViewHolder>(LOCK_DIFF_UTIL) {

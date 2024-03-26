@@ -234,7 +234,6 @@ class SettingViewModel(context: Context, formRepository: FormRepository): Androi
         jsonArray = jsonAddInformation(jsonArray)
         if(checkJson(jsonArray, context)){
             formRepository.insertNewForm(jsonArray)
-            formRepository.loadRecord()
         }
     }
 }

@@ -1,10 +1,6 @@
 package com.lhr.water.ui.main
 
-import android.graphics.Color
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.os.Environment.getExternalStorageDirectory
-import android.util.Log
 import androidx.activity.viewModels
 import androidx.core.content.ContextCompat
 import androidx.core.content.res.ResourcesCompat
@@ -16,7 +12,7 @@ import com.lhr.water.R
 import com.lhr.water.databinding.ActivityMainBinding
 import com.lhr.water.ui.base.APP
 import com.lhr.water.ui.base.BaseActivity
-import com.lhr.water.ui.history.HistoryFragment
+import com.lhr.water.ui.form.FormFragment
 import com.lhr.water.ui.inventory.InventoryFragment
 import com.lhr.water.ui.materialSearch.MaterialSearchFragment
 import com.lhr.water.ui.regionChoose.RegionChooseFragment
@@ -49,7 +45,7 @@ class MainActivity : BaseActivity() {
                 R.drawable.setting,
             )
             var fragments = arrayListOf(
-                HistoryFragment(),
+                FormFragment(),
                 InventoryFragment(),
                 RegionChooseFragment(),
                 MaterialSearchFragment(),

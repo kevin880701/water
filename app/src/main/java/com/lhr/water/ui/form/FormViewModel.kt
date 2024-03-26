@@ -1,4 +1,4 @@
-package com.lhr.water.ui.history
+package com.lhr.water.ui.form
 
 import android.content.Context
 import androidx.lifecycle.AndroidViewModel
@@ -10,12 +10,10 @@ import com.lhr.water.room.MapEntity
 import com.lhr.water.room.RegionEntity
 import com.lhr.water.room.StorageContentEntity
 import com.lhr.water.room.StorageEntity
-import com.lhr.water.room.StorageRecordEntity
 import com.lhr.water.ui.base.APP
 import com.lhr.water.util.getCurrentDate
-import org.json.JSONObject
 
-class HistoryViewModel(
+class FormViewModel(
     context: Context,
     regionRepository: RegionRepository,
     formRepository: FormRepository

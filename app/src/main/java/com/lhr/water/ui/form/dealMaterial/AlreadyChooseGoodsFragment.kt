@@ -1,4 +1,4 @@
-package com.lhr.water.ui.history.dealMaterial
+package com.lhr.water.ui.form.dealMaterial
 
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -10,7 +10,7 @@ import com.lhr.water.data.Form
 import com.lhr.water.data.TempDealGoodsData
 import com.lhr.water.databinding.FragmentAlreadyChooseMaterialBinding
 import com.lhr.water.ui.base.BaseFragment
-import com.lhr.water.ui.history.HistoryViewModel
+import com.lhr.water.ui.form.FormViewModel
 import com.lhr.water.util.adapter.AlreadyChooseGoodsAdapter
 import com.lhr.water.util.isInput
 
@@ -18,7 +18,7 @@ import com.lhr.water.util.isInput
 class AlreadyChooseGoodsFragment(form: Form) : BaseFragment(), View.OnClickListener,
     AlreadyChooseGoodsAdapter.Listener {
 
-    private val viewModel: HistoryViewModel by viewModels { viewModelFactory }
+    private val viewModel: FormViewModel by viewModels { viewModelFactory }
     private var _binding: FragmentAlreadyChooseMaterialBinding? = null
     private val binding get() = _binding!!
     private lateinit var alreadyChooseGoodsAdapter: AlreadyChooseGoodsAdapter

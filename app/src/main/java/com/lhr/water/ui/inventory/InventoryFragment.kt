@@ -12,6 +12,7 @@ import androidx.activity.result.contract.ActivityResultContracts
 import androidx.fragment.app.viewModels
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.lhr.water.R
+import com.lhr.water.data.returningFieldMap
 import com.lhr.water.databinding.FragmentInventoryBinding
 import com.lhr.water.repository.FormRepository
 import com.lhr.water.ui.base.BaseFragment
@@ -34,8 +35,7 @@ class InventoryFragment : BaseFragment(), View.OnClickListener, InventoryAdapter
 
     private var formFieldNameList = ArrayList<String>() //表單欄位
     private var formFieldNameEngList = ArrayList<String>() //表單欄位英文名
-    private var formFieldContentList = ArrayList<String>() //表單欄位內容
-    private var formItemFieldContentList: JSONArray? = null //貨物欄位內容
+    private var formFieldNameMap: MutableMap<String, String> = linkedMapOf() //表單欄位
 
     private val callback = object : OnBackPressedCallback(true /* enabled by default */) {
         override fun handleOnBackPressed() {
@@ -65,10 +65,11 @@ class InventoryFragment : BaseFragment(), View.OnClickListener, InventoryAdapter
 
     private fun initView() {
 
-        formFieldNameList = resources.getStringArray(R.array.inventory_form_field_name)
-            .toList() as ArrayList<String>
-        formFieldNameEngList = resources.getStringArray(R.array.inventory_form_field_name_eng)
-                .toList() as ArrayList<String>
+        formFieldNameMap = returningFieldMap.toMutableMap()
+//        formFieldNameList = resources.getStringArray(R.array.inventory_form_field_name)
+//            .toList() as ArrayList<String>
+//        formFieldNameEngList = resources.getStringArray(R.array.inventory_form_field_name_eng)
+//                .toList() as ArrayList<String>
 
         binding.widgetTitleBar.textTitle.text = requireActivity().getString(R.string.search_inventory)
         binding.widgetTitleBar.imageBackup.visibility = View.VISIBLE

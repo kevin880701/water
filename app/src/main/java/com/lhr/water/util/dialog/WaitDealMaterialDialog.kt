@@ -16,7 +16,7 @@ import com.lhr.water.room.RegionEntity
 import com.lhr.water.room.StorageEntity
 import com.lhr.water.ui.base.APP
 import com.lhr.water.ui.base.AppViewModelFactory
-import com.lhr.water.ui.history.HistoryViewModel
+import com.lhr.water.ui.form.FormViewModel
 import com.lhr.water.util.adapter.SpinnerAdapter
 import com.lhr.water.util.showToast
 
@@ -42,7 +42,7 @@ class WaitDealMaterialDialog(
 
     private val viewModelFactory: AppViewModelFactory
         get() = (requireContext().applicationContext as APP).appContainer.viewModelFactory
-    private val viewModel: HistoryViewModel by viewModels { viewModelFactory }
+    private val viewModel: FormViewModel by viewModels { viewModelFactory }
 
     override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
         _binding = DialogInputBinding.inflate(layoutInflater)

@@ -11,12 +11,12 @@ import android.widget.PopupWindow
 import android.widget.RelativeLayout
 import com.lhr.water.R
 import com.lhr.water.databinding.PopupFilterMenuBinding
-import com.lhr.water.ui.history.HistoryViewModel
+import com.lhr.water.ui.form.FormViewModel
 import com.lhr.water.util.ScreenUtils
 import com.lhr.water.util.widget.FilterItemWidget
 
 
-class FilterFormPopupWindow(activity: Activity, viewModel: HistoryViewModel) : PopupWindow(),
+class FilterFormPopupWindow(activity: Activity, viewModel: FormViewModel) : PopupWindow(),
     View.OnClickListener {
     var binding: PopupFilterMenuBinding
     var activity = activity

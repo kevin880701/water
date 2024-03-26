@@ -1,9 +1,8 @@
-package com.lhr.water.ui.history.dealMaterial
+package com.lhr.water.ui.form.dealMaterial
 
 import android.os.Build
 import android.os.Bundle
 import android.view.View
-import androidx.activity.viewModels
 import androidx.core.content.res.ResourcesCompat
 import androidx.fragment.app.Fragment
 import com.google.android.material.tabs.TabLayout
@@ -12,12 +11,8 @@ import com.lhr.water.R
 import com.lhr.water.data.Form
 import com.lhr.water.data.Form.Companion.formFromJson
 import com.lhr.water.databinding.ActivityDealMaterialBinding
-import com.lhr.water.ui.base.APP
 import com.lhr.water.ui.base.BaseActivity
-import com.lhr.water.ui.history.HistoryViewModel
-import com.lhr.water.util.manager.jsonStringToJson
 import com.lhr.water.util.viewPager.ViewPageAdapter
-import org.json.JSONObject
 
 
 class DealMaterialActivity : BaseActivity(), View.OnClickListener {

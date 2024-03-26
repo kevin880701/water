@@ -1,5 +1,11 @@
 package com.lhr.water.util
 
+import com.lhr.water.util.FormName.deliveryFormName
+import com.lhr.water.util.FormName.inventoryFormName
+import com.lhr.water.util.FormName.pickingFormName
+import com.lhr.water.util.FormName.returningFormName
+import com.lhr.water.util.FormName.transferFormName
+
 val API_BASE: String = "http://localhost:8081"
 object MapPageStatus {
     const val RegionPage = "Region"
@@ -17,7 +23,7 @@ object FormName {
     const val pickingFormName = "材料領料單"
     const val transferFormName = "材料調撥單"
     const val returningFormName = "材料退料單"
-    const val inventoryFormName = "盤點"
+    const val inventoryFormName = "材料盤點單"
 }
 
 
@@ -43,11 +49,6 @@ object FormField {
     // 材料盤點單欄位
     private val inventoryFormField = arrayOf("id", "dealStatus", "reportId", "reportTitle", "date", "inventoryUnit", "deptName", "materialNumber", "materialUnit", "materialName", "materialSpec", "actualQuantity", "checkDate", "lastUseDate", "approvedDate")
 
-    private const val deliveryFormName = "交貨通知單"
-    private const val pickingFormName = "材料領料單"
-    private const val transferFormName = "材料調撥單"
-    private const val returningFormName = "材料退料單"
-    private const val inventoryFormName = "材料盤點單"
 
     val formFieldMap: Map<String, Array<Array<String>>> = mapOf(
         deliveryFormName to arrayOf(deliveryFormField, deliveryMaterialField),

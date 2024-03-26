@@ -11,7 +11,7 @@ import com.lhr.water.databinding.DialogConfirmCancelBinding
 import com.lhr.water.room.SqlDatabase
 import com.lhr.water.ui.base.APP
 import com.lhr.water.ui.base.AppViewModelFactory
-import com.lhr.water.ui.history.HistoryViewModel
+import com.lhr.water.ui.form.FormViewModel
 
 class ConfirmCancelDialog(
     val region: String,
@@ -25,7 +25,7 @@ class ConfirmCancelDialog(
 
     private val viewModelFactory: AppViewModelFactory
         get() = (requireContext().applicationContext as APP).appContainer.viewModelFactory
-    private val viewModel: HistoryViewModel by viewModels { viewModelFactory }
+    private val viewModel: FormViewModel by viewModels { viewModelFactory }
 
     override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
         _binding = DialogConfirmCancelBinding.inflate(layoutInflater)

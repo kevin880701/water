@@ -1,53 +1,88 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="108dp"
-    android:layout_height="108dp"
-    android:minWidth="108dp"
-    android:minHeight="108dp"
-    tools:layout_width="108dp"
-    tools:layout_height="108dp"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:background="@drawable/bg_form_list_item">
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <data>
+
+    </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toRightOf="parent">
+        android:layout_height="88dp"
+        android:paddingTop="8dp">
 
-        <androidx.appcompat.widget.AppCompatImageView
-            android:id="@+id/imageForm"
-            android:layout_width="40dp"
-            android:layout_height="40dp"
-            app:tint="@color/seed"
-            android:src="@drawable/ic_camera"
+        <LinearLayout
+            android:id="@+id/linearReport"
+            android:layout_width="150dp"
+            android:layout_height="match_parent"
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintLeft_toLeftOf="parent"
-            app:layout_constraintRight_toRightOf="parent"/>
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/textReportTitle"
+                android:layout_width="wrap_content"
+                android:layout_height="48dp"
+                android:gravity="center_vertical"
+                android:layout_marginLeft="26dp"
+                android:layout_marginRight="26dp"
+                android:text="財物驗收單"
+                android:singleLine="true"
+                android:textColor="@color/seed"
+                android:textSize="@dimen/main_title_size"/>
+
+            <TextView
+                android:id="@+id/textFormNumber"
+                android:layout_width="wrap_content"
+                android:layout_height="24dp"
+                android:gravity="center_vertical"
+                android:layout_marginLeft="26dp"
+                android:layout_marginRight="26dp"
+                android:text="MR30103"
+                android:singleLine="true"
+                android:textColor="@color/deep_gray"
+                android:textSize="@dimen/main_title_size"/>
+
+        </LinearLayout>
 
         <TextView
-            android:id="@+id/textFormName"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:textAppearance="@style/TextAppearance.Astec.HeadLine4"
-            app:layout_constraintTop_toBottomOf="@+id/imageForm"
-            app:layout_constraintLeft_toLeftOf="parent"
+            android:id="@+id/textDate"
+            android:layout_width="100dp"
+            android:layout_height="match_parent"
+            android:gravity="center"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintLeft_toRightOf="@+id/linearReport"
+            android:text="2023-11-19"
+            android:singleLine="true"
+            android:textColor="@color/deep_gray"
+            android:textSize="@dimen/main_title_size"/>
+
+        <ImageView
+            android:id="@+id/imageDealGoods"
+            android:layout_width="24dp"
+            android:layout_height="match_parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintLeft_toRightOf="@+id/textDate"
+            app:layout_constraintRight_toLeftOf="@+id/imageStatus"
+            android:src="@drawable/shipment_deal"
+            app:tint="@color/seed"/>
+
+        <ImageView
+            android:id="@+id/imageStatus"
+            android:layout_width="24dp"
+            android:layout_height="24dp"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintRight_toRightOf="parent"
-            android:layout_marginStart="4dp"
-            android:layout_marginEnd="4dp"
-            android:layout_marginBottom="10dp"
-            android:gravity="center_horizontal"
-            android:textStyle="normal"
-            tools:text="表單"
-            android:maxLines="1"
-            android:ellipsize="end"
-            android:textColor="@color/seed"
-            android:includeFontPadding="false"/>
+            android:layout_marginRight="16dp"
+            android:src="@drawable/red_light"/>
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            android:background="@color/deep_gray"/>
 
     </androidx.constraintlayout.widget.ConstraintLayout>
-
-
-</androidx.constraintlayout.widget.ConstraintLayout>
+</layout>

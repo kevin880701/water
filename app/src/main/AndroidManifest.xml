@@ -55,7 +55,7 @@
             android:launchMode="singleTask"
             android:theme="@style/Theme.Water"/>
 
-        <activity android:name="com.lhr.water.ui.history.dealMaterial.DealMaterialActivity"
+        <activity android:name="com.lhr.water.ui.form.dealMaterial.DealMaterialActivity"
             android:launchMode="singleTask"
             android:theme="@style/Theme.Water"/>
         <activity

@@ -11,10 +11,10 @@ import androidx.databinding.DataBindingUtil
 import com.lhr.water.R
 import com.lhr.water.repository.FormRepository
 import com.lhr.water.databinding.WidgetFilterItemBinding
-import com.lhr.water.ui.history.HistoryViewModel
+import com.lhr.water.ui.form.FormViewModel
 
 class FilterItemWidget : RelativeLayout, View.OnClickListener {
-    private var viewModel: HistoryViewModel
+    private var viewModel: FormViewModel
     var binding: WidgetFilterItemBinding
     private val activity: Activity
     private val itemName: String
@@ -25,7 +25,7 @@ class FilterItemWidget : RelativeLayout, View.OnClickListener {
     constructor(
         activity: Activity,
         fieldName: String,
-        viewModel: HistoryViewModel
+        viewModel: FormViewModel
     ) : super(activity) {
         binding = DataBindingUtil.inflate(
             LayoutInflater.from(context), R.layout.widget_filter_item, this, true

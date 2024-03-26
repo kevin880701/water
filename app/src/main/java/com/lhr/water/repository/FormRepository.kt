@@ -15,6 +15,7 @@ import com.lhr.water.room.StorageContentEntity
 import com.lhr.water.room.StorageRecordEntity
 import com.lhr.water.util.DealStatus.nowDeal
 import com.lhr.water.util.FormName.deliveryFormName
+import com.lhr.water.util.FormName.inventoryFormName
 import com.lhr.water.util.FormName.pickingFormName
 import com.lhr.water.util.FormName.returningFormName
 import com.lhr.water.util.FormName.transferFormName
@@ -268,13 +269,21 @@ class FormRepository(context: Context) {
             val jsonObject = jsonArray.getJSONObject(i)
 
             val form: Form = formFromJson(jsonObject.toString())
-            println("@@@@@@@@@@@@@@@@@@@@@@@@@@@@")
             println(form.toJsonString())
-            val formEntity = FormEntity()
-            formEntity.formNumber = form.formNumber.toString()
-            formEntity.formContent = form.toJsonString()
-            SqlDatabase.getInstance().getFormDao().insertNewForm(formEntity)
-
+            if(form.reportTitle == inventoryFormName){
+                val jsonObject = jsonArray.getJSONObject(i)
+                val inventoryEntity = InventoryEntity()
+                inventoryEntity.formNumber = jsonObject.optString("deptName").toString() + jsonObject.optString("date").toString() + jsonObject.optString("seq").toString()
+                inventoryEntity.formContent = jsonObject.toString()
+                SqlDatabase.getInstance().getInventoryDao().insertNewForm(inventoryEntity)
+                loadInventoryForm()
+            }else{
+                val formEntity = FormEntity()
+                formEntity.formNumber = form.formNumber.toString()
+                formEntity.formContent = form.toJsonString()
+                SqlDatabase.getInstance().getFormDao().insertNewForm(formEntity)
+                loadRecord()
+            }
         }
     }
 

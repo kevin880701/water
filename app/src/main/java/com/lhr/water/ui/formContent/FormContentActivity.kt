@@ -53,16 +53,8 @@ class FormContentActivity : BaseActivity(), View.OnClickListener, FormGoodsAdd.L
     private val binding get() = _binding!!
     private lateinit var reportTitle: String
     private var jsonString: String? = null
-    private var formFieldNameMap: MutableMap<String, String> = linkedMapOf()
-    private var formFieldNameList = ArrayList<String>() //表單欄位
-    private var formFieldNameEngList = ArrayList<String>() //表單欄位英文名
-    private var formFieldContentList = ArrayList<String>() //表單欄位內容
-
-    private var formItemFieldNameMap: MutableMap<String, String> = linkedMapOf()
-    private var formItemFieldNameList = ArrayList<String>() //貨物欄位
-    private var formItemFieldNameEngList = ArrayList<String>() //貨物欄位英文名
-    private var formItemFieldContentList: JSONArray? = null //貨物欄位內容
-    private lateinit var jsonObject: JSONObject
+    private var formFieldNameMap: MutableMap<String, String> = linkedMapOf() //表單欄位
+    private var formItemFieldNameMap: MutableMap<String, String> = linkedMapOf() //貨物欄位
     private lateinit var form: Form
     private var isInput = true
 
@@ -88,7 +80,7 @@ class FormContentActivity : BaseActivity(), View.OnClickListener, FormGoodsAdd.L
         form = formFromJson(jsonString!!)
         isInput = isInput(form)
 
-//        bindViewModel()
+        bindViewModel()
         initView()
     }
 
@@ -101,63 +93,19 @@ class FormContentActivity : BaseActivity(), View.OnClickListener, FormGoodsAdd.L
         binding.widgetTitleBar.imageBack.visibility = View.VISIBLE
         when (reportTitle) {
             getString(R.string.delivery_form) -> {
-                formFieldNameList = resources.getStringArray(R.array.delivery_form_field_name)
-                    .toList() as ArrayList<String>
-                formFieldNameEngList =
-                    resources.getStringArray(R.array.delivery_form_field_name_eng)
-                        .toList() as ArrayList<String>
-                formItemFieldNameList = resources.getStringArray(R.array.delivery_Item_field_name)
-                    .toList() as ArrayList<String>
-                formItemFieldNameEngList =
-                    resources.getStringArray(R.array.delivery_item_field_name_eng)
-                        .toList() as ArrayList<String>
-
                 formFieldNameMap = deliveryFieldMap.toMutableMap()
                 formItemFieldNameMap = deliveryItemFieldMap.toMutableMap()
             }
             getString(R.string.picking_form) -> {
-                formFieldNameList = resources.getStringArray(R.array.picking_form_field_name)
-                    .toList() as ArrayList<String>
-                formFieldNameEngList =
-                    resources.getStringArray(R.array.picking_form_field_name_eng)
-                        .toList() as ArrayList<String>
-                formItemFieldNameList = resources.getStringArray(R.array.picking_item_field_name)
-                    .toList() as ArrayList<String>
-                formItemFieldNameEngList =
-                    resources.getStringArray(R.array.picking_item_field_name_eng)
-                        .toList() as ArrayList<String>
-
                 formFieldNameMap = pickingFieldMap.toMutableMap()
                 formItemFieldNameMap = pickingItemFieldMap.toMutableMap()
             }
             getString(R.string.transfer_form) -> {
-                formFieldNameList = resources.getStringArray(R.array.transfer_form_field_name)
-                    .toList() as ArrayList<String>
-                formFieldNameEngList =
-                    resources.getStringArray(R.array.transfer_form_field_name_eng)
-                        .toList() as ArrayList<String>
-                formItemFieldNameList = resources.getStringArray(R.array.transfer_item_field_name)
-                    .toList() as ArrayList<String>
-                formItemFieldNameEngList =
-                    resources.getStringArray(R.array.transfer_item_field_name_eng)
-                        .toList() as ArrayList<String>
-
                 formFieldNameMap = transferFieldMap.toMutableMap()
                 formItemFieldNameMap = transferItemFieldMap.toMutableMap()
             }
 
             getString(R.string.returning_form) -> {
-                formFieldNameList = resources.getStringArray(R.array.returning_form_field_name)
-                    .toList() as ArrayList<String>
-                formFieldNameEngList =
-                    resources.getStringArray(R.array.returning_form_field_name_eng)
-                        .toList() as ArrayList<String>
-                formItemFieldNameList = resources.getStringArray(R.array.returning_item_field_name)
-                    .toList() as ArrayList<String>
-                formItemFieldNameEngList =
-                    resources.getStringArray(R.array.returning_item_field_name_eng)
-                        .toList() as ArrayList<String>
-
                 formFieldNameMap = returningFieldMap.toMutableMap()
                 formItemFieldNameMap = returningItemFieldMap.toMutableMap()
             }

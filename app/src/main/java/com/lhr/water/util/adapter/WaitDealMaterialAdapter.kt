@@ -9,7 +9,7 @@ import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.lhr.water.data.WaitDealGoodsData
 import com.lhr.water.databinding.ItemWaitDealMaterialBinding
-import com.lhr.water.ui.history.HistoryViewModel
+import com.lhr.water.ui.form.FormViewModel
 import com.lhr.water.util.showToast
 
 class WaitDealMaterialAdapter(
@@ -17,7 +17,7 @@ class WaitDealMaterialAdapter(
     val reportTitle: String,
     val formNumber: String,
     val listener: Listener,
-    val viewModel: HistoryViewModel,
+    val viewModel: FormViewModel,
     val isInput: Boolean
 ) :
     ListAdapter<WaitDealGoodsData, WaitDealMaterialAdapter.ViewHolder>(LOCK_DIFF_UTIL) {

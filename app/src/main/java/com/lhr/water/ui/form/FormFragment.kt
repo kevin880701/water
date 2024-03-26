@@ -1,4 +1,4 @@
-package com.lhr.water.ui.history
+package com.lhr.water.ui.form
 
 import android.content.Intent
 import android.os.Bundle
@@ -14,20 +14,20 @@ import com.lhr.water.R
 import com.lhr.water.data.Form
 import com.lhr.water.data.Form.Companion.toJsonString
 import com.lhr.water.repository.FormRepository
-import com.lhr.water.databinding.FragmentHistoryBinding
+import com.lhr.water.databinding.FragmentFormBinding
 import com.lhr.water.ui.base.BaseFragment
 import com.lhr.water.ui.formContent.FormContentActivity
-import com.lhr.water.ui.history.dealMaterial.DealMaterialActivity
+import com.lhr.water.ui.form.dealMaterial.DealMaterialActivity
 import com.lhr.water.util.popupWindow.FilterFormPopupWindow
-import com.lhr.water.util.adapter.HistoryAdapter
+import com.lhr.water.util.adapter.FormAdapter
 import timber.log.Timber
 
-class HistoryFragment : BaseFragment(), View.OnClickListener, HistoryAdapter.Listener {
+class FormFragment : BaseFragment(), View.OnClickListener, FormAdapter.Listener {
 
-    private var _binding: FragmentHistoryBinding? = null
+    private var _binding: FragmentFormBinding? = null
     private val binding get() = _binding!!
-    private val viewModel: HistoryViewModel by viewModels { viewModelFactory }
-    private lateinit var historyAdapter: HistoryAdapter
+    private val viewModel: FormViewModel by viewModels { viewModelFactory }
+    private lateinit var formAdapter: FormAdapter
     val formRepository: FormRepository by lazy { FormRepository.getInstance(requireContext()) }
 
     private val callback = object : OnBackPressedCallback(true /* enabled by default */) {
@@ -39,7 +39,7 @@ class HistoryFragment : BaseFragment(), View.OnClickListener, HistoryAdapter.Lis
         inflater: LayoutInflater,
         container: ViewGroup?, savedInstanceState: Bundle?
     ): View? {
-        _binding = FragmentHistoryBinding.inflate(layoutInflater)
+        _binding = FragmentFormBinding.inflate(layoutInflater)
 
         initView()
         return binding.root
@@ -52,7 +52,7 @@ class HistoryFragment : BaseFragment(), View.OnClickListener, HistoryAdapter.Lis
 
     private fun bindViewModel() {
         formRepository.formRecordList.observe(viewLifecycleOwner) { newFormRecordList ->
-            historyAdapter.submitList(newFormRecordList)
+            formAdapter.submitList(newFormRecordList)
         }
         // 根據篩選的表單類別和表單代號更新列表
 //        formRepository.formFilterRecordList.observe(viewLifecycleOwner) { newFormRecordList ->
@@ -69,7 +69,7 @@ class HistoryFragment : BaseFragment(), View.OnClickListener, HistoryAdapter.Lis
     }
 
     private fun initView() {
-        binding.widgetTitleBar.textTitle.text = requireActivity().getString(R.string.form_history)
+        binding.widgetTitleBar.textTitle.text = requireActivity().getString(R.string.form_record)
         binding.widgetTitleBar.imageFilter.visibility = View.VISIBLE
         initRecyclerView()
         binding.editSearch.addTextChangedListener(object : TextWatcher {
@@ -91,9 +91,9 @@ class HistoryFragment : BaseFragment(), View.OnClickListener, HistoryAdapter.Lis
     }
 
     private fun initRecyclerView() {
-        historyAdapter = HistoryAdapter(this, requireContext())
-        binding.recyclerHistory.adapter = historyAdapter
-        binding.recyclerHistory.layoutManager = LinearLayoutManager(activity)
+        formAdapter = FormAdapter(this, requireContext())
+        binding.recyclerForm.adapter = formAdapter
+        binding.recyclerForm.layoutManager = LinearLayoutManager(activity)
     }
 
     override fun onClick(v: View?) {

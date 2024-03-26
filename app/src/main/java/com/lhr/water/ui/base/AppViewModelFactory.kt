@@ -7,7 +7,7 @@ import com.lhr.water.repository.FormRepository
 import com.lhr.water.repository.RegionRepository
 import com.lhr.water.ui.cover.CoverViewModel
 import com.lhr.water.ui.formContent.FormContentViewModel
-import com.lhr.water.ui.history.HistoryViewModel
+import com.lhr.water.ui.form.FormViewModel
 import com.lhr.water.ui.inventory.InventoryViewModel
 import com.lhr.water.ui.login.LoginViewModel
 import com.lhr.water.ui.main.MainViewModel
@@ -29,7 +29,7 @@ class AppViewModelFactory(
             LoginViewModel::class.java -> LoginViewModel(context, regionRepository) as T
             MainViewModel::class.java -> MainViewModel(context, formRepository) as T
             FormContentViewModel::class.java -> FormContentViewModel(context, formRepository) as T
-            HistoryViewModel::class.java -> HistoryViewModel(context, regionRepository, formRepository) as T
+            FormViewModel::class.java -> FormViewModel(context, regionRepository, formRepository) as T
             SettingViewModel::class.java -> SettingViewModel(context, formRepository) as T
             RegionChooseViewModel::class.java -> RegionChooseViewModel(context, regionRepository) as T
             MapViewModel::class.java -> MapViewModel(context, regionRepository, formRepository) as T

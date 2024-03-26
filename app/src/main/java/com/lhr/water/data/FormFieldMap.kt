@@ -147,6 +147,7 @@ val returningItemFieldMap = mapOf(
     "returnAmt" to "退回金額"
 )
 
+// 盤點
 val inventoryFieldMap = mapOf(
     "formNumber" to "表單單號",
     "dealStatus" to "處理狀態",

@@ -1,33 +1,33 @@
 package com.lhr.water.util.adapter
 
+import android.content.Context
 import android.view.LayoutInflater
+import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
+import com.lhr.water.R
+import com.lhr.water.data.Form
 import com.lhr.water.databinding.ItemFormBinding
-import com.lhr.water.model.FormData
 
-class FormAdapter(val listener: Listener): ListAdapter<FormData, FormAdapter.ViewHolder>(LOCK_DIFF_UTIL) {
+class FormAdapter(val listener: Listener, context: Context) :
+    ListAdapter<Form, FormAdapter.ViewHolder>(LOCK_DIFF_UTIL) {
+    var context = context
 
-    companion object{
-        val LOCK_DIFF_UTIL = object : DiffUtil.ItemCallback<FormData>() {
-            override fun areItemsTheSame(oldItem: FormData, newItem: FormData): Boolean {
-                return oldItem.id == newItem.id
+    companion object {
+        val LOCK_DIFF_UTIL = object : DiffUtil.ItemCallback<Form>() {
+            override fun areItemsTheSame(oldItem: Form, newItem: Form): Boolean {
+                return oldItem == newItem
             }
 
             override fun areContentsTheSame(
-                oldItem: FormData,
-                newItem: FormData
+                oldItem: Form,
+                newItem: Form
             ): Boolean {
                 return oldItem.hashCode() == newItem.hashCode()
             }
         }
-    }
-
-    interface Listener{
-        fun onItemClick(item: FormData)
-        fun onItemLongClick(item: FormData)
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
@@ -39,23 +39,41 @@ class FormAdapter(val listener: Listener): ListAdapter<FormData, FormAdapter.Vie
         holder.bind(getItem(position))
     }
 
-    inner class ViewHolder(private val binding: ItemFormBinding): RecyclerView.ViewHolder(binding.root){
+    inner class ViewHolder(private val binding: ItemFormBinding) :
+        RecyclerView.ViewHolder(binding.root) {
 
-        init {
-            // bindingAdapterPosition無法使用，所以用adapterPosition替代
+        fun bind(form: Form) {
+            binding.textReportTitle.text = form.reportId
+            binding.textFormNumber.text = form.formNumber
+            binding.textDate.text = form.date
+            when (form.dealStatus) {
+                context.getString(R.string.wait_deal) -> {
+                    binding.imageStatus.setImageDrawable(context.getDrawable(R.drawable.red_light))
+                    binding.imageDealGoods.visibility = View.INVISIBLE
+                }
+
+                context.getString(R.string.now_deal) -> {
+                    binding.imageStatus.setImageDrawable(context.getDrawable(R.drawable.yellow_light))
+                    binding.imageDealGoods.visibility = View.VISIBLE
+                }
+
+                context.getString(R.string.complete_deal) -> {
+                    binding.imageStatus.setImageDrawable(context.getDrawable(R.drawable.green_light))
+                    binding.imageDealGoods.visibility = View.INVISIBLE
+                }
+            }
+
+            binding.imageDealGoods.setOnClickListener {
+                listener.onDealGoodsClick(getItem(adapterPosition))
+            }
             binding.root.setOnClickListener {
                 listener.onItemClick(getItem(adapterPosition))
             }
-
-            binding.root.setOnLongClickListener {
-                listener.onItemLongClick(getItem(adapterPosition))
-                return@setOnLongClickListener true
-            }
         }
+    }
 
-        fun bind(formData: FormData){
-            binding.textFormName.text = formData.formName
-            binding.imageForm.setImageResource(formData.formImage)
-        }
+    interface Listener {
+        fun onItemClick(item: Form)
+        fun onDealGoodsClick(item: Form)
     }
 }
