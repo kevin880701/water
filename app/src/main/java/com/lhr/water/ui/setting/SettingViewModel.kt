@@ -14,7 +14,6 @@ import com.lhr.water.data.InventoryForm.Companion.toJsonString
 import com.lhr.water.network.Execute
 import com.lhr.water.network.data.UpdateData
 import com.lhr.water.repository.FormRepository
-import com.lhr.water.room.StorageRecordEntity
 import com.lhr.water.ui.base.APP
 import com.lhr.water.util.manager.checkJson
 import com.lhr.water.util.manager.jsonAddInformation
@@ -25,7 +24,6 @@ import okhttp3.MediaType.Companion.toMediaTypeOrNull
 import okhttp3.RequestBody
 import okhttp3.RequestBody.Companion.toRequestBody
 import okhttp3.Response
-import org.json.JSONArray
 import timber.log.Timber
 import java.io.BufferedReader
 import java.io.IOException
@@ -233,11 +231,11 @@ class SettingViewModel(context: Context, formRepository: FormRepository) :
 
 
     /**
-     * 更新表單資料
+     * 更新表單資料（本地）
      * @param context
      * @param fileUri json檔位址
      */
-    fun updateFormData2(context: Context, fileUri: Uri) {
+    fun updateFormDataLocal(context: Context, fileUri: Uri) {
         val inputStream: InputStream? =
             context.contentResolver.openInputStream(fileUri)
         var jsonContent = readJsonFromInputStream(inputStream)

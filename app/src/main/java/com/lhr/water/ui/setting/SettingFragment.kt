@@ -37,7 +37,7 @@ class SettingFragment : BaseFragment(), View.OnClickListener {
         pickFile =
             registerForActivityResult(ActivityResultContracts.GetContent()) { uri: Uri? ->
                 uri?.let {
-                    viewModel.updateFormData2(requireContext(), it)
+                    viewModel.updateFormDataLocal(requireContext(), it)
                 }
             }
 
