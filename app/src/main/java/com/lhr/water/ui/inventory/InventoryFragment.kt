@@ -10,19 +10,19 @@ import androidx.activity.OnBackPressedCallback
 import androidx.fragment.app.viewModels
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.lhr.water.R
-import com.lhr.water.data.returningFieldMap
+import com.lhr.water.data.InventoryForm
+import com.lhr.water.data.inventoryFieldMap
 import com.lhr.water.databinding.FragmentInventoryBinding
 import com.lhr.water.repository.FormRepository
 import com.lhr.water.ui.base.BaseFragment
 import com.lhr.water.util.adapter.InventoryAdapter
-import com.lhr.water.util.dialog.InventoryGoodsDialog
+import com.lhr.water.util.dialog.InventoryFieldDialog
 import com.lhr.water.util.widget.FormGoodsDataWidget
-import org.json.JSONException
 import org.json.JSONObject
 import timber.log.Timber
 
 
-class InventoryFragment : BaseFragment(), View.OnClickListener, InventoryAdapter.Listener, InventoryGoodsDialog.Listener {
+class InventoryFragment : BaseFragment(), View.OnClickListener, InventoryAdapter.Listener, InventoryFieldDialog.Listener {
 
     private var _binding: FragmentInventoryBinding? = null
     private val binding get() = _binding!!
@@ -67,7 +67,7 @@ class InventoryFragment : BaseFragment(), View.OnClickListener, InventoryAdapter
 
     private fun initView() {
 
-        formFieldNameMap = returningFieldMap.toMutableMap()
+        formFieldNameMap = inventoryFieldMap.toMutableMap()
 
         binding.widgetTitleBar.textTitle.text = requireActivity().getString(R.string.search_inventory)
         binding.widgetTitleBar.imageBackup.visibility = View.VISIBLE
@@ -105,18 +105,9 @@ class InventoryFragment : BaseFragment(), View.OnClickListener, InventoryAdapter
      * 表單列表點擊
      * @param json 被點擊的列資料
      */
-    override fun onItemClick(json: JSONObject) {
-        val extractedValues = ArrayList<String>()
-        for (fieldName in formFieldNameEngList) {
-            try {
-                val value: String = json.getString(fieldName)
-                extractedValues.add(value)
-            } catch (e: JSONException) {
-                e.printStackTrace()
-            }
-        }
-        val inventoryGoodsDialog = InventoryGoodsDialog(formFieldNameList, formFieldNameEngList, this, formItemFieldContentList = extractedValues)
-        inventoryGoodsDialog.show(requireActivity().supportFragmentManager, "GoodsDialog")
+    override fun onItemClick(inventoryForm: InventoryForm) {
+        val inventoryGoodsDialog = InventoryFieldDialog(this, formFieldNameMap, inventoryForm)
+        inventoryGoodsDialog.show(requireActivity().supportFragmentManager, "InventoryGoodsDialog")
     }
 
     override fun onPause() {

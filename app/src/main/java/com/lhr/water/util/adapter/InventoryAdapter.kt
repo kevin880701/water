@@ -15,7 +15,6 @@ import com.lhr.water.databinding.ItemInventoryMaterialBinding
 import com.lhr.water.repository.FormRepository
 import com.lhr.water.room.InventoryEntity
 import com.lhr.water.room.SqlDatabase
-import org.json.JSONObject
 
 class InventoryAdapter(val listener: Listener, context: Context) :
     ListAdapter<InventoryForm, InventoryAdapter.ViewHolder>(LOCK_DIFF_UTIL) {
@@ -55,9 +54,10 @@ class InventoryAdapter(val listener: Listener, context: Context) :
             binding.textMaterialUnit.text = inventoryForm.materialUnit
             binding.textQuantity.text = Editable.Factory.getInstance().newEditable(inventoryForm.actualQuantity.toString())
 
-//            binding.view.setOnClickListener{
-//
-//            }
+
+            binding.root.setOnClickListener {
+                listener.onItemClick(getItem(adapterPosition))
+            }
 
             binding.imageEdit.setOnClickListener {
                 binding.imageEdit.visibility = View.GONE
@@ -84,6 +84,6 @@ class InventoryAdapter(val listener: Listener, context: Context) :
     }
 
     interface Listener {
-        fun onItemClick(item: JSONObject)
+        fun onItemClick(inventoryForm: InventoryForm)
     }
 }

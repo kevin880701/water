@@ -177,8 +177,6 @@ class FormContentActivity : BaseActivity(), View.OnClickListener, FormGoodsAdd.L
         val itemDetailList = ArrayList<ItemDetail>()
         for (formGoodsDataWidget in binding.linearItemData) {
             itemDetailList.add((formGoodsDataWidget as FormGoodsDataWidget).itemDetail)
-            println("${(formGoodsDataWidget as FormGoodsDataWidget).itemDetail.materialName}")
-            println("${(formGoodsDataWidget as FormGoodsDataWidget).itemDetail.receivedQuantity}")
         }
         for (formGoodsDataWidget in binding.linearFormData) {
 
@@ -438,8 +436,7 @@ class FormContentActivity : BaseActivity(), View.OnClickListener, FormGoodsAdd.L
             false,
             formItemFieldNameMap,
             this,
-            itemDetail,
-            formGoodsDataWidget
+            itemDetail
         )
         goodsDialog.show(supportFragmentManager, "GoodsDialog")
     }
