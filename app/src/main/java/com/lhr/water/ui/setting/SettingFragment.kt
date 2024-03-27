@@ -2,7 +2,6 @@ package com.lhr.water.ui.setting
 
 import android.net.Uri
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -12,11 +11,6 @@ import androidx.fragment.app.viewModels
 import com.lhr.water.R
 import com.lhr.water.databinding.FragmentSettingBinding
 import com.lhr.water.ui.base.BaseFragment
-import com.lhr.water.util.manager.jsonAddInformation
-import com.lhr.water.util.manager.jsonStringToJsonArray
-import org.json.JSONArray
-import org.json.JSONObject
-import java.io.InputStream
 
 class SettingFragment : BaseFragment(), View.OnClickListener {
 
@@ -51,7 +45,7 @@ class SettingFragment : BaseFragment(), View.OnClickListener {
             registerForActivityResult(ActivityResultContracts.OpenDocumentTree()) { uri ->
                 uri?.let {
                     // 將 JSONObject 寫入到資料夾
-                    viewModel.writeJsonObjectToFolder2(requireContext(), it)
+                    viewModel.writeJsonObjectToFolderLocal(requireContext(), it)
                 }
             }
 
@@ -72,7 +66,8 @@ class SettingFragment : BaseFragment(), View.OnClickListener {
 
         binding.constraintUpdate.setOnClickListener(this)
         binding.constraintUpload.setOnClickListener(this)
-        binding.constraintUpdate2.setOnClickListener(this)
+        binding.constraintUpdateLocal.setOnClickListener(this)
+        binding.constraintBackupLocal.setOnClickListener(this)
     }
 
     override fun onClick(v: View?) {
@@ -86,8 +81,11 @@ class SettingFragment : BaseFragment(), View.OnClickListener {
 //                pickFile.launch("application/json")
                 viewModel.uploadFiles(this.requireActivity())
             }
-            R.id.constraintUpdate2 -> {
+            R.id.constraintUpdateLocal -> {
                 pickFile.launch("application/json")
+            }
+            R.id.constraintBackupLocal -> {
+                saveFile.launch(null)
             }
         }
     }

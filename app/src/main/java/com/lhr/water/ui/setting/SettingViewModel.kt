@@ -7,9 +7,14 @@ import android.util.Log
 import androidx.documentfile.provider.DocumentFile
 import androidx.lifecycle.AndroidViewModel
 import com.google.gson.Gson
+import com.google.gson.JsonArray
+import com.google.gson.JsonObject
+import com.lhr.water.data.Form.Companion.toJsonString
+import com.lhr.water.data.InventoryForm.Companion.toJsonString
 import com.lhr.water.network.Execute
 import com.lhr.water.network.data.UpdateData
 import com.lhr.water.repository.FormRepository
+import com.lhr.water.room.StorageRecordEntity
 import com.lhr.water.ui.base.APP
 import com.lhr.water.util.manager.checkJson
 import com.lhr.water.util.manager.jsonAddInformation
@@ -142,9 +147,6 @@ class SettingViewModel(context: Context, formRepository: FormRepository): Androi
     }
 
     fun updateFormData(context: Context, jsonContent: String){
-//        val inputStream: InputStream? =
-//            context.contentResolver.openInputStream(fileUri)
-//        var jsonContent = readJsonFromInputStream(inputStream)
         var jsonArray = jsonStringToJsonArray(jsonContent)
         jsonArray = jsonAddInformation(jsonArray)
         if(checkJson(jsonArray, context)){
@@ -190,16 +192,22 @@ class SettingViewModel(context: Context, formRepository: FormRepository): Androi
         )
     }
 
-
-
     /**
-     * 寫入JSON檔案到指定資料夾
+     * 寫入JSON檔案到指定資料夾（本地）
      * @param context 要被讀取的內容
      * @param folderUri 指定資料夾位置
      */
-    fun writeJsonObjectToFolder2(context: Context, folderUri: Uri) {
+    fun writeJsonObjectToFolderLocal(context: Context, folderUri: Uri) {
         try {
-            val jsonObject = JSONArray(formRepository.formRecordList.value)
+
+            val gson = Gson()
+            val jsonArray = JsonArray()
+            for(i in formRepository.formRecordList.value!!){
+                jsonArray.add(gson.fromJson(i.toJsonString(), JsonObject::class.java))
+            }
+            for(i in formRepository.inventoryRecord.value!!){
+                jsonArray.add(gson.fromJson(i.toJsonString(), JsonObject::class.java))
+            }
             val folder = DocumentFile.fromTreeUri(context, folderUri)
             // 當前日期時間
             val dateFormat = SimpleDateFormat("yyyyMMdd_HHmmss", Locale.getDefault())
@@ -210,7 +218,7 @@ class SettingViewModel(context: Context, formRepository: FormRepository): Androi
             file?.let {
                 val outputStream = context.contentResolver.openOutputStream(it.uri)
                 outputStream?.use { stream ->
-                    stream.write(jsonObject.toString().toByteArray())
+                    stream.write(jsonArray.toString().toByteArray())
                 }
 
                 Log.d("MainActivity", "JSONObject written to file: ${it.uri}")

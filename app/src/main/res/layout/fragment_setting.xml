@@ -111,7 +111,7 @@
                 app:tint="@color/primaryBlue" />
         </androidx.constraintlayout.widget.ConstraintLayout>
         <androidx.constraintlayout.widget.ConstraintLayout
-            android:id="@+id/constraintUpdate2"
+            android:id="@+id/constraintUpdateLocal"
             android:layout_width="0dp"
             android:layout_height="60dp"
             app:layout_constraintLeft_toLeftOf="parent"
@@ -121,7 +121,7 @@
             android:paddingLeft="16dp">
 
             <ImageView
-                android:id="@+id/imageUpdate2"
+                android:id="@+id/imageUpdateLocal"
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:background="@color/background"
@@ -134,7 +134,7 @@
                 app:tint="@color/primaryBlue" />
 
             <TextView
-                android:id="@+id/textUpdate2"
+                android:id="@+id/textUpdateLocal"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:gravity="center"
@@ -142,7 +142,7 @@
                 style="@style/TextStyle_16dp_black"
                 android:textColor="@color/primaryBlue"
                 app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintLeft_toRightOf="@+id/imageUpdate2"
+                app:layout_constraintLeft_toRightOf="@+id/imageUpdateLocal"
                 app:layout_constraintTop_toTopOf="parent" />
 
             <ImageView
@@ -160,17 +160,17 @@
 
 
         <androidx.constraintlayout.widget.ConstraintLayout
-            android:id="@+id/constraintUpload2"
+            android:id="@+id/constraintBackupLocal"
             android:layout_width="0dp"
             android:layout_height="60dp"
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintRight_toRightOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/constraintUpdate2"
+            app:layout_constraintTop_toBottomOf="@+id/constraintUpdateLocal"
             android:paddingRight="16dp"
             android:paddingLeft="16dp">
 
             <ImageView
-                android:id="@+id/imageUpload2"
+                android:id="@+id/imageBackupLocal"
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:background="@color/background"
@@ -183,7 +183,7 @@
                 app:tint="@color/primaryBlue" />
 
             <TextView
-                android:id="@+id/textUpload2"
+                android:id="@+id/textBackupLocal"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:gravity="center"
@@ -191,7 +191,7 @@
                 style="@style/TextStyle_16dp_black"
                 android:textColor="@color/primaryBlue"
                 app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintLeft_toRightOf="@+id/imageUpload2"
+                app:layout_constraintLeft_toRightOf="@+id/imageBackupLocal"
                 app:layout_constraintTop_toTopOf="parent" />
 
             <ImageView
