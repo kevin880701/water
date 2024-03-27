@@ -55,6 +55,10 @@ class InventoryAdapter(val listener: Listener, context: Context) :
             binding.textMaterialUnit.text = inventoryForm.materialUnit
             binding.textQuantity.text = Editable.Factory.getInstance().newEditable(inventoryForm.actualQuantity.toString())
 
+//            binding.view.setOnClickListener{
+//
+//            }
+
             binding.imageEdit.setOnClickListener {
                 binding.imageEdit.visibility = View.GONE
                 binding.imageOk.visibility = View.VISIBLE

@@ -55,8 +55,13 @@ class InventoryFragment : BaseFragment(), View.OnClickListener, InventoryAdapter
     }
 
     private fun bindViewModel() {
-        formRepository.inventoryRecord.observe(viewLifecycleOwner) { inventoryEntities ->
-            inventoryAdapter.submitList(inventoryEntities)
+        formRepository.inventoryRecord.observe(viewLifecycleOwner) { inventoryRecord ->
+            inventoryAdapter.submitList(inventoryRecord)
+        }
+
+        viewModel.searchMaterialName.observe(viewLifecycleOwner) { text ->
+            val filteredList = formRepository.inventoryRecord.value!!.filter { it.materialName.toString().contains(text) }
+            inventoryAdapter.submitList(filteredList)
         }
     }
 
@@ -78,7 +83,7 @@ class InventoryFragment : BaseFragment(), View.OnClickListener, InventoryAdapter
 
             override fun afterTextChanged(s: Editable?) {
                 // 在文本改變之後執行的操作
-//                formRepository.searchFormNumber.postValue(s.toString())
+                viewModel.searchMaterialName.postValue(s.toString())
             }
         })
 
