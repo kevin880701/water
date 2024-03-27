@@ -26,6 +26,10 @@ import com.lhr.water.util.manager.jsonStringToJson
 import com.lhr.water.util.transferStatus
 import org.json.JSONArray
 import org.json.JSONObject
+import java.text.SimpleDateFormat
+import java.time.LocalDate
+import java.time.format.DateTimeFormatter
+import java.util.Locale
 
 class FormRepository(context: Context) {
     val context = context
@@ -37,6 +41,7 @@ class FormRepository(context: Context) {
     // 待出貨的貨物列表
     var waitOutputGoods: MutableLiveData<ArrayList<WaitDealGoodsData>> =
         MutableLiveData<ArrayList<WaitDealGoodsData>>()
+
     // 待入庫的貨物列表
     var waitInputGoods: MutableLiveData<ArrayList<WaitDealGoodsData>> =
         MutableLiveData<ArrayList<WaitDealGoodsData>>()
@@ -44,6 +49,7 @@ class FormRepository(context: Context) {
     // 暫存待出貨的貨物列表（未送出）
     var tempWaitOutputGoods: MutableLiveData<ArrayList<TempDealGoodsData>> =
         MutableLiveData<ArrayList<TempDealGoodsData>>()
+
     // 暫存待入庫的貨物列表（未送出）
     var tempWaitInputGoods: MutableLiveData<ArrayList<TempDealGoodsData>> =
         MutableLiveData<ArrayList<TempDealGoodsData>>()
@@ -51,6 +57,7 @@ class FormRepository(context: Context) {
     // 儲櫃所有進出紀錄
     var storageRecords: MutableLiveData<ArrayList<StorageRecordEntity>> =
         MutableLiveData<ArrayList<StorageRecordEntity>>()
+
     // 儲櫃中所有貨物
     var storageGoods: MutableLiveData<ArrayList<StorageContentEntity>> =
         MutableLiveData<ArrayList<StorageContentEntity>>()
@@ -95,10 +102,36 @@ class FormRepository(context: Context) {
         for (formData in loadFormList) {
             tempFormList.add(formFromJson(formData))
         }
-        formRecordList.postValue(tempFormList)
-        updateWaitInputGoods(tempFormList)
-        updateWaitOutputGoods(tempFormList)
-//        return formJsonList
+
+        // 排序紀錄
+        var sortList = ArrayList(tempFormList.sortedBy { form ->
+            val datePattern = SimpleDateFormat("yy/MM/dd", Locale.getDefault())
+            datePattern.parse(form.dealTime)
+        })
+
+        formRecordList.postValue(sortList)
+        updateWaitInputGoods(sortList)
+        updateWaitOutputGoods(sortList)
+    }
+
+    /**
+     * 抓取盤點表單全部記錄
+     */
+    fun loadInventoryForm() {
+        val loadFormList: List<InventoryEntity> =
+            SqlDatabase.getInstance().getInventoryDao().getInventoryForms()
+
+        var tempFormList = ArrayList<InventoryForm>()
+        for (formData in loadFormList) {
+            tempFormList.add(formInventoryFormJson(formData.formContent))
+        }
+        // 排序紀錄
+        var sortList = ArrayList(tempFormList.sortedBy { form ->
+            val datePattern = SimpleDateFormat("yy/MM/dd", Locale.getDefault())
+            datePattern.parse(form.dealTime)
+        })
+
+        inventoryRecord.postValue(sortList)
     }
 
     /**
@@ -197,7 +230,9 @@ class FormRepository(context: Context) {
      * 更新儲櫃中的所有貨物
      */
     private fun updateStorageRecords() {
-        storageRecords.postValue(SqlDatabase.getInstance().getStorageRecordDao().getAllStorageContent() as ArrayList)
+        storageRecords.postValue(
+            SqlDatabase.getInstance().getStorageRecordDao().getAllStorageContent() as ArrayList
+        )
     }
 
 
@@ -205,7 +240,9 @@ class FormRepository(context: Context) {
      * 更新儲櫃中的所有貨物
      */
     private fun updateStorageGoods() {
-        storageGoods.postValue(SqlDatabase.getInstance().getStorageContentDao().getAllStorageContent() as ArrayList)
+        storageGoods.postValue(
+            SqlDatabase.getInstance().getStorageContentDao().getAllStorageContent() as ArrayList
+        )
     }
 
     /**
@@ -237,7 +274,7 @@ class FormRepository(context: Context) {
 
             val form: Form = formFromJson(jsonObject.toString())
             println(form.toJsonString())
-            if(form.reportTitle == inventoryFormName){
+            if (form.reportTitle == inventoryFormName) {
                 val jsonObject = jsonArray.getJSONObject(i)
                 val inventoryEntity = InventoryEntity()
 //              inventoryEntity.formNumber = jsonObject.optString("deptName").toString() + jsonObject.optString("date").toString() + jsonObject.optString("seq").toString()
@@ -245,7 +282,7 @@ class FormRepository(context: Context) {
                 inventoryEntity.formContent = jsonObject.toString()
                 SqlDatabase.getInstance().getInventoryDao().insertNewForm(inventoryEntity)
                 loadInventoryForm()
-            }else{
+            } else {
                 val formEntity = FormEntity()
                 formEntity.formNumber = form.formNumber.toString()
                 formEntity.formContent = form.toJsonString()
@@ -292,14 +329,13 @@ class FormRepository(context: Context) {
         // 篩選
         val filteredList = tempWaitInputGoods.value!!.filter { data ->
             data.reportTitle == targetReportTitle &&
-            data.formNumber == targetFormNumber &&
+                    data.formNumber == targetFormNumber &&
                     data.itemDetail.number == targetNumber
-
         }
 
         // 篩選後的List中數量加總
         for (storageContentEntity in filteredList) {
-                totalQuantity += storageContentEntity.quantity
+            totalQuantity += storageContentEntity.quantity
         }
         return totalQuantity
     }
@@ -395,7 +431,7 @@ class FormRepository(context: Context) {
         return totalQuantity
     }
 
-    fun searchStorageContentByMaterialName(targetMaterialName: String): ArrayList<StorageContentEntity>{
+    fun searchStorageContentByMaterialName(targetMaterialName: String): ArrayList<StorageContentEntity> {
         return storageGoods.value!!.filter { it.materialName.contains(targetMaterialName) } as ArrayList<StorageContentEntity>
     }
 
@@ -415,21 +451,5 @@ class FormRepository(context: Context) {
             inventoryEntity.formContent = jsonObject.toString()
             SqlDatabase.getInstance().getInventoryDao().insertNewForm(inventoryEntity)
         }
-    }
-
-
-    /**
-     * 抓取盤點表單全部記錄
-     */
-    fun loadInventoryForm() {
-        val loadFormList: List<InventoryEntity> = SqlDatabase.getInstance().getInventoryDao().getInventoryForms()
-
-        val tempFormList = ArrayList<InventoryForm>()
-        for (formData in loadFormList) {
-            println(formData.formContent)
-            println(formInventoryFormJson(formData.formContent).formNumber)
-            tempFormList.add(formInventoryFormJson(formData.formContent))
-        }
-        inventoryRecord.postValue(tempFormList)
     }
 }
