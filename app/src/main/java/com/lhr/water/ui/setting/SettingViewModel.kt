@@ -35,7 +35,8 @@ import java.text.SimpleDateFormat
 import java.util.Date
 import java.util.Locale
 
-class SettingViewModel(context: Context, formRepository: FormRepository): AndroidViewModel(context.applicationContext as APP) {
+class SettingViewModel(context: Context, formRepository: FormRepository) :
+    AndroidViewModel(context.applicationContext as APP) {
     var formRepository = formRepository
 
     /**
@@ -65,7 +66,6 @@ class SettingViewModel(context: Context, formRepository: FormRepository): Androi
 //            Log.e("MainActivity", "Error writing JSONObject to file", e)
 //        }
 //    }
-
 
 
     /**
@@ -111,7 +111,7 @@ class SettingViewModel(context: Context, formRepository: FormRepository): Androi
     }
 
 
-    fun uploadFiles(activity: Activity){
+    fun uploadFiles(activity: Activity) {
         Execute.getNewForm(
             activity, object : Callback {
                 override fun onFailure(call: Call, e: IOException) {
@@ -146,26 +146,29 @@ class SettingViewModel(context: Context, formRepository: FormRepository): Androi
         )
     }
 
-    fun updateFormData(context: Context, jsonContent: String){
+    fun updateFormData(context: Context, jsonContent: String) {
         var jsonArray = jsonStringToJsonArray(jsonContent)
         jsonArray = jsonAddInformation(jsonArray)
-        if(checkJson(jsonArray, context)){
+        if (checkJson(jsonArray, context)) {
             formRepository.insertNewForm(jsonArray)
             formRepository.loadRecord()
         }
     }
 
     fun writeJsonObjectToFolder(activity: Activity) {
-        val jsonObject = JSONArray(formRepository.formRecordList.value)
-            // 當前日期時間
-            val dateFormat = SimpleDateFormat("yyyyMMdd_HHmmss", Locale.getDefault())
-            val currentDate = dateFormat.format(Date())
-            jsonObject.toString()
+        val gson = Gson()
+        val jsonArray = JsonArray()
+        for (i in formRepository.formRecordList.value!!) {
+            jsonArray.add(gson.fromJson(i.toJsonString(), JsonObject::class.java))
+        }
+        for (i in formRepository.inventoryRecord.value!!) {
+            jsonArray.add(gson.fromJson(i.toJsonString(), JsonObject::class.java))
+        }
 
+        val jsonRequestBody: String = jsonArray.toString()
+        val requestBody: RequestBody =
+            jsonRequestBody.toRequestBody("application/json; charset=utf-8".toMediaTypeOrNull())
 
-        val jsonRequestBody: String = Gson().toJson(jsonObject.toString())
-        val requestBody: RequestBody = jsonRequestBody.toRequestBody("application/json; charset=utf-8".toMediaTypeOrNull())
-        
         Execute.postRecord(
             activity, requestBody, object : Callback {
                 override fun onFailure(call: Call, e: IOException) {
@@ -202,10 +205,10 @@ class SettingViewModel(context: Context, formRepository: FormRepository): Androi
 
             val gson = Gson()
             val jsonArray = JsonArray()
-            for(i in formRepository.formRecordList.value!!){
+            for (i in formRepository.formRecordList.value!!) {
                 jsonArray.add(gson.fromJson(i.toJsonString(), JsonObject::class.java))
             }
-            for(i in formRepository.inventoryRecord.value!!){
+            for (i in formRepository.inventoryRecord.value!!) {
                 jsonArray.add(gson.fromJson(i.toJsonString(), JsonObject::class.java))
             }
             val folder = DocumentFile.fromTreeUri(context, folderUri)
@@ -234,13 +237,13 @@ class SettingViewModel(context: Context, formRepository: FormRepository): Androi
      * @param context
      * @param fileUri json檔位址
      */
-    fun updateFormData2(context: Context, fileUri: Uri){
+    fun updateFormData2(context: Context, fileUri: Uri) {
         val inputStream: InputStream? =
             context.contentResolver.openInputStream(fileUri)
         var jsonContent = readJsonFromInputStream(inputStream)
         var jsonArray = jsonStringToJsonArray(jsonContent)
         jsonArray = jsonAddInformation(jsonArray)
-        if(checkJson(jsonArray, context)){
+        if (checkJson(jsonArray, context)) {
             formRepository.insertNewForm(jsonArray)
         }
     }

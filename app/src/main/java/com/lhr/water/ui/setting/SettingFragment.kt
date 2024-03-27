@@ -65,14 +65,14 @@ class SettingFragment : BaseFragment(), View.OnClickListener {
         binding.widgetTitleBar.textTitle.text = requireActivity().getString(R.string.setting)
 
         binding.constraintUpdate.setOnClickListener(this)
-        binding.constraintUpload.setOnClickListener(this)
+        binding.constraintBackup.setOnClickListener(this)
         binding.constraintUpdateLocal.setOnClickListener(this)
         binding.constraintBackupLocal.setOnClickListener(this)
     }
 
     override fun onClick(v: View?) {
         when (v?.id) {
-            R.id.constraintUpload -> {
+            R.id.constraintBackup -> {
 //                saveFile.launch(null)
 
                 viewModel.writeJsonObjectToFolder(requireActivity())
@@ -81,11 +81,11 @@ class SettingFragment : BaseFragment(), View.OnClickListener {
 //                pickFile.launch("application/json")
                 viewModel.uploadFiles(this.requireActivity())
             }
-            R.id.constraintUpdateLocal -> {
-                pickFile.launch("application/json")
-            }
             R.id.constraintBackupLocal -> {
                 saveFile.launch(null)
+            }
+            R.id.constraintUpdateLocal -> {
+                pickFile.launch("application/json")
             }
         }
     }
