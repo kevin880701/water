@@ -41,7 +41,6 @@ import com.lhr.water.util.widget.FormContentDataSpinnerWidget
 import com.lhr.water.util.widget.FormGoodsAdd
 import com.lhr.water.util.widget.FormGoodsDataWidget
 import com.lhr.water.util.widget.FormContentDataWidget
-import org.json.JSONArray
 import org.json.JSONObject
 import timber.log.Timber
 import java.time.LocalDate
@@ -62,7 +61,7 @@ class FormContentActivity : BaseActivity(), View.OnClickListener, FormGoodsAdd.L
         super.onCreate(savedInstanceState)
         _binding = ActivityFormContentBinding.inflate(layoutInflater)
         setContentView(binding.root)
-        window.statusBarColor = ResourcesCompat.getColor(resources, R.color.seed, null)
+        window.statusBarColor = ResourcesCompat.getColor(resources, R.color.primaryBlue, null)
 
         // 檢查版本
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {

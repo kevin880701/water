@@ -27,7 +27,7 @@ class DealMaterialActivity : BaseActivity(), View.OnClickListener {
         super.onCreate(savedInstanceState)
         _binding = ActivityDealMaterialBinding.inflate(layoutInflater)
         setContentView(binding.root)
-        window.statusBarColor = ResourcesCompat.getColor(resources, R.color.seed, null)
+        window.statusBarColor = ResourcesCompat.getColor(resources, R.color.primaryBlue, null)
 
         // 檢查版本
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {

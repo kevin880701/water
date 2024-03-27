@@ -1,7 +1,6 @@
 package com.lhr.water.ui.cover
 
 import android.content.Intent
-import android.icu.util.TaiwanCalendar
 import android.os.Bundle
 import android.os.Environment
 import android.view.animation.AlphaAnimation
@@ -15,16 +14,9 @@ import com.lhr.water.model.Model
 import com.lhr.water.ui.base.APP
 import com.lhr.water.ui.base.BaseActivity
 import com.lhr.water.ui.login.LoginActivity
-import com.lhr.water.util.getCurrentDate
-import com.lhr.water.util.showToast
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
-import timber.log.Timber
 import java.io.File
-import java.text.SimpleDateFormat
-import java.util.Calendar
-import java.util.Date
-import java.util.Locale
 
 
 class CoverActivity : BaseActivity() {
@@ -38,7 +30,7 @@ class CoverActivity : BaseActivity() {
         super.onCreate(savedInstanceState)
         _binding = ActivityCoverBinding.inflate(layoutInflater)
         setContentView(binding.root)
-        window.statusBarColor = ResourcesCompat.getColor(resources, R.color.seed, null)
+        window.statusBarColor = ResourcesCompat.getColor(resources, R.color.primaryBlue, null)
         createWaterFolder()
         // 創建Model
         Model

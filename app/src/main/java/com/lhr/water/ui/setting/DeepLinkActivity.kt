@@ -22,7 +22,7 @@ class DeepLinkActivity : BaseActivity() {
 
         _binding = ActivityCoverBinding.inflate(layoutInflater)
         setContentView(binding.root)
-        window.statusBarColor = ResourcesCompat.getColor(resources, R.color.seed, null)
+        window.statusBarColor = ResourcesCompat.getColor(resources, R.color.primaryBlue, null)
 
         // 從 Intent 獲取 URL
         val url = intent?.data?.toString()

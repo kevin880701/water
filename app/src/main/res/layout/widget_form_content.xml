@@ -18,7 +18,7 @@
             android:gravity="center"
             android:text="交貨通知單號"
             style="@style/TextStyle_16dp_black"
-            android:textColor="@color/seed"
+            android:textColor="@color/primaryBlue"
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintLeft_toLeftOf="parent" />
 
@@ -30,7 +30,7 @@
             android:layout_marginBottom="1dp"
             android:background="@color/transparent"
             style="@style/TextStyle_16dp_black"
-            android:textColor="@color/black"
+            android:textColor="@color/primaryBlack"
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintLeft_toRightOf="@+id/textDataName"

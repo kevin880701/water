@@ -28,7 +28,7 @@
                 app:layout_constraintWidth_percent="0.3"
                 android:text="@string/goods_name"
                 style="@style/TextStyle_16dp_black"
-                android:textColor="@color/seed"
+                android:textColor="@color/primaryBlue"
                 app:layout_constraintTop_toTopOf="parent"
                 app:layout_constraintLeft_toLeftOf="parent" />
             <TextView
@@ -39,7 +39,7 @@
                 android:text="@string/goods_number"
                 android:background="@color/transparent"
                 style="@style/TextStyle_16dp_black"
-                android:textColor="@color/black"
+                android:textColor="@color/primaryBlack"
                 app:layout_constraintTop_toBottomOf="@+id/textMaterialName"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintLeft_toLeftOf="parent" />
@@ -52,7 +52,7 @@
                 app:layout_constraintWidth_percent="0.3"
                 android:text="貨物規格"
                 style="@style/TextStyle_16dp_black"
-                android:textColor="@color/seed"
+                android:textColor="@color/primaryBlue"
                 app:layout_constraintTop_toTopOf="parent"
                 app:layout_constraintLeft_toRightOf="@+id/textMaterialNumber" />
             <TextView
@@ -63,7 +63,7 @@
                 android:text="貨物單位"
                 android:background="@color/transparent"
                 style="@style/TextStyle_16dp_black"
-                android:textColor="@color/black"
+                android:textColor="@color/primaryBlack"
                 app:layout_constraintTop_toBottomOf="@+id/textMaterialName"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintLeft_toRightOf="@+id/textMaterialNumber" />
@@ -76,7 +76,7 @@
                 android:text="數量"
                 android:background="@color/transparent"
                 style="@style/TextStyle_16dp_black"
-                android:textColor="@color/seed"
+                android:textColor="@color/primaryBlue"
                 app:layout_constraintTop_toTopOf="parent"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintLeft_toRightOf="@+id/textMaterialUnit" />

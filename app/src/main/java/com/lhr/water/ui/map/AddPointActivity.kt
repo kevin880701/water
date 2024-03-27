@@ -19,12 +19,10 @@ import androidx.core.content.res.ResourcesCompat
 import com.lhr.water.R
 import com.lhr.water.databinding.ActivityMapBinding
 import com.lhr.water.mapView.layer.AddMarkLayer
-import com.lhr.water.mapView.layer.MarkLayer
 import com.lhr.water.ui.base.APP
 import com.lhr.water.ui.base.BaseActivity
 import com.lhr.water.util.mapView.MapViewListener
 import com.lhr.water.util.showToast
-import timber.log.Timber
 import java.io.IOException
 
 
@@ -42,7 +40,7 @@ class AddPointActivity(): BaseActivity(), View.OnClickListener{
         super.onCreate(savedInstanceState)
         _binding = ActivityMapBinding.inflate(layoutInflater)
         setContentView(binding.root)
-        window.statusBarColor = ResourcesCompat.getColor(resources, R.color.seed, null)
+        window.statusBarColor = ResourcesCompat.getColor(resources, R.color.primaryBlue, null)
 
         // 檢查版本判斷接收資料方式
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {

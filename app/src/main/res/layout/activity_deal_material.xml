@@ -23,7 +23,7 @@
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintRight_toRightOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/widgetTitleBar"
-            android:background="@color/seed"
+            android:background="@color/primaryBlue"
             app:tabTextColor="@color/deep_gray"
             app:tabSelectedTextColor="@color/white"
             app:tabIndicatorColor="@color/white" >

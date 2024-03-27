@@ -22,7 +22,7 @@
             app:layout_constraintRight_toRightOf="parent"
             app:layout_constraintTop_toTopOf="parent"
             android:layout_marginTop="120dp"
-            app:tint="@color/seed"
+            app:tint="@color/primaryBlue"
             android:src="@drawable/map" />
 
         <TextView
@@ -38,7 +38,7 @@
             android:textSize="28dp"
             android:gravity="center"
             android:textStyle="bold"
-            android:textColor="@color/seed"
+            android:textColor="@color/primaryBlue"
             android:text="@string/app_name" />
 
         <androidx.constraintlayout.widget.ConstraintLayout
@@ -62,7 +62,7 @@
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintLeft_toLeftOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
-                app:tint="@color/seed" />
+                app:tint="@color/primaryBlue" />
 
             <Spinner
                 android:id="@+id/spinnerRegion"
@@ -103,7 +103,7 @@
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintLeft_toLeftOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
-                app:tint="@color/seed" />
+                app:tint="@color/primaryBlue" />
 
             <Spinner
                 android:id="@+id/spinnerMap"

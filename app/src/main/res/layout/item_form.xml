@@ -29,7 +29,7 @@
                 android:text="財物驗收單"
                 android:singleLine="true"
                 style="@style/TextStyle_16dp_black"
-                android:textColor="@color/seed"
+                android:textColor="@color/primaryBlue"
                 android:textSize="@dimen/main_title_size"/>
 
             <TextView
@@ -69,7 +69,7 @@
             app:layout_constraintLeft_toRightOf="@+id/textDate"
             app:layout_constraintRight_toLeftOf="@+id/imageStatus"
             android:src="@drawable/shipment_deal"
-            app:tint="@color/seed"/>
+            app:tint="@color/primaryBlue"/>
 
         <ImageView
             android:id="@+id/imageStatus"

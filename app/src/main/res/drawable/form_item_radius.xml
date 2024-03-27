@@ -14,5 +14,5 @@
         android:bottomLeftRadius="900dp"
         android:bottomRightRadius="900dp"  />
     <!--邊框的寬度及顏色-->
-    <stroke android:color="@color/md_theme_light_surfaceVariant" android:width="2px"/>
+    <stroke android:color="@color/borderGrey" android:width="2px"/>
 </shape>

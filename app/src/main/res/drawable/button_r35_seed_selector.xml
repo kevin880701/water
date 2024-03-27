@@ -14,7 +14,7 @@
         <shape android:shape="rectangle">
             <corners android:radius="35dp" />
             <!-- 這是按鈕可點擊時的背景顏色 -->
-            <solid android:color="@color/seed" />
+            <solid android:color="@color/primaryBlue" />
         </shape>
     </item>
 

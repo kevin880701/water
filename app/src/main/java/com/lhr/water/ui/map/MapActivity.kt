@@ -1,6 +1,5 @@
 package com.lhr.water.ui.map
 
-import android.content.Intent
 import android.graphics.Bitmap
 import android.graphics.BitmapFactory
 import android.graphics.Color
@@ -42,7 +41,7 @@ class MapActivity(): BaseActivity(), View.OnClickListener, StorageInfoBottom.Lis
         super.onCreate(savedInstanceState)
         _binding = ActivityMapBinding.inflate(layoutInflater)
         setContentView(binding.root)
-        window.statusBarColor = ResourcesCompat.getColor(resources, R.color.seed, null)
+        window.statusBarColor = ResourcesCompat.getColor(resources, R.color.primaryBlue, null)
 
         // 檢查版本判斷接收資料方式
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {

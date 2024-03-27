@@ -6,22 +6,15 @@ import android.view.KeyEvent
 import android.view.View
 import android.widget.AdapterView
 import android.widget.Spinner
-import android.widget.Toast
 import androidx.activity.viewModels
-import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.res.ResourcesCompat
-import androidx.databinding.DataBindingUtil
-import androidx.lifecycle.ViewModelProvider
 import com.lhr.water.R
 import com.lhr.water.databinding.ActivityLoginBinding
-import com.lhr.water.databinding.ActivityMainBinding
 import com.lhr.water.model.LoginData
 import com.lhr.water.ui.base.APP
 import com.lhr.water.ui.base.BaseActivity
 import com.lhr.water.ui.main.MainActivity
-import com.lhr.water.ui.main.MainViewModel
 import com.lhr.water.util.adapter.SpinnerAdapter
-import timber.log.Timber
 
 
 class LoginActivity : BaseActivity(), View.OnClickListener {
@@ -37,7 +30,7 @@ class LoginActivity : BaseActivity(), View.OnClickListener {
 
         _binding = ActivityLoginBinding.inflate(layoutInflater)
         setContentView(binding.root)
-        window.statusBarColor = ResourcesCompat.getColor(resources, R.color.seed, null)
+        window.statusBarColor = ResourcesCompat.getColor(resources, R.color.primaryBlue, null)
 
         initView()
     }
