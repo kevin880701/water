@@ -1,6 +1,5 @@
 package com.lhr.water.ui.inventory
 
-import android.net.Uri
 import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
@@ -8,7 +7,6 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.activity.OnBackPressedCallback
-import androidx.activity.result.contract.ActivityResultContracts
 import androidx.fragment.app.viewModels
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.lhr.water.R
@@ -19,7 +17,6 @@ import com.lhr.water.ui.base.BaseFragment
 import com.lhr.water.util.adapter.InventoryAdapter
 import com.lhr.water.util.dialog.InventoryGoodsDialog
 import com.lhr.water.util.widget.FormGoodsDataWidget
-import org.json.JSONArray
 import org.json.JSONException
 import org.json.JSONObject
 import timber.log.Timber
@@ -58,7 +55,7 @@ class InventoryFragment : BaseFragment(), View.OnClickListener, InventoryAdapter
     }
 
     private fun bindViewModel() {
-        formRepository.inventoryEntities.observe(viewLifecycleOwner) { inventoryEntities ->
+        formRepository.inventoryRecord.observe(viewLifecycleOwner) { inventoryEntities ->
             inventoryAdapter.submitList(inventoryEntities)
         }
     }
@@ -66,10 +63,6 @@ class InventoryFragment : BaseFragment(), View.OnClickListener, InventoryAdapter
     private fun initView() {
 
         formFieldNameMap = returningFieldMap.toMutableMap()
-//        formFieldNameList = resources.getStringArray(R.array.inventory_form_field_name)
-//            .toList() as ArrayList<String>
-//        formFieldNameEngList = resources.getStringArray(R.array.inventory_form_field_name_eng)
-//                .toList() as ArrayList<String>
 
         binding.widgetTitleBar.textTitle.text = requireActivity().getString(R.string.search_inventory)
         binding.widgetTitleBar.imageBackup.visibility = View.VISIBLE

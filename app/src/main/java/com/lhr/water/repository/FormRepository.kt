@@ -6,6 +6,8 @@ import com.lhr.water.R
 import com.lhr.water.data.Form
 import com.lhr.water.data.Form.Companion.formFromJson
 import com.lhr.water.data.Form.Companion.toJsonString
+import com.lhr.water.data.InventoryForm
+import com.lhr.water.data.InventoryForm.Companion.formInventoryFormJson
 import com.lhr.water.data.TempDealGoodsData
 import com.lhr.water.data.WaitDealGoodsData
 import com.lhr.water.room.FormEntity
@@ -64,7 +66,7 @@ class FormRepository(context: Context) {
     var searchFormNumber = MutableLiveData<String>()
 
     // 盤點表單
-    var inventoryEntities = MutableLiveData<ArrayList<InventoryEntity>>()
+    var inventoryRecord = MutableLiveData<ArrayList<InventoryForm>>()
     var inventoryFormList: MutableLiveData<ArrayList<JSONObject>> =
         MutableLiveData<ArrayList<JSONObject>>()
 
@@ -94,7 +96,7 @@ class FormRepository(context: Context) {
         loadRecord()
 //        formRecordList.value = loadRecord()
 //        inventoryFormList.value = loadInventoryForm()
-        inventoryEntities.value = loadInventoryForm()
+        loadInventoryForm()
     }
 
     /**
@@ -272,7 +274,8 @@ class FormRepository(context: Context) {
             if(form.reportTitle == inventoryFormName){
                 val jsonObject = jsonArray.getJSONObject(i)
                 val inventoryEntity = InventoryEntity()
-                inventoryEntity.formNumber = jsonObject.optString("deptName").toString() + jsonObject.optString("date").toString() + jsonObject.optString("seq").toString()
+//              inventoryEntity.formNumber = jsonObject.optString("deptName").toString() + jsonObject.optString("date").toString() + jsonObject.optString("seq").toString()
+                inventoryEntity.formNumber = jsonObject.optString("formNumber").toString()
                 inventoryEntity.formContent = jsonObject.toString()
                 SqlDatabase.getInstance().getInventoryDao().insertNewForm(inventoryEntity)
                 loadInventoryForm()
@@ -359,7 +362,7 @@ class FormRepository(context: Context) {
 
     /**
      * 根據表單名稱和表單代號篩選待出庫清單
-     * @param waitInputGoods 要篩選的待入庫清單
+     * @param waitOutputGoods 要篩選的待入庫清單
      * @param targetReportTitle 指定表單名稱
      * @param targetFormNumber 指定表單代號
      */
@@ -441,7 +444,8 @@ class FormRepository(context: Context) {
         for (i in 0 until jsonArray.length()) {
             val jsonObject = jsonArray.getJSONObject(i)
             val inventoryEntity = InventoryEntity()
-            inventoryEntity.formNumber = jsonObject.optString("deptName").toString() + jsonObject.optString("date").toString() + jsonObject.optString("seq").toString()
+//            inventoryEntity.formNumber = jsonObject.optString("deptName").toString() + jsonObject.optString("date").toString() + jsonObject.optString("seq").toString()
+            inventoryEntity.formNumber = jsonObject.optString("formNumber").toString()
             inventoryEntity.formContent = jsonObject.toString()
             SqlDatabase.getInstance().getInventoryDao().insertNewForm(inventoryEntity)
         }
@@ -469,15 +473,17 @@ class FormRepository(context: Context) {
 
 
     /**
-     * 抓取表單全部記錄
+     * 抓取盤點表單全部記錄
      */
-    fun loadInventoryForm(): ArrayList<InventoryEntity> {
+    fun loadInventoryForm() {
         val loadFormList: List<InventoryEntity> = SqlDatabase.getInstance().getInventoryDao().getInventoryForms()
-//        val formJsonList = ArrayList<JSONObject>()
-//        for (formData in loadFormList) {
-//            formJsonList.add(jsonStringToJson(formData))
-//        }
-        inventoryEntities.postValue(loadFormList as ArrayList<InventoryEntity>)
-        return loadFormList as ArrayList<InventoryEntity>
+
+        val tempFormList = ArrayList<InventoryForm>()
+        for (formData in loadFormList) {
+            println(formData.formContent)
+            println(formInventoryFormJson(formData.formContent).formNumber)
+            tempFormList.add(formInventoryFormJson(formData.formContent))
+        }
+        inventoryRecord.postValue(tempFormList)
     }
 }
