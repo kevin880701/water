@@ -55,16 +55,6 @@ class FormRepository(context: Context) {
     var storageGoods: MutableLiveData<ArrayList<StorageContentEntity>> =
         MutableLiveData<ArrayList<StorageContentEntity>>()
 
-    // 篩選後的表單
-    var formFilterRecordList: MutableLiveData<ArrayList<Form>> =
-        MutableLiveData<ArrayList<Form>>()
-
-    // 篩選表單類別FormClass的List
-    var filterList = MutableLiveData<ArrayList<String>>()
-
-    // 篩選表單代號formNumber的String
-    var searchFormNumber = MutableLiveData<String>()
-
     // 盤點表單
     var inventoryRecord = MutableLiveData<ArrayList<InventoryForm>>()
     var inventoryFormList: MutableLiveData<ArrayList<JSONObject>> =
@@ -81,7 +71,6 @@ class FormRepository(context: Context) {
     }
 
     init {
-        filterList.value = ArrayList(context.resources.getStringArray(R.array.form_array).toList())
         val loadFormList: List<String> = SqlDatabase.getInstance().getFormDao().getAll()
         val formJsonList = ArrayList<JSONObject>()
         for (formData in loadFormList) {
@@ -94,8 +83,6 @@ class FormRepository(context: Context) {
         storageRecords.value = ArrayList<StorageRecordEntity>()
         storageGoods.value = ArrayList<StorageContentEntity>()
         loadRecord()
-//        formRecordList.value = loadRecord()
-//        inventoryFormList.value = loadInventoryForm()
         loadInventoryForm()
     }
 
@@ -109,7 +96,6 @@ class FormRepository(context: Context) {
             tempFormList.add(formFromJson(formData))
         }
         formRecordList.postValue(tempFormList)
-        formFilterRecordList.postValue(filterRecord(tempFormList))
         updateWaitInputGoods(tempFormList)
         updateWaitOutputGoods(tempFormList)
 //        return formJsonList
@@ -220,26 +206,6 @@ class FormRepository(context: Context) {
      */
     private fun updateStorageGoods() {
         storageGoods.postValue(SqlDatabase.getInstance().getStorageContentDao().getAllStorageContent() as ArrayList)
-    }
-
-    /**
-     * 篩選表單內容
-     */
-    fun filterRecord(formList: ArrayList<Form>): ArrayList<Form>? {
-        return formList.filter { form ->
-            // 根據 "FormClass" 判斷是否在 filterList 中
-            val reportTitle = form.reportTitle.toString()
-            val reportTitleFilterCondition = filterList.value?.contains(reportTitle)
-            val formNumber = form.formNumber.toString()
-
-            // 如果搜尋框(EditText)中的文本不為空，則判斷 "formNumber" 是否包含該文本
-            val editTextFilterCondition = if (searchFormNumber.value?.isNotEmpty() == true) {
-                formNumber.contains(searchFormNumber.value!!, ignoreCase = true)
-            } else {
-                true // 搜尋框(EditText)，不添加 formNumber 的篩選條件
-            }
-            reportTitleFilterCondition!! && editTextFilterCondition
-        }?.toMutableList()!! as ArrayList<Form>?
     }
 
     /**
@@ -450,26 +416,6 @@ class FormRepository(context: Context) {
             SqlDatabase.getInstance().getInventoryDao().insertNewForm(inventoryEntity)
         }
     }
-
-    /**
-     * 抓取表單全部記錄
-     */
-//    fun loadInventoryForm(): ArrayList<JSONObject> {
-//        val loadFormList: List<String> = SqlDatabase.getInstance().getInventoryDao().getInventoryForms()
-//        val formJsonList = ArrayList<JSONObject>()
-//        for (formData in loadFormList) {
-//            formJsonList.add(jsonStringToJson(formData))
-//        }
-////        formRecordList.value = formJsonList
-////        formFilterRecordList.value = formJsonList
-////        formFilterRecordList.value = filterRecord()
-//        inventoryFormList.postValue(formJsonList)
-////        formFilterRecordList.postValue(formJsonList)
-////        formFilterRecordList.postValue(filterRecord(formJsonList))
-////        updateWaitInputGoods(formJsonList)
-////        updateWaitOutputGoods(formJsonList)
-//        return formJsonList
-//    }
 
 
     /**

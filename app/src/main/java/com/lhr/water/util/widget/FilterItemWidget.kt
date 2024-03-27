@@ -42,7 +42,7 @@ class FilterItemWidget : RelativeLayout, View.OnClickListener {
 
     fun initView() {
         // 第一次創建讓勾選框被勾選
-        if (FormRepository.getInstance(activity).filterList.value?.contains(itemName) == true) {
+        if (viewModel.filterList.value?.contains(itemName) == true) {
             checkBoxItem.isChecked = true
         }
         textItemName.text = itemName
@@ -51,12 +51,12 @@ class FilterItemWidget : RelativeLayout, View.OnClickListener {
             // 處理 CheckBox 的狀態變化
             if (isChecked) {
                 // CheckBox 被選中
-                FormRepository.getInstance(activity).filterList.value?.add(itemName)
-                FormRepository.getInstance(activity).filterList.postValue(FormRepository.getInstance(activity).filterList.value)
+                viewModel.filterList.value?.add(itemName)
+                viewModel.filterList.postValue(viewModel.filterList.value)
             } else {
                 // CheckBox 被取消選中
-                FormRepository.getInstance(activity).filterList.value?.removeIf { it == itemName }
-                FormRepository.getInstance(activity).filterList.postValue(FormRepository.getInstance(activity).filterList.value)
+                viewModel.filterList.value?.removeIf { it == itemName }
+                viewModel.filterList.postValue(viewModel.filterList.value)
             }
         }
         constraintCheck.setOnClickListener(this)
