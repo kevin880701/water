@@ -61,15 +61,16 @@ class InventoryFragment : BaseFragment(), View.OnClickListener, InventoryAdapter
         formRepository.inventoryEntities.observe(viewLifecycleOwner) { inventoryEntities ->
             inventoryAdapter.submitList(inventoryEntities)
         }
+
+        // 盤點表單代號輸入後篩選更新
+        formRepository.searchInventoryFormNumber.observe(viewLifecycleOwner) {
+            formRepository.formFilterInventoryEntities.postValue(formRepository.filterInventoryRecord(formRepository.inventoryEntities.value!!))
+        }
     }
 
     private fun initView() {
 
         formFieldNameMap = returningFieldMap.toMutableMap()
-//        formFieldNameList = resources.getStringArray(R.array.inventory_form_field_name)
-//            .toList() as ArrayList<String>
-//        formFieldNameEngList = resources.getStringArray(R.array.inventory_form_field_name_eng)
-//                .toList() as ArrayList<String>
 
         binding.widgetTitleBar.textTitle.text = requireActivity().getString(R.string.search_inventory)
         binding.widgetTitleBar.imageBackup.visibility = View.VISIBLE
@@ -85,7 +86,7 @@ class InventoryFragment : BaseFragment(), View.OnClickListener, InventoryAdapter
 
             override fun afterTextChanged(s: Editable?) {
                 // 在文本改變之後執行的操作
-//                formRepository.searchFormNumber.postValue(s.toString())
+                formRepository.searchInventoryFormNumber.postValue(s.toString())
             }
         })
 
