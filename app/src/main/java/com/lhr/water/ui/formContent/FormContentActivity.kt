@@ -41,7 +41,6 @@ import com.lhr.water.util.widget.FormContentDataSpinnerWidget
 import com.lhr.water.util.widget.FormGoodsAdd
 import com.lhr.water.util.widget.FormGoodsDataWidget
 import com.lhr.water.util.widget.FormContentDataWidget
-import org.json.JSONArray
 import org.json.JSONObject
 import timber.log.Timber
 import java.time.LocalDate
@@ -62,7 +61,7 @@ class FormContentActivity : BaseActivity(), View.OnClickListener, FormGoodsAdd.L
         super.onCreate(savedInstanceState)
         _binding = ActivityFormContentBinding.inflate(layoutInflater)
         setContentView(binding.root)
-        window.statusBarColor = ResourcesCompat.getColor(resources, R.color.seed, null)
+        window.statusBarColor = ResourcesCompat.getColor(resources, R.color.primaryBlue, null)
 
         // 檢查版本
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
@@ -178,8 +177,6 @@ class FormContentActivity : BaseActivity(), View.OnClickListener, FormGoodsAdd.L
         val itemDetailList = ArrayList<ItemDetail>()
         for (formGoodsDataWidget in binding.linearItemData) {
             itemDetailList.add((formGoodsDataWidget as FormGoodsDataWidget).itemDetail)
-            println("${(formGoodsDataWidget as FormGoodsDataWidget).itemDetail.materialName}")
-            println("${(formGoodsDataWidget as FormGoodsDataWidget).itemDetail.receivedQuantity}")
         }
         for (formGoodsDataWidget in binding.linearFormData) {
 
@@ -439,8 +436,7 @@ class FormContentActivity : BaseActivity(), View.OnClickListener, FormGoodsAdd.L
             false,
             formItemFieldNameMap,
             this,
-            itemDetail,
-            formGoodsDataWidget
+            itemDetail
         )
         goodsDialog.show(supportFragmentManager, "GoodsDialog")
     }

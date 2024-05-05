@@ -14,22 +14,23 @@
 
         <TextView
             android:id="@+id/textRegionName"
+            style="@style/TextStyle_16dp_black"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_weight="1"
-            android:gravity="center_vertical"
             android:layout_marginLeft="26dp"
             android:layout_marginRight="26dp"
-            android:text=""
+            android:layout_weight="1"
+            android:gravity="center_vertical"
             android:singleLine="true"
-            android:textColor="@color/seed"
-            android:textSize="@dimen/main_title_size"/>
+            android:text=""
+            android:textColor="@color/primaryBlue"
+            android:textSize="@dimen/main_title_size" />
 
         <View
             android:layout_width="match_parent"
             android:layout_height="1dp"
-            app:layout_constraintBottom_toBottomOf="parent"
-            android:background="@color/deep_gray"/>
+            android:background="@color/deep_gray"
+            app:layout_constraintBottom_toBottomOf="parent" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

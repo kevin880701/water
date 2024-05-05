@@ -21,7 +21,7 @@ class SpinnerAdapter(
     override fun getView(position: Int, convertView: View?, parent: ViewGroup): View {
         val view = super.getView(position, convertView, parent)
         val textView = view.findViewById<TextView>(android.R.id.text1)
-        textView.setTextColor(ResourcesCompat.getColor(context.resources, R.color.seed, null))
+        textView.setTextColor(ResourcesCompat.getColor(context.resources, R.color.primaryBlue, null))
         return view
     }
 
@@ -30,7 +30,7 @@ class SpinnerAdapter(
         val textItemName = view.findViewById<TextView>(R.id.textItemName)
         view.setBackgroundColor(ContextCompat.getColor(context, R.color.white))
         textItemName.text = getItem(position)
-        textItemName.setTextColor(ResourcesCompat.getColor(context.resources, R.color.seed, null))
+        textItemName.setTextColor(ResourcesCompat.getColor(context.resources, R.color.primaryBlue, null))
 
         return view
     }

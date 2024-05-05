@@ -103,7 +103,6 @@ data class Form(
     var pickingDept: String? = null,
     @FieldName(chinese = "案號", english = "caseNumber")
     var caseNumber: String? = null,
-
     @FieldName(chinese = "聯絡人", english = "contact")
     var contact: String? = null,
     @FieldName(chinese = "電話", english = "contactPhone")
@@ -164,7 +163,6 @@ data class Form(
                 transferringTransferDate = jsonMap["transferringTransferDate"] as? String,
                 receivingTransferDate = jsonMap["receivingTransferDate"] as? String,
                 receivingLocation = jsonMap["receivingLocation"] as? String,
-
                 issuingUnit = jsonMap["issuingUnit"] as? String,
                 pickingDate = jsonMap["pickingDate"] as? String,
                 pickingDept = jsonMap["pickingDept"] as? String,
@@ -228,13 +226,10 @@ data class Form(
                 "transferringTransferDate" to transferringTransferDate,
                 "receivingTransferDate" to receivingTransferDate,
                 "receivingLocation" to receivingLocation,
-
                 "issuingUnit" to issuingUnit,
                 "pickingDate" to pickingDate,
                 "pickingDept" to pickingDept,
                 "caseNumber" to caseNumber,
-
-
                 "contact" to contact,
                 "contactPhone" to contactPhone,
                 "transferDescription" to transferDescription,

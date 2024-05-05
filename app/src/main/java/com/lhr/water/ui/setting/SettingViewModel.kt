@@ -7,6 +7,10 @@ import android.util.Log
 import androidx.documentfile.provider.DocumentFile
 import androidx.lifecycle.AndroidViewModel
 import com.google.gson.Gson
+import com.google.gson.JsonArray
+import com.google.gson.JsonObject
+import com.lhr.water.data.Form.Companion.toJsonString
+import com.lhr.water.data.InventoryForm.Companion.toJsonString
 import com.lhr.water.network.Execute
 import com.lhr.water.network.data.UpdateData
 import com.lhr.water.repository.FormRepository
@@ -20,7 +24,6 @@ import okhttp3.MediaType.Companion.toMediaTypeOrNull
 import okhttp3.RequestBody
 import okhttp3.RequestBody.Companion.toRequestBody
 import okhttp3.Response
-import org.json.JSONArray
 import timber.log.Timber
 import java.io.BufferedReader
 import java.io.IOException
@@ -30,7 +33,8 @@ import java.text.SimpleDateFormat
 import java.util.Date
 import java.util.Locale
 
-class SettingViewModel(context: Context, formRepository: FormRepository): AndroidViewModel(context.applicationContext as APP) {
+class SettingViewModel(context: Context, formRepository: FormRepository) :
+    AndroidViewModel(context.applicationContext as APP) {
     var formRepository = formRepository
 
     /**
@@ -60,7 +64,6 @@ class SettingViewModel(context: Context, formRepository: FormRepository): Androi
 //            Log.e("MainActivity", "Error writing JSONObject to file", e)
 //        }
 //    }
-
 
 
     /**
@@ -106,7 +109,7 @@ class SettingViewModel(context: Context, formRepository: FormRepository): Androi
     }
 
 
-    fun uploadFiles(activity: Activity){
+    fun uploadFiles(activity: Activity) {
         Execute.getNewForm(
             activity, object : Callback {
                 override fun onFailure(call: Call, e: IOException) {
@@ -141,29 +144,29 @@ class SettingViewModel(context: Context, formRepository: FormRepository): Androi
         )
     }
 
-    fun updateFormData(context: Context, jsonContent: String){
-//        val inputStream: InputStream? =
-//            context.contentResolver.openInputStream(fileUri)
-//        var jsonContent = readJsonFromInputStream(inputStream)
+    fun updateFormData(context: Context, jsonContent: String) {
         var jsonArray = jsonStringToJsonArray(jsonContent)
         jsonArray = jsonAddInformation(jsonArray)
-        if(checkJson(jsonArray, context)){
+        if (checkJson(jsonArray, context)) {
             formRepository.insertNewForm(jsonArray)
             formRepository.loadRecord()
         }
     }
 
     fun writeJsonObjectToFolder(activity: Activity) {
-        val jsonObject = JSONArray(formRepository.formRecordList.value)
-            // 當前日期時間
-            val dateFormat = SimpleDateFormat("yyyyMMdd_HHmmss", Locale.getDefault())
-            val currentDate = dateFormat.format(Date())
-            jsonObject.toString()
+        val gson = Gson()
+        val jsonArray = JsonArray()
+        for (i in formRepository.formRecordList.value!!) {
+            jsonArray.add(gson.fromJson(i.toJsonString(), JsonObject::class.java))
+        }
+        for (i in formRepository.inventoryRecord.value!!) {
+            jsonArray.add(gson.fromJson(i.toJsonString(), JsonObject::class.java))
+        }
 
+        val jsonRequestBody: String = jsonArray.toString()
+        val requestBody: RequestBody =
+            jsonRequestBody.toRequestBody("application/json; charset=utf-8".toMediaTypeOrNull())
 
-        val jsonRequestBody: String = Gson().toJson(jsonObject.toString())
-        val requestBody: RequestBody = jsonRequestBody.toRequestBody("application/json; charset=utf-8".toMediaTypeOrNull())
-        
         Execute.postRecord(
             activity, requestBody, object : Callback {
                 override fun onFailure(call: Call, e: IOException) {
@@ -190,16 +193,22 @@ class SettingViewModel(context: Context, formRepository: FormRepository): Androi
         )
     }
 
-
-
     /**
-     * 寫入JSON檔案到指定資料夾
+     * 寫入JSON檔案到指定資料夾（本地）
      * @param context 要被讀取的內容
      * @param folderUri 指定資料夾位置
      */
-    fun writeJsonObjectToFolder2(context: Context, folderUri: Uri) {
+    fun writeJsonObjectToFolderLocal(context: Context, folderUri: Uri) {
         try {
-            val jsonObject = JSONArray(formRepository.formRecordList.value)
+
+            val gson = Gson()
+            val jsonArray = JsonArray()
+            for (i in formRepository.formRecordList.value!!) {
+                jsonArray.add(gson.fromJson(i.toJsonString(), JsonObject::class.java))
+            }
+            for (i in formRepository.inventoryRecord.value!!) {
+                jsonArray.add(gson.fromJson(i.toJsonString(), JsonObject::class.java))
+            }
             val folder = DocumentFile.fromTreeUri(context, folderUri)
             // 當前日期時間
             val dateFormat = SimpleDateFormat("yyyyMMdd_HHmmss", Locale.getDefault())
@@ -210,7 +219,7 @@ class SettingViewModel(context: Context, formRepository: FormRepository): Androi
             file?.let {
                 val outputStream = context.contentResolver.openOutputStream(it.uri)
                 outputStream?.use { stream ->
-                    stream.write(jsonObject.toString().toByteArray())
+                    stream.write(jsonArray.toString().toByteArray())
                 }
 
                 Log.d("MainActivity", "JSONObject written to file: ${it.uri}")
@@ -222,17 +231,17 @@ class SettingViewModel(context: Context, formRepository: FormRepository): Androi
 
 
     /**
-     * 更新表單資料
+     * 更新表單資料（本地）
      * @param context
      * @param fileUri json檔位址
      */
-    fun updateFormData2(context: Context, fileUri: Uri){
+    fun updateFormDataLocal(context: Context, fileUri: Uri) {
         val inputStream: InputStream? =
             context.contentResolver.openInputStream(fileUri)
         var jsonContent = readJsonFromInputStream(inputStream)
         var jsonArray = jsonStringToJsonArray(jsonContent)
         jsonArray = jsonAddInformation(jsonArray)
-        if(checkJson(jsonArray, context)){
+        if (checkJson(jsonArray, context)) {
             formRepository.insertNewForm(jsonArray)
         }
     }

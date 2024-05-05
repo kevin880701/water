@@ -18,7 +18,7 @@
             android:gravity="center"
             android:text="交貨通知單號"
             style="@style/TextStyle_16dp_black"
-            android:textColor="@color/seed"
+            android:textColor="@color/primaryBlue"
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintLeft_toLeftOf="parent" />
 
@@ -28,9 +28,9 @@
             android:layout_height="wrap_content"
             android:layout_marginLeft="8dp"
             android:padding="4dp"
-            android:background="@drawable/bg_border_seed"
+            android:background="@drawable/under_line"
             style="@style/TextStyle_16dp_black"
-            android:textColor="@color/black"
+            android:textColor="@color/primaryBlack"
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintLeft_toRightOf="@+id/textDataName"
@@ -43,7 +43,7 @@
             app:layout_constraintTop_toTopOf="@+id/spinnerDataContent"
             app:layout_constraintBottom_toBottomOf="@+id/spinnerDataContent"
             app:layout_constraintRight_toRightOf="parent"
-            app:tint="@color/seed"
+            app:tint="@color/primaryBlue"
             android:src="@drawable/arrow_down"/>
 
         <View

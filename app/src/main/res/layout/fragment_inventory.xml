@@ -26,7 +26,7 @@
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintRight_toRightOf="parent"
             android:paddingBottom="8dp"
-            android:background="@color/seed">
+            android:background="@color/primaryBlue">
 
             <View
                 android:layout_width="match_parent"
@@ -52,7 +52,7 @@
                 android:layout_marginRight="24dp"
                 android:layout_marginLeft="30dp"
                 android:textColor="@color/deep_gray"
-                android:hint="輸入表單代號"
+                android:hint="輸入貨物名稱"
                 android:textColorHint="@color/deep_gray"
                 android:background="@color/transparent"/>
 

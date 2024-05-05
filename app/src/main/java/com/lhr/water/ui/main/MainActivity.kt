@@ -30,7 +30,7 @@ class MainActivity : BaseActivity() {
         super.onCreate(savedInstanceState)
         _binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
-        window.statusBarColor = ResourcesCompat.getColor(resources, R.color.seed, null)
+        window.statusBarColor = ResourcesCompat.getColor(resources, R.color.primaryBlue, null)
         viewModel.updateFormList()
         initTabLayout(binding.tabLayoutMain)
     }

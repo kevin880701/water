@@ -11,25 +11,27 @@
         android:layout_height="match_parent"
         android:background="@color/white">
 
+
         <androidx.viewpager2.widget.ViewPager2
             android:id="@+id/viewPager"
             android:layout_width="match_parent"
             android:layout_height="0dp"
             app:layout_constraintBottom_toTopOf="@id/tabLayoutMain"
-            app:layout_constraintTop_toTopOf="parent" />
-
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_bias="0.0"
+            tools:layout_editor_absoluteX="167dp" />
 
         <com.google.android.material.tabs.TabLayout
             android:id="@+id/tabLayoutMain"
             android:layout_width="match_parent"
             android:layout_height="0dp"
-            android:background="@color/seed"
+            android:background="@color/white"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintHeight_percent="0.08"
             app:tabIndicatorFullWidth="false"
             app:tabIndicatorHeight="2dp"
             app:tabIconTint="@color/tab_icon"
-            app:tabIndicatorColor="@color/white"
+            app:tabIndicatorColor="@color/primaryBlue"
             app:tabRippleColor="@null">
 
             <com.google.android.material.tabs.TabItem
@@ -37,7 +39,7 @@
                 android:layout_height="wrap_content"
                 android:icon="@drawable/region_choose" />
 
-            <com.google.android.material.tabs.TabItem
+             <com.google.android.material.tabs.TabItem
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:icon="@drawable/form" />

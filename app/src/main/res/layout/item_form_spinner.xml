@@ -22,7 +22,7 @@
                 android:layout_marginRight="26dp"
                 android:text="財物驗收單"
                 android:singleLine="true"
-                android:textColor="@color/seed"
+                android:textColor="@color/primaryBlue"
                 android:textSize="@dimen/main_title_size"/>
 
 

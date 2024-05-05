@@ -4,6 +4,7 @@ import android.content.Context
 import android.net.Uri
 import android.util.Log
 import androidx.lifecycle.AndroidViewModel
+import androidx.lifecycle.MutableLiveData
 import com.lhr.water.data.WaitDealGoodsData
 import com.lhr.water.repository.FormRepository
 import com.lhr.water.repository.RegionRepository
@@ -30,44 +31,8 @@ class InventoryViewModel(
 ) : AndroidViewModel(context.applicationContext as APP) {
     var formRepository = formRepository
 
-    /**
-     * 更新表單資料
-     * @param context
-     * @param fileUri json檔位址
-     */
-    fun  updateFormData(context: Context, fileUri: Uri){
-        val inputStream: InputStream? =
-            context.contentResolver.openInputStream(fileUri)
-        var jsonContent = readJsonFromInputStream(inputStream)
-        var jsonArray = jsonStringToJsonArray(jsonContent)
-        jsonArray = jsonAddInformation(jsonArray)
-        if(checkInventoryJson(jsonArray, context)){
-            formRepository.insertInventoryForm(jsonArray)
-            formRepository.loadInventoryForm()
-        }
-    }
+    // 篩選materialName的String
+    var searchMaterialName = MutableLiveData<String>()
 
-    /**
-     * 讀取JSON檔案
-     * @param inputStream 要被讀取的內容
-     */
-    fun readJsonFromInputStream(inputStream: InputStream?): String {
-        val stringBuilder = StringBuilder()
-        try {
-            val reader = BufferedReader(InputStreamReader(inputStream))
-            var line: String?
-            while (reader.readLine().also { line = it } != null) {
-                stringBuilder.append(line)
-            }
-        } catch (e: IOException) {
-            Log.e("MainActivity", "Error reading JSON file", e)
-        } finally {
-            try {
-                inputStream?.close()
-            } catch (e: IOException) {
-                Log.e("MainActivity", "Error closing InputStream", e)
-            }
-        }
-        return stringBuilder.toString()
-    }
+
 }

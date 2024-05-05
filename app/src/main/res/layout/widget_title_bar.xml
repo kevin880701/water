@@ -12,7 +12,7 @@
         android:layout_height="60dp"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintLeft_toLeftOf="parent"
-        android:background="@color/seed">
+        android:background="@color/primaryBlue">
         <ImageView
             android:id="@+id/imageBack"
             android:layout_width="24dp"
