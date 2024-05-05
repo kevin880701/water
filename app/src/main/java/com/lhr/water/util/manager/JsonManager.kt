@@ -192,10 +192,10 @@ fun checkInventoryJson(jsonArray: JSONArray, context: Context): Boolean {
     return true
 }
 
-fun JSONObject.toRegionEntity(): RegionEntity {
-    val regionName = this.getString("RegionName")
-    return RegionEntity(regionName)
-}
+//fun JSONObject.toRegionEntity(): RegionEntity {
+//    val regionName = this.getString("RegionName")
+//    return RegionEntity(regionName)
+//}
 
 fun JSONObject.toMapEntities(): List<MapEntity> {
     val regionName = this.getString("RegionName")

@@ -16,6 +16,10 @@ import java.io.Serializable
 )
 class RegionEntity(
     regionName: String,
+    regionNumber: String,
+    deptName: String,
+    deptNumber: String,
+    mapSeq: Int,
 ) : Serializable {
 
     @NonNull
@@ -24,4 +28,16 @@ class RegionEntity(
 
     @ColumnInfo(name = SqlModel.regionName, typeAffinity = ColumnInfo.TEXT)
     var regionName = regionName
+
+    @ColumnInfo(name = SqlModel.regionNumber, typeAffinity = ColumnInfo.TEXT)
+    var regionNumber = regionNumber
+
+    @ColumnInfo(name = SqlModel.deptName, typeAffinity = ColumnInfo.TEXT)
+    var deptName = deptName
+
+    @ColumnInfo(name = SqlModel.deptNumber, typeAffinity = ColumnInfo.TEXT)
+    var deptNumber = deptNumber
+
+    @ColumnInfo(name = SqlModel.mapSeq, typeAffinity = ColumnInfo.INTEGER)
+    var mapSeq = mapSeq
 }

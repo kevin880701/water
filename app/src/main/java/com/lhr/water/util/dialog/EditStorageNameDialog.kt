@@ -53,18 +53,18 @@ class EditStorageNameDialog(
     override fun onClick(v: View?) {
         when (v?.id) {
             R.id.buttonConfirm -> {
-                if (SqlDatabase.getInstance().getStorageDao().isStorageNameExist(binding.editStorageName.text.toString())){
-                    showToast(requireContext(), "儲櫃名稱已存在")
-                }else{
-                    SqlDatabase.getInstance().getStorageDao().updateStorage(
-                        regionName = oldStorageEntity.regionName,
-                        mapName = oldStorageEntity.mapName,
-                        oldStorageName = oldStorageEntity.storageName,
-                        newStorageName = binding.editStorageName.text.toString()
-                    )
-                    viewModel.regionRepository.loadStorageInformation()
-                    this.dismiss()
-                }
+//                if (SqlDatabase.getInstance().getStorageDao().isStorageNameExist(binding.editStorageName.text.toString())){
+//                    showToast(requireContext(), "儲櫃名稱已存在")
+//                }else{
+////                    SqlDatabase.getInstance().getStorageDao().updateStorage(
+////                        regionName = oldStorageEntity.regionName,
+////                        mapName = oldStorageEntity.mapName,
+////                        oldStorageName = oldStorageEntity.storageName,
+////                        newStorageName = binding.editStorageName.text.toString()
+////                    )
+//                    viewModel.regionRepository.loadStorageInformation()
+//                    this.dismiss()
+//                }
             }
 
             R.id.buttonCancel -> {

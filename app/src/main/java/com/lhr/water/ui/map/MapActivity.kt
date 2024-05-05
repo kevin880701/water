@@ -1,6 +1,5 @@
 package com.lhr.water.ui.map
 
-import android.content.Intent
 import android.graphics.Bitmap
 import android.graphics.BitmapFactory
 import android.graphics.Color
@@ -18,10 +17,10 @@ import androidx.core.content.res.ResourcesCompat
 import com.lhr.water.R
 import com.lhr.water.databinding.ActivityMapBinding
 import com.lhr.water.mapView.layer.MarkLayer
+import com.lhr.water.room.RegionEntity
 import com.lhr.water.room.StorageEntity
 import com.lhr.water.ui.base.APP
 import com.lhr.water.ui.base.BaseActivity
-import com.lhr.water.util.dialog.AddStorageDataDialog
 import com.lhr.water.util.mapView.MapViewListener
 import com.lhr.water.util.widget.StorageContentBottom
 import com.lhr.water.util.widget.StorageInfoBottom
@@ -36,7 +35,8 @@ class MapActivity(): BaseActivity(), View.OnClickListener, StorageInfoBottom.Lis
     var backView: RelativeLayout? = null
     private var markLayer: MarkLayer? = null
     lateinit var region: String
-    lateinit var map: String
+//    lateinit var deptNumber: String
+    lateinit var regionEntity: RegionEntity
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -46,14 +46,12 @@ class MapActivity(): BaseActivity(), View.OnClickListener, StorageInfoBottom.Lis
 
         // 檢查版本判斷接收資料方式
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
-            region = intent.getParcelableExtra("region", String::class.java) as String
-            map = intent.getParcelableExtra("map", String::class.java) as String
+            regionEntity = intent.getSerializableExtra("regionEntity") as RegionEntity
         } else {
-            region = intent.getSerializableExtra("region") as String
-            map = intent.getSerializableExtra("map") as String
+            regionEntity = intent.getSerializableExtra("regionEntity") as RegionEntity
         }
 
-        viewModel.setStorageDetailList(region, map)
+        viewModel.setStorageDetailList(regionEntity)
 
         onBackPressedCallback = object : OnBackPressedCallback(true) {
             override fun handleOnBackPressed() {
@@ -70,28 +68,30 @@ class MapActivity(): BaseActivity(), View.OnClickListener, StorageInfoBottom.Lis
     }
 
     private fun initView() {
-        binding.widgetTitleBar.textTitle.text = map
+        binding.widgetTitleBar.textTitle.text = regionEntity.deptName
         binding.widgetTitleBar.imageBack.visibility = View.VISIBLE
-        binding.widgetTitleBar.imageAdd.visibility = View.VISIBLE
         backView = binding.relativeLayoutBackView
         setupBackButton(binding.widgetTitleBar.imageBack)
         initMapView()
     }
 
     private fun bindViewModel() {
-        viewModel.regionRepository.storageEntities.observe(this) {
-            viewModel.setStorageDetailList(region, map)
-            binding.mapView.refresh()
-        }
+//        viewModel.regionRepository.storageEntities.observe(this) {
+////            viewModel.setStorageDetailList(region, deptNumber)
+//            binding.mapView.refresh()
+//        }
     }
 
     private fun initMapView() {
         var bitmap: Bitmap? = null
         try {
-            bitmap = BitmapFactory.decodeStream(this.assets.open( "map/$region/$map.jpg"))
+            bitmap = BitmapFactory.decodeStream(this.assets.open( "map/${regionEntity.regionName},${regionEntity.deptName},${regionEntity.deptNumber}-${regionEntity.mapSeq}.jpg"))
         } catch (e: IOException) {
             e.printStackTrace()
         }
+        println("AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA")
+        println("map/${regionEntity.regionName},${regionEntity.deptName},${regionEntity.deptNumber}.jpg")
+        println("AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA")
         binding.mapView.loadMap(bitmap)
         binding.mapView.setMapViewListener(object : MapViewListener {
             override fun onMapLoadSuccess() {
@@ -108,11 +108,10 @@ class MapActivity(): BaseActivity(), View.OnClickListener, StorageInfoBottom.Lis
 
             override fun onMapLoadFail() {}
         })
-        binding.widgetTitleBar.imageAdd.setOnClickListener(this)
     }
 
     fun showStorageInfo(storageEntity: StorageEntity) {
-        val storageInfoBottom = StorageInfoBottom(this, this, storageEntity, map, region)
+        val storageInfoBottom = StorageInfoBottom(this, this, storageEntity, regionEntity.deptNumber, region)
         showBottomSheet(storageInfoBottom)
     }
     private fun showBottomSheet(view: View?) {
@@ -156,10 +155,6 @@ class MapActivity(): BaseActivity(), View.OnClickListener, StorageInfoBottom.Lis
 
     override fun onClick(v: View) {
         when (v.id) {
-            R.id.imageAdd -> {
-                val addStorageDataDialog = AddStorageDataDialog(region, map)
-                addStorageDataDialog.show(supportFragmentManager, "AddStorageDataDialog")
-            }
         }
     }
 

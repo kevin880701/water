@@ -6,18 +6,19 @@ import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.lhr.water.databinding.ItemChooseRegionBinding
+import com.lhr.water.room.RegionEntity
 
-class RegionChooseAdapter(val listener: Listener): ListAdapter<String, RegionChooseAdapter.ViewHolder>(LOCK_DIFF_UTIL) {
+class RegionChooseAdapter(val listener: Listener): ListAdapter<RegionEntity, RegionChooseAdapter.ViewHolder>(LOCK_DIFF_UTIL) {
 
     companion object{
-        val LOCK_DIFF_UTIL = object : DiffUtil.ItemCallback<String>() {
-            override fun areItemsTheSame(oldItem: String, newItem: String): Boolean {
+        val LOCK_DIFF_UTIL = object : DiffUtil.ItemCallback<RegionEntity>() {
+            override fun areItemsTheSame(oldItem: RegionEntity, newItem: RegionEntity): Boolean {
                 return oldItem == newItem
             }
 
             override fun areContentsTheSame(
-                oldItem: String,
-                newItem: String
+                oldItem: RegionEntity,
+                newItem: RegionEntity
             ): Boolean {
                 return oldItem.hashCode() == newItem.hashCode()
             }
@@ -26,7 +27,7 @@ class RegionChooseAdapter(val listener: Listener): ListAdapter<String, RegionCho
 
 
     interface Listener{
-        fun onItemClick(item: String)
+        fun onRegionSelect(item: RegionEntity)
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
@@ -41,14 +42,13 @@ class RegionChooseAdapter(val listener: Listener): ListAdapter<String, RegionCho
     inner class ViewHolder(private val binding: ItemChooseRegionBinding): RecyclerView.ViewHolder(binding.root){
 
         init {
-            // bindingAdapterPosition無法使用，所以用adapterPosition替代
             binding.root.setOnClickListener {
-                listener.onItemClick(getItem(adapterPosition))
+                listener.onRegionSelect(getItem(adapterPosition))
             }
         }
 
-        fun bind(regionName: String){
-            binding.textRegionName.text = regionName
+        fun bind(regionEntity: RegionEntity){
+            binding.textRegionName.text = regionEntity.regionName
         }
     }
 }

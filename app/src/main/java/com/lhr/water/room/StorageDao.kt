@@ -14,26 +14,26 @@ interface StorageDao {
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     fun insertStorageEntities(storageEntities: List<StorageEntity>)
 
-    @Insert(onConflict = OnConflictStrategy.REPLACE)
-    fun insertStorageEntity(storageEntity: StorageEntity)
+//    @Insert(onConflict = OnConflictStrategy.REPLACE)
+//    fun insertStorageEntity(storageEntity: StorageEntity)
 
-    @Query("UPDATE $STORAGE_TABLE_NAME SET storageName = :newStorageName WHERE " +
-            "regionName = :regionName AND mapName = :mapName AND storageName = :oldStorageName")
-    fun updateStorage(
-        regionName: String,
-        mapName: String,
-        oldStorageName: String,
-        newStorageName: String
-    )
+//    @Query("UPDATE $STORAGE_TABLE_NAME SET storageName = :newStorageName WHERE " +
+//            "regionName = :regionName AND mapName = :mapName AND storageName = :oldStorageName")
+//    fun updateStorage(
+//        regionName: String,
+//        mapName: String,
+//        oldStorageName: String,
+//        newStorageName: String
+//    )
 
-    @Query("SELECT EXISTS (SELECT 1 FROM $STORAGE_TABLE_NAME WHERE storageName = :storageName LIMIT 1)")
-    fun isStorageNameExist(storageName: String): Boolean
+//    @Query("SELECT EXISTS (SELECT 1 FROM $STORAGE_TABLE_NAME WHERE storageName = :storageName LIMIT 1)")
+//    fun isStorageNameExist(storageName: String): Boolean
 
-    @Query(
-        "DELETE FROM $STORAGE_TABLE_NAME WHERE " +
-                "${SqlModel.regionName} = :regionName AND " +
-                "${SqlModel.mapName} = :mapName AND " +
-                "${SqlModel.storageName} = :storageName"
-    )
-    fun deleteByRegionMapAndStorage(regionName: String, mapName: String, storageName: String)
+//    @Query(
+//        "DELETE FROM $STORAGE_TABLE_NAME WHERE " +
+//                "${SqlModel.regionName} = :regionName AND " +
+//                "${SqlModel.mapName} = :mapName AND " +
+//                "${SqlModel.storageName} = :storageName"
+//    )
+//    fun deleteByRegionMapAndStorage(regionName: String, mapName: String, storageName: String)
 }

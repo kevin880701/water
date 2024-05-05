@@ -5,6 +5,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import com.lhr.water.repository.FormRepository
 import com.lhr.water.repository.RegionRepository
+import com.lhr.water.repository.UserRepository
 import com.lhr.water.ui.cover.CoverViewModel
 import com.lhr.water.ui.formContent.FormContentViewModel
 import com.lhr.water.ui.form.FormViewModel
@@ -20,6 +21,7 @@ class AppViewModelFactory(
     private val context: Context,
     private val regionRepository: RegionRepository,
     private val formRepository: FormRepository,
+    private val userRepository: UserRepository,
 
     ) : ViewModelProvider.NewInstanceFactory() {
 
@@ -31,7 +33,7 @@ class AppViewModelFactory(
             FormContentViewModel::class.java -> FormContentViewModel(context, formRepository) as T
             FormViewModel::class.java -> FormViewModel(context, regionRepository, formRepository) as T
             SettingViewModel::class.java -> SettingViewModel(context, formRepository) as T
-            RegionChooseViewModel::class.java -> RegionChooseViewModel(context, regionRepository) as T
+            RegionChooseViewModel::class.java -> RegionChooseViewModel(context, regionRepository, userRepository) as T
             MapViewModel::class.java -> MapViewModel(context, regionRepository, formRepository) as T
             MaterialSearchViewModel::class.java -> MaterialSearchViewModel(context, formRepository) as T
             InventoryViewModel::class.java -> InventoryViewModel(context, formRepository) as T

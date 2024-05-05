@@ -48,8 +48,7 @@ class ConfirmCancelDialog(
     override fun onClick(v: View?) {
         when (v?.id) {
             R.id.buttonConfirm -> {
-                SqlDatabase.getInstance().getStorageDao().deleteByRegionMapAndStorage(region, map, storageName)
-                viewModel.regionRepository.loadStorageInformation()
+//                SqlDatabase.getInstance().getStorageDao().deleteByRegionMapAndStorage(region, map, storageName)
                 this.dismiss()
             }
 

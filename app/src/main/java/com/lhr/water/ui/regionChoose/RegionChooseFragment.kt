@@ -10,20 +10,21 @@ import androidx.fragment.app.viewModels
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.lhr.water.R
 import com.lhr.water.databinding.FragmentRegionChooseBinding
+import com.lhr.water.room.RegionEntity
 import com.lhr.water.ui.base.BaseFragment
 import com.lhr.water.ui.map.MapActivity
-import com.lhr.water.util.MapPageStatus.MapPage
-import com.lhr.water.util.MapPageStatus.RegionPage
+import com.lhr.water.util.MapDataList
+import com.lhr.water.util.adapter.DeptChooseAdapter
 import com.lhr.water.util.adapter.RegionChooseAdapter
 import timber.log.Timber
 
-class RegionChooseFragment : BaseFragment(), View.OnClickListener, RegionChooseAdapter.Listener {
+class RegionChooseFragment : BaseFragment(), View.OnClickListener, RegionChooseAdapter.Listener, DeptChooseAdapter.Listener {
 
     private var _binding: FragmentRegionChooseBinding? = null
     private val binding get() = _binding!!
     private val viewModel: RegionChooseViewModel by viewModels { viewModelFactory }
     lateinit var regionChooseAdapter: RegionChooseAdapter
-    var currentRegion = ""
+    lateinit var deptChooseAdapter: DeptChooseAdapter
     private val callback = object : OnBackPressedCallback(true /* enabled by default */) {
         override fun handleOnBackPressed() {
                 onBackButtonPressed()
@@ -38,44 +39,53 @@ class RegionChooseFragment : BaseFragment(), View.OnClickListener, RegionChooseA
 //        requireActivity().window.statusBarColor = ResourcesCompat.getColor(resources, R.color.white, null)
 
         initView()
-        return binding.root
-    }
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        super.onViewCreated(view, savedInstanceState)
         bindViewModel()
+        return binding.root
     }
 
     private fun bindViewModel() {
-//        regionRepository.regionList.observe(viewLifecycleOwner) { list ->
-//            regionChooseAdapter.submitList(list)
-//        }
         viewModel.pageStatus.observe(viewLifecycleOwner) { pageStatus ->
             when(pageStatus){
-                RegionPage -> {
+                SelectStatus.RegionPage -> {
                     binding.widgetTitleBar.imageBack.visibility = View.INVISIBLE
+                    binding.recyclerRegion.visibility = View.VISIBLE
+                    binding.recyclerDept.visibility = View.GONE
                 }
-                MapPage -> {
+                SelectStatus.DeptPage -> {
                     binding.widgetTitleBar.imageBack.visibility = View.VISIBLE
+                    binding.recyclerRegion.visibility = View.GONE
+                    binding.recyclerDept.visibility = View.VISIBLE
                 }
             }
         }
-        viewModel.currentList.observe(viewLifecycleOwner) { newList ->
+
+        viewModel.regionList.observe(viewLifecycleOwner) { newList ->
             regionChooseAdapter.submitList(newList)
+        }
+        viewModel.selectRegion.observe(viewLifecycleOwner) { selectRegion ->
+            val filteredList = viewModel.regionRepository.regionEntities.filter { it.deptNumber.startsWith(selectRegion) }
+            deptChooseAdapter.submitList(filteredList)
         }
     }
 
     private fun initView() {
         binding.widgetTitleBar.textTitle.text = requireActivity().getString(R.string.region_choose)
+        viewModel.regionRepository.filterRegionEntity(viewModel.userRepository.userData.deptAno).run {  }
+        viewModel.createRegionList()
         initRecyclerView()
+
+        binding.widgetTitleBar.imageBack.setOnClickListener(this)
     }
 
     private fun initRecyclerView() {
         regionChooseAdapter = RegionChooseAdapter(this)
-        regionChooseAdapter.submitList(viewModel.currentList.value)
+        regionChooseAdapter.submitList(viewModel.regionList.value)
         binding.recyclerRegion.adapter = regionChooseAdapter
         binding.recyclerRegion.layoutManager = LinearLayoutManager(activity)
 
-        binding.widgetTitleBar.imageBack.setOnClickListener(this)
+        deptChooseAdapter = DeptChooseAdapter(this)
+        binding.recyclerDept.adapter = deptChooseAdapter
+        binding.recyclerDept.layoutManager = LinearLayoutManager(activity)
     }
 
     override fun onClick(v: View?) {
@@ -86,20 +96,15 @@ class RegionChooseFragment : BaseFragment(), View.OnClickListener, RegionChooseA
         }
     }
 
-    override fun onItemClick(item: String) {
-        when(viewModel.pageStatus.value){
-            RegionPage -> {
-                currentRegion = item
-                viewModel.changeList(item)
-                viewModel.pageStatus.value = MapPage
-            }
-            MapPage -> {
-                val intent = Intent(requireActivity(), MapActivity::class.java)
-                intent.putExtra("region", currentRegion)
-                intent.putExtra("map", item)
-                startActivity(intent)
-            }
-        }
+    override fun onRegionSelect(regionEntity: RegionEntity) {
+        viewModel.pageStatus.value = SelectStatus.DeptPage
+        viewModel.selectRegion.postValue(regionEntity.regionNumber)
+    }
+
+    override fun onMapSelect(regionEntity: RegionEntity) {
+        val intent = Intent(requireActivity(), MapActivity::class.java)
+        intent.putExtra("regionEntity", regionEntity)
+        startActivity(intent)
     }
 
 
@@ -108,13 +113,14 @@ class RegionChooseFragment : BaseFragment(), View.OnClickListener, RegionChooseA
      */
     private fun onBackButtonPressed() {
         when(viewModel.pageStatus.value){
-            RegionPage -> {
+            SelectStatus.RegionPage -> {
                 requireActivity().finish()
             }
-            MapPage -> {
-                viewModel.pageStatus.postValue(RegionPage)
-                viewModel.changeList()
-                currentRegion = ""
+            SelectStatus.DeptPage -> {
+                viewModel.pageStatus.postValue(SelectStatus.RegionPage)
+            }
+            else -> {
+                requireActivity().finish()
             }
         }
     }

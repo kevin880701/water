@@ -43,8 +43,6 @@ class CoverActivity : BaseActivity() {
         // 創建Model
         Model
 
-        viewModel.checkTable()
-
         GlobalScope.launch {
             val layout = findViewById<ConstraintLayout>(R.id.constrain)
             val animation = AlphaAnimation(0.0f, 1.0f)

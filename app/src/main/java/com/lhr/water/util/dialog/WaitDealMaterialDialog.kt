@@ -65,7 +65,7 @@ class WaitDealMaterialDialog(
         binding.textQuantity.text = maxQuantity
 
         if (isInput) {
-            storageList = viewModel.regionRepository.storageEntities.value!!
+//            storageList = viewModel.regionRepository.storageEntities.value!!
             regionList = viewModel.getInputGoodsRegion(storageList)
             mapList = viewModel.getInputGoodsMap(storageList)
             storageList = viewModel.getInputGoodsStorage(storageList)
@@ -117,12 +117,12 @@ class WaitDealMaterialDialog(
             ) {
                 // 通過 position 獲取當前選定項的文字
                 mapName = parent?.getItemAtPosition(position).toString()
-                initSpinner(
-                    binding.spinnerStorage,
-                    ArrayList(
-                        viewModel.getStorageNameList(regionName, mapName, storageList)
-                            .map { it.storageName })
-                )
+//                initSpinner(
+//                    binding.spinnerStorage,
+//                    ArrayList(
+//                        viewModel.getStorageNameList(regionName, mapName, storageList)
+//                            .map { it.SlotName })
+//                )
             }
 
             override fun onNothingSelected(parent: AdapterView<*>?) {

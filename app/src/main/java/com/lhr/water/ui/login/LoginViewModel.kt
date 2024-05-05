@@ -10,7 +10,7 @@ class LoginViewModel(context: Context, regionRepository: RegionRepository): Andr
 
     var regionRepository = regionRepository
     fun getRegionNameList(): ArrayList<String>{
-        return regionRepository.getRegionNameList(regionRepository.regionEntities.value!!)
+        return regionRepository.getRegionNameList(regionRepository.regionEntities)
     }
 
     fun getMapNameList(regionName: String): ArrayList<String> {

@@ -5,6 +5,7 @@ import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.MutableLiveData
 import com.lhr.water.repository.RegionRepository
 import com.lhr.water.repository.FormRepository
+import com.lhr.water.room.RegionEntity
 import com.lhr.water.room.StorageContentEntity
 import com.lhr.water.room.StorageEntity
 import com.lhr.water.ui.base.APP
@@ -15,8 +16,11 @@ class MapViewModel(context: Context, regionRepository: RegionRepository, formRep
     val formRepository = formRepository
     var storageEntityList = MutableLiveData<ArrayList<StorageEntity>>()
 
-    fun setStorageDetailList(regionName: String, mapName: String){
-        storageEntityList.value = regionRepository.getStorageDetailList(regionName, mapName, regionRepository.storageEntities.value!!)
+    fun setStorageDetailList(regionEntity: RegionEntity){
+        val filteredList = regionRepository.storageEntities.filter { entity ->
+            entity.deptNumber == regionEntity.deptNumber && entity.mapSeq == regionEntity.mapSeq
+        } as ArrayList<StorageEntity>
+        storageEntityList.value = filteredList
     }
 
     fun getStorageContent(regionName: String, mapName: String, storageName: String): ArrayList<StorageContentEntity>{

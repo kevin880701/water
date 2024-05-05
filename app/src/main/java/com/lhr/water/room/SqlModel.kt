@@ -19,6 +19,11 @@ class SqlModel {
 
         //地圖資訊(無儲存物)
         const val regionName: String = "regionName"
+        const val regionNumber: String = "regionNumber"
+        const val deptName: String = "deptName"
+        const val deptNumber: String = "deptNumber"
+
+        const val mapSeq: String = "mapSeq"
         const val mapName: String = "mapName"
         const val storageNum: String = "storageNum"
         const val storageName: String = "storageName"

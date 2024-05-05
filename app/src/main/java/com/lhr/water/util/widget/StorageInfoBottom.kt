@@ -5,7 +5,6 @@ import android.view.View
 import android.widget.RelativeLayout
 import androidx.databinding.DataBindingUtil
 import com.lhr.water.R
-import com.lhr.water.data.StorageDetail
 import com.lhr.water.databinding.WidgetBottomStorageInfoBinding
 import com.lhr.water.room.StorageEntity
 import com.lhr.water.ui.map.MapActivity
