@@ -5,7 +5,6 @@ import androidx.lifecycle.AndroidViewModel
 import com.lhr.water.data.MapDetail
 import com.lhr.water.data.RegionInformation
 import com.lhr.water.data.StorageDetail
-import com.lhr.water.data.WaitDealGoodsData
 import com.lhr.water.repository.FormRepository
 import com.lhr.water.repository.RegionRepository
 import com.lhr.water.room.StorageRecordEntity

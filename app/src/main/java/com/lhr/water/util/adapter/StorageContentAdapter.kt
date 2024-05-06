@@ -6,19 +6,18 @@ import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.lhr.water.databinding.ItemStorageContentBinding
-import com.lhr.water.room.StorageContentEntity
-import com.lhr.water.util.manager.jsonStringToJson
+import com.lhr.water.room.CheckoutEntity
 
-class StorageContentAdapter(val listener: Listener): ListAdapter<StorageContentEntity, StorageContentAdapter.ViewHolder>(LOCK_DIFF_UTIL) {
+class StorageContentAdapter(val listener: Listener): ListAdapter<CheckoutEntity, StorageContentAdapter.ViewHolder>(LOCK_DIFF_UTIL) {
     companion object{
-        val LOCK_DIFF_UTIL = object : DiffUtil.ItemCallback<StorageContentEntity>() {
-            override fun areItemsTheSame(oldItem: StorageContentEntity, newItem: StorageContentEntity): Boolean {
+        val LOCK_DIFF_UTIL = object : DiffUtil.ItemCallback<CheckoutEntity>() {
+            override fun areItemsTheSame(oldItem: CheckoutEntity, newItem: CheckoutEntity): Boolean {
                 return oldItem == newItem
             }
 
             override fun areContentsTheSame(
-                oldItem: StorageContentEntity,
-                newItem: StorageContentEntity
+                oldItem: CheckoutEntity,
+                newItem: CheckoutEntity
             ): Boolean {
                 return oldItem.hashCode() == newItem.hashCode()
             }
@@ -26,7 +25,7 @@ class StorageContentAdapter(val listener: Listener): ListAdapter<StorageContentE
     }
 
     interface Listener{
-        fun onItemClick(item: StorageContentEntity)
+        fun onItemClick(item: CheckoutEntity)
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
@@ -47,11 +46,9 @@ class StorageContentAdapter(val listener: Listener): ListAdapter<StorageContentE
             }
         }
 
-        fun bind(storageContentEntity: StorageContentEntity){
+        fun bind(storageContentEntity: CheckoutEntity){
             binding.textMaterialName.text = storageContentEntity.materialName
             binding.textMaterialNumber.text = storageContentEntity.materialNumber
-            binding.textMaterialSpec.text = storageContentEntity.materialSpec
-            binding.textMaterialUnit.text = storageContentEntity.materialUnit
             binding.textQuantity.text = storageContentEntity.quantity.toString()
         }
     }

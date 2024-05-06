@@ -3,6 +3,7 @@ package com.lhr.water.data
 import com.fasterxml.jackson.module.kotlin.jacksonObjectMapper
 import com.fasterxml.jackson.module.kotlin.readValue
 import com.lhr.water.data.form.FieldName
+import java.io.Serializable
 import kotlin.reflect.full.findAnnotation
 import kotlin.reflect.full.memberProperties
 
@@ -112,7 +113,7 @@ data class Form(
     @FieldName(chinese = "貨物資訊", english = "itemDetails")
     var itemDetails: List<ItemDetail>? = null
 
-) {
+) : Serializable {
     companion object {
         fun formFromJson(json: String): Form {
 

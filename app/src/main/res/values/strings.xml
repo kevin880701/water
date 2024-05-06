@@ -40,8 +40,7 @@
     <string name="scan_qr_code">掃描QR CODE</string>
     <string name="permission_error">獲取權限失敗，將導致部分功能無法使用，是否前往授權？</string>
 
-    <string name="wait_input_good">待入庫貨物</string>
-    <string name="wait_output_good">待出庫貨物</string>
+    <string name="wait_deal_good">待處理貨物</string>
     <string name="already_choose_good">已選擇貨物</string>
     <string name="quantity">數量</string>
 

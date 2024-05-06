@@ -7,7 +7,7 @@ import android.view.ViewGroup
 import androidx.fragment.app.viewModels
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.lhr.water.data.Form
-import com.lhr.water.data.WaitDealGoodsData
+import com.lhr.water.data.ItemDetail
 import com.lhr.water.databinding.FragmentWaitDealMaterialBinding
 import com.lhr.water.ui.base.BaseFragment
 import com.lhr.water.ui.form.FormViewModel
@@ -59,22 +59,15 @@ class WaitDealMaterialFragment(form: Form) : BaseFragment(), View.OnClickListene
 
     private fun initRecyclerView() {
         waitDealMaterialAdapter = WaitDealMaterialAdapter(
-            requireContext(), form.reportTitle.toString(),
-            form.formNumber.toString(), this, viewModel, isInput
+            requireContext(), form, this, viewModel, isInput
         )
         if (isInput) {
             waitDealMaterialAdapter.submitList(
-                viewModel.filterWaitInputGoods(
-                    form.reportTitle.toString(),
-                    form.formNumber.toString()
-                )
+                form.itemDetails
             )
         } else {
             waitDealMaterialAdapter.submitList(
-                viewModel.filterWaitOutputGoods(
-                    form.reportTitle.toString(),
-                    form.formNumber.toString()
-                )
+                form.itemDetails
             )
         }
         binding.recyclerGoods.adapter = waitDealMaterialAdapter
@@ -88,9 +81,10 @@ class WaitDealMaterialFragment(form: Form) : BaseFragment(), View.OnClickListene
         }
     }
 
-    override fun onItemClick(waitDealGoodsData: WaitDealGoodsData, maxQuantity: String) {
+    override fun onItemClick(itemDetail: ItemDetail, maxQuantity: String) {
         val goodsDialog = WaitDealMaterialDialog(
-            waitDealGoodsData,
+            form,
+            itemDetail,
             maxQuantity,
             isInput
         )

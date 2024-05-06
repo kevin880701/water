@@ -12,6 +12,7 @@ import androidx.activity.result.contract.ActivityResultContracts
 import androidx.fragment.app.viewModels
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.lhr.water.R
+import com.lhr.water.data.InventoryForm
 import com.lhr.water.data.returningFieldMap
 import com.lhr.water.databinding.FragmentInventoryBinding
 import com.lhr.water.repository.FormRepository
@@ -59,7 +60,7 @@ class InventoryFragment : BaseFragment(), View.OnClickListener, InventoryAdapter
 
     private fun bindViewModel() {
         formRepository.inventoryEntities.observe(viewLifecycleOwner) { inventoryEntities ->
-            inventoryAdapter.submitList(inventoryEntities)
+//            inventoryAdapter.submitList(inventoryEntities)
         }
 
         // 盤點表單代號輸入後篩選更新
@@ -108,12 +109,12 @@ class InventoryFragment : BaseFragment(), View.OnClickListener, InventoryAdapter
      * 表單列表點擊
      * @param json 被點擊的列資料
      */
-    override fun onItemClick(json: JSONObject) {
+    override fun onItemClick(inventoryForm: InventoryForm) {
         val extractedValues = ArrayList<String>()
         for (fieldName in formFieldNameEngList) {
             try {
-                val value: String = json.getString(fieldName)
-                extractedValues.add(value)
+//                val value: String = json.getString(fieldName)
+//                extractedValues.add(value)
             } catch (e: JSONException) {
                 e.printStackTrace()
             }

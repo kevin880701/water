@@ -51,14 +51,14 @@
                 <Spinner
                     android:id="@+id/spinnerRegion"
                     android:layout_width="0dp"
-                    android:layout_height="0dp"
+                    android:layout_height="24dp"
                     android:layout_marginLeft="15dp"
                     android:layout_marginTop="15dp"
                     android:layout_marginRight="50dp"
                     android:layout_marginBottom="15dp"
                     android:background="@null"
                     android:textColor="@color/primaryBlue"
-                    android:textSize="15dp"
+                    android:textSize="16dp"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintLeft_toRightOf="@+id/imageRegion"
                     app:layout_constraintRight_toRightOf="parent"
@@ -89,9 +89,9 @@
                     app:tint="@color/primaryBlue" />
 
                 <Spinner
-                    android:id="@+id/spinnerMap"
+                    android:id="@+id/spinnerDept"
                     android:layout_width="0dp"
-                    android:layout_height="0dp"
+                    android:layout_height="24dp"
                     android:layout_marginLeft="15dp"
                     android:layout_marginTop="15dp"
                     android:layout_marginRight="50dp"
@@ -131,7 +131,7 @@
                 <Spinner
                     android:id="@+id/spinnerStorage"
                     android:layout_width="0dp"
-                    android:layout_height="0dp"
+                    android:layout_height="24dp"
                     android:layout_marginLeft="15dp"
                     android:layout_marginTop="15dp"
                     android:layout_marginRight="50dp"

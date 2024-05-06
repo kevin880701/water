@@ -9,7 +9,7 @@ class SqlModel {
         const val MAP_TABLE_NAME: String = "Map"
         const val STORAGE_TABLE_NAME: String = "Storage"
         const val STORAGE_RECORD_TABLE_NAME: String = "StorageRecord"
-        const val STORAGE_CONTENT_TABLE_NAME: String = "StorageContent"
+        const val CHECKOUT_TABLE_NAME: String = "Checkout"
         const val SQLITE_SEQUENCE: String = "sqlite_sequence"
         const val id: String = "id"
 
@@ -23,6 +23,7 @@ class SqlModel {
         const val deptName: String = "deptName"
         const val deptNumber: String = "deptNumber"
 
+        const val storageId: String = "storageId"
         const val mapSeq: String = "mapSeq"
         const val mapName: String = "mapName"
         const val storageNum: String = "storageNum"
@@ -34,13 +35,17 @@ class SqlModel {
         const val date: String = "inputDate"
         const val type: String = "type"
         const val itemDetail: String = "itemDetail"
-
+        const val InvtStat: String = "InvtStat"
+        const val userId: String = "userId"
+        const val InvtDevi: String = "InvtDevi"
         const val materialNumber: String = "materialNumber"
         const val materialName: String = "materialName"
         const val materialSpec: String = "materialSpec"
         const val materialUnit: String = "materialUnit"
         const val length: String = "length"
         const val quantity: String = "quantity"
+        const val inputTime: String = "inputTime"
+        const val checkoutTime: String = "checkoutTime"
 
     }
 }

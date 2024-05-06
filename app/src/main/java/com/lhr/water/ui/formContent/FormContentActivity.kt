@@ -32,6 +32,7 @@ import com.lhr.water.util.dialog.GoodsDialog
 import com.lhr.water.util.FormName.pickingFormName
 import com.lhr.water.util.TransferStatus.transferInput
 import com.lhr.water.util.TransferStatus.transferOutput
+import com.lhr.water.util.getCurrentDate
 import com.lhr.water.util.interfaces.FormContentData
 import com.lhr.water.util.isInput
 import com.lhr.water.util.setPropertyValue
@@ -218,10 +219,10 @@ class FormContentActivity : BaseActivity(), View.OnClickListener, FormGoodsAdd.L
 
                 // 如果是退料單取得目前日期並轉換為民國年份
                 if(reportTitle == getString(R.string.returning_form) && form.receivedDate != ""){
-                    val currentDate = LocalDate.now()
-                    val rocYear = currentDate.year - 1911
-                    val formattedDate = String.format("%03d/%02d/%02d", rocYear, currentDate.monthValue, currentDate.dayOfMonth)
-                    form.receivedDate = formattedDate
+//                    val currentDate = LocalDate.now()
+//                    val rocYear = currentDate.year - 1911
+//                    val formattedDate = String.format("%03d/%02d/%02d", rocYear, currentDate.monthValue, currentDate.dayOfMonth)
+                    form.receivedDate = getCurrentDate()
                     formEntity.formContent = form.toJsonString()
                 }
 
@@ -316,7 +317,7 @@ class FormContentActivity : BaseActivity(), View.OnClickListener, FormGoodsAdd.L
                 if (
                     storageContentEntity.formNumber == targetFormNumber &&
                     storageContentEntity.reportTitle == targetReportTitle &&
-                    storageContentEntity.itemDetail.number == itemDetail.number
+                    storageContentEntity.materialNumber == itemDetail.materialNumber!!.toInt()
                 ) {
                     totalQuantity += storageContentEntity.quantity
                 }
@@ -348,12 +349,12 @@ class FormContentActivity : BaseActivity(), View.OnClickListener, FormGoodsAdd.L
         val currentList = viewModel.formRepository.tempWaitInputGoods.value ?: ArrayList()
         for (i in 0 until itemDetails.size) {
             val itemDetail = itemDetails[i]
-            val targetNumber = itemDetail.number
+            val targetNumber = itemDetail.materialNumber!!.toInt()
 
             // 移除 tempWaitInputGoods 中符合條件的項目
             currentList.removeIf { entity ->
                 entity.formNumber == formNumber &&
-                        entity.reportTitle == reportTitle && entity.itemDetail.number == targetNumber
+                        entity.reportTitle == reportTitle && entity.materialNumber == targetNumber
             }
         }
         // 更新暫存進貨列表
@@ -375,13 +376,13 @@ class FormContentActivity : BaseActivity(), View.OnClickListener, FormGoodsAdd.L
         val currentList = viewModel.formRepository.tempWaitOutputGoods.value ?: ArrayList()
         for (i in 0 until itemDetailArray.size) {
             val itemDetail = itemDetailArray[i]
-            val targetNumber = itemDetail.number
+            val targetNumber = itemDetail.materialNumber!!.toInt()
 
             // 移除 tempWaitInputGoods 中符合条件的项
             currentList.removeIf { entity ->
                 entity.formNumber == formNumber &&
                         entity.reportTitle == reportTitle &&
-                        entity.itemDetail.number == targetNumber
+                        entity.materialNumber == targetNumber
             }
         }
         // 更新暫存出貨列表

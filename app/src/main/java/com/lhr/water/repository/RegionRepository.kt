@@ -1,32 +1,16 @@
 package com.lhr.water.repository
 
 import android.content.Context
-import android.util.Log
-import androidx.lifecycle.MutableLiveData
-import com.google.gson.Gson
-import com.google.gson.JsonSyntaxException
-import com.google.gson.reflect.TypeToken
-import com.lhr.water.data.RegionInformation
-import com.lhr.water.room.MapEntity
 import com.lhr.water.room.RegionEntity
+import com.lhr.water.room.CheckoutEntity
 import com.lhr.water.room.SqlDatabase
-import com.lhr.water.room.StorageContentEntity
 import com.lhr.water.room.StorageEntity
+import com.lhr.water.room.StorageRecordEntity
 import com.lhr.water.util.MapDataList
-import org.json.JSONArray
-import java.io.InputStreamReader
-import java.nio.charset.Charset
 
 class RegionRepository private constructor(private val context: Context) {
     // 使用者可看到的區域列表
     var regionEntities = ArrayList<RegionEntity>()
-
-    // 所有地圖列表
-    var mapEntities: MutableLiveData<ArrayList<MapEntity>> =
-        MutableLiveData<ArrayList<MapEntity>>()
-    // 所有儲櫃單列表
-//    var storageEntities: MutableLiveData<ArrayList<StorageEntity>> =
-//        MutableLiveData<ArrayList<StorageEntity>>()
 
     var storageEntities: ArrayList<StorageEntity> = arrayListOf(
         StorageEntity(
@@ -36,7 +20,76 @@ class RegionRepository private constructor(private val context: Context) {
             storageName = "儲櫃1",
             storageX = 100,
             storageY = 100,
+        ),
+        StorageEntity(
+            id = 2,
+            deptNumber = "0D60",
+            mapSeq = 2,
+            storageName = "儲櫃2",
+            storageX = 100,
+            storageY = 100,
+        ),
+        StorageEntity(
+            id = 3,
+            deptNumber = "0510",
+            mapSeq = 7,
+            storageName = "儲櫃3",
+            storageX = 100,
+            storageY = 100,
+        ),
+        StorageEntity(
+            id = 4,
+            deptNumber = "0B10",
+            mapSeq = 1,
+            storageName = "儲櫃4",
+            storageX = 100,
+            storageY = 100,
         )
+    )
+
+    var checkoutEntities: ArrayList<CheckoutEntity> = arrayListOf(
+        CheckoutEntity(
+            storageId = 1,
+            materialName = "材料1",
+            materialNumber = "1",
+            quantity = 10,
+            inputTime = "20240406-182631",
+            checkoutTime = "20240501-000000",
+        ),
+        CheckoutEntity(
+            storageId = 1,
+            materialName = "材料2",
+            materialNumber = "2",
+            quantity = 10,
+            inputTime = "20240406-182639",
+            checkoutTime = "20240501-000000",
+        )
+    )
+
+
+    var storageRecordEntities: ArrayList<StorageRecordEntity> = arrayListOf(
+        StorageRecordEntity(
+            storageId = 1,
+            reportTitle = 1,
+            formNumber = "M0001",
+            materialName = "材料1",
+            materialNumber = "1",
+            InvtStat = 1,
+            userId = "U0001",
+            quantity = 10,
+            date = "20240506-182631",
+        ),
+        StorageRecordEntity(
+            storageId = 1,
+            reportTitle = 5,
+            formNumber = "M0002",
+            materialName = "材料1",
+            materialNumber = "1",
+            InvtStat = 3,
+            userId = "U0001",
+            quantity = 5,
+            date = "20240507-182631",
+        ),
     )
 
     companion object {
@@ -50,7 +103,10 @@ class RegionRepository private constructor(private val context: Context) {
     }
 
     init {
-        mapEntities.value = SqlDatabase.getInstance().getMapDao().getAllMap() as ArrayList
+        // 取checkout資料，暫時用假資料
+//        checkoutEntities = SqlDatabase.getInstance().getCheckoutDao().getAll() as ArrayList<CheckoutEntity>
+        // 取儲櫃紀錄資料，暫時用假資料
+//        storageRecordEntities = SqlDatabase.getInstance().getStorageRecordDao().getAll() as ArrayList<StorageRecordEntity>
     }
 
 
@@ -68,19 +124,6 @@ class RegionRepository private constructor(private val context: Context) {
         return regionEntities.map { it.regionName } as ArrayList<String>
     }
 
-
-    /**
-     * 根據區域名稱列出地圖列表
-     * @param regionName 區域名稱
-     */
-    fun getMapNameList(
-        targetRegionName: String,
-        mapEntities: ArrayList<MapEntity>
-    ): ArrayList<String> {
-        return mapEntities.filter { it.regionName == targetRegionName }
-            ?.map { it.mapName } as ArrayList<String>
-    }
-
     /**
      * 根據區域名稱、地圖名稱、儲櫃名稱、貨物代號找出對應的數量
      * @param regionName 區域名稱
@@ -88,25 +131,22 @@ class RegionRepository private constructor(private val context: Context) {
      * @param storageName 儲櫃名稱
      * @param materialNum 貨物代號
      */
-    fun getMaterialQuantity(
-        regionName: String,
-        mapName: String,
-        storageName: String,
-        materialNum: String,
-        storageInformationList: ArrayList<StorageContentEntity>
-    ): String {
-        val matchingItem = storageInformationList.find { item ->
-            item.regionName == regionName &&
-                    item.mapName == mapName &&
-                    item.storageName == storageName &&
-                    item.materialNumber == materialNum
-        }
-        if (matchingItem != null) {
-            println("@@@@@@：${matchingItem.quantity}")
-        }
-
-        return matchingItem!!.let {
-            matchingItem.quantity.toString()
-        }
-    }
+//    fun getMaterialQuantity(
+//        regionName: String,
+//        mapName: String,
+//        storageName: String,
+//        materialNum: String,
+//        storageInformationList: ArrayList<CheckoutEntity>
+//    ): String {
+//        val matchingItem = storageInformationList.find { item ->
+//            item.storageId == regionName &&
+//                    item.mapName == mapName &&
+//                    item.storageName == storageName &&
+//                    item.materialNumber == materialNum
+//        }
+//
+//        return matchingItem!!.let {
+//            matchingItem.quantity.toString()
+//        }
+//    }
 }

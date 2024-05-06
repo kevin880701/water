@@ -10,7 +10,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.lhr.water.R
 import com.lhr.water.databinding.WidgetBottomStorageContentBinding
 import com.lhr.water.repository.FormRepository
-import com.lhr.water.room.StorageContentEntity
+import com.lhr.water.room.CheckoutEntity
 import com.lhr.water.room.StorageEntity
 import com.lhr.water.ui.base.APP
 import com.lhr.water.ui.map.MapActivity
@@ -58,11 +58,7 @@ class StorageContentBottom(
     private fun bindViewModel() {
         formRepository.storageRecords.observe(activity, Observer { _ ->
             storageContentAdapter.submitList(
-                viewModel.getStorageContent(
-                    region,
-                    map,
-                    storageEntity.storageName
-                )
+                viewModel.regionRepository.checkoutEntities
             )
         })
     }
@@ -70,11 +66,7 @@ class StorageContentBottom(
     private fun initRecyclerView() {
         storageContentAdapter = StorageContentAdapter(this)
         storageContentAdapter.submitList(
-            viewModel.getStorageContent(
-                region,
-                map,
-                storageEntity.storageName
-            )
+            viewModel.regionRepository.checkoutEntities
         )
         binding.recyclerGoods.adapter = storageContentAdapter
         binding.recyclerGoods.layoutManager = LinearLayoutManager(activity)
@@ -96,7 +88,7 @@ class StorageContentBottom(
      * 點擊列顯示對應貨物資訊的Dialog
      * @param storageContentEntity 貨物資訊
      */
-    override fun onItemClick(storageContentEntity: StorageContentEntity) {
+    override fun onItemClick(storageContentEntity: CheckoutEntity) {
         val goodFieldNameList = resources.getStringArray(R.array.storage_Good_field_name)
             .toList() as ArrayList<String>
         val goodFieldNameEngList =

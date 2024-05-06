@@ -6,21 +6,21 @@ import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.lhr.water.databinding.ItemMaterialSearchBinding
-import com.lhr.water.room.StorageContentEntity
+import com.lhr.water.room.CheckoutEntity
 import com.lhr.water.ui.materialSearch.MaterialSearchViewModel
 
 class MaterialSearchAdapter(val viewModel: MaterialSearchViewModel) :
-    ListAdapter<StorageContentEntity, MaterialSearchAdapter.ViewHolder>(LOCK_DIFF_UTIL) {
+    ListAdapter<CheckoutEntity, MaterialSearchAdapter.ViewHolder>(LOCK_DIFF_UTIL) {
 
     companion object {
-        val LOCK_DIFF_UTIL = object : DiffUtil.ItemCallback<StorageContentEntity>() {
-            override fun areItemsTheSame(oldItem: StorageContentEntity, newItem: StorageContentEntity): Boolean {
+        val LOCK_DIFF_UTIL = object : DiffUtil.ItemCallback<CheckoutEntity>() {
+            override fun areItemsTheSame(oldItem: CheckoutEntity, newItem: CheckoutEntity): Boolean {
                 return oldItem == newItem
             }
 
             override fun areContentsTheSame(
-                oldItem: StorageContentEntity,
-                newItem: StorageContentEntity
+                oldItem: CheckoutEntity,
+                newItem: CheckoutEntity
             ): Boolean {
                 return oldItem.hashCode() == newItem.hashCode()
             }
@@ -39,8 +39,8 @@ class MaterialSearchAdapter(val viewModel: MaterialSearchViewModel) :
     inner class ViewHolder(private val binding: ItemMaterialSearchBinding) :
         RecyclerView.ViewHolder(binding.root) {
 
-        fun bind(storageContentEntity: StorageContentEntity) {
-            binding.textRegion.text = storageContentEntity.regionName
+        fun bind(storageContentEntity: CheckoutEntity) {
+            binding.textRegion.text = storageContentEntity.storageId
             binding.textMap.text = storageContentEntity.mapName
             binding.textStorageName.text = storageContentEntity.storageName
             binding.textMaterialName.text = storageContentEntity.materialName

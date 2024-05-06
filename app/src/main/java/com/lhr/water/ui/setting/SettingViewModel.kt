@@ -159,9 +159,9 @@ class SettingViewModel(context: Context, formRepository: FormRepository) :
         for (i in formRepository.formRecordList.value!!) {
             jsonArray.add(gson.fromJson(i.toJsonString(), JsonObject::class.java))
         }
-        for (i in formRepository.inventoryRecord.value!!) {
-            jsonArray.add(gson.fromJson(i.toJsonString(), JsonObject::class.java))
-        }
+//        for (i in formRepository.inventoryRecord.value!!) {
+//            jsonArray.add(gson.fromJson(i.toJsonString(), JsonObject::class.java))
+//        }
 
         val jsonRequestBody: String = jsonArray.toString()
         val requestBody: RequestBody =
@@ -206,9 +206,9 @@ class SettingViewModel(context: Context, formRepository: FormRepository) :
             for (i in formRepository.formRecordList.value!!) {
                 jsonArray.add(gson.fromJson(i.toJsonString(), JsonObject::class.java))
             }
-            for (i in formRepository.inventoryRecord.value!!) {
-                jsonArray.add(gson.fromJson(i.toJsonString(), JsonObject::class.java))
-            }
+//            for (i in formRepository.inventoryRecord.value!!) {
+//                jsonArray.add(gson.fromJson(i.toJsonString(), JsonObject::class.java))
+//            }
             val folder = DocumentFile.fromTreeUri(context, folderUri)
             // 當前日期時間
             val dateFormat = SimpleDateFormat("yyyyMMdd_HHmmss", Locale.getDefault())

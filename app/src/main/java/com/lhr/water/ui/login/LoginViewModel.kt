@@ -13,8 +13,4 @@ class LoginViewModel(context: Context, regionRepository: RegionRepository): Andr
         return regionRepository.getRegionNameList(regionRepository.regionEntities)
     }
 
-    fun getMapNameList(regionName: String): ArrayList<String> {
-        return regionRepository.getMapNameList(regionName, regionRepository.mapEntities.value!!)
-    }
-
 }

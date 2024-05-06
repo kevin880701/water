@@ -8,36 +8,50 @@ import androidx.room.PrimaryKey
 import java.io.Serializable
 
 @Entity(tableName = SqlModel.STORAGE_RECORD_TABLE_NAME, indices = [Index(value = [SqlModel.id])])
-class StorageRecordEntity() : Serializable {
+class StorageRecordEntity(
+    storageId: Int,  //InvtSlotId: 儲位編號
+    reportTitle: Int, //InvtFromType: 入庫單據種類; 1-交貨，2-驗收，3-調撥，4-領料，5-退料，6-盤點
+    formNumber: String,  //InvtFromNo: 入庫單據編號
+    materialName: String, //MNoMName: 材料名稱
+    materialNumber: String, //InvtMNo: 材料編號
+    InvtStat: Int, //InvtStat: 材料狀態; 1: 已交貨，2: 已驗收，3: 已移出
+    userId: String, //InvtUserId: 操作的使用者ID
+    InvtDevi: Int = 2,
+    quantity: Int, //InvtNum: 數量
+    date: String, //CreatedAt: 紀錄創建時間（出庫入庫時間，格式YYYYMMDD-HHMMSS）
+) : Serializable {
 
     @NonNull
     @PrimaryKey(autoGenerate = true)
     var id: Int = 0
 
-    @ColumnInfo(name = SqlModel.regionName, typeAffinity = ColumnInfo.TEXT)
-    var regionName = ""
+    @ColumnInfo(name = SqlModel.storageId, typeAffinity = ColumnInfo.INTEGER)
+    var storageId = storageId
 
-    @ColumnInfo(name = SqlModel.mapName, typeAffinity = ColumnInfo.TEXT)
-    var mapName = ""
-
-    @ColumnInfo(name = SqlModel.storageName, typeAffinity = ColumnInfo.TEXT)
-    var storageName = ""
+    @ColumnInfo(name = SqlModel.reportTitle, typeAffinity = ColumnInfo.INTEGER)
+    var reportTitle = reportTitle
 
     @ColumnInfo(name = SqlModel.formNumber, typeAffinity = ColumnInfo.TEXT)
-    var formNumber = ""
+    var formNumber = formNumber
 
-    @ColumnInfo(name = SqlModel.reportTitle, typeAffinity = ColumnInfo.TEXT)
-    var reportTitle = ""
+    @ColumnInfo(name = SqlModel.materialName, typeAffinity = ColumnInfo.TEXT)
+    var materialName = materialName
 
-    @ColumnInfo(name = SqlModel.date, typeAffinity = ColumnInfo.TEXT)
-    var date = ""
+    @ColumnInfo(name = SqlModel.materialNumber, typeAffinity = ColumnInfo.TEXT)
+    var materialNumber = materialNumber
 
-    @ColumnInfo(name = SqlModel.type, typeAffinity = ColumnInfo.INTEGER)
-    var type = 0
+    @ColumnInfo(name = SqlModel.InvtStat, typeAffinity = ColumnInfo.INTEGER)
+    var InvtStat = InvtStat
+
+    @ColumnInfo(name = SqlModel.userId, typeAffinity = ColumnInfo.TEXT)
+    var userId = userId
+
+    @ColumnInfo(name = SqlModel.InvtDevi, typeAffinity = ColumnInfo.INTEGER)
+    var InvtDevi = InvtDevi
 
     @ColumnInfo(name = SqlModel.quantity, typeAffinity = ColumnInfo.INTEGER)
-    var quantity = 0
+    var quantity = quantity
 
-    @ColumnInfo(name = SqlModel.itemDetail, typeAffinity = ColumnInfo.TEXT)
-    var itemDetail = ""
+    @ColumnInfo(name = SqlModel.date, typeAffinity = ColumnInfo.TEXT)
+    var date = date
 }

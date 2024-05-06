@@ -1,34 +1,11 @@
 package com.lhr.water.util.manager
 
 import android.content.Context
-import com.lhr.water.room.MapEntity
-import com.lhr.water.room.RegionEntity
 import com.lhr.water.util.FormField.formFieldMap
 import com.lhr.water.util.showToast
 import org.json.JSONArray
 import org.json.JSONObject
 
-/**
- * 將List轉為JSON格式的字串
- * @param fieldNameList 欄位名稱
- * @param fieldContent 欄位內容
- */
-fun listToJsonString(
-    fieldNameList: ArrayList<String>,
-    fieldContentList: ArrayList<String>
-): String {
-    // 創建一個空的JSON對象
-    val jsonObject = JSONObject()
-
-    // 遍歷FieldName和FieldContent，將它們添加到JSON對象中
-    for (i in 0 until fieldNameList.size) {
-        val fieldName = fieldNameList[i]
-        val fieldContent = if (i < fieldContentList.size) fieldContentList[i] else ""
-        jsonObject.put(fieldName, fieldContent)
-    }
-    // 將JSON對象轉換為JSON字元串並輸出
-    return jsonObject.toString()
-}
 
 
 /**
@@ -190,23 +167,4 @@ fun checkInventoryJson(jsonArray: JSONArray, context: Context): Boolean {
         }
     }
     return true
-}
-
-//fun JSONObject.toRegionEntity(): RegionEntity {
-//    val regionName = this.getString("RegionName")
-//    return RegionEntity(regionName)
-//}
-
-fun JSONObject.toMapEntities(): List<MapEntity> {
-    val regionName = this.getString("RegionName")
-    val mapNames = this.getJSONArray("MapName")
-    val mapEntities = mutableListOf<MapEntity>()
-
-    for (i in 0 until mapNames.length()) {
-        val mapName = mapNames.getString(i)
-        val mapEntity = MapEntity(regionName, mapName)
-        mapEntities.add(mapEntity)
-    }
-
-    return mapEntities
 }

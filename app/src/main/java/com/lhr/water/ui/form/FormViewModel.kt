@@ -5,29 +5,34 @@ import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.MutableLiveData
 import com.lhr.water.R
 import com.lhr.water.data.Form
+import com.lhr.water.data.ItemDetail
 import com.lhr.water.data.TempDealGoodsData
-import com.lhr.water.data.WaitDealGoodsData
 import com.lhr.water.repository.FormRepository
 import com.lhr.water.repository.RegionRepository
-import com.lhr.water.room.MapEntity
+import com.lhr.water.repository.UserRepository
 import com.lhr.water.room.RegionEntity
-import com.lhr.water.room.StorageContentEntity
+import com.lhr.water.room.CheckoutEntity
 import com.lhr.water.room.StorageEntity
 import com.lhr.water.ui.base.APP
+import com.lhr.water.util.MapDataList
 import com.lhr.water.util.getCurrentDate
 
 class FormViewModel(
     context: Context,
-    regionRepository: RegionRepository,
-    formRepository: FormRepository
+    var regionRepository: RegionRepository,
+    var formRepository: FormRepository,
+    var userRepository: UserRepository
 ) : AndroidViewModel(context.applicationContext as APP) {
 
-    val regionRepository = regionRepository
-    val formRepository = formRepository
     // 篩選表單代號formNumber的String
     var searchFormNumber = MutableLiveData<String>()
     // 篩選表單類別FormClass的List
     var filterList = MutableLiveData<ArrayList<String>>()
+
+    // WaitDealMaterialDialog
+    var selectRegion = MutableLiveData<RegionEntity>()
+    var selectDept = MutableLiveData<RegionEntity>()
+    var selectStorage = MutableLiveData<StorageEntity>()
 
 
     init {
@@ -55,52 +60,63 @@ class FormViewModel(
         }?.toMutableList()!! as ArrayList<Form>?
     }
 
-    fun getRegionNameList(regionEntities: ArrayList<RegionEntity>): ArrayList<String> {
-        return regionRepository.getRegionNameList(regionEntities)
+
+    fun getAllRegionList(): ArrayList<RegionEntity> {
+        // 只列出使用者可看到的儲櫃
+        val filteredStorageEntities = regionRepository.storageEntities.filter { it.deptNumber == userRepository.userData.deptAno}
+
+        // 篩選掉重複的deptNumber和mapSeq
+        val resultStorageEntities = regionRepository.storageEntities.filter { storage ->
+            !regionRepository.storageEntities.any { it != storage && it.deptNumber == storage.deptNumber && it.mapSeq == storage.mapSeq }
+        }
+
+        // 根據篩選後的資料找出對應的ArrayList<RegionEntity>
+        val resultRegionEntities = mutableListOf<RegionEntity>()
+        resultStorageEntities.forEach { storage ->
+            val regionEntity = MapDataList.find { it.deptNumber == storage.deptNumber && it.mapSeq == storage.mapSeq }
+            regionEntity?.let { resultRegionEntities.add(it) }
+        }
+
+        return ArrayList(resultRegionEntities)
     }
 
-    fun getMapNameList(regionName: String, mapEntities: ArrayList<MapEntity>): ArrayList<String> {
-        return regionRepository.getMapNameList(regionName, mapEntities)
+    fun getDeptSpinnerList(regionNumber: String, regionEntities: ArrayList<RegionEntity>): ArrayList<RegionEntity> {
+        return regionEntities.filter { it.regionNumber == regionNumber } as ArrayList<RegionEntity>
     }
 
-    fun getStorageNameList(
-        regionEntity: RegionEntity,
-        storageEntities: ArrayList<StorageEntity>
-    ): ArrayList<StorageEntity> {
+    fun getStorageSpinnerList(specifiedDeptNumber: String, specifiedMapSeq: Int): ArrayList<StorageEntity> {
+        val filteredStorageEntities = regionRepository.storageEntities.filter { storageEntity ->
+            storageEntity.deptNumber == specifiedDeptNumber && storageEntity.mapSeq == specifiedMapSeq
+        }.toMutableList()
 
-            val filteredList = regionRepository.storageEntities.filter { entity ->
-                entity.deptNumber == regionEntity.deptNumber && entity.mapSeq == regionEntity.mapSeq
-            } as ArrayList<StorageEntity>
-        return filteredList
+        return ArrayList(filteredStorageEntities)
     }
 
 
     /**
      * 將選擇貨物加入儲櫃中並更新暫存待入庫的貨物列表
-     * @param waitDealGoodsData 貨物資訊
-     * @param region 地區名稱
-     * @param map 地區名稱
-     * @param storageName 櫥櫃名稱
+     * @param form 表單資訊
+     * @param itemDetail 貨物資訊
+     * @param storageEntity 所選儲櫃資訊
      * @param materialQuantity 選擇貨物數量
      */
     fun inputInTempGoods(
-        waitDealGoodsData: WaitDealGoodsData,
-        region: String,
-        map: String,
-        storageName: String,
+        form: Form,
+        itemDetail: ItemDetail,
+        storageEntity: StorageEntity,
         materialQuantity: String
     ) {
 
         // 需要為貨物加上地區、地圖、儲櫃名稱、報表名稱、報表代號、入庫時間欄位
         var tempDealGoodsData = TempDealGoodsData(
-            reportTitle = waitDealGoodsData.reportTitle,
-            formNumber =  waitDealGoodsData.formNumber,
-            regionName = region,
-            mapName =  map,
-            storageName = storageName,
-            date = getCurrentDate(),
-            itemDetail = waitDealGoodsData.itemDetail,
+            storageId = storageEntity.id,
+            reportTitle = form.reportTitle!!,
+            formNumber =  form.formNumber!!,
+            materialNumber = itemDetail.materialNumber!!.toInt(),
+            InvtStat =  1,
+            userId = userRepository.userData.userId,
             quantity = materialQuantity.toInt(),
+            date = getCurrentDate(),
         )
 
         // 更新暫存進貨列表
@@ -112,29 +128,27 @@ class FormViewModel(
 
     /**
      * 將選擇貨物加入儲櫃中並更新暫存待入庫的貨物列表
-     * @param waitDealGoodsData 貨物資訊
-     * @param region 地區名稱
-     * @param map 地區名稱
-     * @param storageName 儲櫃名稱
-     * @param materialQuantity 貨物數量
+     * @param form 表單資訊
+     * @param itemDetail 貨物資訊
+     * @param storageEntity 所選儲櫃資訊
+     * @param materialQuantity 選擇貨物數量
      */
     fun outputInTempGoods(
-        waitDealGoodsData: WaitDealGoodsData,
-        region: String,
-        map: String,
-        storageName: String,
+        form: Form,
+        itemDetail: ItemDetail,
+        storageEntity: StorageEntity,
         materialQuantity: String
     ) {
         // 需要為貨物加上地區、地圖、儲櫃名稱、報表名稱、報表代號、入庫時間欄位
         var tempDealGoodsData = TempDealGoodsData(
-            reportTitle = waitDealGoodsData.reportTitle,
-            formNumber =  waitDealGoodsData.formNumber,
-            regionName = region,
-            mapName =  map,
-            storageName = storageName,
-            date = getCurrentDate(),
-            itemDetail = waitDealGoodsData.itemDetail,
+            storageId = storageEntity.id,
+            reportTitle = form.reportTitle!!,
+            formNumber =  form.formNumber!!,
+            materialNumber = itemDetail.materialNumber!!.toInt(),
+            InvtStat =  1,
+            userId = userRepository.userData.userId,
             quantity = materialQuantity.toInt(),
+            date = getCurrentDate(),
         )
 
         // 更新暫存進貨列表
@@ -146,41 +160,35 @@ class FormViewModel(
     fun getOutputGoodsStorageInformation(
         materialName: String,
         materialNumber: String
-    ): ArrayList<StorageContentEntity> {
+    ): ArrayList<CheckoutEntity> {
         var storageContentList = formRepository.storageGoods.value?.filter { entity ->
             materialName == entity.materialName && materialNumber == entity.materialNumber
         }
         return storageContentList as ArrayList
     }
 
-    fun getOutputGoodsRegion(storageContentList: ArrayList<StorageContentEntity>): ArrayList<RegionEntity> {
-        return storageContentList?.distinctBy { it.regionName }
+    fun getOutputGoodsRegion(storageContentList: ArrayList<CheckoutEntity>): ArrayList<RegionEntity> {
+        return storageContentList?.distinctBy { it.storageId }
              as ArrayList<RegionEntity>
     }
 
-    fun getOutputGoodsMap(storageContentList: ArrayList<StorageContentEntity>): ArrayList<MapEntity> {
+    fun getOutputGoodsMap(storageContentList: ArrayList<CheckoutEntity>): ArrayList<MapEntity> {
         // 取出不重複的 regionName 和 mapName 並轉為 MapEntity
         return storageContentList
-            .distinctBy { Pair(it.regionName, it.mapName) }
-            .map { MapEntity(it.regionName, it.mapName) } as ArrayList<MapEntity>
+            .distinctBy { Pair(it.storageId, it.mapName) }
+            .map { MapEntity(it.storageId, it.mapName) } as ArrayList<MapEntity>
     }
 
-    fun getOutputGoodsStorage(storageContentList: ArrayList<StorageContentEntity>): ArrayList<StorageEntity> {
+    fun getOutputGoodsStorage(storageContentList: ArrayList<CheckoutEntity>): ArrayList<StorageEntity> {
         // 取出不重複的 regionName、mapName 和 storageName 並轉為 StorageEntity
         return storageContentList
-            .distinctBy { Triple(it.regionName, it.mapName, it.storageName) }
+            .distinctBy { Triple(it.storageId, it.mapName, it.storageName) }
              as ArrayList<StorageEntity>
     }
 
     fun getInputGoodsRegion(storageContentList: ArrayList<StorageEntity>): ArrayList<RegionEntity> {
         return storageContentList?.distinctBy { it.deptNumber }
              as ArrayList<RegionEntity>
-    }
-
-    fun getInputGoodsMap(storageContentList: ArrayList<StorageEntity>): ArrayList<MapEntity> {
-        // 取出不重複的 regionName 和 mapName 並轉為 MapEntity
-        return storageContentList
-            .distinctBy { it.deptNumber } as ArrayList<MapEntity>
     }
 
     fun getInputGoodsStorage(storageContentList: ArrayList<StorageEntity>): ArrayList<StorageEntity> {
@@ -190,30 +198,11 @@ class FormViewModel(
              as ArrayList<StorageEntity>
     }
 
-    fun filterWaitInputGoods(
-        targetReportTitle: String,
-        targetFormNumber: String
-    ) = formRepository.filterWaitInputGoods(
-        formRepository.waitInputGoods.value!!,
-        targetReportTitle,
-        targetFormNumber
-    )
-
     fun filterTempWaitInputGoods(
         targetReportTitle: String,
         targetFormNumber: String
     ) = formRepository.filterTempWaitInputGoods(
         formRepository.tempWaitInputGoods.value!!,
-        targetReportTitle,
-        targetFormNumber
-    )
-
-
-    fun filterWaitOutputGoods(
-        targetReportTitle: String,
-        targetFormNumber: String
-    ) = formRepository.filterWaitOutputGoods(
-        formRepository.waitOutputGoods.value!!,
         targetReportTitle,
         targetFormNumber
     )

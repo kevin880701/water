@@ -7,32 +7,32 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
-import com.lhr.water.data.WaitDealGoodsData
+import com.lhr.water.data.Form
+import com.lhr.water.data.ItemDetail
 import com.lhr.water.databinding.ItemWaitDealMaterialBinding
 import com.lhr.water.ui.form.FormViewModel
 import com.lhr.water.util.showToast
 
 class WaitDealMaterialAdapter(
     val context: Context,
-    val reportTitle: String,
-    val formNumber: String,
+    val form: Form,
     val listener: Listener,
     val viewModel: FormViewModel,
     val isInput: Boolean
 ) :
-    ListAdapter<WaitDealGoodsData, WaitDealMaterialAdapter.ViewHolder>(LOCK_DIFF_UTIL) {
+    ListAdapter<ItemDetail, WaitDealMaterialAdapter.ViewHolder>(LOCK_DIFF_UTIL) {
     companion object {
-        val LOCK_DIFF_UTIL = object : DiffUtil.ItemCallback<WaitDealGoodsData>() {
+        val LOCK_DIFF_UTIL = object : DiffUtil.ItemCallback<ItemDetail>() {
             override fun areItemsTheSame(
-                oldItem: WaitDealGoodsData,
-                newItem: WaitDealGoodsData
+                oldItem: ItemDetail,
+                newItem: ItemDetail
             ): Boolean {
                 return oldItem == newItem
             }
 
             override fun areContentsTheSame(
-                oldItem: WaitDealGoodsData,
-                newItem: WaitDealGoodsData
+                oldItem: ItemDetail,
+                newItem: ItemDetail
             ): Boolean {
                 return oldItem.hashCode() == newItem.hashCode()
             }
@@ -40,7 +40,7 @@ class WaitDealMaterialAdapter(
     }
 
     interface Listener {
-        fun onItemClick(item: WaitDealGoodsData, maxQuantity: String)
+        fun onItemClick(item: ItemDetail, maxQuantity: String)
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
@@ -56,39 +56,29 @@ class WaitDealMaterialAdapter(
     inner class ViewHolder(private val binding: ItemWaitDealMaterialBinding) :
         RecyclerView.ViewHolder(binding.root) {
 
-        fun bind(waitDealGoodsData: WaitDealGoodsData) {
+        fun bind(itemDetail: ItemDetail) {
             binding.textMaterialName.text =
-                waitDealGoodsData.itemDetail.materialName
+                itemDetail.materialName
             binding.textMaterialNumber.text =
-                waitDealGoodsData.itemDetail.materialNumber
+                itemDetail.materialNumber
             binding.textMaterialSpec.text =
-                waitDealGoodsData.itemDetail.materialSpec
+                itemDetail.materialSpec
             binding.textMaterialUnit.text =
-                waitDealGoodsData.itemDetail.materialUnit
+                itemDetail.materialUnit
             // 1.判斷是進貨還是出貨
             // 2.需判斷暫存待出入庫的貨物列表是否有相對應貨物，有的話需要減去數量
             var quantity = if (isInput) {
-                waitDealGoodsData.itemDetail.receivedQuantity!! - viewModel.formRepository.getMaterialQuantityByTempWaitInputGoods(
-                    reportTitle,
-                    formNumber,
-                    waitDealGoodsData.itemDetail.number.toString()
+                itemDetail.receivedQuantity!! - viewModel.formRepository.getMaterialQuantityByTempWaitInputGoods(
+                    form.reportTitle!!,
+                    form.formNumber!!,
+                    itemDetail.materialNumber!!.toInt()
                 )
             } else {
-                println("reportTitle：${reportTitle}")
-                println("formNumber：${formNumber}")
-                println("waitDealGoodsData.itemDetail.number.toString()：${waitDealGoodsData.itemDetail.number.toString()}")
-                println("waitDealGoodsData.itemDetail.actualQuantity：${waitDealGoodsData.itemDetail.actualQuantity}")
-                println("waitDealGoodsData.itemDetail.number.toString()：${waitDealGoodsData.itemDetail.number.toString()}")
-                println("被減掉：${viewModel.formRepository.getMaterialQuantityByTempWaitOutputGoods(
-                    reportTitle,
-                    formNumber,
-                    waitDealGoodsData.itemDetail.number.toString()
-                )}")
 
-                waitDealGoodsData.itemDetail.actualQuantity!! - viewModel.formRepository.getMaterialQuantityByTempWaitOutputGoods(
-                    reportTitle,
-                    formNumber,
-                    waitDealGoodsData.itemDetail.number.toString()
+                itemDetail.actualQuantity!! - viewModel.formRepository.getMaterialQuantityByTempWaitOutputGoods(
+                    form.reportTitle!!,
+                    form.formNumber!!,
+                    itemDetail.materialNumber!!.toInt()
                 )
             }
 

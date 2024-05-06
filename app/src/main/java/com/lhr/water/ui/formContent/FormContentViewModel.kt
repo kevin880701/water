@@ -7,7 +7,7 @@ import com.lhr.water.data.ItemDetail.Companion.toJsonString
 import com.lhr.water.data.TempDealGoodsData
 import com.lhr.water.repository.FormRepository
 import com.lhr.water.room.SqlDatabase
-import com.lhr.water.room.StorageContentEntity
+import com.lhr.water.room.CheckoutEntity
 import com.lhr.water.room.StorageRecordEntity
 import com.lhr.water.ui.base.APP
 import com.lhr.water.util.getCurrentDate
@@ -36,11 +36,11 @@ class FormContentViewModel(context: Context, formRepository: FormRepository): An
         val tempWaitGoods = formRepository.tempWaitInputGoods.value!!.filter { record ->
             record.reportTitle == targetReportTitle && record.formNumber == targetFormNumber
         }
-        var storageContentEntities = ArrayList<StorageContentEntity>()
+        var storageContentEntities = ArrayList<CheckoutEntity>()
 
         tempWaitGoods.forEach { record ->
             // 檢查資料庫中符合條件的資料
-            val existingSqlEntity = SqlDatabase.getInstance().getStorageContentDao().getStorageContentByConditions(
+            val existingSqlEntity = SqlDatabase.getInstance().getCheckoutDao().getCheckoutByStorageId(
                 regionName = record.regionName,
                 mapName = record.mapName,
                 storageName = record.storageName,
@@ -52,7 +52,7 @@ class FormContentViewModel(context: Context, formRepository: FormRepository): An
 
             // 尋找符合條件的記錄
             val existingCurrentEntity = storageContentEntities.find {
-                it.regionName == record.regionName &&
+                it.storageId == record.regionName &&
                 it.mapName == record.mapName &&
                 it.storageName == record.storageName &&
                 it.materialName == record.itemDetail.materialName.toString() &&
@@ -69,7 +69,7 @@ class FormContentViewModel(context: Context, formRepository: FormRepository): An
                 }
             } else {
                 // 如果未找到符合條件的記錄，添加新的記錄
-                storageContentEntities.add(StorageContentEntity(
+                storageContentEntities.add(CheckoutEntity(
                     regionName = record.regionName,
                     mapName = record.mapName,
                     storageName = record.storageName,
@@ -88,7 +88,6 @@ class FormContentViewModel(context: Context, formRepository: FormRepository): An
                 ))
             }
         }
-        SqlDatabase.getInstance().getStorageContentDao().insertOrUpdate(storageContentEntities)
     }
 
 
@@ -102,12 +101,12 @@ class FormContentViewModel(context: Context, formRepository: FormRepository): An
         val tempWaitGoods = formRepository.tempWaitOutputGoods.value!!.filter { record ->
             record.reportTitle == targetReportTitle && record.formNumber == targetFormNumber
         }
-        var storageContentEntities = ArrayList<StorageContentEntity>()
+        var storageContentEntities = ArrayList<CheckoutEntity>()
 
         tempWaitGoods.forEach { record ->
             var quantity = 0
             // 檢查資料庫中符合條件的資料
-            val existingSqlEntity = SqlDatabase.getInstance().getStorageContentDao().getStorageContentByConditions(
+            val existingSqlEntity = SqlDatabase.getInstance().getCheckoutDao().getCheckoutByStorageId(
                 regionName = record.regionName,
                 mapName = record.mapName,
                 storageName = record.storageName,
@@ -119,7 +118,7 @@ class FormContentViewModel(context: Context, formRepository: FormRepository): An
 
             // 尋找符合條件的記錄
             val existingCurrentEntity = storageContentEntities.find {
-                it.regionName == record.regionName &&
+                it.storageId == record.regionName &&
                 it.mapName == record.mapName &&
                 it.storageName == record.storageName &&
                 it.materialName == record.itemDetail.materialName &&
@@ -133,7 +132,7 @@ class FormContentViewModel(context: Context, formRepository: FormRepository): An
                 existingCurrentEntity.quantity - record.quantity
             }
 
-            storageContentEntities.add(StorageContentEntity(
+            storageContentEntities.add(CheckoutEntity(
                 regionName = record.regionName,
                 mapName = record.mapName,
                 storageName = record.storageName,
@@ -147,7 +146,6 @@ class FormContentViewModel(context: Context, formRepository: FormRepository): An
                 quantity = quantity
             ))
         }
-        SqlDatabase.getInstance().getStorageContentDao().insertOrUpdate(storageContentEntities)
     }
 
     /**
