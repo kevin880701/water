@@ -10,12 +10,12 @@ import java.io.Serializable
 @Entity(
     tableName = SqlModel.STORAGE_TABLE_NAME,
     indices = [Index(
-        value = [SqlModel.id],
+        value = [SqlModel.storageId],
         unique = true
     )]
 )
 class StorageEntity(
-    id: Int,
+    storageId: Int,
     deptNumber: String,
     mapSeq: Int,
     storageName: String,
@@ -25,7 +25,7 @@ class StorageEntity(
 
     @NonNull
     @PrimaryKey(autoGenerate = true)
-    var id: Int = id
+    var storageId = storageId
 
     @ColumnInfo(name = SqlModel.deptNumber, typeAffinity = ColumnInfo.TEXT)
     var deptNumber = deptNumber

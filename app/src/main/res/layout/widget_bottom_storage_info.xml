@@ -51,17 +51,6 @@
                     app:layout_constraintLeft_toLeftOf="parent"
                     app:layout_constraintRight_toRightOf="parent"
                     app:layout_constraintTop_toTopOf="parent" />
-
-                <ImageView
-                    android:id="@+id/imageDelete"
-                    android:layout_width="36dp"
-                    android:layout_height="36dp"
-                    android:layout_marginRight="8dp"
-                    android:src="@drawable/delete"
-                    app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintRight_toRightOf="parent"
-                    app:layout_constraintTop_toTopOf="parent"
-                    app:tint="@color/red" />
             </androidx.constraintlayout.widget.ConstraintLayout>
 
             <androidx.constraintlayout.widget.ConstraintLayout
@@ -97,7 +86,7 @@
                     app:layout_constraintTop_toTopOf="parent" />
 
                 <TextView
-                    android:id="@+id/textMapField"
+                    android:id="@+id/textDeptField"
                     android:layout_width="wrap_content"
                     android:layout_height="30dp"
                     android:layout_margin="12dp"
@@ -109,7 +98,7 @@
                     app:layout_constraintTop_toBottomOf="@+id/textRegionName" />
 
                 <TextView
-                    android:id="@+id/textMapName"
+                    android:id="@+id/textDeptName"
                     android:layout_width="wrap_content"
                     android:layout_height="30dp"
                     android:layout_margin="12dp"
@@ -117,7 +106,7 @@
                     android:textColor="@color/primaryBlue"
                     style="@style/TextStyle_16dp_black"
                     android:gravity="center"
-                    app:layout_constraintLeft_toRightOf="@+id/textMapField"
+                    app:layout_constraintLeft_toRightOf="@+id/textDeptField"
                     app:layout_constraintTop_toBottomOf="@+id/textRegionName" />
 
                 <TextView
@@ -130,7 +119,7 @@
                     style="@style/TextStyle_16dp_black"
                     android:gravity="center"
                     app:layout_constraintLeft_toLeftOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/textMapName" />
+                    app:layout_constraintTop_toBottomOf="@+id/textDeptName" />
 
                 <TextView
                     android:id="@+id/textStorageName"
@@ -142,17 +131,7 @@
                     style="@style/TextStyle_16dp_black"
                     android:gravity="center"
                     app:layout_constraintLeft_toRightOf="@+id/textStorageNameField"
-                    app:layout_constraintTop_toBottomOf="@+id/textMapName" />
-
-                <ImageView
-                    android:id="@+id/imageEdit"
-                    android:layout_width="24dp"
-                    android:layout_height="24dp"
-                    app:layout_constraintLeft_toRightOf="@+id/textStorageName"
-                    app:layout_constraintTop_toBottomOf="@+id/textMapName"
-                    android:layout_margin="12dp"
-                    app:tint="@color/primaryBlue"
-                    android:src="@drawable/edit"/>
+                    app:layout_constraintTop_toBottomOf="@+id/textDeptName" />
 
                 <LinearLayout
                     android:layout_width="wrap_content"

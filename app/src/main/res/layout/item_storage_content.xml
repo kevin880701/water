@@ -24,18 +24,18 @@
                 android:layout_width="0dp"
                 android:layout_height="0dp"
                 app:layout_constraintHeight_percent="0.5"
-                app:layout_constraintWidth_percent="0.3"
+                app:layout_constraintWidth_percent="0.8"
                 android:text="@string/goods_name"
                 style="@style/TextStyle_16dp_black"
                 android:textColor="@color/primaryBlue"
                 app:layout_constraintTop_toTopOf="parent"
                 app:layout_constraintLeft_toLeftOf="parent" />
             <TextView
-                android:id="@+id/textMaterialNumber"
+                android:id="@+id/textInputDate"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                app:layout_constraintWidth_percent="0.3"
-                android:text="@string/goods_number"
+                app:layout_constraintWidth_percent="0.8"
+                android:text="入庫時間"
                 android:background="@color/transparent"
                 style="@style/TextStyle_16dp_black"
                 android:textColor="@color/primaryBlack"
@@ -54,7 +54,7 @@
                 android:gravity="center_vertical"
                 app:layout_constraintTop_toTopOf="parent"
                 app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintLeft_toRightOf="@+id/textMaterialNumber" />
+                app:layout_constraintLeft_toRightOf="@+id/textInputDate" />
         </androidx.constraintlayout.widget.ConstraintLayout>
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

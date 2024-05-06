@@ -10,7 +10,7 @@ import java.io.Serializable
 @Entity(tableName = SqlModel.STORAGE_RECORD_TABLE_NAME, indices = [Index(value = [SqlModel.id])])
 class StorageRecordEntity(
     storageId: Int,  //InvtSlotId: 儲位編號
-    reportTitle: Int, //InvtFromType: 入庫單據種類; 1-交貨，2-驗收，3-調撥，4-領料，5-退料，6-盤點
+    formType: Int, //InvtFromType: 入庫單據種類; 1-交貨，2-驗收，3-調撥，4-領料，5-退料，6-盤點
     formNumber: String,  //InvtFromNo: 入庫單據編號
     materialName: String, //MNoMName: 材料名稱
     materialNumber: String, //InvtMNo: 材料編號
@@ -28,8 +28,8 @@ class StorageRecordEntity(
     @ColumnInfo(name = SqlModel.storageId, typeAffinity = ColumnInfo.INTEGER)
     var storageId = storageId
 
-    @ColumnInfo(name = SqlModel.reportTitle, typeAffinity = ColumnInfo.INTEGER)
-    var reportTitle = reportTitle
+    @ColumnInfo(name = SqlModel.formType, typeAffinity = ColumnInfo.INTEGER)
+    var formType = formType
 
     @ColumnInfo(name = SqlModel.formNumber, typeAffinity = ColumnInfo.TEXT)
     var formNumber = formNumber

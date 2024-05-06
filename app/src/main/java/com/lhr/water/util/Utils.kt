@@ -45,14 +45,27 @@ fun showToast(context: Context, message: String) {
 }
 
 /**
- * 取得當前民國年月日
+ * 取得當前西元年月日
  * @return String
  */
 fun getCurrentDate(): String {
 
-    val dateFormat = SimpleDateFormat("yyyyMMdd-HHmmss", Locale.getDefault())
+    val dateFormat = SimpleDateFormat("yyyy-MM-dd-HH-mm-ss", Locale.getDefault())
     val currentTime = Date()
     return dateFormat.format(currentTime)
+}
+
+fun convertToRocDate(inputDate: String): String {
+    val inputFormat = SimpleDateFormat("yyyy-MM-dd-HH-mm-ss", Locale.getDefault())
+    val outputFormat = SimpleDateFormat("yy/MM/dd", Locale.getDefault())
+
+    val date = inputFormat.parse(inputDate)
+    val calendar = Calendar.getInstance()
+    calendar.time = date!!
+
+    val taiwanYear = calendar.get(Calendar.YEAR) - 1911
+    val taiwanDate = outputFormat.format(date)
+    return taiwanDate.replaceFirst(Regex("\\d+"), taiwanYear.toString())
 }
 
 

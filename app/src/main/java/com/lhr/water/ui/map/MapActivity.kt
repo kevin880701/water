@@ -34,8 +34,6 @@ class MapActivity(): BaseActivity(), View.OnClickListener, StorageInfoBottom.Lis
 
     var backView: RelativeLayout? = null
     private var markLayer: MarkLayer? = null
-    lateinit var region: String
-//    lateinit var deptNumber: String
     lateinit var regionEntity: RegionEntity
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -51,7 +49,7 @@ class MapActivity(): BaseActivity(), View.OnClickListener, StorageInfoBottom.Lis
             regionEntity = intent.getSerializableExtra("regionEntity") as RegionEntity
         }
 
-        viewModel.setStorageDetailList(regionEntity)
+        viewModel.setStorageEntityList(regionEntity)
 
         onBackPressedCallback = object : OnBackPressedCallback(true) {
             override fun handleOnBackPressed() {
@@ -111,7 +109,7 @@ class MapActivity(): BaseActivity(), View.OnClickListener, StorageInfoBottom.Lis
     }
 
     fun showStorageInfo(storageEntity: StorageEntity) {
-        val storageInfoBottom = StorageInfoBottom(this, this, storageEntity, regionEntity.deptNumber, region)
+        val storageInfoBottom = StorageInfoBottom(this, this, storageEntity)
         showBottomSheet(storageInfoBottom)
     }
     private fun showBottomSheet(view: View?) {
@@ -158,8 +156,8 @@ class MapActivity(): BaseActivity(), View.OnClickListener, StorageInfoBottom.Lis
         }
     }
 
-    override fun onStorageContentClick(map: String, region: String, storageEntity: StorageEntity) {
-        val storageContentBottom = StorageContentBottom(this, storageEntity, map, region)
+    override fun onStorageContentClick(storageEntity: StorageEntity) {
+        val storageContentBottom = StorageContentBottom(this, storageEntity)
         showBottomSheet(storageContentBottom)
     }
 }

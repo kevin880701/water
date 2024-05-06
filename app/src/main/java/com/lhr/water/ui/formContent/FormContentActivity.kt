@@ -13,7 +13,6 @@ import com.lhr.water.data.Form
 import com.lhr.water.data.Form.Companion.formFromJson
 import com.lhr.water.data.Form.Companion.toJsonString
 import com.lhr.water.data.ItemDetail
-import com.lhr.water.data.TempDealGoodsData
 import com.lhr.water.data.deliveryFieldMap
 import com.lhr.water.data.deliveryItemFieldMap
 import com.lhr.water.data.pickingFieldMap
@@ -44,7 +43,6 @@ import com.lhr.water.util.widget.FormGoodsDataWidget
 import com.lhr.water.util.widget.FormContentDataWidget
 import org.json.JSONObject
 import timber.log.Timber
-import java.time.LocalDate
 
 class FormContentActivity : BaseActivity(), View.OnClickListener, FormGoodsAdd.Listener,
     FormContentDataWidget.Listener, FormGoodsDataWidget.Listener, GoodsDialog.Listener {
@@ -184,9 +182,6 @@ class FormContentActivity : BaseActivity(), View.OnClickListener, FormGoodsAdd.L
             var fieldName = (formGoodsDataWidget as FormContentData).fieldEngName
             var value = (formGoodsDataWidget as FormContentData).content
             if(fieldName != null){
-                println("--------------------------" +
-                        "")
-                println(value)
                 setPropertyValue(form, fieldName!!, value)
             }
         }
@@ -210,10 +205,8 @@ class FormContentActivity : BaseActivity(), View.OnClickListener, FormGoodsAdd.L
                     transferStatus == transferInput) && dealStatus == getString(R.string.complete_deal)
         ) {
             if (isMaterialAlreadyInput(
-                    viewModel.formRepository.tempWaitInputGoods.value!!,
                     itemDetailList,
                     form.formNumber.toString(),
-                    reportTitle
                 )
             ) {
 
@@ -226,23 +219,14 @@ class FormContentActivity : BaseActivity(), View.OnClickListener, FormGoodsAdd.L
                     formEntity.formContent = form.toJsonString()
                 }
 
+                // 將暫存紀錄轉入SQL
                 SqlDatabase.getInstance().getStorageRecordDao().insertStorageRecordList(
-                    viewModel.getInsertGoodsFromTempWaitDealGoods(
+                    viewModel.getInsertStorageRecord(
                         itemDetailList,
-                        form.formNumber.toString(),
-                        reportTitle
+                        form.formNumber.toString()
                     )
                 )
-                viewModel.inputStorageContent(
-                    reportTitle,
-                    form.formNumber.toString()
-                )
                 updateForm(formEntity)
-                updateTempWaitInputGoods(
-                    itemDetailList,
-                    form.formNumber.toString(),
-                    reportTitle
-                )
                 finish()
             } else {
                 showToast(this, "貨物未處理完成!")
@@ -252,29 +236,17 @@ class FormContentActivity : BaseActivity(), View.OnClickListener, FormGoodsAdd.L
                     transferStatus == transferOutput) && dealStatus == getString(R.string.complete_deal)
         ) {
             if (isMaterialAlreadyInput(
-                    viewModel.formRepository.tempWaitOutputGoods.value!!,
                     itemDetailList,
                     form.formNumber.toString(),
-                    reportTitle
                 )
             ) {
                 SqlDatabase.getInstance().getStorageRecordDao().insertStorageRecordList(
-                    viewModel.getInsertGoodsFromTempWaitDealGoods(
+                    viewModel.getInsertStorageRecord(
                         itemDetailList,
-                        form.formNumber.toString(),
-                        reportTitle
+                        form.formNumber.toString()
                     )
                 )
-                viewModel.outputStorageContent(
-                    reportTitle,
-                    form.formNumber.toString()
-                )
                 updateForm(formEntity)
-                updateTempWaitOutputGoods(
-                    itemDetailList,
-                    form.formNumber.toString(),
-                    reportTitle
-                )
                 finish()
             } else {
                 showToast(this, "貨物未處理完成!")
@@ -298,30 +270,28 @@ class FormContentActivity : BaseActivity(), View.OnClickListener, FormGoodsAdd.L
 
     /**
      * 判斷進貨類表單(交貨、退料、調撥)表單中的貨物是否已經放入暫存入庫清單(tempWaitInputGoods)
-     * @param itemDetailList 要確認的貨物陣列
+     * @param itemDetailList 要確認的貨物列表
      * @param targetFormNumber 表單代號
-     * @param targetReportTitle 表單名稱
      * @return 回傳Boolean
      */
     fun isMaterialAlreadyInput(
-        tempWaitGoods: ArrayList<TempDealGoodsData>,
         itemDetailList: ArrayList<ItemDetail>,
         targetFormNumber: String,
-        targetReportTitle: String
     ): Boolean {
-        for (i in 0 until itemDetailList.size) {
-            val itemDetail = itemDetailList[i]
+        for (itemDetail in itemDetailList) {
             var totalQuantity = 0
-            for (storageContentEntity in tempWaitGoods) {
-                // 檢查條件
-                if (
-                    storageContentEntity.formNumber == targetFormNumber &&
-                    storageContentEntity.reportTitle == targetReportTitle &&
-                    storageContentEntity.materialNumber == itemDetail.materialNumber!!.toInt()
-                ) {
-                    totalQuantity += storageContentEntity.quantity
-                }
+            val materialNumber = itemDetail.materialNumber
+
+            // 在暫存紀錄中查找與當前itemDetail的materialNumber和指定的FormNumber相匹配的記錄
+            val matchingRecords = viewModel.formRepository.tempWaitInputGoods.value!!.filter {
+                it.materialNumber == materialNumber && it.formNumber == targetFormNumber
             }
+
+            // 將匹配記錄的quantity加總到totalQuantity
+            for (record in matchingRecords) {
+                totalQuantity += record.quantity
+            }
+
             if (isInput) {
                 if (totalQuantity < itemDetail.receivedQuantity!!) {
                     return false
@@ -333,60 +303,6 @@ class FormContentActivity : BaseActivity(), View.OnClickListener, FormGoodsAdd.L
             }
         }
         return true
-    }
-
-    /**
-     * 確定入庫後要把暫存入庫清單(tempWaitInputGoods)中關於表單的貨物刪除
-     * @param itemDetails 要刪除的貨物陣列
-     * @param formNumber 表單代號
-     * @param reportTitle 表單名稱
-     */
-    fun updateTempWaitInputGoods(
-        itemDetails: ArrayList<ItemDetail>,
-        formNumber: String,
-        reportTitle: String
-    ) {
-        val currentList = viewModel.formRepository.tempWaitInputGoods.value ?: ArrayList()
-        for (i in 0 until itemDetails.size) {
-            val itemDetail = itemDetails[i]
-            val targetNumber = itemDetail.materialNumber!!.toInt()
-
-            // 移除 tempWaitInputGoods 中符合條件的項目
-            currentList.removeIf { entity ->
-                entity.formNumber == formNumber &&
-                        entity.reportTitle == reportTitle && entity.materialNumber == targetNumber
-            }
-        }
-        // 更新暫存進貨列表
-        viewModel.formRepository.tempWaitInputGoods.postValue(currentList)
-    }
-
-
-    /**
-     * 確定出庫後要把暫存出庫清單(tempWaitInputGoods)中關於表單的貨物刪除
-     * @param itemDetailArray 要刪除的貨物陣列
-     * @param formNumber 表單代號
-     * @param reportTitle 表單名稱
-     */
-    fun updateTempWaitOutputGoods(
-        itemDetailArray: List<ItemDetail>,
-        formNumber: String,
-        reportTitle: String
-    ) {
-        val currentList = viewModel.formRepository.tempWaitOutputGoods.value ?: ArrayList()
-        for (i in 0 until itemDetailArray.size) {
-            val itemDetail = itemDetailArray[i]
-            val targetNumber = itemDetail.materialNumber!!.toInt()
-
-            // 移除 tempWaitInputGoods 中符合条件的项
-            currentList.removeIf { entity ->
-                entity.formNumber == formNumber &&
-                        entity.reportTitle == reportTitle &&
-                        entity.materialNumber == targetNumber
-            }
-        }
-        // 更新暫存出貨列表
-        viewModel.formRepository.tempWaitOutputGoods.postValue(currentList)
     }
 
 

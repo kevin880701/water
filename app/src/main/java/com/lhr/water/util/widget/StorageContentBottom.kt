@@ -5,13 +5,12 @@ import android.view.View
 import android.widget.RelativeLayout
 import androidx.activity.viewModels
 import androidx.databinding.DataBindingUtil
-import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.lhr.water.R
 import com.lhr.water.databinding.WidgetBottomStorageContentBinding
 import com.lhr.water.repository.FormRepository
-import com.lhr.water.room.CheckoutEntity
 import com.lhr.water.room.StorageEntity
+import com.lhr.water.room.StorageRecordEntity
 import com.lhr.water.ui.base.APP
 import com.lhr.water.ui.map.MapActivity
 import com.lhr.water.ui.map.MapViewModel
@@ -22,8 +21,6 @@ import org.json.JSONObject
 class StorageContentBottom(
     var activity: MapActivity,
     var storageEntity: StorageEntity,
-    var map: String,
-    var region: String
 ) : RelativeLayout(activity), View.OnClickListener, StorageContentAdapter.Listener, GoodsDialog.Listener {
 
     val viewModel: MapViewModel by activity.viewModels {
@@ -56,18 +53,14 @@ class StorageContentBottom(
 
 
     private fun bindViewModel() {
-        formRepository.storageRecords.observe(activity, Observer { _ ->
-            storageContentAdapter.submitList(
-                viewModel.regionRepository.checkoutEntities
-            )
-        })
     }
 
     private fun initRecyclerView() {
         storageContentAdapter = StorageContentAdapter(this)
         storageContentAdapter.submitList(
-            viewModel.regionRepository.checkoutEntities
+            viewModel.getStorageContentList(storageEntity.storageId)
         )
+
         binding.recyclerGoods.adapter = storageContentAdapter
         binding.recyclerGoods.layoutManager = LinearLayoutManager(activity)
     }
@@ -86,9 +79,9 @@ class StorageContentBottom(
 
     /**
      * 點擊列顯示對應貨物資訊的Dialog
-     * @param storageContentEntity 貨物資訊
+     * @param storageRecordEntity 貨物資訊
      */
-    override fun onItemClick(storageContentEntity: CheckoutEntity) {
+    override fun onItemClick(storageRecordEntity: StorageRecordEntity) {
         val goodFieldNameList = resources.getStringArray(R.array.storage_Good_field_name)
             .toList() as ArrayList<String>
         val goodFieldNameEngList =

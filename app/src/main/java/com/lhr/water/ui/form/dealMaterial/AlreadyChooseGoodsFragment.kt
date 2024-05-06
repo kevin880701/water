@@ -7,8 +7,8 @@ import android.view.ViewGroup
 import androidx.fragment.app.viewModels
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.lhr.water.data.Form
-import com.lhr.water.data.TempDealGoodsData
 import com.lhr.water.databinding.FragmentAlreadyChooseMaterialBinding
+import com.lhr.water.room.StorageRecordEntity
 import com.lhr.water.ui.base.BaseFragment
 import com.lhr.water.ui.form.FormViewModel
 import com.lhr.water.util.adapter.AlreadyChooseGoodsAdapter
@@ -95,14 +95,14 @@ class AlreadyChooseGoodsFragment(form: Form) : BaseFragment(), View.OnClickListe
     /**
      * 移除暫存列表的指定內容
      */
-    override fun onRemoveClick(tempDealGoodsData: TempDealGoodsData) {
+    override fun onRemoveClick(storageRecordEntity: StorageRecordEntity) {
         if (isInput){
             var tempArrayList = viewModel.formRepository.tempWaitInputGoods.value!!
-            tempArrayList.removeIf { it == tempDealGoodsData }
+            tempArrayList.removeIf { it == storageRecordEntity }
             viewModel.formRepository.tempWaitInputGoods.value = tempArrayList
         }else{
             var tempArrayList = viewModel.formRepository.tempWaitOutputGoods.value!!
-            tempArrayList.removeIf { it == tempDealGoodsData }
+            tempArrayList.removeIf { it == storageRecordEntity }
             viewModel.formRepository.tempWaitOutputGoods.value = tempArrayList
         }
     }

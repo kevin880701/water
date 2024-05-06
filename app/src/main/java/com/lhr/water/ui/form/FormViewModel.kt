@@ -6,15 +6,16 @@ import androidx.lifecycle.MutableLiveData
 import com.lhr.water.R
 import com.lhr.water.data.Form
 import com.lhr.water.data.ItemDetail
-import com.lhr.water.data.TempDealGoodsData
 import com.lhr.water.repository.FormRepository
 import com.lhr.water.repository.RegionRepository
 import com.lhr.water.repository.UserRepository
 import com.lhr.water.room.RegionEntity
 import com.lhr.water.room.CheckoutEntity
 import com.lhr.water.room.StorageEntity
+import com.lhr.water.room.StorageRecordEntity
 import com.lhr.water.ui.base.APP
 import com.lhr.water.util.MapDataList
+import com.lhr.water.util.formTypeMap
 import com.lhr.water.util.getCurrentDate
 
 class FormViewModel(
@@ -108,11 +109,12 @@ class FormViewModel(
     ) {
 
         // 需要為貨物加上地區、地圖、儲櫃名稱、報表名稱、報表代號、入庫時間欄位
-        var tempDealGoodsData = TempDealGoodsData(
-            storageId = storageEntity.id,
-            reportTitle = form.reportTitle!!,
+        var tempDealGoodsData = StorageRecordEntity(
+            storageId = storageEntity.storageId,
+            formType = formTypeMap[form.reportTitle!!]?.let { it }?:0,
             formNumber =  form.formNumber!!,
-            materialNumber = itemDetail.materialNumber!!.toInt(),
+            materialName =  itemDetail.materialName.toString(),
+            materialNumber = itemDetail.materialNumber!!,
             InvtStat =  1,
             userId = userRepository.userData.userId,
             quantity = materialQuantity.toInt(),
@@ -140,11 +142,12 @@ class FormViewModel(
         materialQuantity: String
     ) {
         // 需要為貨物加上地區、地圖、儲櫃名稱、報表名稱、報表代號、入庫時間欄位
-        var tempDealGoodsData = TempDealGoodsData(
-            storageId = storageEntity.id,
-            reportTitle = form.reportTitle!!,
+        var tempDealGoodsData = StorageRecordEntity(
+            storageId = storageEntity.storageId,
+            formType = formTypeMap[form.reportTitle!!]?.let { it }?:0,
             formNumber =  form.formNumber!!,
-            materialNumber = itemDetail.materialNumber!!.toInt(),
+            materialName =  itemDetail.materialName.toString(),
+            materialNumber = itemDetail.materialNumber!!,
             InvtStat =  1,
             userId = userRepository.userData.userId,
             quantity = materialQuantity.toInt(),
@@ -170,20 +173,6 @@ class FormViewModel(
     fun getOutputGoodsRegion(storageContentList: ArrayList<CheckoutEntity>): ArrayList<RegionEntity> {
         return storageContentList?.distinctBy { it.storageId }
              as ArrayList<RegionEntity>
-    }
-
-    fun getOutputGoodsMap(storageContentList: ArrayList<CheckoutEntity>): ArrayList<MapEntity> {
-        // 取出不重複的 regionName 和 mapName 並轉為 MapEntity
-        return storageContentList
-            .distinctBy { Pair(it.storageId, it.mapName) }
-            .map { MapEntity(it.storageId, it.mapName) } as ArrayList<MapEntity>
-    }
-
-    fun getOutputGoodsStorage(storageContentList: ArrayList<CheckoutEntity>): ArrayList<StorageEntity> {
-        // 取出不重複的 regionName、mapName 和 storageName 並轉為 StorageEntity
-        return storageContentList
-            .distinctBy { Triple(it.storageId, it.mapName, it.storageName) }
-             as ArrayList<StorageEntity>
     }
 
     fun getInputGoodsRegion(storageContentList: ArrayList<StorageEntity>): ArrayList<RegionEntity> {

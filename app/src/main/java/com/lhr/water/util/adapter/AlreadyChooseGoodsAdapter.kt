@@ -5,26 +5,25 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
-import com.lhr.water.data.TempDealGoodsData
 import com.lhr.water.databinding.ItemAlreadyChooseGoodsBinding
-import com.lhr.water.util.manager.jsonStringToJson
+import com.lhr.water.room.StorageRecordEntity
 
 class AlreadyChooseGoodsAdapter(
     val listener: Listener,
 ) :
-    ListAdapter<TempDealGoodsData, AlreadyChooseGoodsAdapter.ViewHolder>(LOCK_DIFF_UTIL) {
+    ListAdapter<StorageRecordEntity, AlreadyChooseGoodsAdapter.ViewHolder>(LOCK_DIFF_UTIL) {
     companion object {
-        val LOCK_DIFF_UTIL = object : DiffUtil.ItemCallback<TempDealGoodsData>() {
+        val LOCK_DIFF_UTIL = object : DiffUtil.ItemCallback<StorageRecordEntity>() {
             override fun areItemsTheSame(
-                oldItem: TempDealGoodsData,
-                newItem: TempDealGoodsData
+                oldItem: StorageRecordEntity,
+                newItem: StorageRecordEntity
             ): Boolean {
                 return oldItem == newItem
             }
 
             override fun areContentsTheSame(
-                oldItem: TempDealGoodsData,
-                newItem: TempDealGoodsData
+                oldItem: StorageRecordEntity,
+                newItem: StorageRecordEntity
             ): Boolean {
                 return oldItem.hashCode() == newItem.hashCode()
             }
@@ -32,7 +31,7 @@ class AlreadyChooseGoodsAdapter(
     }
 
     interface Listener {
-        fun onRemoveClick(item: TempDealGoodsData)
+        fun onRemoveClick(item: StorageRecordEntity)
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
@@ -52,13 +51,11 @@ class AlreadyChooseGoodsAdapter(
     inner class ViewHolder(private val binding: ItemAlreadyChooseGoodsBinding) :
         RecyclerView.ViewHolder(binding.root) {
 
-        fun bind(tempDealGoodsData: TempDealGoodsData) {
-            binding.textMaterialName.text = tempDealGoodsData.itemDetail.materialName
-            binding.textMaterialNumber.text = tempDealGoodsData.itemDetail.materialNumber
-            binding.textRegion.text = tempDealGoodsData.regionName
-            binding.textMap.text = tempDealGoodsData.mapName
-            binding.textStorage.text = tempDealGoodsData.storageName
-            binding.textQuantity.text = tempDealGoodsData.quantity.toString()
+        fun bind(storageRecordEntity: StorageRecordEntity) {
+            binding.textMaterialName.text = storageRecordEntity.materialName
+            binding.textMaterialNumber.text = storageRecordEntity.materialNumber
+            binding.textStorage.text = storageRecordEntity.storageId.toString()
+            binding.textQuantity.text = storageRecordEntity.quantity.toString()
 
             binding.imageRemove.setOnClickListener {
                 listener.onRemoveClick(getItem(adapterPosition))

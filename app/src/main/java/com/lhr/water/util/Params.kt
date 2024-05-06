@@ -201,6 +201,14 @@ object FormField {
         inventoryFormName to arrayOf(inventoryFormField)
     )
 }
+//1-交貨，2-驗收，3-調撥，4-領料，5-退料，6-盤點
+val formTypeMap: Map<String, Int> = mapOf(
+    deliveryFormName to 1,
+    transferFormName to 3,
+    pickingFormName to 4,
+    returningFormName to 5,
+    inventoryFormName to 6
+)
 
 val MapDataList: List<RegionEntity> =
     listOf(

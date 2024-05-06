@@ -71,14 +71,14 @@ class WaitDealMaterialAdapter(
                 itemDetail.receivedQuantity!! - viewModel.formRepository.getMaterialQuantityByTempWaitInputGoods(
                     form.reportTitle!!,
                     form.formNumber!!,
-                    itemDetail.materialNumber!!.toInt()
+                    itemDetail.materialNumber!!
                 )
             } else {
 
                 itemDetail.actualQuantity!! - viewModel.formRepository.getMaterialQuantityByTempWaitOutputGoods(
                     form.reportTitle!!,
                     form.formNumber!!,
-                    itemDetail.materialNumber!!.toInt()
+                    itemDetail.materialNumber!!
                 )
             }
 

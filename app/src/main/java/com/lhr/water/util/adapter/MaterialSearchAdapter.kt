@@ -39,13 +39,11 @@ class MaterialSearchAdapter(val viewModel: MaterialSearchViewModel) :
     inner class ViewHolder(private val binding: ItemMaterialSearchBinding) :
         RecyclerView.ViewHolder(binding.root) {
 
-        fun bind(storageContentEntity: CheckoutEntity) {
-            binding.textRegion.text = storageContentEntity.storageId
-            binding.textMap.text = storageContentEntity.mapName
-            binding.textStorageName.text = storageContentEntity.storageName
-            binding.textMaterialName.text = storageContentEntity.materialName
-            binding.textMaterialNumber.text = storageContentEntity.materialNumber
-            binding.textQuantity.text = storageContentEntity.quantity.toString()
+        fun bind(checkoutEntity: CheckoutEntity) {
+            binding.textStorageName.text = checkoutEntity.storageId.toString()
+            binding.textMaterialName.text = checkoutEntity.materialName
+            binding.textMaterialNumber.text = checkoutEntity.materialNumber
+            binding.textQuantity.text = checkoutEntity.quantity.toString()
         }
     }
 }

@@ -6,18 +6,19 @@ import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.lhr.water.databinding.ItemStorageContentBinding
-import com.lhr.water.room.CheckoutEntity
+import com.lhr.water.room.StorageRecordEntity
+import com.lhr.water.util.convertToRocDate
 
-class StorageContentAdapter(val listener: Listener): ListAdapter<CheckoutEntity, StorageContentAdapter.ViewHolder>(LOCK_DIFF_UTIL) {
+class StorageContentAdapter(val listener: Listener): ListAdapter<StorageRecordEntity, StorageContentAdapter.ViewHolder>(LOCK_DIFF_UTIL) {
     companion object{
-        val LOCK_DIFF_UTIL = object : DiffUtil.ItemCallback<CheckoutEntity>() {
-            override fun areItemsTheSame(oldItem: CheckoutEntity, newItem: CheckoutEntity): Boolean {
+        val LOCK_DIFF_UTIL = object : DiffUtil.ItemCallback<StorageRecordEntity>() {
+            override fun areItemsTheSame(oldItem: StorageRecordEntity, newItem: StorageRecordEntity): Boolean {
                 return oldItem == newItem
             }
 
             override fun areContentsTheSame(
-                oldItem: CheckoutEntity,
-                newItem: CheckoutEntity
+                oldItem: StorageRecordEntity,
+                newItem: StorageRecordEntity
             ): Boolean {
                 return oldItem.hashCode() == newItem.hashCode()
             }
@@ -25,7 +26,7 @@ class StorageContentAdapter(val listener: Listener): ListAdapter<CheckoutEntity,
     }
 
     interface Listener{
-        fun onItemClick(item: CheckoutEntity)
+        fun onItemClick(item: StorageRecordEntity)
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
@@ -46,10 +47,12 @@ class StorageContentAdapter(val listener: Listener): ListAdapter<CheckoutEntity,
             }
         }
 
-        fun bind(storageContentEntity: CheckoutEntity){
-            binding.textMaterialName.text = storageContentEntity.materialName
-            binding.textMaterialNumber.text = storageContentEntity.materialNumber
-            binding.textQuantity.text = storageContentEntity.quantity.toString()
+        fun bind(storageRecordEntity: StorageRecordEntity){
+            binding.textMaterialName.text = storageRecordEntity.materialName
+            binding.textInputDate.text = convertToRocDate(storageRecordEntity.date)
+            // 這裡要改
+            binding.textQuantity.text = storageRecordEntity.quantity.toString()
+            // 加入判斷已交貨未驗收
         }
     }
 }
