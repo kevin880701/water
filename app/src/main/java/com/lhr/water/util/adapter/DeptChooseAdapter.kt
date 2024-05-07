@@ -48,7 +48,7 @@ class DeptChooseAdapter(val listener: Listener): ListAdapter<RegionEntity, DeptC
         }
 
         fun bind(regionEntity: RegionEntity){
-            binding.textRegionName.text = regionEntity.deptName
+            binding.textRegionName.text = "${regionEntity.deptName}-${regionEntity.mapSeq}"
         }
     }
 }
