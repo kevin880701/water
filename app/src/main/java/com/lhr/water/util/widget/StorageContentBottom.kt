@@ -56,7 +56,7 @@ class StorageContentBottom(
     }
 
     private fun initRecyclerView() {
-        storageContentAdapter = StorageContentAdapter(this)
+        storageContentAdapter = StorageContentAdapter(this, activity)
         storageContentAdapter.submitList(
             viewModel.getStorageContentList(storageEntity.storageId)
         )
