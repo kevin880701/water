@@ -74,10 +74,6 @@ class MapActivity(): BaseActivity(), View.OnClickListener, StorageInfoBottom.Lis
     }
 
     private fun bindViewModel() {
-//        viewModel.regionRepository.storageEntities.observe(this) {
-////            viewModel.setStorageDetailList(region, deptNumber)
-//            binding.mapView.refresh()
-//        }
     }
 
     private fun initMapView() {
@@ -87,9 +83,6 @@ class MapActivity(): BaseActivity(), View.OnClickListener, StorageInfoBottom.Lis
         } catch (e: IOException) {
             e.printStackTrace()
         }
-        println("AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA")
-        println("map/${regionEntity.regionName},${regionEntity.deptName},${regionEntity.deptNumber}.jpg")
-        println("AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA")
         binding.mapView.loadMap(bitmap)
         binding.mapView.setMapViewListener(object : MapViewListener {
             override fun onMapLoadSuccess() {
