@@ -66,7 +66,7 @@ class MapActivity(): BaseActivity(), View.OnClickListener, StorageInfoBottom.Lis
     }
 
     private fun initView() {
-        binding.widgetTitleBar.textTitle.text = regionEntity.deptName
+        binding.widgetTitleBar.textTitle.text = "${regionEntity.deptName}-${regionEntity.mapSeq}"
         binding.widgetTitleBar.imageBack.visibility = View.VISIBLE
         backView = binding.relativeLayoutBackView
         setupBackButton(binding.widgetTitleBar.imageBack)

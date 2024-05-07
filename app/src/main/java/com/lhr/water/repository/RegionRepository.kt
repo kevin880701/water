@@ -149,30 +149,4 @@ class RegionRepository private constructor(private val context: Context) {
     fun getRegionNameList(regionEntities: ArrayList<RegionEntity>): ArrayList<String> {
         return regionEntities.map { it.regionName } as ArrayList<String>
     }
-
-    /**
-     * 根據區域名稱、地圖名稱、儲櫃名稱、貨物代號找出對應的數量
-     * @param regionName 區域名稱
-     * @param mapName 地圖名稱
-     * @param storageName 儲櫃名稱
-     * @param materialNum 貨物代號
-     */
-//    fun getMaterialQuantity(
-//        regionName: String,
-//        mapName: String,
-//        storageName: String,
-//        materialNum: String,
-//        storageInformationList: ArrayList<CheckoutEntity>
-//    ): String {
-//        val matchingItem = storageInformationList.find { item ->
-//            item.storageId == regionName &&
-//                    item.mapName == mapName &&
-//                    item.storageName == storageName &&
-//                    item.materialNumber == materialNum
-//        }
-//
-//        return matchingItem!!.let {
-//            matchingItem.quantity.toString()
-//        }
-//    }
 }
