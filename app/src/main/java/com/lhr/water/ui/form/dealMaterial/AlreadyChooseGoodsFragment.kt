@@ -11,17 +11,17 @@ import com.lhr.water.databinding.FragmentAlreadyChooseMaterialBinding
 import com.lhr.water.room.StorageRecordEntity
 import com.lhr.water.ui.base.BaseFragment
 import com.lhr.water.ui.form.FormViewModel
-import com.lhr.water.util.adapter.AlreadyChooseGoodsAdapter
+import com.lhr.water.util.adapter.AlreadyChooseMaterialAdapter
 import com.lhr.water.util.isInput
 
 
 class AlreadyChooseGoodsFragment(form: Form) : BaseFragment(), View.OnClickListener,
-    AlreadyChooseGoodsAdapter.Listener {
+    AlreadyChooseMaterialAdapter.Listener {
 
     private val viewModel: FormViewModel by viewModels { viewModelFactory }
     private var _binding: FragmentAlreadyChooseMaterialBinding? = null
     private val binding get() = _binding!!
-    private lateinit var alreadyChooseGoodsAdapter: AlreadyChooseGoodsAdapter
+    private lateinit var alreadyChooseMaterialAdapter: AlreadyChooseMaterialAdapter
     private var form = form
     private var isInput = true
 
@@ -40,7 +40,7 @@ class AlreadyChooseGoodsFragment(form: Form) : BaseFragment(), View.OnClickListe
     private fun bindViewModel() {
         if (isInput){
             viewModel.formRepository.tempWaitInputGoods.observe(viewLifecycleOwner) { _ ->
-                alreadyChooseGoodsAdapter.submitList(
+                alreadyChooseMaterialAdapter.submitList(
                     viewModel.filterTempWaitInputGoods(
                         form.reportTitle.toString(),
                         form.formNumber.toString()
@@ -49,7 +49,7 @@ class AlreadyChooseGoodsFragment(form: Form) : BaseFragment(), View.OnClickListe
             }
         }else{
             viewModel.formRepository.tempWaitOutputGoods.observe(viewLifecycleOwner) { _ ->
-                alreadyChooseGoodsAdapter.submitList(
+                alreadyChooseMaterialAdapter.submitList(
                     viewModel.filterTempWaitOutputGoods(
                         form.reportTitle.toString(),
                         form.formNumber.toString()
@@ -66,23 +66,23 @@ class AlreadyChooseGoodsFragment(form: Form) : BaseFragment(), View.OnClickListe
 
 
     private fun initRecyclerView() {
-        alreadyChooseGoodsAdapter = AlreadyChooseGoodsAdapter(this)
+        alreadyChooseMaterialAdapter = AlreadyChooseMaterialAdapter(this, requireContext())
         if(isInput){
-            alreadyChooseGoodsAdapter.submitList(
+            alreadyChooseMaterialAdapter.submitList(
                 viewModel.filterTempWaitInputGoods(
                     form.reportTitle.toString(),
                     form.formNumber.toString()
                 )
             )
         }else{
-            alreadyChooseGoodsAdapter.submitList(
+            alreadyChooseMaterialAdapter.submitList(
                 viewModel.filterTempWaitOutputGoods(
                     form.reportTitle.toString(),
                     form.formNumber.toString()
                 )
             )
         }
-        binding.recyclerGoods.adapter = alreadyChooseGoodsAdapter
+        binding.recyclerGoods.adapter = alreadyChooseMaterialAdapter
         binding.recyclerGoods.layoutManager = LinearLayoutManager(requireActivity())
     }
 

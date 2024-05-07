@@ -31,6 +31,7 @@
     <string name="storage_information">儲櫃資訊</string>
     <string name="region">地區</string>
     <string name="map">地圖</string>
+    <string name="dept">部門</string>
     <string name="storage_name">儲櫃名稱</string>
     <string name="storage_num">儲櫃代號</string>
 
@@ -58,6 +59,7 @@
     <string name="edit_storage_name">修改儲櫃名稱</string>
     <string name="add_storage_data">新增儲櫃資料</string>
     <string name="goods_number">貨物編號</string>
+    <string name="input_date">入庫時間</string>
     <string name="goods_name">貨物名稱</string>
     <string name="deal_status">處理狀態</string>
 

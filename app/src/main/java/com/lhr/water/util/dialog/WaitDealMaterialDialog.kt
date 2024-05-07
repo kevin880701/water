@@ -36,12 +36,9 @@ class WaitDealMaterialDialog(
     private lateinit var regionAdapter: RegionEntityAdapter
     private lateinit var deptAdapter: DeptAdapter
     private lateinit var storageEntityAdapter: StorageEntityAdapter
-    private var mapName = ""
     private var maxQuantity = maxQuantity
     private var materialName = ""
     private var materialNumber = ""
-    private var regionList = ArrayList<RegionEntity>()
-    private var storageList = ArrayList<StorageEntity>()
     private var allRegionList = ArrayList<RegionEntity>()
     private var regionSpinnerList = ArrayList<RegionEntity>()
     private var deptSpinnerList = ArrayList<RegionEntity>()
@@ -91,9 +88,6 @@ class WaitDealMaterialDialog(
         regionSpinnerList = allRegionList.distinctBy { it.regionNumber } as ArrayList<RegionEntity>
 
         if (isInput) {
-            storageList = viewModel.regionRepository.storageEntities
-            regionList = viewModel.getInputGoodsRegion(storageList)
-            storageList = viewModel.getInputGoodsStorage(storageList)
         } else {
 //            var storageContentList = viewModel.formRepository.storageGoods.value?.filter { entity ->
 //                entity.materialName == itemDetail.materialName &&
@@ -104,7 +98,7 @@ class WaitDealMaterialDialog(
 //            regionList = viewModel.getOutputGoodsRegion(storageContentList)
 //            storageList = viewModel.getOutputGoodsStorage(storageContentList)
         }
-        if (storageList.size == 0) {
+        if (regionSpinnerList.size == 0) {
             binding.textNoData.visibility = View.VISIBLE
         } else {
             binding.textNoData.visibility = View.INVISIBLE

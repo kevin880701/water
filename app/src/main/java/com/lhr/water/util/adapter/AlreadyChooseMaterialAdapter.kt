@@ -1,17 +1,23 @@
 package com.lhr.water.util.adapter
 
+import android.content.Context
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.lhr.water.databinding.ItemAlreadyChooseGoodsBinding
+import com.lhr.water.repository.RegionRepository
 import com.lhr.water.room.StorageRecordEntity
+import com.lhr.water.util.convertToRocDate
 
-class AlreadyChooseGoodsAdapter(
+class AlreadyChooseMaterialAdapter(
     val listener: Listener,
+    val context: Context,
 ) :
-    ListAdapter<StorageRecordEntity, AlreadyChooseGoodsAdapter.ViewHolder>(LOCK_DIFF_UTIL) {
+    ListAdapter<StorageRecordEntity, AlreadyChooseMaterialAdapter.ViewHolder>(LOCK_DIFF_UTIL) {
+
+    val regionRepository by lazy { RegionRepository.getInstance(context) }
     companion object {
         val LOCK_DIFF_UTIL = object : DiffUtil.ItemCallback<StorageRecordEntity>() {
             override fun areItemsTheSame(
@@ -52,9 +58,13 @@ class AlreadyChooseGoodsAdapter(
         RecyclerView.ViewHolder(binding.root) {
 
         fun bind(storageRecordEntity: StorageRecordEntity) {
+            val storageEntity = regionRepository.findStorageEntityByStorageId(storageRecordEntity.storageId)
+            val regionEntity = regionRepository.findRegionEntityByDeptNumberAndMapSeq(storageEntity.deptNumber, storageEntity.mapSeq)
             binding.textMaterialName.text = storageRecordEntity.materialName
-            binding.textMaterialNumber.text = storageRecordEntity.materialNumber
-            binding.textStorage.text = storageRecordEntity.storageId.toString()
+            binding.textInputDate.text = convertToRocDate(storageRecordEntity.date)
+            binding.textRegion.text = regionEntity.regionName
+            binding.textDept.text = "${regionEntity.deptName}-${regionEntity.mapSeq}"
+            binding.textStorage.text = storageEntity.storageName
             binding.textQuantity.text = storageRecordEntity.quantity.toString()
 
             binding.imageRemove.setOnClickListener {

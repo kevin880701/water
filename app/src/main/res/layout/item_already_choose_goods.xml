@@ -5,27 +5,25 @@
 
     <data></data>
 
-    <androidx.constraintlayout.widget.ConstraintLayout
+    <androidx.appcompat.widget.LinearLayoutCompat
         android:id="@+id/constraintGoods"
         android:layout_width="match_parent"
         android:layout_height="96dp"
         android:paddingLeft="12dp"
-        android:paddingRight="12dp">
-        <androidx.constraintlayout.widget.ConstraintLayout
+        android:paddingRight="12dp"
+        android:gravity="center"
+        android:orientation="horizontal">
+        <androidx.appcompat.widget.LinearLayoutCompat
             android:layout_width="0dp"
             android:layout_height="84dp"
-            app:layout_constraintWidth_percent="0.8"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintLeft_toLeftOf="parent"
-            app:layout_constraintRight_toRightOf="parent">
+            android:layout_weight="1"
+            android:orientation="vertical">
 
             <TextView
                 android:id="@+id/textMaterialName"
-                android:layout_width="0dp"
+                android:layout_width="match_parent"
                 android:layout_height="0dp"
-                app:layout_constraintHeight_percent="0.5"
-                app:layout_constraintWidth_percent="0.3"
+                android:layout_weight="1"
                 android:text="@string/goods_name"
                 style="@style/TextStyle_16dp_black"
                 android:textColor="@color/primaryBlue"
@@ -34,12 +32,13 @@
                 app:layout_constraintLeft_toLeftOf="parent" />
 
             <TextView
-                android:id="@+id/textMaterialNumber"
-                android:layout_width="0dp"
+                android:id="@+id/textInputDate"
+                android:layout_width="match_parent"
                 android:layout_height="0dp"
+                android:layout_weight="1"
                 app:layout_constraintHeight_percent="0.5"
                 app:layout_constraintWidth_percent="0.3"
-                android:text="@string/goods_number"
+                android:text="@string/input_date"
                 android:background="@color/transparent"
                 style="@style/TextStyle_16dp_black"
                 android:textColor="@color/primaryBlack"
@@ -47,65 +46,59 @@
                 app:layout_constraintTop_toBottomOf="@+id/textMaterialName"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintLeft_toLeftOf="parent" />
+        </androidx.appcompat.widget.LinearLayoutCompat>
 
+        <androidx.appcompat.widget.LinearLayoutCompat
+            android:layout_width="0dp"
+            android:layout_height="84dp"
+            android:layout_weight="1"
+            android:orientation="vertical">
 
             <TextView
                 android:id="@+id/textRegion"
-                android:layout_width="0dp"
+                android:layout_width="match_parent"
                 android:layout_height="0dp"
-                app:layout_constraintHeight_percent="0.33"
-                app:layout_constraintWidth_percent="0.3"
+                android:layout_weight="1"
                 android:text="@string/region"
                 style="@style/TextStyle_16dp_black"
                 android:textColor="@color/primaryBlue"
-                android:gravity="center_vertical"
-                app:layout_constraintTop_toTopOf="parent"
-                app:layout_constraintLeft_toRightOf="@+id/textMaterialName" />
+                android:gravity="center_vertical" />
             <TextView
-                android:id="@+id/textMap"
-                android:layout_width="0dp"
+                android:id="@+id/textDept"
+                android:layout_width="match_parent"
                 android:layout_height="0dp"
-                app:layout_constraintHeight_percent="0.33"
-                app:layout_constraintWidth_percent="0.3"
-                android:text="@string/map"
+                android:layout_weight="1"
+                android:text="@string/dept"
                 android:background="@color/transparent"
                 style="@style/TextStyle_16dp_black"
-                android:textColor="@color/primaryBlack"
-                android:gravity="center_vertical"
-                app:layout_constraintTop_toBottomOf="@id/textRegion"
-                app:layout_constraintLeft_toRightOf="@+id/textMaterialName" />
+                android:gravity="center_vertical" />
             <TextView
                 android:id="@+id/textStorage"
-                android:layout_width="0dp"
+                android:layout_width="match_parent"
                 android:layout_height="0dp"
-                app:layout_constraintHeight_percent="0.33"
-                app:layout_constraintWidth_percent="0.3"
+                android:layout_weight="1"
                 android:text="@string/storage_name"
                 android:background="@color/transparent"
                 style="@style/TextStyle_16dp_black"
-                android:textColor="@color/primaryBlack"
-                android:gravity="center_vertical"
-                app:layout_constraintTop_toBottomOf="@id/textMap"
-                app:layout_constraintLeft_toRightOf="@+id/textMaterialName" />
+                android:textColor="@color/primaryBlue"
+                android:gravity="center_vertical" />
+        </androidx.appcompat.widget.LinearLayoutCompat>
 
             <TextView
                 android:id="@+id/textQuantity"
-                android:layout_width="0dp"
-                android:layout_height="0dp"
-                app:layout_constraintWidth_percent="0.2"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
                 android:text="數量"
                 android:background="@color/transparent"
                 style="@style/TextStyle_16dp_black"
                 android:textColor="@color/primaryBlue"
-                android:gravity="center"
-                app:layout_constraintTop_toTopOf="parent"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintLeft_toRightOf="@+id/textRegion" />
+                android:gravity="center" />
 
             <ImageView
                 android:id="@+id/imageRemove"
-                android:layout_width="24dp"
+                android:layout_width="0dp"
                 android:layout_height="24dp"
+                android:layout_weight="1"
                 app:layout_constraintWidth_percent="0.2"
                 android:text="數量"
                 android:background="@color/transparent"
@@ -113,8 +106,6 @@
                 app:tint="@color/red"
                 app:layout_constraintTop_toTopOf="parent"
                 app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintLeft_toRightOf="@+id/textQuantity"
                 app:layout_constraintRight_toRightOf="parent" />
-        </androidx.constraintlayout.widget.ConstraintLayout>
-    </androidx.constraintlayout.widget.ConstraintLayout>
+    </androidx.appcompat.widget.LinearLayoutCompat>
 </layout>

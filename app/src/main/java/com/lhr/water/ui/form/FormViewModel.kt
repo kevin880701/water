@@ -67,9 +67,8 @@ class FormViewModel(
         val filteredStorageEntities = regionRepository.storageEntities.filter { it.deptNumber == userRepository.userData.deptAno}
 
         // 篩選掉重複的deptNumber和mapSeq
-        val resultStorageEntities = regionRepository.storageEntities.filter { storage ->
-            !regionRepository.storageEntities.any { it != storage && it.deptNumber == storage.deptNumber && it.mapSeq == storage.mapSeq }
-        }
+        val resultStorageEntities = filteredStorageEntities.distinctBy { it.deptNumber to it.mapSeq }
+
 
         // 根據篩選後的資料找出對應的ArrayList<RegionEntity>
         val resultRegionEntities = mutableListOf<RegionEntity>()
@@ -77,12 +76,12 @@ class FormViewModel(
             val regionEntity = MapDataList.find { it.deptNumber == storage.deptNumber && it.mapSeq == storage.mapSeq }
             regionEntity?.let { resultRegionEntities.add(it) }
         }
-
         return ArrayList(resultRegionEntities)
     }
 
     fun getDeptSpinnerList(regionNumber: String, regionEntities: ArrayList<RegionEntity>): ArrayList<RegionEntity> {
-        return regionEntities.filter { it.regionNumber == regionNumber } as ArrayList<RegionEntity>
+
+        return regionEntities.filter { it.regionNumber == regionNumber} as ArrayList<RegionEntity>
     }
 
     fun getStorageSpinnerList(specifiedDeptNumber: String, specifiedMapSeq: Int): ArrayList<StorageEntity> {
@@ -175,12 +174,12 @@ class FormViewModel(
              as ArrayList<RegionEntity>
     }
 
-    fun getInputGoodsRegion(storageContentList: ArrayList<StorageEntity>): ArrayList<RegionEntity> {
+    fun getInputMaterialRegion(storageContentList: ArrayList<StorageEntity>): ArrayList<RegionEntity> {
         return storageContentList?.distinctBy { it.deptNumber }
              as ArrayList<RegionEntity>
     }
 
-    fun getInputGoodsStorage(storageContentList: ArrayList<StorageEntity>): ArrayList<StorageEntity> {
+    fun getInputMaterialStorage(storageContentList: ArrayList<StorageEntity>): ArrayList<StorageEntity> {
         // 取出不重複的 regionName、mapName 和 storageName 並轉為 StorageEntity
         return storageContentList
             .distinctBy { it.deptNumber }
