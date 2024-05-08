@@ -9,11 +9,14 @@ interface CheckoutDao {
     fun getAll(): List<CheckoutEntity>
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    fun insertOrUpdate(storageContentEntity: List<CheckoutEntity>)
+    fun insertCheckoutEntities(checkoutEntities: List<CheckoutEntity>)
 
     @Query("SELECT * FROM $CHECKOUT_TABLE_NAME WHERE " +
             "${SqlModel.storageId} = :storageId")
     fun getCheckoutByStorageId(
         storageId: Int
     ): CheckoutEntity?
+
+    @Query("SELECT COUNT(*) FROM $CHECKOUT_TABLE_NAME")
+    fun getRecordCount(): Int
 }

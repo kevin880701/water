@@ -220,7 +220,7 @@ class FormContentActivity : BaseActivity(), View.OnClickListener, FormGoodsAdd.L
                 }
 
                 // 將暫存紀錄轉入SQL
-                SqlDatabase.getInstance().getStorageRecordDao().insertStorageRecordList(
+                SqlDatabase.getInstance().getStorageRecordDao().insertStorageRecordEntities(
                     viewModel.getInsertStorageRecord(
                         itemDetailList,
                         form.formNumber.toString()
@@ -240,7 +240,7 @@ class FormContentActivity : BaseActivity(), View.OnClickListener, FormGoodsAdd.L
                     form.formNumber.toString(),
                 )
             ) {
-                SqlDatabase.getInstance().getStorageRecordDao().insertStorageRecordList(
+                SqlDatabase.getInstance().getStorageRecordDao().insertStorageRecordEntities(
                     viewModel.getInsertStorageRecord(
                         itemDetailList,
                         form.formNumber.toString()
