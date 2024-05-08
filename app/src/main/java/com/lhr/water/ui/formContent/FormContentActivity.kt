@@ -27,7 +27,7 @@ import com.lhr.water.room.FormEntity
 import com.lhr.water.room.SqlDatabase
 import com.lhr.water.ui.base.APP
 import com.lhr.water.ui.base.BaseActivity
-import com.lhr.water.util.dialog.GoodsDialog
+import com.lhr.water.util.dialog.MaterialDialog
 import com.lhr.water.util.FormName.pickingFormName
 import com.lhr.water.util.TransferStatus.transferInput
 import com.lhr.water.util.TransferStatus.transferOutput
@@ -45,7 +45,7 @@ import org.json.JSONObject
 import timber.log.Timber
 
 class FormContentActivity : BaseActivity(), View.OnClickListener, FormGoodsAdd.Listener,
-    FormContentDataWidget.Listener, FormGoodsDataWidget.Listener, GoodsDialog.Listener {
+    FormContentDataWidget.Listener, FormGoodsDataWidget.Listener, MaterialDialog.Listener {
     private val viewModel: FormContentViewModel by viewModels { (applicationContext as APP).appContainer.viewModelFactory }
     private var _binding: ActivityFormContentBinding? = null
     private val binding get() = _binding!!
@@ -329,8 +329,8 @@ class FormContentActivity : BaseActivity(), View.OnClickListener, FormGoodsAdd.L
      * 點擊新增貨物的按鈕後跳出Dialog輸入新增的貨物資訊
      */
     override fun onAddGoodsClick() {
-        val goodsDialog = GoodsDialog(true, formItemFieldNameMap, this)
-        goodsDialog.show(supportFragmentManager, "GoodsDialog")
+//        val goodsDialog = MaterialDialog(true, formItemFieldNameMap, this)
+//        goodsDialog.show(supportFragmentManager, "GoodsDialog")
     }
 
     override fun onDeleteGoodsClick(view: View) {
@@ -349,13 +349,13 @@ class FormContentActivity : BaseActivity(), View.OnClickListener, FormGoodsAdd.L
         itemDetail: ItemDetail,
         formGoodsDataWidget: FormGoodsDataWidget
     ) {
-        val goodsDialog = GoodsDialog(
-            false,
-            formItemFieldNameMap,
-            this,
-            itemDetail
-        )
-        goodsDialog.show(supportFragmentManager, "GoodsDialog")
+//        val goodsDialog = MaterialDialog(
+//            false,
+//            formItemFieldNameMap,
+//            this,
+//            itemDetail
+//        )
+//        goodsDialog.show(supportFragmentManager, "GoodsDialog")
     }
 
 

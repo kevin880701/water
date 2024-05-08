@@ -30,7 +30,7 @@ class StorageContentAdapter(val listener: Listener, var context: Context): ListA
     }
 
     interface Listener{
-        fun onItemClick(item: StorageRecordEntity)
+        fun onMaterialClick(item: StorageRecordEntity)
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
@@ -47,7 +47,7 @@ class StorageContentAdapter(val listener: Listener, var context: Context): ListA
 
         init {
             binding.root.setOnClickListener {
-                listener.onItemClick(getItem(adapterPosition))
+                listener.onMaterialClick(getItem(adapterPosition))
             }
         }
 

@@ -71,6 +71,10 @@
     <string name="backup">備份</string>
     <string name="update">更新</string>
 
+    <!--  MaterialDialog  -->
+    <string name="storage_field">儲存儲櫃：</string>
+    <string name="form_number_field">表單代號：</string>
+    <string name="material_name_field">材料名稱:</string>
 
     <string name="already_choose">已選擇</string>
     <string name="not_choose">未選擇</string>

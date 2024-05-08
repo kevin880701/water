@@ -15,13 +15,13 @@ import com.lhr.water.ui.base.APP
 import com.lhr.water.ui.map.MapActivity
 import com.lhr.water.ui.map.MapViewModel
 import com.lhr.water.util.adapter.StorageContentAdapter
-import com.lhr.water.util.dialog.GoodsDialog
+import com.lhr.water.util.dialog.MaterialDialog
 import org.json.JSONObject
 
 class StorageContentBottom(
     var activity: MapActivity,
     var storageEntity: StorageEntity,
-) : RelativeLayout(activity), View.OnClickListener, StorageContentAdapter.Listener, GoodsDialog.Listener {
+) : RelativeLayout(activity), View.OnClickListener, StorageContentAdapter.Listener, MaterialDialog.Listener {
 
     val viewModel: MapViewModel by activity.viewModels {
         (activity.applicationContext as APP).appContainer.viewModelFactory
@@ -81,7 +81,7 @@ class StorageContentBottom(
      * 點擊列顯示對應貨物資訊的Dialog
      * @param storageRecordEntity 貨物資訊
      */
-    override fun onItemClick(storageRecordEntity: StorageRecordEntity) {
+    override fun onMaterialClick(storageRecordEntity: StorageRecordEntity) {
         val goodFieldNameList = resources.getStringArray(R.array.storage_Good_field_name)
             .toList() as ArrayList<String>
         val goodFieldNameEngList =
@@ -99,14 +99,11 @@ class StorageContentBottom(
 //                goodContent.add("Key $key not found")
 //            }
 //        }
-//        val goodsDialog = GoodsDialog(
-//            isAdd = true,
-//            formItemFieldNameList = goodFieldNameList,
-//            formItemFieldNameEngList = goodFieldNameEngList,
-//            listener = this,
-//            formItemFieldContentList = goodContent
-//        )
-//        goodsDialog.show(activity.supportFragmentManager, "GoodsDialog")
+        val materialDialog = MaterialDialog(
+            storageRecordEntity = storageRecordEntity,
+            listener = this,
+        )
+        materialDialog.show(activity.supportFragmentManager, "MaterialDialog")
     }
 
     override fun onGoodsDialogConfirm(formItemJson: JSONObject) {
