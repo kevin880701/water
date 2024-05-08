@@ -69,6 +69,11 @@ class FormRepository(context: Context) {
     var inventoryFormList: MutableLiveData<ArrayList<JSONObject>> =
         MutableLiveData<ArrayList<JSONObject>>()
 
+
+    var checkoutEntities = ArrayList<CheckoutEntity>()
+
+    var storageRecordEntities = ArrayList<StorageRecordEntity>()
+
     companion object {
         private var instance: FormRepository? = null
         fun getInstance(context: Context): FormRepository {
@@ -91,8 +96,18 @@ class FormRepository(context: Context) {
         tempWaitOutputGoods.value = ArrayList<StorageRecordEntity>()
         storageRecords.value = ArrayList<StorageRecordEntity>()
         storageGoods.value = ArrayList<CheckoutEntity>()
+
         loadRecord()
+        updateData()
         inventoryEntities.value = loadInventoryForm()
+    }
+
+
+    fun updateData(){
+        // 取checkout資料
+        checkoutEntities = SqlDatabase.getInstance().getCheckoutDao().getAll() as ArrayList<CheckoutEntity>
+        // 取儲櫃紀錄資料
+        storageRecordEntities = SqlDatabase.getInstance().getStorageRecordDao().getAll() as ArrayList<StorageRecordEntity>
     }
 
     /**
@@ -107,7 +122,6 @@ class FormRepository(context: Context) {
         formRecordList.postValue(tempFormList)
         formFilterRecordList.postValue(filterRecord(tempFormList))
         updateWaitOutputGoods(tempFormList)
-//        return formJsonList
     }
 
 

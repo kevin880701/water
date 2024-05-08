@@ -3,6 +3,7 @@ package com.lhr.water.repository
 import android.content.Context
 import com.lhr.water.data.fakerCheckoutEntities
 import com.lhr.water.data.fakerStorageEntities
+import com.lhr.water.data.fakerStorageRecordEntities
 import com.lhr.water.room.RegionEntity
 import com.lhr.water.room.CheckoutEntity
 import com.lhr.water.room.SqlDatabase
@@ -15,10 +16,6 @@ class RegionRepository private constructor(private val context: Context) {
     var regionEntities = ArrayList<RegionEntity>()
 
     var storageEntities = ArrayList<StorageEntity>()
-
-    var checkoutEntities = ArrayList<CheckoutEntity>()
-
-    var storageRecordEntities = ArrayList<StorageRecordEntity>()
 
     companion object {
         private var instance: RegionRepository? = null
@@ -33,10 +30,6 @@ class RegionRepository private constructor(private val context: Context) {
     init {
         importFakeDataIfEmpty()
         storageEntities =  SqlDatabase.getInstance().getStorageDao().getAll() as ArrayList<StorageEntity>
-        // 取checkout資料，暫時用假資料
-        checkoutEntities = SqlDatabase.getInstance().getCheckoutDao().getAll() as ArrayList<CheckoutEntity>
-        // 取儲櫃紀錄資料，暫時用假資料
-        storageRecordEntities = SqlDatabase.getInstance().getStorageRecordDao().getAll() as ArrayList<StorageRecordEntity>
     }
 
 
@@ -56,7 +49,7 @@ class RegionRepository private constructor(private val context: Context) {
 
         if (storageRecordDao.getRecordCount() == 0) {
             // 匯入假資料
-            storageRecordDao.insertStorageRecordEntities(storageRecordEntities)
+            storageRecordDao.insertStorageRecordEntities(fakerStorageRecordEntities)
         }
     }
 

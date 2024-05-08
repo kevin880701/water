@@ -227,6 +227,7 @@ class FormContentActivity : BaseActivity(), View.OnClickListener, FormGoodsAdd.L
                     )
                 )
                 updateForm(formEntity)
+                viewModel.formRepository.updateData()
                 finish()
             } else {
                 showToast(this, "貨物未處理完成!")
