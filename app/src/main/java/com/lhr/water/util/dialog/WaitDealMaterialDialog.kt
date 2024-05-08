@@ -37,8 +37,6 @@ class WaitDealMaterialDialog(
     private lateinit var deptAdapter: DeptAdapter
     private lateinit var storageEntityAdapter: StorageEntityAdapter
     private var maxQuantity = maxQuantity
-    private var materialName = ""
-    private var materialNumber = ""
     private var allRegionList = ArrayList<RegionEntity>()
     private var regionSpinnerList = ArrayList<RegionEntity>()
     private var deptSpinnerList = ArrayList<RegionEntity>()
@@ -79,16 +77,14 @@ class WaitDealMaterialDialog(
             activity?.resources?.getString(R.string.goods_information)
         binding.widgetTitleBar.imageCancel.visibility = View.VISIBLE
 
-        materialName = itemDetail.materialName.toString()
-        materialNumber = itemDetail.materialNumber.toString()
         binding.textQuantity.text = maxQuantity
 
-        // 取得區域列表
-        allRegionList = viewModel.getAllRegionList()
-        regionSpinnerList = allRegionList.distinctBy { it.regionNumber } as ArrayList<RegionEntity>
-
         if (isInput) {
+            // 取得區域列表
+            allRegionList = viewModel.getInputRegionList()
         } else {
+            // 出庫的區域列表allRegionList找法
+            // 1.先把
 //            var storageContentList = viewModel.formRepository.storageGoods.value?.filter { entity ->
 //                entity.materialName == itemDetail.materialName &&
 //                        entity.materialNumber == itemDetail.materialNumber &&
@@ -98,6 +94,7 @@ class WaitDealMaterialDialog(
 //            regionList = viewModel.getOutputGoodsRegion(storageContentList)
 //            storageList = viewModel.getOutputGoodsStorage(storageContentList)
         }
+        regionSpinnerList = allRegionList.distinctBy { it.regionNumber } as ArrayList<RegionEntity>
         if (regionSpinnerList.size == 0) {
             binding.textNoData.visibility = View.VISIBLE
         } else {
@@ -188,21 +185,12 @@ class WaitDealMaterialDialog(
                 if (binding.spinnerStorage.selectedItem == null) {
                     showToast(requireContext(), "儲櫃未選擇")
                 } else {
-                    if (isInput) {
-                        viewModel.inputInTempGoods(
-                            form,
-                            itemDetail,
-                            viewModel.selectStorage.value!!,
-                            binding.textQuantity.text.toString()
-                        )
-                    } else {
-                        viewModel.outputInTempGoods(
-                            form,
-                            itemDetail,
-                            viewModel.selectStorage.value!!,
-                            binding.textQuantity.text.toString()
-                        )
-                    }
+                    viewModel.inputInTempGoods(
+                        form,
+                        itemDetail,
+                        viewModel.selectStorage.value!!,
+                        binding.textQuantity.text.toString()
+                    )
                     this.dismiss()
                 }
             }

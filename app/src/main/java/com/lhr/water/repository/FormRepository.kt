@@ -35,9 +35,6 @@ class FormRepository(context: Context) {
     var waitOutputGoods: MutableLiveData<ArrayList<WaitDealGoodsData>> =
         MutableLiveData<ArrayList<WaitDealGoodsData>>()
 
-    // 暫存待出貨的貨物列表（未送出）
-    var tempWaitOutputGoods: MutableLiveData<ArrayList<StorageRecordEntity>> =
-        MutableLiveData<ArrayList<StorageRecordEntity>>()
     // 暫存待入庫的貨物列表（未送出）
     var tempWaitInputGoods: MutableLiveData<ArrayList<StorageRecordEntity>> =
         MutableLiveData<ArrayList<StorageRecordEntity>>()
@@ -93,7 +90,6 @@ class FormRepository(context: Context) {
         }
         waitOutputGoods.value = ArrayList<WaitDealGoodsData>()
         tempWaitInputGoods.value = ArrayList<StorageRecordEntity>()
-        tempWaitOutputGoods.value = ArrayList<StorageRecordEntity>()
         storageRecords.value = ArrayList<StorageRecordEntity>()
         storageGoods.value = ArrayList<CheckoutEntity>()
 
@@ -313,32 +309,6 @@ class FormRepository(context: Context) {
         filteredList.toCollection(resultArrayList)
 
         return resultArrayList
-    }
-
-
-    /**
-     * 根據表單名稱、表單代號、貨物名稱代號篩選暫存待出庫的貨物列表中指定的貨物數量
-     * @param targetReportTitle 指定表單名稱
-     * @param targetFormNumber 指定表單代號
-     * @param targetNumber 指定貨物在表單中的序號(非materialNumber)
-     */
-    fun getMaterialQuantityByTempWaitOutputGoods(
-        targetReportTitle: String,
-        targetFormNumber: String,
-        targetNumber: String
-    ): Int {
-        var totalQuantity = 0
-        // 篩選
-        val filteredList = tempWaitOutputGoods.value!!.filter { data ->
-            data.formType == formTypeMap[targetReportTitle] &&
-                    data.formNumber == targetFormNumber && data.materialNumber == targetNumber
-
-        }
-        // 篩選後的List中數量加總
-        for (storageContentEntity in filteredList) {
-            totalQuantity += storageContentEntity.quantity
-        }
-        return totalQuantity
     }
 
     fun searchStorageContentByMaterialName(targetMaterialName: String): ArrayList<CheckoutEntity>{

@@ -17,6 +17,8 @@ import com.lhr.water.ui.base.APP
 import com.lhr.water.util.MapDataList
 import com.lhr.water.util.formTypeMap
 import com.lhr.water.util.getCurrentDate
+import java.time.LocalDate
+import java.time.format.DateTimeFormatter
 
 class FormViewModel(
     context: Context,
@@ -62,7 +64,7 @@ class FormViewModel(
     }
 
 
-    fun getAllRegionList(): ArrayList<RegionEntity> {
+    fun getInputRegionList(): ArrayList<RegionEntity> {
         // 只列出使用者可看到的儲櫃
         val filteredStorageEntities = regionRepository.storageEntities.filter { it.deptNumber == userRepository.userData.deptAno}
 
@@ -77,6 +79,87 @@ class FormViewModel(
             regionEntity?.let { resultRegionEntities.add(it) }
         }
         return ArrayList(resultRegionEntities)
+    }
+
+    fun getOutputRegionList(materialNumber: String) {
+        // 獲取當前年月
+        val currentYearMonth = LocalDate.now().format(DateTimeFormatter.ofPattern("yyyy-MM"))
+
+        // 過濾出指定materialNumber的資料並且是本月的 CheckoutEntity
+        val filteredCheckoutEntities = formRepository.checkoutEntities.filter {
+            it.materialNumber == materialNumber &&
+                    it.checkoutTime.startsWith(currentYearMonth)
+        }
+
+        // 將符合條件的 CheckoutEntity 轉換為 StorageRecordEntity，方便之後計算材料數量
+        val convertedStorageRecordEntities = filteredCheckoutEntities.map { checkoutEntity ->
+            StorageRecordEntity(
+                storageId = checkoutEntity.storageId,
+                formType = 0,
+                formNumber = "",
+                materialName = checkoutEntity.materialName,
+                materialNumber = checkoutEntity.materialNumber,
+                InvtStat = 2,
+                userId = userRepository.userData.userId,
+                InvtDevi = 2,
+                quantity = checkoutEntity.quantity,
+                date = checkoutEntity.inputTime
+            )
+        }.toMutableList() as ArrayList<StorageRecordEntity>
+
+//--------------------------------------------------------------------------
+        // 過濾出指定materialNumber的資料並且是本月的 StorageRecordEntity
+        var fullStorageRecordEntities = ArrayList<StorageRecordEntity>()
+        fullStorageRecordEntities.addAll(formRepository.storageRecordEntities)
+        fullStorageRecordEntities.addAll(convertedStorageRecordEntities)
+        val filteredStorageRecordEntities = fullStorageRecordEntities.filter {
+            it.materialNumber == materialNumber &&
+                    it.date.startsWith(currentYearMonth)
+        }
+
+        // 創建InvtStat=2 的數據的列表
+        val invtStat2Records = filteredStorageRecordEntities.filter { it.InvtStat == 2 }
+
+        // 創建InvtStat=1 的數據的列表
+        val invtStat1Records = filteredStorageRecordEntities.filter { it.InvtStat == 1 }
+
+        // 根據 materialName、materialNumber、date 進行分組
+        val groupedInvtStat2Records = invtStat2Records.groupBy {
+            Triple(it.materialName, it.materialNumber, it.date)
+        }
+        val groupedInvtStat1Records = invtStat1Records.groupBy {
+            Triple(it.materialName, it.materialNumber, it.date)
+        }
+
+        // 創建一個新的 ArrayList 用於存儲結果
+        val resultStorageRecordEntities = ArrayList<StorageRecordEntity>()
+
+        // 對 InvtStat=2 的數據進行處理
+        groupedInvtStat2Records.forEach { (key, records) ->
+            val totalQuantity = records.sumOf { it.quantity }
+
+            // 取第一個記錄作為模板
+            val firstRecord = records.firstOrNull()
+
+            // 創建一個新的 StorageRecordEntity 並添加到結果列表中
+            firstRecord?.let { record ->
+                val newRecord = StorageRecordEntity(
+                    storageId = record.storageId,
+                    formType = record.formType,
+                    formNumber = record.formNumber,
+                    materialName = record.materialName,
+                    materialNumber = record.materialNumber,
+                    InvtStat = 2,
+                    userId = record.userId,
+                    InvtDevi = record.InvtDevi,
+                    quantity = totalQuantity,
+                    date = record.date
+                )
+                resultStorageRecordEntities.add(newRecord)
+            }
+        }
+
+//        return resultStorageRecordEntities
     }
 
     fun getDeptSpinnerList(regionNumber: String, regionEntities: ArrayList<RegionEntity>): ArrayList<RegionEntity> {
@@ -126,39 +209,6 @@ class FormViewModel(
         formRepository.tempWaitInputGoods.postValue(currentList)
     }
 
-
-    /**
-     * 將選擇貨物加入儲櫃中並更新暫存待入庫的貨物列表
-     * @param form 表單資訊
-     * @param itemDetail 貨物資訊
-     * @param storageEntity 所選儲櫃資訊
-     * @param materialQuantity 選擇貨物數量
-     */
-    fun outputInTempGoods(
-        form: Form,
-        itemDetail: ItemDetail,
-        storageEntity: StorageEntity,
-        materialQuantity: String
-    ) {
-        // 需要為貨物加上地區、地圖、儲櫃名稱、報表名稱、報表代號、入庫時間欄位
-        var tempDealGoodsData = StorageRecordEntity(
-            storageId = storageEntity.storageId,
-            formType = formTypeMap[form.reportTitle!!]?.let { it }?:0,
-            formNumber =  form.formNumber!!,
-            materialName =  itemDetail.materialName.toString(),
-            materialNumber = itemDetail.materialNumber!!,
-            InvtStat =  1,
-            userId = userRepository.userData.userId,
-            quantity = materialQuantity.toInt(),
-            date = getCurrentDate(),
-        )
-
-        // 更新暫存進貨列表
-        val currentList = formRepository.tempWaitOutputGoods.value ?: ArrayList()
-        currentList.add(tempDealGoodsData)
-        formRepository.tempWaitOutputGoods.postValue(currentList)
-    }
-
     fun getOutputGoodsStorageInformation(
         materialName: String,
         materialNumber: String
@@ -195,12 +245,4 @@ class FormViewModel(
         targetFormNumber
     )
 
-    fun filterTempWaitOutputGoods(
-        targetReportTitle: String,
-        targetFormNumber: String
-    ) = formRepository.filterTempWaitOutputGoods(
-        formRepository.tempWaitOutputGoods.value!!,
-        targetReportTitle,
-        targetFormNumber
-    )
 }

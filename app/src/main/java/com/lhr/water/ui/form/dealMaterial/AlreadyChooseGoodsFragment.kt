@@ -38,24 +38,14 @@ class AlreadyChooseGoodsFragment(form: Form) : BaseFragment(), View.OnClickListe
     }
 
     private fun bindViewModel() {
-        if (isInput){
-            viewModel.formRepository.tempWaitInputGoods.observe(viewLifecycleOwner) { _ ->
-                alreadyChooseMaterialAdapter.submitList(
-                    viewModel.filterTempWaitInputGoods(
-                        form.reportTitle.toString(),
-                        form.formNumber.toString()
-                    )
+
+        viewModel.formRepository.tempWaitInputGoods.observe(viewLifecycleOwner) { _ ->
+            alreadyChooseMaterialAdapter.submitList(
+                viewModel.filterTempWaitInputGoods(
+                    form.reportTitle.toString(),
+                    form.formNumber.toString()
                 )
-            }
-        }else{
-            viewModel.formRepository.tempWaitOutputGoods.observe(viewLifecycleOwner) { _ ->
-                alreadyChooseMaterialAdapter.submitList(
-                    viewModel.filterTempWaitOutputGoods(
-                        form.reportTitle.toString(),
-                        form.formNumber.toString()
-                    )
-                )
-            }
+            )
         }
     }
 
@@ -67,21 +57,14 @@ class AlreadyChooseGoodsFragment(form: Form) : BaseFragment(), View.OnClickListe
 
     private fun initRecyclerView() {
         alreadyChooseMaterialAdapter = AlreadyChooseMaterialAdapter(this, requireContext())
-        if(isInput){
-            alreadyChooseMaterialAdapter.submitList(
-                viewModel.filterTempWaitInputGoods(
-                    form.reportTitle.toString(),
-                    form.formNumber.toString()
-                )
+
+        alreadyChooseMaterialAdapter.submitList(
+            viewModel.filterTempWaitInputGoods(
+                form.reportTitle.toString(),
+                form.formNumber.toString()
             )
-        }else{
-            alreadyChooseMaterialAdapter.submitList(
-                viewModel.filterTempWaitOutputGoods(
-                    form.reportTitle.toString(),
-                    form.formNumber.toString()
-                )
-            )
-        }
+        )
+
         binding.recyclerGoods.adapter = alreadyChooseMaterialAdapter
         binding.recyclerGoods.layoutManager = LinearLayoutManager(requireActivity())
     }
@@ -96,14 +79,9 @@ class AlreadyChooseGoodsFragment(form: Form) : BaseFragment(), View.OnClickListe
      * 移除暫存列表的指定內容
      */
     override fun onRemoveClick(storageRecordEntity: StorageRecordEntity) {
-        if (isInput){
-            var tempArrayList = viewModel.formRepository.tempWaitInputGoods.value!!
-            tempArrayList.removeIf { it == storageRecordEntity }
-            viewModel.formRepository.tempWaitInputGoods.value = tempArrayList
-        }else{
-            var tempArrayList = viewModel.formRepository.tempWaitOutputGoods.value!!
-            tempArrayList.removeIf { it == storageRecordEntity }
-            viewModel.formRepository.tempWaitOutputGoods.value = tempArrayList
-        }
+
+        var tempArrayList = viewModel.formRepository.tempWaitInputGoods.value!!
+        tempArrayList.removeIf { it == storageRecordEntity }
+        viewModel.formRepository.tempWaitInputGoods.value = tempArrayList
     }
 }

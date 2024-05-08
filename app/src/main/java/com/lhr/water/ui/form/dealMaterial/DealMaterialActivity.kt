@@ -41,12 +41,6 @@ class DealMaterialActivity : BaseActivity(), View.OnClickListener {
         form = formFromJson(jsonString)
         isInput = isInput(form)
 
-
-        println("==========================================================")
-        println("@@@@@@@@@@@@@@@@@@：$isInput")
-        print("@@@@@@@@@@@@@@@@@@：$isInput")
-        Timber.d("@@@@@@@@@@@@@@@@@@：$isInput")
-        println("==========================================================")
         initView()
     }
 

@@ -74,8 +74,15 @@ class WaitDealMaterialAdapter(
                     itemDetail.materialNumber!!
                 )
             } else {
-
-                itemDetail.actualQuantity!! - viewModel.formRepository.getMaterialQuantityByTempWaitOutputGoods(
+                println("===========================================")
+                println("itemDetail.actualQuantity：${itemDetail.actualQuantity!!}")
+                println("itemDetail.actualQuantity：${viewModel.formRepository.getMaterialQuantityByTempWaitInputGoods(
+                    form.reportTitle!!,
+                    form.formNumber!!,
+                    itemDetail.materialNumber!!
+                )}")
+                println("===========================================")
+                itemDetail.actualQuantity!! - viewModel.formRepository.getMaterialQuantityByTempWaitInputGoods(
                     form.reportTitle!!,
                     form.formNumber!!,
                     itemDetail.materialNumber!!

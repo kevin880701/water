@@ -42,14 +42,8 @@ class WaitDealMaterialFragment(form: Form) : BaseFragment(), View.OnClickListene
     }
 
     private fun bindViewModel() {
-        if (isInput) {
-            viewModel.formRepository.tempWaitInputGoods.observe(viewLifecycleOwner) { newList ->
-                waitDealMaterialAdapter.notifyDataSetChanged()
-            }
-        } else {
-            viewModel.formRepository.tempWaitOutputGoods.observe(viewLifecycleOwner) { newList ->
-                waitDealMaterialAdapter.notifyDataSetChanged()
-            }
+        viewModel.formRepository.tempWaitInputGoods.observe(viewLifecycleOwner) { newList ->
+            waitDealMaterialAdapter.notifyDataSetChanged()
         }
     }
 
