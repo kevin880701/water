@@ -12,7 +12,9 @@ import com.lhr.water.data.Form
 import com.lhr.water.data.Form.Companion.formFromJson
 import com.lhr.water.databinding.ActivityDealMaterialBinding
 import com.lhr.water.ui.base.BaseActivity
+import com.lhr.water.util.isInput
 import com.lhr.water.util.viewPager.ViewPageAdapter
+import timber.log.Timber
 
 
 class DealMaterialActivity : BaseActivity(), View.OnClickListener {
@@ -22,6 +24,7 @@ class DealMaterialActivity : BaseActivity(), View.OnClickListener {
     private lateinit var jsonString: String
     private lateinit var pageAdapter: ViewPageAdapter
     private lateinit var form: Form
+    private var isInput = true
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -36,6 +39,14 @@ class DealMaterialActivity : BaseActivity(), View.OnClickListener {
             jsonString = intent.getSerializableExtra("jsonString") as String
         }
         form = formFromJson(jsonString)
+        isInput = isInput(form)
+
+
+        println("==========================================================")
+        println("@@@@@@@@@@@@@@@@@@：$isInput")
+        print("@@@@@@@@@@@@@@@@@@：$isInput")
+        Timber.d("@@@@@@@@@@@@@@@@@@：$isInput")
+        println("==========================================================")
         initView()
     }
 
@@ -54,8 +65,8 @@ class DealMaterialActivity : BaseActivity(), View.OnClickListener {
                 AlreadyChooseGoodsFragment(form),
             ) as ArrayList<Fragment>
             val tabTextList = arrayListOf(
-                getString(R.string.wait_deal_good),
-                getString(R.string.already_choose_good)
+                if (isInput) getString(R.string.wait_input_material) else getString(R.string.wait_output_material),
+                getString(R.string.already_choose_material)
             )
             pageAdapter = ViewPageAdapter(supportFragmentManager, lifecycle, fragments)
             binding.viewPagerGoods.adapter = pageAdapter
