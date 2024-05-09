@@ -141,13 +141,6 @@ class FormRepository(context: Context) {
     }
 
     /**
-     * 更新儲櫃中的所有貨物
-     */
-    private fun updateStorageGoods() {
-        storageGoods.postValue(SqlDatabase.getInstance().getCheckoutDao().getAll() as ArrayList)
-    }
-
-    /**
      * 篩選盤點表單內容
      */
 //    fun filterInventoryRecord(formList: ArrayList<InventoryEntity>): ArrayList<InventoryEntity>? {

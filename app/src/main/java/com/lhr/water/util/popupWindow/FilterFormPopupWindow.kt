@@ -13,6 +13,7 @@ import com.lhr.water.R
 import com.lhr.water.databinding.PopupFilterMenuBinding
 import com.lhr.water.ui.form.FormViewModel
 import com.lhr.water.util.ScreenUtils
+import com.lhr.water.util.fromTitleList
 import com.lhr.water.util.widget.FilterItemWidget
 
 
@@ -63,9 +64,7 @@ class FilterFormPopupWindow(activity: Activity, viewModel: FormViewModel) : Popu
      * 根據form_array來增加要篩選的欄位
      */
     private fun addItem() {
-        itemList = activity.resources.getStringArray(R.array.form_array)
-            .toList() as ArrayList<String>
-        itemList.forEachIndexed { index, fieldName ->
+        fromTitleList.forEachIndexed { index, fieldName ->
             // 創建FormContentDataWidget
             val filterItemWidget = FilterItemWidget(
                 activity = activity,
