@@ -42,7 +42,7 @@ class WaitDealMaterialFragment(form: Form) : BaseFragment(), View.OnClickListene
     }
 
     private fun bindViewModel() {
-        viewModel.formRepository.tempWaitInputGoods.observe(viewLifecycleOwner) { newList ->
+        viewModel.formRepository.tempStorageRecordEntities.observe(viewLifecycleOwner) { newList ->
             waitDealMaterialAdapter.notifyDataSetChanged()
         }
     }

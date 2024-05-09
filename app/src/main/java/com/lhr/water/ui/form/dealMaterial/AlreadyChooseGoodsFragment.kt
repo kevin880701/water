@@ -38,7 +38,7 @@ class AlreadyChooseGoodsFragment(form: Form) : BaseFragment(), View.OnClickListe
 
     private fun bindViewModel() {
 
-        viewModel.formRepository.tempWaitInputGoods.observe(viewLifecycleOwner) { _ ->
+        viewModel.formRepository.tempStorageRecordEntities.observe(viewLifecycleOwner) { _ ->
             alreadyChooseMaterialAdapter.submitList(
                 viewModel.filterTempWaitInputGoods(
                     form.reportTitle.toString(),
@@ -79,8 +79,8 @@ class AlreadyChooseGoodsFragment(form: Form) : BaseFragment(), View.OnClickListe
      */
     override fun onRemoveClick(storageRecordEntity: StorageRecordEntity) {
 
-        var tempArrayList = viewModel.formRepository.tempWaitInputGoods.value!!
+        var tempArrayList = viewModel.formRepository.tempStorageRecordEntities.value!!
         tempArrayList.removeIf { it == storageRecordEntity }
-        viewModel.formRepository.tempWaitInputGoods.value = tempArrayList
+        viewModel.formRepository.tempStorageRecordEntities.value = tempArrayList
     }
 }

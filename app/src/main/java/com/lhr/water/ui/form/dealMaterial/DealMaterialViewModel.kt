@@ -328,16 +328,16 @@ class DealMaterialViewModel(
         )
 
         // 更新暫存進貨列表
-        val currentList = formRepository.tempWaitInputGoods.value ?: ArrayList()
+        val currentList = formRepository.tempStorageRecordEntities.value ?: ArrayList()
         currentList.add(tempDealGoodsData)
-        formRepository.tempWaitInputGoods.postValue(currentList)
+        formRepository.tempStorageRecordEntities.postValue(currentList)
     }
 
     fun filterTempWaitInputGoods(
         targetReportTitle: String,
         targetFormNumber: String
     ) = formRepository.filterTempWaitInputGoods(
-        formRepository.tempWaitInputGoods.value!!,
+        formRepository.tempStorageRecordEntities.value!!,
         targetReportTitle,
         targetFormNumber
     )

@@ -35,13 +35,10 @@ class FormRepository(context: Context) {
     var waitOutputGoods: MutableLiveData<ArrayList<WaitDealGoodsData>> =
         MutableLiveData<ArrayList<WaitDealGoodsData>>()
 
-    // 暫存待入庫的貨物列表（未送出）
-    var tempWaitInputGoods: MutableLiveData<ArrayList<StorageRecordEntity>> =
+    // 暫存待出入庫的貨物列表（未送出）
+    var tempStorageRecordEntities: MutableLiveData<ArrayList<StorageRecordEntity>> =
         MutableLiveData<ArrayList<StorageRecordEntity>>()
 
-    // 儲櫃所有進出紀錄
-    var storageRecords: MutableLiveData<ArrayList<StorageRecordEntity>> =
-        MutableLiveData<ArrayList<StorageRecordEntity>>()
     // 儲櫃中所有貨物
     var storageGoods: MutableLiveData<ArrayList<CheckoutEntity>> =
         MutableLiveData<ArrayList<CheckoutEntity>>()
@@ -89,8 +86,7 @@ class FormRepository(context: Context) {
             formJsonList.add(jsonStringToJson(formData))
         }
         waitOutputGoods.value = ArrayList<WaitDealGoodsData>()
-        tempWaitInputGoods.value = ArrayList<StorageRecordEntity>()
-        storageRecords.value = ArrayList<StorageRecordEntity>()
+        tempStorageRecordEntities.value = ArrayList<StorageRecordEntity>()
         storageGoods.value = ArrayList<CheckoutEntity>()
 
         loadRecord()
@@ -110,6 +106,8 @@ class FormRepository(context: Context) {
      * 抓取表單全部記錄
      */
     fun loadRecord() {
+        updateData()
+
         val loadFormList: List<String> = SqlDatabase.getInstance().getFormDao().getAll()
         val tempFormList = ArrayList<Form>()
         for (formData in loadFormList) {
@@ -154,15 +152,6 @@ class FormRepository(context: Context) {
         }
         waitOutputGoods.postValue(waitOutputGoodsList)
     }
-
-
-    /**
-     * 更新儲櫃中的所有貨物
-     */
-    private fun updateStorageRecords() {
-        storageRecords.postValue(SqlDatabase.getInstance().getStorageRecordDao().getAll() as ArrayList)
-    }
-
 
     /**
      * 更新儲櫃中的所有貨物
@@ -254,7 +243,7 @@ class FormRepository(context: Context) {
     ): Int {
         var totalQuantity = 0
         // 篩選
-        val filteredList = tempWaitInputGoods.value!!.filter { data ->
+        val filteredList = tempStorageRecordEntities.value!!.filter { data ->
             data.formType == formTypeMap[targetReportTitle] &&
             data.formNumber == targetFormNumber &&
                     data.materialNumber == materialNumber

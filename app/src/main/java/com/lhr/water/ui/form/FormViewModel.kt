@@ -1,8 +1,6 @@
 package com.lhr.water.ui.form
 
 import android.content.Context
-import android.os.Build
-import androidx.annotation.RequiresApi
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.MutableLiveData
 import com.lhr.water.R
@@ -303,9 +301,9 @@ class FormViewModel(
         )
 
         // 更新暫存進貨列表
-        val currentList = formRepository.tempWaitInputGoods.value ?: ArrayList()
+        val currentList = formRepository.tempStorageRecordEntities.value ?: ArrayList()
         currentList.add(tempDealGoodsData)
-        formRepository.tempWaitInputGoods.postValue(currentList)
+        formRepository.tempStorageRecordEntities.postValue(currentList)
     }
 
     fun getOutputGoodsStorageInformation(
@@ -339,12 +337,9 @@ class FormViewModel(
         targetReportTitle: String,
         targetFormNumber: String
     ) = formRepository.filterTempWaitInputGoods(
-        formRepository.tempWaitInputGoods.value!!,
+        formRepository.tempStorageRecordEntities.value!!,
         targetReportTitle,
         targetFormNumber
     )
-
-
-    //
 
 }

@@ -4,12 +4,8 @@ import android.content.Context
 import androidx.lifecycle.AndroidViewModel
 import com.lhr.water.data.ItemDetail
 import com.lhr.water.repository.FormRepository
-import com.lhr.water.room.SqlDatabase
-import com.lhr.water.room.CheckoutEntity
 import com.lhr.water.room.StorageRecordEntity
 import com.lhr.water.ui.base.APP
-import com.lhr.water.util.formTypeMap
-import com.lhr.water.util.getCurrentDate
 
 class FormContentViewModel(context: Context, formRepository: FormRepository) :
     AndroidViewModel(context.applicationContext as APP) {
@@ -26,7 +22,7 @@ class FormContentViewModel(context: Context, formRepository: FormRepository) :
         formNumber: String,
     ): ArrayList<StorageRecordEntity> {
         val matchedItems = ArrayList<StorageRecordEntity>()
-        var tempList = formRepository.tempWaitInputGoods.value!!
+        var tempList = formRepository.tempStorageRecordEntities.value!!
         // 遍历itemDetailList
         for (itemDetail in itemDetailList) {
             // 在tempWaitOutputGoods中查找匹配的元素
@@ -38,7 +34,7 @@ class FormContentViewModel(context: Context, formRepository: FormRepository) :
                 tempList.remove(it)
             }
         }
-        formRepository.tempWaitInputGoods.postValue(tempList)
+        formRepository.tempStorageRecordEntities.postValue(tempList)
         return matchedItems
     }
 }

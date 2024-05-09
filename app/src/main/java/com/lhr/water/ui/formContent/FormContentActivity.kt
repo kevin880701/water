@@ -284,7 +284,7 @@ class FormContentActivity : BaseActivity(), View.OnClickListener, FormGoodsAdd.L
             val materialNumber = itemDetail.materialNumber
 
             // 在暫存紀錄中查找與當前itemDetail的materialNumber和指定的FormNumber相匹配的記錄
-            val matchingRecords = viewModel.formRepository.tempWaitInputGoods.value!!.filter {
+            val matchingRecords = viewModel.formRepository.tempStorageRecordEntities.value!!.filter {
                 it.materialNumber == materialNumber && it.formNumber == targetFormNumber
             }
 
