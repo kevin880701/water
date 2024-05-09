@@ -1,6 +1,8 @@
 package com.lhr.water.ui.map
 
 import android.content.Context
+import android.os.Build
+import androidx.annotation.RequiresApi
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.MutableLiveData
 import com.lhr.water.repository.RegionRepository
@@ -24,6 +26,7 @@ class MapViewModel(context: Context, var regionRepository: RegionRepository, var
         storageEntityList.value = filteredList
     }
 
+    @RequiresApi(Build.VERSION_CODES.O)
     fun getStorageContentList(storageId: Int): ArrayList<StorageRecordEntity>{
         // 獲取當前年月
         val currentYearMonth = LocalDate.now().format(DateTimeFormatter.ofPattern("yyyy-MM"))
@@ -42,11 +45,12 @@ class MapViewModel(context: Context, var regionRepository: RegionRepository, var
                 formNumber = "",
                 materialName = checkoutEntity.materialName,
                 materialNumber = checkoutEntity.materialNumber,
+                inputTime = checkoutEntity.inputTime,
                 InvtStat = 2,
                 userId = userRepository.userData.userId,
                 InvtDevi = 2,
                 quantity = checkoutEntity.quantity,
-                date = checkoutEntity.inputTime
+                recordDate = checkoutEntity.inputTime
             )
         }.toMutableList() as ArrayList<StorageRecordEntity>
 
@@ -57,7 +61,7 @@ class MapViewModel(context: Context, var regionRepository: RegionRepository, var
         fullStorageRecordEntities.addAll(convertedStorageRecordEntities)
         val filteredStorageRecordEntities = fullStorageRecordEntities.filter {
             it.storageId == storageId &&
-                    it.date.startsWith(currentYearMonth)
+                    it.recordDate.startsWith(currentYearMonth)
         }
 
         // 創建InvtStat=3 的數據的列表
@@ -69,13 +73,13 @@ class MapViewModel(context: Context, var regionRepository: RegionRepository, var
 
         // 根據 materialName、materialNumber、date 進行分組
         val groupedInvtStat3Records = invtStat3Records.groupBy {
-            Triple(it.materialName, it.materialNumber, it.date)
+            Triple(it.materialName, it.materialNumber, it.inputTime)
         }
         val groupedInvtStat2Records = invtStat2Records.groupBy {
-            Triple(it.materialName, it.materialNumber, it.date)
+            Triple(it.materialName, it.materialNumber, it.inputTime)
         }
         val groupedInvtStat1Records = invtStat1Records.groupBy {
-            Triple(it.materialName, it.materialNumber, it.date)
+            Triple(it.materialName, it.materialNumber, it.inputTime)
         }
 
         // 將各自materialName、materialNumber、date的quantity加總
@@ -96,7 +100,7 @@ class MapViewModel(context: Context, var regionRepository: RegionRepository, var
 
         // 對 InvtStat = 2和3 的數據進行處理
         processedInvtStat2Records.forEach { (triple, quantity2) ->
-            val (materialName, materialNumber, date) = triple
+            val (materialName, materialNumber, inputTime) = triple
             val quantity3 = processedInvtStat3Records.find { it.first == triple }?.second ?: 0 // 查找与当前项相同的 processedInvtStat3Records 中的数量，如果不存在则默认为 0
             // 計算驗收-移出
             val totalQuantity = quantity2 - quantity3
@@ -108,28 +112,30 @@ class MapViewModel(context: Context, var regionRepository: RegionRepository, var
                     formType = 0, 
                     formNumber = "", 
                     materialName = materialName,
-                    materialNumber = materialNumber,
+                    materialNumber = inputTime,
+                    inputTime = materialNumber,
                     InvtStat = 2, 
                     userId = "", 
                     quantity = totalQuantity,
-                    date = date
+                    recordDate = inputTime
                 ))
             }
         }
 
         // 對 InvtStat=1 的數據進行處理
         processedInvtStat1Records.forEach { (key, quantity) ->
-            val (materialName, materialNumber, date) = key
+            val (materialName, materialNumber, inputTime) = key
             resultStorageRecordEntities.add(StorageRecordEntity(
                 storageId = 0, 
                 formType = 0, 
                 formNumber = "", 
                 materialName = materialName,
                 materialNumber = materialNumber,
+                inputTime = inputTime,
                 InvtStat = 1, 
                 userId = "", 
                 quantity = quantity,
-                date = date
+                recordDate = inputTime
             ))
         }
 

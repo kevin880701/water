@@ -19,7 +19,7 @@ class CheckoutEntity(
     materialName: String,
     materialNumber: String,
     quantity: Int,
-    inputTime: String, //（入庫時間，格式YYYY-MM-DD-HH-MM-SS）
+    inputTime: String, //（InvtLdtm: 材料入庫時間，格式YYYY-MM-DD-HH-MM-SS）
     checkoutTime: String, //（結算時間，格式YYYY-MM-DD-HH-MM-SS）
 ) : Serializable {
 

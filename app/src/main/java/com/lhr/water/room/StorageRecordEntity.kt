@@ -14,11 +14,12 @@ class StorageRecordEntity(
     formNumber: String,  //InvtFromNo: 入庫單據編號
     materialName: String, //MNoMName: 材料名稱
     materialNumber: String, //InvtMNo: 材料編號
+    inputTime: String, //材料入庫時間，假設是入庫那inputTime跟CreatedAt會是一樣;出庫的話inputTime是被出庫材料的入庫時間，CreatedAt則是出庫時間
     InvtStat: Int, //InvtStat: 材料狀態; 1: 已交貨，2: 已驗收，3: 已移出
     userId: String, //InvtUserId: 操作的使用者ID
     InvtDevi: Int = 2,
     quantity: Int, //InvtNum: 數量
-    date: String, //CreatedAt: 紀錄創建時間（出庫入庫時間，格式YYYYMMDD-HHMMSS）
+    recordDate: String, //CreatedAt: 紀錄創建時間（出庫入庫時間，格式YYYYMMDD-HHMMSS）
 ) : Serializable {
 
     @NonNull
@@ -40,6 +41,9 @@ class StorageRecordEntity(
     @ColumnInfo(name = SqlModel.materialNumber, typeAffinity = ColumnInfo.TEXT)
     var materialNumber = materialNumber
 
+    @ColumnInfo(name = SqlModel.inputTime, typeAffinity = ColumnInfo.TEXT)
+    var inputTime = inputTime
+
     @ColumnInfo(name = SqlModel.InvtStat, typeAffinity = ColumnInfo.INTEGER)
     var InvtStat = InvtStat
 
@@ -52,6 +56,6 @@ class StorageRecordEntity(
     @ColumnInfo(name = SqlModel.quantity, typeAffinity = ColumnInfo.INTEGER)
     var quantity = quantity
 
-    @ColumnInfo(name = SqlModel.date, typeAffinity = ColumnInfo.TEXT)
-    var date = date
+    @ColumnInfo(name = SqlModel.recordDate, typeAffinity = ColumnInfo.TEXT)
+    var recordDate = recordDate
 }

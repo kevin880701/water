@@ -32,7 +32,7 @@ class SqlModel {
         const val storageY: String = "storageY"
         const val formType: String = "formType"
         const val reportTitle: String = "reportTitle"
-        const val date: String = "inputDate"
+        const val recordDate: String = "recordDate"
         const val type: String = "type"
         const val itemDetail: String = "itemDetail"
         const val InvtStat: String = "InvtStat"
