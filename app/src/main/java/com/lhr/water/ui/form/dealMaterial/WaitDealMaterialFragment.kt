@@ -10,16 +10,16 @@ import com.lhr.water.data.Form
 import com.lhr.water.data.ItemDetail
 import com.lhr.water.databinding.FragmentWaitDealMaterialBinding
 import com.lhr.water.ui.base.BaseFragment
-import com.lhr.water.ui.form.FormViewModel
 import com.lhr.water.util.adapter.WaitDealMaterialAdapter
-import com.lhr.water.util.dialog.WaitDealMaterialDialog
+import com.lhr.water.util.dialog.DealInputMaterialDialog
+import com.lhr.water.util.dialog.DealOutputMaterialDialog
 import com.lhr.water.util.isInput
 
 
 class WaitDealMaterialFragment(form: Form) : BaseFragment(), View.OnClickListener,
     WaitDealMaterialAdapter.Listener {
 
-    private val viewModel: FormViewModel by viewModels { viewModelFactory }
+    private val viewModel: DealMaterialViewModel by viewModels { viewModelFactory }
     private var _binding: FragmentWaitDealMaterialBinding? = null
     private val binding get() = _binding!!
     private lateinit var waitDealMaterialAdapter: WaitDealMaterialAdapter
@@ -76,12 +76,21 @@ class WaitDealMaterialFragment(form: Form) : BaseFragment(), View.OnClickListene
     }
 
     override fun onItemClick(itemDetail: ItemDetail, maxQuantity: String) {
-        val goodsDialog = WaitDealMaterialDialog(
-            form,
-            itemDetail,
-            maxQuantity,
-            isInput
-        )
-        goodsDialog.show(requireActivity().supportFragmentManager, "InputGoodsDialog")
+
+            if (isInput) {
+                var goodsDialog = DealInputMaterialDialog(
+                    form,
+                    itemDetail,
+                    maxQuantity
+                )
+                goodsDialog.show(requireActivity().supportFragmentManager, "DealInputMaterialDialog")
+            } else {
+                var goodsDialog = DealOutputMaterialDialog(
+                    form,
+                    itemDetail,
+                    maxQuantity
+                )
+                goodsDialog.show(requireActivity().supportFragmentManager, "DealOutputMaterialDialog")
+            }
     }
 }

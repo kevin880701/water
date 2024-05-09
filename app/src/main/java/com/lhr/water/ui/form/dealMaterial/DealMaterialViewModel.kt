@@ -1,4 +1,4 @@
-package com.lhr.water.ui.form
+package com.lhr.water.ui.form.dealMaterial
 
 import android.content.Context
 import android.os.Build
@@ -22,17 +22,12 @@ import com.lhr.water.util.getCurrentDate
 import java.time.LocalDate
 import java.time.format.DateTimeFormatter
 
-class FormViewModel(
+class DealMaterialViewModel(
     context: Context,
     var regionRepository: RegionRepository,
     var formRepository: FormRepository,
     var userRepository: UserRepository
 ) : AndroidViewModel(context.applicationContext as APP) {
-
-    // 篩選表單代號formNumber的String
-    var searchFormNumber = MutableLiveData<String>()
-    // 篩選表單類別FormClass的List
-    var filterList = MutableLiveData<ArrayList<String>>()
 
     // WaitDealMaterialDialog
     var selectRegion = MutableLiveData<RegionEntity>()
@@ -41,49 +36,38 @@ class FormViewModel(
 
 
     init {
-        filterList.value = ArrayList(context.resources.getStringArray(R.array.form_array).toList())
-        searchFormNumber.value = ""
     }
 
-    /**
-     * 篩選表單內容
-     */
-    fun filterRecord(formList: ArrayList<Form>,searchFormNumber: String,filterList: ArrayList<String>): ArrayList<Form>? {
-        return formList.filter { form ->
-            // 根據 "FormClass" 判斷是否在 filterList 中
-            val reportTitle = form.reportTitle.toString()
-            val reportTitleFilterCondition = filterList.contains(reportTitle)
-            val formNumber = form.formNumber.toString()
+    fun getOutputRegionList(filterStorageRecordEntities: ArrayList<StorageRecordEntity>): ArrayList<RegionEntity> {
 
-            // 如果搜尋框(EditText)中的文本不為空，則判斷 "formNumber" 是否包含該文本
-            val editTextFilterCondition = if (searchFormNumber.isNotEmpty()) {
-                formNumber.contains(searchFormNumber, ignoreCase = true)
-            } else {
-                true // 搜尋框(EditText)，不添加 formNumber 的篩選條件
+        // 找到指定商品在哪些儲櫃後，找出對應區域、部門並轉成ArrayList<RegionEntity>
+        val resultRegionEntities = arrayListOf<RegionEntity>()
+
+        // 遍歷 resultRecords
+        filterStorageRecordEntities.forEach { storageRecord ->
+            // 根據 storageId 找到對應的 StorageEntity
+            val storageEntity = regionRepository.storageEntities.find {
+                println("it.storageId：${it.storageId}")
+                println("storageRecord.storageId：${storageRecord.storageId}")
+                it.storageId == storageRecord.storageId }
+
+            // 如果找到了對應的 StorageEntity，使用 StorageEntity 的 deptNumber 和 mapSeq 找到對應的 RegionEntity
+            storageEntity?.let { entity ->
+                val regionEntity = MapDataList.find { it.deptNumber == entity.deptNumber && it.mapSeq == entity.mapSeq }
+
+                // 如果找到了對應的 RegionEntity，將找到的 RegionEntity 添加到 resultRegionEntities
+                regionEntity?.let {
+                    resultRegionEntities.add(it)
+                }
             }
-            reportTitleFilterCondition!! && editTextFilterCondition
-        }?.toMutableList()!! as ArrayList<Form>?
-    }
-
-
-    fun getInputRegionList(): ArrayList<RegionEntity> {
-        // 只列出使用者可看到的儲櫃
-        val filteredStorageEntities = regionRepository.storageEntities.filter { it.deptNumber == userRepository.userData.deptAno}
-
-        // 篩選掉重複的deptNumber和mapSeq
-        val resultStorageEntities = filteredStorageEntities.distinctBy { it.deptNumber to it.mapSeq }
-
-
-        // 根據篩選後的資料找出對應的ArrayList<RegionEntity>
-        val resultRegionEntities = mutableListOf<RegionEntity>()
-        resultStorageEntities.forEach { storage ->
-            val regionEntity = MapDataList.find { it.deptNumber == storage.deptNumber && it.mapSeq == storage.mapSeq }
-            regionEntity?.let { resultRegionEntities.add(it) }
         }
-        return ArrayList(resultRegionEntities)
+
+        return resultRegionEntities
     }
 
-    fun getOutputRegionList(materialNumber: String): ArrayList<RegionEntity> {
+
+    //抓指定貨物在那些儲櫃，有多少數量
+    fun getSpecifiedMaterialStorageRecordEntities(materialNumber: String): ArrayList<StorageRecordEntity> {
 
         // 獲取當前年月
         val currentYearMonth = LocalDate.now().format(DateTimeFormatter.ofPattern("yyyy-MM"))
@@ -235,29 +219,49 @@ class FormViewModel(
             }
         }
 
-        // 找到指定商品在哪些儲櫃後，找出對應區域、部門並轉成ArrayList<RegionEntity>
-        val resultRegionEntities = arrayListOf<RegionEntity>()
+        return resultRecords
+    }
 
-        // 遍歷 resultRecords
-        resultRecords.forEach { storageRecord ->
-            // 根據 storageId 找到對應的 StorageEntity
-            val storageEntity = regionRepository.storageEntities.find {
-                println("it.storageId：${it.storageId}")
-                println("storageRecord.storageId：${storageRecord.storageId}")
-                it.storageId == storageRecord.storageId }
 
-            // 如果找到了對應的 StorageEntity，使用 StorageEntity 的 deptNumber 和 mapSeq 找到對應的 RegionEntity
-            storageEntity?.let { entity ->
-                val regionEntity = MapDataList.find { it.deptNumber == entity.deptNumber && it.mapSeq == entity.mapSeq }
-
-                // 如果找到了對應的 RegionEntity，將找到的 RegionEntity 添加到 resultRegionEntities
-                regionEntity?.let {
-                    resultRegionEntities.add(it)
-                }
-            }
+    fun getOutputStorageSpinnerList(specifiedDeptNumber: String, specifiedMapSeq: Int, specifiedMaterialStorageRecordEntities: ArrayList<StorageRecordEntity>): ArrayList<StorageEntity> {
+        // 過濾出符合指定 deptNumber 和 mapSeq 的記錄
+        val filteredStorageEntities = regionRepository.storageEntities.filter { storageEntity ->
+            storageEntity.deptNumber == specifiedDeptNumber && storageEntity.mapSeq == specifiedMapSeq
+        }
+        // 過濾出 storageId 在 specifiedMaterialStorageRecordEntities 中出現的記錄
+        val resultStorageEntities = filteredStorageEntities.filter { storageEntity ->
+            specifiedMaterialStorageRecordEntities.any { it.storageId == storageEntity.storageId }
         }
 
-        return resultRegionEntities
+        return ArrayList(resultStorageEntities)
+    }
+
+    fun getOutputMaxQuantity(needQuantity: Int, storageId: Int, specifiedMaterialStorageRecordEntities: ArrayList<StorageRecordEntity>): Int {
+        // 过滤出符合指定 storageId 的记录
+        val filteredRecords = specifiedMaterialStorageRecordEntities.filter { it.storageId == storageId }
+
+        // 找到最小的 quantity
+        val minQuantity = filteredRecords.minOfOrNull { it.quantity }
+
+        // 如果找到了最小的 quantity，则返回最小值，否则返回 0
+        return minQuantity?.coerceAtMost(needQuantity) ?: needQuantity
+    }
+
+    fun getInputRegionList(): ArrayList<RegionEntity> {
+        // 只列出使用者可看到的儲櫃
+        val filteredStorageEntities = regionRepository.storageEntities.filter { it.deptNumber == userRepository.userData.deptAno}
+
+        // 篩選掉重複的deptNumber和mapSeq
+        val resultStorageEntities = filteredStorageEntities.distinctBy { it.deptNumber to it.mapSeq }
+
+
+        // 根據篩選後的資料找出對應的ArrayList<RegionEntity>
+        val resultRegionEntities = mutableListOf<RegionEntity>()
+        resultStorageEntities.forEach { storage ->
+            val regionEntity = MapDataList.find { it.deptNumber == storage.deptNumber && it.mapSeq == storage.mapSeq }
+            regionEntity?.let { resultRegionEntities.add(it) }
+        }
+        return ArrayList(resultRegionEntities)
     }
 
     fun getDeptSpinnerList(regionNumber: String, regionEntities: ArrayList<RegionEntity>): ArrayList<RegionEntity> {
@@ -308,33 +312,6 @@ class FormViewModel(
         formRepository.tempWaitInputGoods.postValue(currentList)
     }
 
-    fun getOutputGoodsStorageInformation(
-        materialName: String,
-        materialNumber: String
-    ): ArrayList<CheckoutEntity> {
-        var storageContentList = formRepository.storageGoods.value?.filter { entity ->
-            materialName == entity.materialName && materialNumber == entity.materialNumber
-        }
-        return storageContentList as ArrayList
-    }
-
-    fun getOutputGoodsRegion(storageContentList: ArrayList<CheckoutEntity>): ArrayList<RegionEntity> {
-        return storageContentList?.distinctBy { it.storageId }
-             as ArrayList<RegionEntity>
-    }
-
-    fun getInputMaterialRegion(storageContentList: ArrayList<StorageEntity>): ArrayList<RegionEntity> {
-        return storageContentList?.distinctBy { it.deptNumber }
-             as ArrayList<RegionEntity>
-    }
-
-    fun getInputMaterialStorage(storageContentList: ArrayList<StorageEntity>): ArrayList<StorageEntity> {
-        // 取出不重複的 regionName、mapName 和 storageName 並轉為 StorageEntity
-        return storageContentList
-            .distinctBy { it.deptNumber }
-             as ArrayList<StorageEntity>
-    }
-
     fun filterTempWaitInputGoods(
         targetReportTitle: String,
         targetFormNumber: String
@@ -343,8 +320,5 @@ class FormViewModel(
         targetReportTitle,
         targetFormNumber
     )
-
-
-    //
 
 }

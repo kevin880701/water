@@ -10,7 +10,6 @@ import com.lhr.water.data.Form
 import com.lhr.water.databinding.FragmentAlreadyChooseMaterialBinding
 import com.lhr.water.room.StorageRecordEntity
 import com.lhr.water.ui.base.BaseFragment
-import com.lhr.water.ui.form.FormViewModel
 import com.lhr.water.util.adapter.AlreadyChooseMaterialAdapter
 import com.lhr.water.util.isInput
 
@@ -18,7 +17,7 @@ import com.lhr.water.util.isInput
 class AlreadyChooseGoodsFragment(form: Form) : BaseFragment(), View.OnClickListener,
     AlreadyChooseMaterialAdapter.Listener {
 
-    private val viewModel: FormViewModel by viewModels { viewModelFactory }
+    private val viewModel: DealMaterialViewModel by viewModels { viewModelFactory }
     private var _binding: FragmentAlreadyChooseMaterialBinding? = null
     private val binding get() = _binding!!
     private lateinit var alreadyChooseMaterialAdapter: AlreadyChooseMaterialAdapter

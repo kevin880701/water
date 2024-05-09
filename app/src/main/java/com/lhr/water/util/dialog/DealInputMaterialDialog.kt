@@ -15,17 +15,16 @@ import com.lhr.water.room.RegionEntity
 import com.lhr.water.room.StorageEntity
 import com.lhr.water.ui.base.APP
 import com.lhr.water.ui.base.AppViewModelFactory
-import com.lhr.water.ui.form.FormViewModel
+import com.lhr.water.ui.form.dealMaterial.DealMaterialViewModel
 import com.lhr.water.util.showToast
 import com.lhr.water.util.spinnerAdapter.DeptAdapter
 import com.lhr.water.util.spinnerAdapter.RegionEntityAdapter
 import com.lhr.water.util.spinnerAdapter.StorageEntityAdapter
 
-class WaitDealMaterialDialog(
+class DealInputMaterialDialog(
     var form: Form,
     itemDetail: ItemDetail,
-    maxQuantity: String,
-    val isInput: Boolean
+    maxQuantity: String
 ) : DialogFragment(), View.OnClickListener {
 
     private var dialog: AlertDialog? = null
@@ -44,7 +43,7 @@ class WaitDealMaterialDialog(
 
     private val viewModelFactory: AppViewModelFactory
         get() = (requireContext().applicationContext as APP).appContainer.viewModelFactory
-    private val viewModel: FormViewModel by viewModels { viewModelFactory }
+    private val viewModel: DealMaterialViewModel by viewModels { viewModelFactory }
 
     override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
         _binding = DialogInputBinding.inflate(layoutInflater)
@@ -79,27 +78,15 @@ class WaitDealMaterialDialog(
 
         binding.textQuantity.text = maxQuantity
 
-        if (isInput) {
-            // 取得區域列表
-            allRegionList = viewModel.getInputRegionList()
-        } else {
-            // 出庫的區域列表allRegionList找法
-            // 1.先把
-//            var storageContentList = viewModel.formRepository.storageGoods.value?.filter { entity ->
-//                entity.materialName == itemDetail.materialName &&
-//                        entity.materialNumber == itemDetail.materialNumber &&
-//                        entity.materialSpec == itemDetail.materialSpec &&
-//                        entity.materialUnit == itemDetail.materialUnit
-//            } as ArrayList
-//            regionList = viewModel.getOutputGoodsRegion(storageContentList)
-//            storageList = viewModel.getOutputGoodsStorage(storageContentList)
-        }
-        regionSpinnerList = allRegionList.distinctBy { it.regionNumber } as ArrayList<RegionEntity>
-        if (regionSpinnerList.size == 0) {
+        // 取得區域列表
+        allRegionList = viewModel.getInputRegionList()
+
+        if (allRegionList.size == 0) {
             binding.textNoData.visibility = View.VISIBLE
         } else {
             binding.textNoData.visibility = View.INVISIBLE
         }
+        regionSpinnerList = allRegionList.distinctBy { it.regionNumber } as ArrayList<RegionEntity>
 
         // 設定區域Spinner
         regionAdapter = RegionEntityAdapter(requireContext(), regionSpinnerList)
@@ -147,24 +134,6 @@ class WaitDealMaterialDialog(
                     position: Int,
                     id: Long
                 ) {
-                    // 通過 position 獲取當前選定項的文字
-                    // 如果是出貨，需採儲櫃剩餘數量和出貨數量中較小的那個做為最大值
-//                    if (!isInput) {
-//                        var goodsStoreInformation = viewModel.getOutputGoodsStorageInformation(
-//                            waitDealGoodsData.itemDetail.materialName.toString(),
-//                            waitDealGoodsData.itemDetail.materialNumber.toString()
-//                        )
-//                        var materialQuantity = viewModel.regionRepository.getMaterialQuantity(
-//                            regionName,
-//                            mapName,
-//                            storageName,
-//                            materialNumber,
-//                            goodsStoreInformation
-//                        ).toInt()
-//                        maxQuantity =
-//                            kotlin.math.min(materialQuantity, maxQuantity.toInt()).toString()
-//                        binding.textQuantity.text = maxQuantity
-//                    }
                     viewModel.selectStorage.postValue(storageSpinnerList[position])
                 }
 

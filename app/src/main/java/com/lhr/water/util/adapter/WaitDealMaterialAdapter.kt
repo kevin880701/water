@@ -11,13 +11,14 @@ import com.lhr.water.data.Form
 import com.lhr.water.data.ItemDetail
 import com.lhr.water.databinding.ItemWaitDealMaterialBinding
 import com.lhr.water.ui.form.FormViewModel
+import com.lhr.water.ui.form.dealMaterial.DealMaterialViewModel
 import com.lhr.water.util.showToast
 
 class WaitDealMaterialAdapter(
     val context: Context,
     val form: Form,
     val listener: Listener,
-    val viewModel: FormViewModel,
+    val viewModel: DealMaterialViewModel,
     val isInput: Boolean
 ) :
     ListAdapter<ItemDetail, WaitDealMaterialAdapter.ViewHolder>(LOCK_DIFF_UTIL) {

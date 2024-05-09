@@ -9,6 +9,7 @@ import com.lhr.water.repository.UserRepository
 import com.lhr.water.ui.cover.CoverViewModel
 import com.lhr.water.ui.formContent.FormContentViewModel
 import com.lhr.water.ui.form.FormViewModel
+import com.lhr.water.ui.form.dealMaterial.DealMaterialViewModel
 import com.lhr.water.ui.inventory.InventoryViewModel
 import com.lhr.water.ui.login.LoginViewModel
 import com.lhr.water.ui.main.MainViewModel
@@ -37,6 +38,7 @@ class AppViewModelFactory(
             MapViewModel::class.java -> MapViewModel(context, regionRepository, formRepository, userRepository) as T
             MaterialSearchViewModel::class.java -> MaterialSearchViewModel(context, formRepository) as T
             InventoryViewModel::class.java -> InventoryViewModel(context, formRepository) as T
+            DealMaterialViewModel::class.java -> DealMaterialViewModel(context, regionRepository, formRepository, userRepository) as T
             else -> throw IllegalArgumentException("not support")
         }
     }
