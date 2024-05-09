@@ -1,18 +1,14 @@
 package com.lhr.water.ui.form.dealMaterial
 
 import android.content.Context
-import android.os.Build
-import androidx.annotation.RequiresApi
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.MutableLiveData
-import com.lhr.water.R
 import com.lhr.water.data.Form
 import com.lhr.water.data.ItemDetail
 import com.lhr.water.repository.FormRepository
 import com.lhr.water.repository.RegionRepository
 import com.lhr.water.repository.UserRepository
 import com.lhr.water.room.RegionEntity
-import com.lhr.water.room.CheckoutEntity
 import com.lhr.water.room.StorageEntity
 import com.lhr.water.room.StorageRecordEntity
 import com.lhr.water.ui.base.APP
@@ -33,10 +29,14 @@ class DealMaterialViewModel(
     var selectRegion = MutableLiveData<RegionEntity>()
     var selectDept = MutableLiveData<RegionEntity>()
     var selectStorage = MutableLiveData<StorageEntity>()
+    var selectInputTime = MutableLiveData<String>()
+    val currentQuantity = MutableLiveData<String>()
 
 
     init {
     }
+
+    // 出庫相關
 
     fun getOutputRegionList(filterStorageRecordEntities: ArrayList<StorageRecordEntity>): ArrayList<RegionEntity> {
 
@@ -236,16 +236,35 @@ class DealMaterialViewModel(
         return ArrayList(resultStorageEntities)
     }
 
-    fun getOutputMaxQuantity(needQuantity: Int, storageId: Int, specifiedMaterialStorageRecordEntities: ArrayList<StorageRecordEntity>): Int {
-        // 过滤出符合指定 storageId 的记录
-        val filteredRecords = specifiedMaterialStorageRecordEntities.filter { it.storageId == storageId }
 
-        // 找到最小的 quantity
-        val minQuantity = filteredRecords.minOfOrNull { it.quantity }
+    fun getOutputTimeSpinnerList(storageId: Int, specifiedMaterialStorageRecordEntities: ArrayList<StorageRecordEntity>): ArrayList<String> {
+        val inputTimeList = specifiedMaterialStorageRecordEntities
+            .filter { it.storageId == storageId }
+            .map { it.inputTime }
+            .toList()
 
-        // 如果找到了最小的 quantity，则返回最小值，否则返回 0
-        return minQuantity?.coerceAtMost(needQuantity) ?: needQuantity
+        return ArrayList(inputTimeList)
     }
+
+    fun getOutputMaxQuantity(needQuantity: Int, storageId: Int, inputTime: String, specifiedMaterialStorageRecordEntities: ArrayList<StorageRecordEntity>): Int {
+        // 根據指定的 storageId 和 inputTime 查找對應的項
+        val matchingRecords = specifiedMaterialStorageRecordEntities.filter {
+            it.storageId == storageId && it.inputTime == inputTime
+        }
+
+        // 如果找到匹配的記錄
+        if (matchingRecords.isNotEmpty()) {
+            // 計算匹配記錄的總數量
+            val totalQuantity = matchingRecords.sumBy { it.quantity }
+            // 返回較小的值，即所需數量和總數量之間的較小值
+            return minOf(needQuantity, totalQuantity)
+        } else {
+            // 如果未找到匹配的記錄，則返回所需數量
+            return needQuantity
+        }
+    }
+
+    // 入庫相關
 
     fun getInputRegionList(): ArrayList<RegionEntity> {
         // 只列出使用者可看到的儲櫃
@@ -289,7 +308,9 @@ class DealMaterialViewModel(
         form: Form,
         itemDetail: ItemDetail,
         storageEntity: StorageEntity,
-        materialQuantity: String
+        materialQuantity: String,
+        isInput: Boolean,
+        inputTime: String? = null
     ) {
 
         // 需要為貨物加上地區、地圖、儲櫃名稱、報表名稱、報表代號、入庫時間欄位
@@ -299,8 +320,8 @@ class DealMaterialViewModel(
             formNumber =  form.formNumber!!,
             materialName =  itemDetail.materialName.toString(),
             materialNumber = itemDetail.materialNumber!!,
-            inputTime = getCurrentDate(),
-            InvtStat =  1,
+            inputTime = if (isInput) getCurrentDate() else inputTime!!,
+            InvtStat =  if (isInput) 1 else 3,
             userId = userRepository.userData.userId,
             quantity = materialQuantity.toInt(),
             recordDate = getCurrentDate(),

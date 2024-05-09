@@ -16,6 +16,7 @@ import com.lhr.water.room.StorageEntity
 import com.lhr.water.ui.base.APP
 import com.lhr.water.ui.base.AppViewModelFactory
 import com.lhr.water.ui.form.dealMaterial.DealMaterialViewModel
+import com.lhr.water.util.isInput
 import com.lhr.water.util.showToast
 import com.lhr.water.util.spinnerAdapter.DeptAdapter
 import com.lhr.water.util.spinnerAdapter.RegionEntityAdapter
@@ -158,7 +159,8 @@ class DealInputMaterialDialog(
                         form,
                         itemDetail,
                         viewModel.selectStorage.value!!,
-                        binding.textQuantity.text.toString()
+                        binding.textQuantity.text.toString(),
+                        isInput(form)
                     )
                     this.dismiss()
                 }

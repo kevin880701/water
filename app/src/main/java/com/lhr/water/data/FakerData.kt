@@ -137,4 +137,16 @@ var fakerStorageRecordEntities: ArrayList<StorageRecordEntity> = arrayListOf(
         quantity = 20,
         recordDate = "2024-05-07-18-26-31",
     ),
+    StorageRecordEntity(
+        storageId = 3,
+        formType = 1,
+        formNumber = "M165651",
+        materialName = "水管",
+        materialNumber = "M001",
+        inputTime = "2024-05-06-18-26-31",
+        InvtStat = 2,
+        userId = "U0001",
+        quantity = 2,
+        recordDate = "2024-05-07-18-26-31",
+    ),
 )

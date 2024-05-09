@@ -26,7 +26,6 @@ class MapViewModel(context: Context, var regionRepository: RegionRepository, var
         storageEntityList.value = filteredList
     }
 
-    @RequiresApi(Build.VERSION_CODES.O)
     fun getStorageContentList(storageId: Int): ArrayList<StorageRecordEntity>{
         // 獲取當前年月
         val currentYearMonth = LocalDate.now().format(DateTimeFormatter.ofPattern("yyyy-MM"))

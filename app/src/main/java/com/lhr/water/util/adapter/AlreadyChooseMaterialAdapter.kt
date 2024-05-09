@@ -61,7 +61,7 @@ class AlreadyChooseMaterialAdapter(
             val storageEntity = regionRepository.findStorageEntityByStorageId(storageRecordEntity.storageId)
             val regionEntity = regionRepository.findRegionEntityByDeptNumberAndMapSeq(storageEntity.deptNumber, storageEntity.mapSeq)
             binding.textMaterialName.text = storageRecordEntity.materialName
-            binding.textInputDate.text = convertToRocDate(storageRecordEntity.recordDate)
+            binding.textInputDate.text = convertToRocDate(storageRecordEntity.inputTime)
             binding.textRegion.text = regionEntity.regionName
             binding.textDept.text = "${regionEntity.deptName}-${regionEntity.mapSeq}"
             binding.textStorage.text = storageEntity.storageName
