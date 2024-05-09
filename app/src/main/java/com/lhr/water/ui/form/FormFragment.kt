@@ -59,12 +59,12 @@ class FormFragment : BaseFragment(), View.OnClickListener, FormAdapter.Listener 
             formAdapter.submitList(newFormRecordList)
         }
         // 表單類別篩選更新
-//        formRepository.filterList.observe(viewLifecycleOwner) {
-//            formRepository.formFilterRecordList.postValue(formRepository.filterRecord(formRepository.formRecordList.value!!))
-//        }
+        viewModel.filterList.observe(viewLifecycleOwner) { filterList ->
+            formAdapter.submitList(viewModel.filterRecord( formRepository.formRecordList.value!!, viewModel.searchFormNumber.value!! ,filterList))
+        }
         // 表單代號輸入後篩選更新
-        formRepository.searchFormNumber.observe(viewLifecycleOwner) {
-            formRepository.formFilterRecordList.postValue(formRepository.filterRecord(formRepository.formRecordList.value!!))
+        viewModel.searchFormNumber.observe(viewLifecycleOwner) { searchFormNumber ->
+            formAdapter.submitList(viewModel.filterRecord( formRepository.formRecordList.value!!, searchFormNumber , viewModel.filterList.value!!))
         }
     }
 
@@ -83,7 +83,7 @@ class FormFragment : BaseFragment(), View.OnClickListener, FormAdapter.Listener 
 
             override fun afterTextChanged(s: Editable?) {
                 // 在文本改變之後執行的操作
-                formRepository.searchFormNumber.postValue(s.toString())
+                viewModel.searchFormNumber.postValue(s.toString())
             }
         })
 

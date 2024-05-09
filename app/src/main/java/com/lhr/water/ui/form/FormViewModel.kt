@@ -16,6 +16,7 @@ import com.lhr.water.room.StorageRecordEntity
 import com.lhr.water.ui.base.APP
 import com.lhr.water.util.MapDataList
 import com.lhr.water.util.formTypeMap
+import com.lhr.water.util.fromTitleList
 import com.lhr.water.util.getCurrentDate
 import java.time.LocalDate
 import java.time.format.DateTimeFormatter
@@ -28,9 +29,9 @@ class FormViewModel(
 ) : AndroidViewModel(context.applicationContext as APP) {
 
     // 篩選表單代號formNumber的String
-    var searchFormNumber = MutableLiveData<String>()
+    var searchFormNumber = MutableLiveData<String>("")
     // 篩選表單類別FormClass的List
-    var filterList = MutableLiveData<ArrayList<String>>()
+    var filterList = MutableLiveData<ArrayList<String>>(ArrayList(fromTitleList))
 
     // WaitDealMaterialDialog
     var selectRegion = MutableLiveData<RegionEntity>()
@@ -39,7 +40,7 @@ class FormViewModel(
 
 
     init {
-        filterList.value = ArrayList(context.resources.getStringArray(R.array.form_array).toList())
+        filterList.value = ArrayList(fromTitleList)
         searchFormNumber.value = ""
     }
 
@@ -62,7 +63,6 @@ class FormViewModel(
             reportTitleFilterCondition!! && editTextFilterCondition
         }?.toMutableList()!! as ArrayList<Form>?
     }
-
 
     fun getInputRegionList(): ArrayList<RegionEntity> {
         // 只列出使用者可看到的儲櫃

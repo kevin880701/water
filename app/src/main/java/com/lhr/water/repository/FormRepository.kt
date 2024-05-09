@@ -29,11 +29,7 @@ class FormRepository(context: Context) {
 
     // 所有表單列表
     var formRecordList: MutableLiveData<ArrayList<Form>> =
-        MutableLiveData<ArrayList<Form>>()
-
-    // 待出貨的貨物列表
-    var waitOutputGoods: MutableLiveData<ArrayList<WaitDealGoodsData>> =
-        MutableLiveData<ArrayList<WaitDealGoodsData>>()
+        MutableLiveData<ArrayList<Form>>(ArrayList<Form>())
 
     // 暫存待出入庫的貨物列表（未送出）
     var tempStorageRecordEntities: MutableLiveData<ArrayList<StorageRecordEntity>> =
@@ -50,11 +46,6 @@ class FormRepository(context: Context) {
     var formFilterInventoryEntities: MutableLiveData<ArrayList<InventoryEntity>> =
         MutableLiveData<ArrayList<InventoryEntity>>()
 
-    // 篩選表單類別FormClass的List
-    var filterList = MutableLiveData<ArrayList<String>>()
-
-    // 篩選表單代號formNumber的String
-    var searchFormNumber = MutableLiveData<String>()
     // 篩選表單代號formNumber的String
     var searchInventoryFormNumber = MutableLiveData<String>()
 
@@ -79,13 +70,11 @@ class FormRepository(context: Context) {
     }
 
     init {
-        filterList.value = ArrayList(context.resources.getStringArray(R.array.form_array).toList())
         val loadFormList: List<String> = SqlDatabase.getInstance().getFormDao().getAll()
         val formJsonList = ArrayList<JSONObject>()
         for (formData in loadFormList) {
             formJsonList.add(jsonStringToJson(formData))
         }
-        waitOutputGoods.value = ArrayList<WaitDealGoodsData>()
         tempStorageRecordEntities.value = ArrayList<StorageRecordEntity>()
         storageGoods.value = ArrayList<CheckoutEntity>()
 
@@ -114,7 +103,6 @@ class FormRepository(context: Context) {
             tempFormList.add(formFromJson(formData))
         }
         formRecordList.postValue(tempFormList)
-        formFilterRecordList.postValue(filterRecord(tempFormList))
         updateWaitOutputGoods(tempFormList)
     }
 
@@ -150,7 +138,6 @@ class FormRepository(context: Context) {
                 }
             }
         }
-        waitOutputGoods.postValue(waitOutputGoodsList)
     }
 
     /**
@@ -161,42 +148,22 @@ class FormRepository(context: Context) {
     }
 
     /**
-     * 篩選表單內容
-     */
-    fun filterRecord(formList: ArrayList<Form>): ArrayList<Form>? {
-        return formList.filter { form ->
-            // 根據 "FormClass" 判斷是否在 filterList 中
-            val reportTitle = form.reportTitle.toString()
-            val reportTitleFilterCondition = filterList.value?.contains(reportTitle)
-            val formNumber = form.formNumber.toString()
-
-            // 如果搜尋框(EditText)中的文本不為空，則判斷 "formNumber" 是否包含該文本
-            val editTextFilterCondition = if (searchFormNumber.value?.isNotEmpty() == true) {
-                formNumber.contains(searchFormNumber.value!!, ignoreCase = true)
-            } else {
-                true // 搜尋框(EditText)，不添加 formNumber 的篩選條件
-            }
-            reportTitleFilterCondition!! && editTextFilterCondition
-        }?.toMutableList()!! as ArrayList<Form>?
-    }
-
-    /**
      * 篩選盤點表單內容
      */
-    fun filterInventoryRecord(formList: ArrayList<InventoryEntity>): ArrayList<InventoryEntity>? {
-        return formList.filter { form ->
-            // 根據 "FormClass" 判斷是否在 filterList 中
-            val formNumber = form.formNumber.toString()
-
-            // 如果搜尋框(EditText)中的文本不為空，則判斷 "formNumber" 是否包含該文本
-            val editTextFilterCondition = if (searchFormNumber.value?.isNotEmpty() == true) {
-                formNumber.contains(searchFormNumber.value!!, ignoreCase = true)
-            } else {
-                true // 搜尋框(EditText)，不添加 formNumber 的篩選條件
-            }
-            editTextFilterCondition
-        }?.toMutableList()!! as ArrayList<InventoryEntity>?
-    }
+//    fun filterInventoryRecord(formList: ArrayList<InventoryEntity>): ArrayList<InventoryEntity>? {
+//        return formList.filter { form ->
+//            // 根據 "FormClass" 判斷是否在 filterList 中
+//            val formNumber = form.formNumber.toString()
+//
+//            // 如果搜尋框(EditText)中的文本不為空，則判斷 "formNumber" 是否包含該文本
+//            val editTextFilterCondition = if (searchFormNumber.value?.isNotEmpty() == true) {
+//                formNumber.contains(searchFormNumber.value!!, ignoreCase = true)
+//            } else {
+//                true // 搜尋框(EditText)，不添加 formNumber 的篩選條件
+//            }
+//            editTextFilterCondition
+//        }?.toMutableList()!! as ArrayList<InventoryEntity>?
+//    }
 
     /**
      * 匯入新json時要同步插入到資料庫中

@@ -65,7 +65,7 @@ class InventoryFragment : BaseFragment(), View.OnClickListener, InventoryAdapter
 
         // 盤點表單代號輸入後篩選更新
         formRepository.searchInventoryFormNumber.observe(viewLifecycleOwner) {
-            formRepository.formFilterInventoryEntities.postValue(formRepository.filterInventoryRecord(formRepository.inventoryEntities.value!!))
+//            formRepository.formFilterInventoryEntities.postValue(formRepository.filterInventoryRecord(formRepository.inventoryEntities.value!!))
         }
     }
 
