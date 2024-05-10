@@ -5,6 +5,7 @@ import androidx.room.ColumnInfo
 import androidx.room.Entity
 import androidx.room.Index
 import androidx.room.PrimaryKey
+import com.google.gson.annotations.SerializedName
 import java.io.Serializable
 
 @Entity(tableName = SqlModel.STORAGE_RECORD_TABLE_NAME, indices = [Index(value = [SqlModel.id])])
@@ -14,8 +15,9 @@ class StorageRecordEntity(
     formNumber: String,  //InvtFromNo: 入庫單據編號
     materialName: String, //MNoMName: 材料名稱
     materialNumber: String, //InvtMNo: 材料編號
-    inputTime: String, //材料入庫時間，假設是入庫那inputTime跟CreatedAt會是一樣;出庫的話inputTime是被出庫材料的入庫時間，CreatedAt則是出庫時間
-    InvtStat: Int, //InvtStat: 材料狀態; 1: 已交貨，2: 已驗收，3: 已移出
+    outputTime: String, //材料入庫時間
+    inputTime: String, //材料入庫時間，假設是入庫那inputTime跟CreatedAt會是一樣;
+    materialStatus: Int, //InvtStat: 材料狀態; 1: 已交貨，2: 已驗收，3: 已移出
     userId: String, //InvtUserId: 操作的使用者ID
     InvtDevi: Int = 2,
     quantity: Int, //InvtNum: 數量
@@ -27,35 +29,38 @@ class StorageRecordEntity(
     var id: Int = 0
 
     @ColumnInfo(name = SqlModel.storageId, typeAffinity = ColumnInfo.INTEGER)
-    var storageId = storageId
+    @SerializedName("storageId") var storageId = storageId
 
     @ColumnInfo(name = SqlModel.formType, typeAffinity = ColumnInfo.INTEGER)
-    var formType = formType
+    @SerializedName("storageFromType") var formType = formType
 
     @ColumnInfo(name = SqlModel.formNumber, typeAffinity = ColumnInfo.TEXT)
-    var formNumber = formNumber
+    @SerializedName("storageFromNo") var formNumber = formNumber
 
     @ColumnInfo(name = SqlModel.materialName, typeAffinity = ColumnInfo.TEXT)
-    var materialName = materialName
+    @SerializedName("storageMaterialName") var materialName = materialName
 
     @ColumnInfo(name = SqlModel.materialNumber, typeAffinity = ColumnInfo.TEXT)
-    var materialNumber = materialNumber
+    @SerializedName("storageMaterialNo") var materialNumber = materialNumber
+
+    @ColumnInfo(name = SqlModel.outputTime, typeAffinity = ColumnInfo.TEXT)
+    @SerializedName("storageDepartureTime  ") var outputTime = outputTime
 
     @ColumnInfo(name = SqlModel.inputTime, typeAffinity = ColumnInfo.TEXT)
-    var inputTime = inputTime
+    @SerializedName("storageArrivalTime ") var inputTime = inputTime
 
-    @ColumnInfo(name = SqlModel.InvtStat, typeAffinity = ColumnInfo.INTEGER)
-    var InvtStat = InvtStat
+    @ColumnInfo(name = SqlModel.materialStatus, typeAffinity = ColumnInfo.INTEGER)
+    @SerializedName("InvtStat") var materialStatus = materialStatus
 
     @ColumnInfo(name = SqlModel.userId, typeAffinity = ColumnInfo.TEXT)
-    var userId = userId
+    @SerializedName("storageUserId") var userId = userId
 
     @ColumnInfo(name = SqlModel.InvtDevi, typeAffinity = ColumnInfo.INTEGER)
-    var InvtDevi = InvtDevi
+    @SerializedName("storageDevice") var InvtDevi = InvtDevi
 
     @ColumnInfo(name = SqlModel.quantity, typeAffinity = ColumnInfo.INTEGER)
-    var quantity = quantity
+    @SerializedName("storageMaterialQuantity") var quantity = quantity
 
     @ColumnInfo(name = SqlModel.recordDate, typeAffinity = ColumnInfo.TEXT)
-    var recordDate = recordDate
+    @SerializedName("createdAt") var recordDate = recordDate
 }

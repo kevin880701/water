@@ -86,8 +86,9 @@ class DealMaterialViewModel(
                 formNumber = "",
                 materialName = checkoutEntity.materialName,
                 materialNumber = checkoutEntity.materialNumber,
+                outputTime = "",
                 inputTime = checkoutEntity.inputTime,
-                InvtStat = 2,
+                materialStatus = 2,
                 userId = userRepository.userData.userId,
                 InvtDevi = 2,
                 quantity = checkoutEntity.quantity,
@@ -106,9 +107,9 @@ class DealMaterialViewModel(
         }
 
         // 創建InvtStat=2 的數據的列表
-        val invtStat2Records = filteredStorageRecordEntities.filter { it.InvtStat == 2 }
+        val invtStat2Records = filteredStorageRecordEntities.filter { it.materialStatus == 2 }
         // 創建InvtStat=3 的數據的列表
-        val invtStat3Records = filteredStorageRecordEntities.filter { it.InvtStat == 3 }
+        val invtStat3Records = filteredStorageRecordEntities.filter { it.materialStatus == 3 }
 
         // 根據 storageId、materialName、materialNumber、date 進行分組
         val groupedRecords2 = invtStat2Records.groupBy { record ->
@@ -139,8 +140,9 @@ class DealMaterialViewModel(
                         formNumber = firstRecord.formNumber,
                         materialName = firstRecord.materialName,
                         materialNumber = firstRecord.materialNumber,
+                        outputTime = firstRecord.outputTime,
                         inputTime = firstRecord.inputTime,
-                        InvtStat = firstRecord.InvtStat,
+                        materialStatus = firstRecord.materialStatus,
                         userId = firstRecord.userId,
                         quantity = totalQuantity,  // 整合后的总量
                         recordDate = firstRecord.recordDate
@@ -165,8 +167,9 @@ class DealMaterialViewModel(
                         formNumber = firstRecord.formNumber,
                         materialName = firstRecord.materialName,
                         materialNumber = firstRecord.materialNumber,
+                        outputTime = firstRecord.outputTime,
                         inputTime = firstRecord.inputTime,
-                        InvtStat = firstRecord.InvtStat,
+                        materialStatus = firstRecord.materialStatus,
                         userId = firstRecord.userId,
                         quantity = totalQuantity,  // 整合后的总量
                         recordDate = firstRecord.recordDate
@@ -200,8 +203,9 @@ class DealMaterialViewModel(
                                 formNumber = record2.formNumber,
                                 materialName = record2.materialName,
                                 materialNumber = record2.materialNumber,
+                                outputTime = record2.outputTime,
                                 inputTime = record2.inputTime,
-                                InvtStat = record2.InvtStat,
+                                materialStatus = record2.materialStatus,
                                 userId = record2.userId,
                                 quantity = quantityDiff,
                                 recordDate = record2.recordDate
@@ -320,8 +324,9 @@ class DealMaterialViewModel(
             formNumber =  form.formNumber!!,
             materialName =  itemDetail.materialName.toString(),
             materialNumber = itemDetail.materialNumber!!,
+            outputTime = if (isInput) "" else getCurrentDate(),
             inputTime = if (isInput) getCurrentDate() else inputTime!!,
-            InvtStat =  if (isInput) 1 else 3,
+            materialStatus =  if (isInput) 1 else 3,
             userId = userRepository.userData.userId,
             quantity = materialQuantity.toInt(),
             recordDate = getCurrentDate(),

@@ -57,8 +57,8 @@ class StorageContentAdapter(val listener: Listener, var context: Context): ListA
             // 這裡要改
             binding.textQuantity.text = storageRecordEntity.quantity.toString()
             // 加入判斷已交貨未驗收
-            binding.textStatus.text = materialStatusMap[storageRecordEntity.InvtStat]
-            if(storageRecordEntity.InvtStat == 1){
+            binding.textStatus.text = materialStatusMap[storageRecordEntity.materialStatus]
+            if(storageRecordEntity.materialStatus == 1){
                 binding.linearLayoutMaterial.setBackgroundColor(ContextCompat.getColor(context, R.color.disableGray))
             }
         }

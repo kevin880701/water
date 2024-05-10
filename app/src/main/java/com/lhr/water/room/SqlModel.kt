@@ -35,7 +35,7 @@ class SqlModel {
         const val recordDate: String = "recordDate"
         const val type: String = "type"
         const val itemDetail: String = "itemDetail"
-        const val InvtStat: String = "InvtStat"
+        const val materialStatus: String = "materialStatus"
         const val userId: String = "userId"
         const val InvtDevi: String = "InvtDevi"
         const val materialNumber: String = "materialNumber"
@@ -44,6 +44,7 @@ class SqlModel {
         const val materialUnit: String = "materialUnit"
         const val length: String = "length"
         const val quantity: String = "quantity"
+        const val outputTime: String = "outputTime"
         const val inputTime: String = "inputTime"
         const val checkoutTime: String = "checkoutTime"
 

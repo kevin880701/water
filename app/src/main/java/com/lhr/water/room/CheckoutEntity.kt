@@ -5,14 +5,12 @@ import androidx.room.ColumnInfo
 import androidx.room.Entity
 import androidx.room.Index
 import androidx.room.PrimaryKey
+import com.google.gson.annotations.SerializedName
 import java.io.Serializable
 
 @Entity(
     tableName = SqlModel.CHECKOUT_TABLE_NAME,
-    indices = [Index(
-        value = [SqlModel.id],
-        unique = true
-    )]
+    indices = [Index(value = [SqlModel.id])]
 )
 class CheckoutEntity(
     storageId: Int,
@@ -25,24 +23,24 @@ class CheckoutEntity(
 
     @NonNull
     @PrimaryKey(autoGenerate = true)
-    var id: Int = 0
+    @SerializedName("id") var id: Int = 0
 
     @ColumnInfo(name = SqlModel.storageId, typeAffinity = ColumnInfo.INTEGER)
-    var storageId = storageId
+    @SerializedName("storageInventoryId") var storageId = storageId
 
     @ColumnInfo(name = SqlModel.materialName, typeAffinity = ColumnInfo.TEXT)
-    var materialName = materialName
+    @SerializedName("storageMaterialName") var materialName = materialName
 
     @ColumnInfo(name = SqlModel.materialNumber, typeAffinity = ColumnInfo.TEXT)
-    var materialNumber = materialNumber
+    @SerializedName("storageMaterialNo") var materialNumber = materialNumber
 
     @ColumnInfo(name = SqlModel.quantity, typeAffinity = ColumnInfo.INTEGER)
-    var quantity = quantity
+    @SerializedName("storageMaterialQuantity") var quantity = quantity
 
     @ColumnInfo(name = SqlModel.inputTime, typeAffinity = ColumnInfo.TEXT)
-    var inputTime = inputTime
+    @SerializedName("storageArrivalTime") var inputTime = inputTime
 
     @ColumnInfo(name = SqlModel.checkoutTime, typeAffinity = ColumnInfo.TEXT)
-    var checkoutTime = checkoutTime
+    @SerializedName("checkoutTime") var checkoutTime = checkoutTime
 
 }

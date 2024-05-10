@@ -1,8 +1,6 @@
 package com.lhr.water.ui.map
 
 import android.content.Context
-import android.os.Build
-import androidx.annotation.RequiresApi
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.MutableLiveData
 import com.lhr.water.repository.RegionRepository
@@ -44,8 +42,9 @@ class MapViewModel(context: Context, var regionRepository: RegionRepository, var
                 formNumber = "",
                 materialName = checkoutEntity.materialName,
                 materialNumber = checkoutEntity.materialNumber,
+                outputTime = "",
                 inputTime = checkoutEntity.inputTime,
-                InvtStat = 2,
+                materialStatus = 2,
                 userId = userRepository.userData.userId,
                 InvtDevi = 2,
                 quantity = checkoutEntity.quantity,
@@ -64,11 +63,11 @@ class MapViewModel(context: Context, var regionRepository: RegionRepository, var
         }
 
         // 創建InvtStat=3 的數據的列表
-        val invtStat3Records = filteredStorageRecordEntities.filter { it.InvtStat == 3 }
+        val invtStat3Records = filteredStorageRecordEntities.filter { it.materialStatus == 3 }
         // 創建InvtStat=2 的數據的列表
-        val invtStat2Records = filteredStorageRecordEntities.filter { it.InvtStat == 2 }
+        val invtStat2Records = filteredStorageRecordEntities.filter { it.materialStatus == 2 }
         // 創建InvtStat=1 的數據的列表
-        val invtStat1Records = filteredStorageRecordEntities.filter { it.InvtStat == 1 }
+        val invtStat1Records = filteredStorageRecordEntities.filter { it.materialStatus == 1 }
 
         // 根據 materialName、materialNumber、date 進行分組
         val groupedInvtStat3Records = invtStat3Records.groupBy {
@@ -112,8 +111,9 @@ class MapViewModel(context: Context, var regionRepository: RegionRepository, var
                     formNumber = "", 
                     materialName = materialName,
                     materialNumber = inputTime,
+                    outputTime = "",
                     inputTime = materialNumber,
-                    InvtStat = 2, 
+                    materialStatus = 2,
                     userId = "", 
                     quantity = totalQuantity,
                     recordDate = inputTime
@@ -130,8 +130,9 @@ class MapViewModel(context: Context, var regionRepository: RegionRepository, var
                 formNumber = "", 
                 materialName = materialName,
                 materialNumber = materialNumber,
+                outputTime = "",
                 inputTime = inputTime,
-                InvtStat = 1, 
+                materialStatus = 1,
                 userId = "", 
                 quantity = quantity,
                 recordDate = inputTime
