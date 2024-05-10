@@ -57,25 +57,6 @@ class FormRepository(context: Context) {
     }
 
     /**
-     * 篩選盤點表單內容
-     */
-//    fun filterInventoryRecord(formList: ArrayList<InventoryEntity>): ArrayList<InventoryEntity>? {
-//        return formList.filter { form ->
-//            // 根據 "FormClass" 判斷是否在 filterList 中
-//            val formNumber = form.formNumber.toString()
-//
-//            // 如果搜尋框(EditText)中的文本不為空，則判斷 "formNumber" 是否包含該文本
-//            val editTextFilterCondition = if (searchFormNumber.value?.isNotEmpty() == true) {
-//                formNumber.contains(searchFormNumber.value!!, ignoreCase = true)
-//            } else {
-//                true // 搜尋框(EditText)，不添加 formNumber 的篩選條件
-//            }
-//            editTextFilterCondition
-//        }?.toMutableList()!! as ArrayList<InventoryEntity>?
-//    }
-
-
-    /**
      * 根據表單名稱、表單代號、貨物名稱代號篩選暫存待入庫的貨物列表中指定的貨物數量
      * @param targetReportTitle 指定表單名稱
      * @param targetFormNumber 指定表單代號
@@ -122,14 +103,5 @@ class FormRepository(context: Context) {
         filteredList.toCollection(resultArrayList)
 
         return resultArrayList
-    }
-
-    /**
-     * 抓取表單全部記錄
-     */
-    fun loadInventoryForm(): ArrayList<InventoryEntity> {
-        val loadFormList: List<InventoryEntity> = SqlDatabase.getInstance().getInventoryDao().getAll()
-        inventoryEntities.postValue(loadFormList as ArrayList<InventoryEntity>)
-        return loadFormList
     }
 }
