@@ -25,8 +25,11 @@ import org.json.JSONObject
 class FormRepository(context: Context) {
     val context = context
 
-    // 所有表單列表
+    // 表單列表
     var formEntities = MutableLiveData<ArrayList<FormEntity>>(ArrayList<FormEntity>())
+
+    // 盤點表單列表
+    var inventoryEntities = MutableLiveData<ArrayList<InventoryEntity>>(ArrayList<InventoryEntity>())
 
     // 暫存待出入庫的貨物列表（未送出）
     var tempStorageRecordEntities = MutableLiveData<ArrayList<StorageRecordEntity>>()
@@ -45,8 +48,6 @@ class FormRepository(context: Context) {
     // 篩選表單代號formNumber的String
     var searchInventoryFormNumber = MutableLiveData<String>()
 
-    // 盤點表單
-    var inventoryEntities = MutableLiveData<ArrayList<InventoryEntity>>()
     var inventoryFormList: MutableLiveData<ArrayList<JSONObject>> =
         MutableLiveData<ArrayList<JSONObject>>()
 
@@ -68,8 +69,6 @@ class FormRepository(context: Context) {
     init {
         updateData()
         storageGoods.value = ArrayList<CheckoutEntity>()
-
-        inventoryEntities.value = loadInventoryForm()
     }
 
     /**
@@ -77,8 +76,9 @@ class FormRepository(context: Context) {
      */
     fun updateData() {
         // 取表單資料
-        val loadFormEntities = SqlDatabase.getInstance().getFormDao().getAll() as ArrayList
-        formEntities.postValue(loadFormEntities)
+        formEntities.postValue(SqlDatabase.getInstance().getFormDao().getAll() as ArrayList)
+        // 取盤點表單資料
+        inventoryEntities.postValue(SqlDatabase.getInstance().getInventoryDao().getAll() as ArrayList)
         // 取checkout資料
         checkoutEntities = SqlDatabase.getInstance().getCheckoutDao().getAll() as ArrayList<CheckoutEntity>
         // 取儲櫃紀錄資料
@@ -153,7 +153,15 @@ class FormRepository(context: Context) {
             println(form.toJsonString())
             if(form.reportTitle == inventoryFormName){
                 val jsonObject = jsonArray.getJSONObject(i)
-                val inventoryEntity = InventoryEntity()
+                val inventoryEntity = InventoryEntity(
+                    formNumber = jsonObject.optString("deptName").toString() + jsonObject.optString("date").toString() + jsonObject.optString("seq").toString(),
+                    dealStatus = form.dealStatus!!,
+                    reportId = form.reportId!!,
+                    reportTitle = form.reportTitle!!,
+                    dealTime = form.dealTime!!,
+                    date = form.date!!,
+                    formContent = jsonObject.toString(),
+                )
                 inventoryEntity.formNumber = jsonObject.optString("deptName").toString() + jsonObject.optString("date").toString() + jsonObject.optString("seq").toString()
                 inventoryEntity.formContent = jsonObject.toString()
                 SqlDatabase.getInstance().getInventoryDao().insertNewForm(inventoryEntity)
@@ -250,27 +258,10 @@ class FormRepository(context: Context) {
     }
 
     /**
-     * 匯入新json時要同步插入到資料庫中
-     * @param jsonArray 要匯入的JSONArray
-     */
-    fun insertInventoryForm(jsonArray: JSONArray) {
-        // 清空表
-//        SqlDatabase.getInstance().getDeliveryDao().clearTable()
-        // 將 JSONArray 中的數據逐一插入表中
-        for (i in 0 until jsonArray.length()) {
-            val jsonObject = jsonArray.getJSONObject(i)
-            val inventoryEntity = InventoryEntity()
-            inventoryEntity.formNumber = jsonObject.optString("deptName").toString() + jsonObject.optString("date").toString() + jsonObject.optString("seq").toString()
-            inventoryEntity.formContent = jsonObject.toString()
-            SqlDatabase.getInstance().getInventoryDao().insertNewForm(inventoryEntity)
-        }
-    }
-
-    /**
      * 抓取表單全部記錄
      */
     fun loadInventoryForm(): ArrayList<InventoryEntity> {
-        val loadFormList: List<InventoryEntity> = SqlDatabase.getInstance().getInventoryDao().getInventoryForms()
+        val loadFormList: List<InventoryEntity> = SqlDatabase.getInstance().getInventoryDao().getAll()
         inventoryEntities.postValue(loadFormList as ArrayList<InventoryEntity>)
         return loadFormList as ArrayList<InventoryEntity>
     }

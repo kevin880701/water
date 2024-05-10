@@ -15,6 +15,7 @@ import com.lhr.water.network.data.response.UpdateDataResponse
 import com.lhr.water.repository.FormRepository
 import com.lhr.water.repository.RegionRepository
 import com.lhr.water.room.FormEntity.Companion.convertFormToFormEntities
+import com.lhr.water.room.InventoryEntity.Companion.convertFormToInventoryEntities
 import com.lhr.water.room.SqlDatabase
 import com.lhr.water.ui.base.APP
 import com.lhr.water.util.manager.checkJson
@@ -255,6 +256,7 @@ class SettingViewModel(context: Context, var formRepository: FormRepository,
         sqlDatabase.getCheckoutDao().clearTable()
         sqlDatabase.getStorageDao().clearTable()
         sqlDatabase.getStorageRecordDao().clearTable()
+        sqlDatabase.getInventoryDao().clearTable()
 
         // 將updateDataResponse的儲櫃資訊、儲櫃紀錄、月結表插入資料表
         sqlDatabase.getCheckoutDao().insertCheckoutEntities(updateDataResponse.updateData.dataList.checkoutFormList)
@@ -273,8 +275,13 @@ class SettingViewModel(context: Context, var formRepository: FormRepository,
         sqlDatabase.getFormDao().insertFormEntities(receiveFormEntities)
         sqlDatabase.getFormDao().insertFormEntities(returnFormEntities)
 
+
+        //將盤點轉成InventoryEntity格式
+        val inventoryEntities = convertFormToInventoryEntities(updateDataResponse.updateData.dataList.inventoryFormList)
+        // 插入到資料表中
+        sqlDatabase.getInventoryDao().insertInventoryEntities(inventoryEntities)
+
         // 更新資料
-        formRepository.updateData()
         formRepository.updateData()
         regionRepository.updateData()
 

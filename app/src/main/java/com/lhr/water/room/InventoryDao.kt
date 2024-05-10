@@ -2,12 +2,11 @@ package com.lhr.water.room
 
 import androidx.room.*
 import com.lhr.water.room.SqlModel.Companion.INVENTORY_TABLE_NAME
-import com.lhr.water.room.SqlModel.Companion.formContent
 
 @Dao
 interface InventoryDao {
     @Query("SELECT * FROM $INVENTORY_TABLE_NAME")
-    fun getInventoryForms(): List<InventoryEntity>
+    fun getAll(): List<InventoryEntity>
 
     @Insert(onConflict = OnConflictStrategy.IGNORE)
     fun insertNewForm(inventoryEntity: InventoryEntity)
@@ -17,4 +16,7 @@ interface InventoryDao {
 
     @Query("DELETE FROM $INVENTORY_TABLE_NAME")
     fun clearTable()
+
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
+    fun insertInventoryEntities(targetEntities: List<InventoryEntity>)
 }

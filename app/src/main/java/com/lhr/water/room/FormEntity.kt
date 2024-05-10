@@ -48,7 +48,6 @@ class FormEntity(
     @ColumnInfo(name = SqlModel.formContent, typeAffinity = ColumnInfo.TEXT)
     var formContent = formContent
 
-
     companion object {
         fun convertFormToFormEntities(formList: List<BaseForm>): List<FormEntity> {
             val gson = Gson()

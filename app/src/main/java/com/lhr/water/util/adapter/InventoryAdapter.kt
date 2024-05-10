@@ -74,10 +74,10 @@ class InventoryAdapter(val listener: Listener, context: Context) :
                 binding.textQuantity.setBackgroundColor(Color.TRANSPARENT)
                 inventoryForm.actualQuantity = binding.textQuantity.text.toString().toInt()
 
-                var tempInventoryEntity = InventoryEntity()
-                tempInventoryEntity.formNumber = inventoryForm.formNumber.toString()
-                tempInventoryEntity.formContent = inventoryForm.toJsonString()
-                SqlDatabase.getInstance().getInventoryDao().insertOrUpdate(tempInventoryEntity)
+//                var tempInventoryEntity = InventoryEntity()
+//                tempInventoryEntity.formNumber = inventoryForm.formNumber.toString()
+//                tempInventoryEntity.formContent = inventoryForm.toJsonString()
+//                SqlDatabase.getInstance().getInventoryDao().insertOrUpdate(tempInventoryEntity)
                 FormRepository.getInstance(context).loadInventoryForm()
             }
         }

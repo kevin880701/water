@@ -18,6 +18,7 @@ interface FormDao {
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     fun insertFormEntities(targetEntities: List<FormEntity>)
+
     @Query("DELETE FROM $FORM_TABLE_NAME")
     fun clearTable()
 }
