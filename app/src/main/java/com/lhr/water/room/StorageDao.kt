@@ -16,4 +16,7 @@ interface StorageDao {
 
     @Query("SELECT COUNT(*) FROM $STORAGE_TABLE_NAME")
     fun getRecordCount(): Int
+
+    @Query("DELETE FROM $STORAGE_TABLE_NAME")
+    fun clearTable()
 }

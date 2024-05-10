@@ -2,7 +2,6 @@ package com.lhr.water.repository
 
 import android.content.Context
 import androidx.lifecycle.MutableLiveData
-import com.lhr.water.R
 import com.lhr.water.data.Form
 import com.lhr.water.data.Form.Companion.formFromJson
 import com.lhr.water.data.Form.Companion.toJsonString
@@ -28,8 +27,7 @@ class FormRepository(context: Context) {
     val context = context
 
     // 所有表單列表
-    var formRecordList: MutableLiveData<ArrayList<Form>> =
-        MutableLiveData<ArrayList<Form>>(ArrayList<Form>())
+    var formList = MutableLiveData<ArrayList<Form>>(ArrayList<Form>())
 
     // 暫存待出入庫的貨物列表（未送出）
     var tempStorageRecordEntities: MutableLiveData<ArrayList<StorageRecordEntity>> =
@@ -102,7 +100,7 @@ class FormRepository(context: Context) {
         for (formData in loadFormList) {
             tempFormList.add(formFromJson(formData))
         }
-        formRecordList.postValue(tempFormList)
+        formList.postValue(tempFormList)
         updateWaitOutputGoods(tempFormList)
     }
 
@@ -180,9 +178,15 @@ class FormRepository(context: Context) {
                 SqlDatabase.getInstance().getInventoryDao().insertNewForm(inventoryEntity)
                 loadInventoryForm()
             }else{
-                val formEntity = FormEntity()
-                formEntity.formNumber = form.formNumber.toString()
-                formEntity.formContent = form.toJsonString()
+                val formEntity = FormEntity(
+                    formNumber = form.formNumber!!,
+                    dealStatus = form.dealStatus!!,
+                    reportId = form.reportId!!,
+                    reportTitle = form.reportTitle!!,
+                    dealTime = form.dealTime!!,
+                    date = form.date!!,
+                    formContent = form.toJsonString(),
+                )
                 SqlDatabase.getInstance().getFormDao().insertNewForm(formEntity)
                 loadRecord()
             }

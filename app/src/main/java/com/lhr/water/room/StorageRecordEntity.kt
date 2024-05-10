@@ -21,7 +21,7 @@ class StorageRecordEntity(
     userId: String, //InvtUserId: 操作的使用者ID
     InvtDevi: Int = 2,
     quantity: Int, //InvtNum: 數量
-    recordDate: String, //CreatedAt: 紀錄創建時間（出庫入庫時間，格式YYYYMMDD-HHMMSS）
+    recordDate: String, //CreatedAt: 紀錄創建時間（出庫入庫時間，格式YYYY-MM-DD-HH-MM-SS）
 ) : Serializable {
 
     @NonNull
@@ -43,11 +43,11 @@ class StorageRecordEntity(
     @ColumnInfo(name = SqlModel.materialNumber, typeAffinity = ColumnInfo.TEXT)
     @SerializedName("storageMaterialNo") var materialNumber = materialNumber
 
-    @ColumnInfo(name = SqlModel.outputTime, typeAffinity = ColumnInfo.TEXT)
-    @SerializedName("storageDepartureTime  ") var outputTime = outputTime
-
     @ColumnInfo(name = SqlModel.inputTime, typeAffinity = ColumnInfo.TEXT)
-    @SerializedName("storageArrivalTime ") var inputTime = inputTime
+    @SerializedName("storageArrivalTime") var inputTime = inputTime
+
+    @ColumnInfo(name = SqlModel.outputTime, typeAffinity = ColumnInfo.TEXT)
+    @SerializedName("storageDepartureTime") var outputTime = outputTime
 
     @ColumnInfo(name = SqlModel.materialStatus, typeAffinity = ColumnInfo.INTEGER)
     @SerializedName("InvtStat") var materialStatus = materialStatus

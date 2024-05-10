@@ -209,5 +209,55 @@
         </androidx.constraintlayout.widget.ConstraintLayout>
 
 
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/constraintUpdateTest"
+            android:layout_width="0dp"
+            android:layout_height="60dp"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/constraintUpdateLocal"
+            android:paddingRight="16dp"
+            android:paddingLeft="16dp">
+
+            <ImageView
+                android:id="@+id/imageUpdateTest"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:background="@color/background"
+                android:padding="12dp"
+                android:src="@drawable/update"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintDimensionRatio="1:1"
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:tint="@color/primaryBlue" />
+
+            <TextView
+                android:id="@+id/textUpdateTest"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:text="JSON字串更新測試"
+                style="@style/TextStyle_16dp_black"
+                android:textColor="@color/primaryBlue"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintLeft_toRightOf="@+id/imageUpdateTest"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <ImageView
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:background="@color/background"
+                android:padding="12dp"
+                android:src="@drawable/right"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintDimensionRatio="1:1"
+                app:layout_constraintRight_toRightOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:tint="@color/primaryBlue" />
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

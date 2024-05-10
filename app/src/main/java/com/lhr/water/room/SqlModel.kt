@@ -15,6 +15,10 @@ class SqlModel {
 
         //Form
         const val formNumber: String = "formNumber"
+        const val dealStatus: String = "dealStatus"
+        const val reportId: String = "reportId"
+        const val dealTime: String = "dealTime"
+        const val date: String = "date"
         const val formContent: String = "formContent"
 
         //地圖資訊(無儲存物)

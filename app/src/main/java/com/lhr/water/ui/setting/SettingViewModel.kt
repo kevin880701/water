@@ -10,10 +10,14 @@ import com.google.gson.Gson
 import com.google.gson.JsonArray
 import com.google.gson.JsonObject
 import com.lhr.water.data.Form.Companion.toJsonString
-import com.lhr.water.data.InventoryForm.Companion.toJsonString
+import com.lhr.water.data.upData
 import com.lhr.water.network.Execute
 import com.lhr.water.network.data.UpdateData
+import com.lhr.water.network.data.response.UpdateDataResponse
 import com.lhr.water.repository.FormRepository
+import com.lhr.water.repository.RegionRepository
+import com.lhr.water.room.FormEntity.Companion.convertFormToFormEntities
+import com.lhr.water.room.SqlDatabase
 import com.lhr.water.ui.base.APP
 import com.lhr.water.util.manager.checkJson
 import com.lhr.water.util.manager.jsonAddInformation
@@ -33,9 +37,10 @@ import java.text.SimpleDateFormat
 import java.util.Date
 import java.util.Locale
 
-class SettingViewModel(context: Context, formRepository: FormRepository) :
+class SettingViewModel(context: Context, var formRepository: FormRepository,
+                       var regionRepository: RegionRepository) :
     AndroidViewModel(context.applicationContext as APP) {
-    var formRepository = formRepository
+    var sqlDatabase = SqlDatabase.getInstance()
 
     /**
      * 寫入JSON檔案到指定資料夾
@@ -156,7 +161,7 @@ class SettingViewModel(context: Context, formRepository: FormRepository) :
     fun writeJsonObjectToFolder(activity: Activity) {
         val gson = Gson()
         val jsonArray = JsonArray()
-        for (i in formRepository.formRecordList.value!!) {
+        for (i in formRepository.formList.value!!) {
             jsonArray.add(gson.fromJson(i.toJsonString(), JsonObject::class.java))
         }
 //        for (i in formRepository.inventoryRecord.value!!) {
@@ -203,7 +208,7 @@ class SettingViewModel(context: Context, formRepository: FormRepository) :
 
             val gson = Gson()
             val jsonArray = JsonArray()
-            for (i in formRepository.formRecordList.value!!) {
+            for (i in formRepository.formList.value!!) {
                 jsonArray.add(gson.fromJson(i.toJsonString(), JsonObject::class.java))
             }
 //            for (i in formRepository.inventoryRecord.value!!) {
@@ -244,5 +249,39 @@ class SettingViewModel(context: Context, formRepository: FormRepository) :
         if (checkJson(jsonArray, context)) {
             formRepository.insertNewForm(jsonArray)
         }
+    }
+
+    fun updateTest(){
+        val gson = Gson()
+        val updateDataResponse: UpdateDataResponse = gson.fromJson(upData, UpdateDataResponse::class.java)
+
+        // 先清除資料表
+        sqlDatabase.getFormDao().clearTable()
+        sqlDatabase.getCheckoutDao().clearTable()
+        sqlDatabase.getStorageDao().clearTable()
+        sqlDatabase.getStorageRecordDao().clearTable()
+
+        // 將updateDataResponse的儲櫃資訊、儲櫃紀錄、月結表插入資料表
+        sqlDatabase.getCheckoutDao().insertCheckoutEntities(updateDataResponse.updateData.dataList.checkoutFormList)
+        sqlDatabase.getStorageDao().insertStorageEntities(updateDataResponse.updateData.dataList.storageList)
+        sqlDatabase.getStorageRecordDao().insertStorageRecordEntities(updateDataResponse.updateData.dataList.storageRecordList)
+
+        //將交貨、領料、退料、調撥轉成FormEntity格式
+        val deliveryFormEntities = convertFormToFormEntities(updateDataResponse.updateData.dataList.deliveryFormList)
+        val transferFormEntities = convertFormToFormEntities(updateDataResponse.updateData.dataList.transferFormList)
+        val receiveFormEntities = convertFormToFormEntities(updateDataResponse.updateData.dataList.receiveFormList)
+        val returnFormEntities = convertFormToFormEntities(updateDataResponse.updateData.dataList.returnFormList)
+
+        // 插入到資料表中
+        sqlDatabase.getFormDao().insertFormEntities(deliveryFormEntities)
+        sqlDatabase.getFormDao().insertFormEntities(transferFormEntities)
+        sqlDatabase.getFormDao().insertFormEntities(receiveFormEntities)
+        sqlDatabase.getFormDao().insertFormEntities(returnFormEntities)
+
+        // 更新資料
+        formRepository.loadRecord()
+        formRepository.updateData()
+        regionRepository.updateData()
+
     }
 }

@@ -29,7 +29,11 @@ class RegionRepository private constructor(private val context: Context) {
 
     init {
         importFakeDataIfEmpty()
-        storageEntities =  SqlDatabase.getInstance().getStorageDao().getAll() as ArrayList<StorageEntity>
+        updateData()
+    }
+
+    fun updateData(){
+        storageEntities = SqlDatabase.getInstance().getStorageDao().getAll() as ArrayList<StorageEntity>
     }
 
 

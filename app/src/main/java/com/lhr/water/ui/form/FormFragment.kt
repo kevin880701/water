@@ -51,7 +51,7 @@ class FormFragment : BaseFragment(), View.OnClickListener, FormAdapter.Listener 
     }
 
     private fun bindViewModel() {
-        formRepository.formRecordList.observe(viewLifecycleOwner) { newFormRecordList ->
+        formRepository.formList.observe(viewLifecycleOwner) { newFormRecordList ->
             formAdapter.submitList(newFormRecordList)
         }
         // 根據篩選的表單類別和表單代號更新列表
@@ -60,11 +60,11 @@ class FormFragment : BaseFragment(), View.OnClickListener, FormAdapter.Listener 
         }
         // 表單類別篩選更新
         viewModel.filterList.observe(viewLifecycleOwner) { filterList ->
-            formAdapter.submitList(viewModel.filterRecord( formRepository.formRecordList.value!!, viewModel.searchFormNumber.value!! ,filterList))
+            formAdapter.submitList(viewModel.filterRecord( formRepository.formList.value!!, viewModel.searchFormNumber.value!! ,filterList))
         }
         // 表單代號輸入後篩選更新
         viewModel.searchFormNumber.observe(viewLifecycleOwner) { searchFormNumber ->
-            formAdapter.submitList(viewModel.filterRecord( formRepository.formRecordList.value!!, searchFormNumber , viewModel.filterList.value!!))
+            formAdapter.submitList(viewModel.filterRecord( formRepository.formList.value!!, searchFormNumber , viewModel.filterList.value!!))
         }
     }
 

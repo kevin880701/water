@@ -17,6 +17,7 @@ class SettingFragment : BaseFragment(), View.OnClickListener {
     private var _binding: FragmentSettingBinding? = null
     private val binding get() = _binding!!
     private val viewModel: SettingViewModel by viewModels { viewModelFactory }
+
     /**
      * 選擇JSON檔案並讀取
      */
@@ -68,6 +69,7 @@ class SettingFragment : BaseFragment(), View.OnClickListener {
         binding.constraintBackup.setOnClickListener(this)
         binding.constraintUpdateLocal.setOnClickListener(this)
         binding.constraintBackupLocal.setOnClickListener(this)
+        binding.constraintUpdateTest.setOnClickListener(this)
     }
 
     override fun onClick(v: View?) {
@@ -77,15 +79,22 @@ class SettingFragment : BaseFragment(), View.OnClickListener {
 
                 viewModel.writeJsonObjectToFolder(requireActivity())
             }
+
             R.id.constraintUpdate -> {
 //                pickFile.launch("application/json")
                 viewModel.uploadFiles(this.requireActivity())
             }
+
             R.id.constraintBackupLocal -> {
                 saveFile.launch(null)
             }
+
             R.id.constraintUpdateLocal -> {
                 pickFile.launch("application/json")
+            }
+
+            R.id.constraintUpdateTest -> {
+                viewModel.updateTest()
             }
         }
     }

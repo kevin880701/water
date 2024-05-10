@@ -19,4 +19,7 @@ interface CheckoutDao {
 
     @Query("SELECT COUNT(*) FROM $CHECKOUT_TABLE_NAME")
     fun getRecordCount(): Int
+
+    @Query("DELETE FROM $CHECKOUT_TABLE_NAME")
+    fun clearTable()
 }

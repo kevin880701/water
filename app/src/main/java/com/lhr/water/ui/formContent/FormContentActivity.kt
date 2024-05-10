@@ -195,9 +195,15 @@ class FormContentActivity : BaseActivity(), View.OnClickListener, FormGoodsAdd.L
             form
         )
 
-        var formEntity = FormEntity()
-        formEntity.formNumber = form.formNumber.toString()
-        formEntity.formContent = form.toJsonString()
+        var formEntity = FormEntity(
+            formNumber = form.formNumber!!,
+            dealStatus = form.dealStatus!!,
+            reportId = form.reportId!!,
+            reportTitle = form.reportTitle!!,
+            dealTime = form.dealTime!!,
+            date = form.date!!,
+            formContent = form.toJsonString(),
+        )
 
         // 如果表單是交貨、退料、進貨調撥並且處理狀態是處理完成的話要判斷表單中的貨物是否已經全部入庫
         if ((reportTitle == getString(R.string.delivery_form) ||

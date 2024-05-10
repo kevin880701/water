@@ -1,4 +1,4 @@
-package com.lhr.water.network.data.form
+package com.lhr.water.data.form
 
 import com.google.gson.annotations.SerializedName
 
