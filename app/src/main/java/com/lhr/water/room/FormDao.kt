@@ -7,8 +7,8 @@ import com.lhr.water.room.SqlModel.Companion.formContent
 @Dao
 interface FormDao {
 
-    @Query("SELECT $formContent FROM $FORM_TABLE_NAME")
-    fun getAll(): List<String>
+    @Query("SELECT * FROM $FORM_TABLE_NAME")
+    fun getAll(): List<FormEntity>
 
     @Insert(onConflict = OnConflictStrategy.IGNORE)
     fun insertNewForm(formEntity: FormEntity)

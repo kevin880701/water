@@ -15,6 +15,7 @@ import com.lhr.water.data.Form
 import com.lhr.water.data.Form.Companion.toJsonString
 import com.lhr.water.repository.FormRepository
 import com.lhr.water.databinding.FragmentFormBinding
+import com.lhr.water.room.FormEntity
 import com.lhr.water.ui.base.BaseFragment
 import com.lhr.water.ui.formContent.FormContentActivity
 import com.lhr.water.ui.form.dealMaterial.DealMaterialActivity
@@ -51,20 +52,20 @@ class FormFragment : BaseFragment(), View.OnClickListener, FormAdapter.Listener 
     }
 
     private fun bindViewModel() {
-        formRepository.formList.observe(viewLifecycleOwner) { newFormRecordList ->
+        formRepository.formEntities.observe(viewLifecycleOwner) { newFormRecordList ->
             formAdapter.submitList(newFormRecordList)
         }
         // 根據篩選的表單類別和表單代號更新列表
-        formRepository.formFilterRecordList.observe(viewLifecycleOwner) { newFormRecordList ->
-            formAdapter.submitList(newFormRecordList)
-        }
+//        formRepository.formFilterRecordList.observe(viewLifecycleOwner) { newFormRecordList ->
+//            formAdapter.submitList(newFormRecordList)
+//        }
         // 表單類別篩選更新
         viewModel.filterList.observe(viewLifecycleOwner) { filterList ->
-            formAdapter.submitList(viewModel.filterRecord( formRepository.formList.value!!, viewModel.searchFormNumber.value!! ,filterList))
+            formAdapter.submitList(viewModel.filterRecord( formRepository.formEntities.value!!, viewModel.searchFormNumber.value!! ,filterList))
         }
         // 表單代號輸入後篩選更新
         viewModel.searchFormNumber.observe(viewLifecycleOwner) { searchFormNumber ->
-            formAdapter.submitList(viewModel.filterRecord( formRepository.formList.value!!, searchFormNumber , viewModel.filterList.value!!))
+            formAdapter.submitList(viewModel.filterRecord( formRepository.formEntities.value!!, searchFormNumber , viewModel.filterList.value!!))
         }
     }
 
@@ -106,12 +107,12 @@ class FormFragment : BaseFragment(), View.OnClickListener, FormAdapter.Listener 
 
     /**
      * 表單列表點擊
-     * @param form 被點擊的列資料
+     * @param formEntity 被點擊的列資料
      */
-    override fun onItemClick(form: Form) {
+    override fun onItemClick(formEntity: FormEntity) {
         val intent = Intent(requireActivity(), FormContentActivity::class.java)
-        intent.putExtra("reportTitle", form.reportTitle)
-        intent.putExtra("jsonString", form.toJsonString())
+        intent.putExtra("reportTitle", formEntity.reportTitle)
+        intent.putExtra("jsonString", formEntity.formContent)
         requireActivity().startActivity(intent)
     }
 

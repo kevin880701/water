@@ -10,6 +10,7 @@ import com.lhr.water.repository.RegionRepository
 import com.lhr.water.repository.UserRepository
 import com.lhr.water.room.RegionEntity
 import com.lhr.water.room.CheckoutEntity
+import com.lhr.water.room.FormEntity
 import com.lhr.water.room.StorageEntity
 import com.lhr.water.room.StorageRecordEntity
 import com.lhr.water.ui.base.APP
@@ -46,7 +47,7 @@ class FormViewModel(
     /**
      * 篩選表單內容
      */
-    fun filterRecord(formList: ArrayList<Form>,searchFormNumber: String,filterList: ArrayList<String>): ArrayList<Form>? {
+    fun filterRecord(formList: ArrayList<FormEntity>, searchFormNumber: String, filterList: ArrayList<String>): ArrayList<FormEntity>? {
         return formList.filter { form ->
             // 根據 "FormClass" 判斷是否在 filterList 中
             val reportTitle = form.reportTitle.toString()
@@ -60,7 +61,7 @@ class FormViewModel(
                 true // 搜尋框(EditText)，不添加 formNumber 的篩選條件
             }
             reportTitleFilterCondition!! && editTextFilterCondition
-        }?.toMutableList()!! as ArrayList<Form>?
+        }?.toMutableList()!! as ArrayList<FormEntity>
     }
 
     fun getInputRegionList(): ArrayList<RegionEntity> {

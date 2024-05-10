@@ -1,7 +1,5 @@
 package com.lhr.water.data.form
 
-import com.google.gson.annotations.SerializedName
-
 open class BaseForm(
 ){
 

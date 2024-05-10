@@ -18,7 +18,6 @@ import com.lhr.water.util.FormName.returningFormName
 import com.lhr.water.util.FormName.transferFormName
 import com.lhr.water.util.TransferStatus
 import com.lhr.water.util.formTypeMap
-import com.lhr.water.util.manager.jsonStringToJson
 import com.lhr.water.util.transferStatus
 import org.json.JSONArray
 import org.json.JSONObject
@@ -27,11 +26,10 @@ class FormRepository(context: Context) {
     val context = context
 
     // 所有表單列表
-    var formList = MutableLiveData<ArrayList<Form>>(ArrayList<Form>())
+    var formEntities = MutableLiveData<ArrayList<FormEntity>>(ArrayList<FormEntity>())
 
     // 暫存待出入庫的貨物列表（未送出）
-    var tempStorageRecordEntities: MutableLiveData<ArrayList<StorageRecordEntity>> =
-        MutableLiveData<ArrayList<StorageRecordEntity>>()
+    var tempStorageRecordEntities = MutableLiveData<ArrayList<StorageRecordEntity>>()
 
     // 儲櫃中所有貨物
     var storageGoods: MutableLiveData<ArrayList<CheckoutEntity>> =
@@ -68,12 +66,6 @@ class FormRepository(context: Context) {
     }
 
     init {
-        val loadFormList: List<String> = SqlDatabase.getInstance().getFormDao().getAll()
-        val formJsonList = ArrayList<JSONObject>()
-        for (formData in loadFormList) {
-            formJsonList.add(jsonStringToJson(formData))
-        }
-        tempStorageRecordEntities.value = ArrayList<StorageRecordEntity>()
         storageGoods.value = ArrayList<CheckoutEntity>()
 
         loadRecord()
@@ -95,13 +87,8 @@ class FormRepository(context: Context) {
     fun loadRecord() {
         updateData()
 
-        val loadFormList: List<String> = SqlDatabase.getInstance().getFormDao().getAll()
-        val tempFormList = ArrayList<Form>()
-        for (formData in loadFormList) {
-            tempFormList.add(formFromJson(formData))
-        }
-        formList.postValue(tempFormList)
-        updateWaitOutputGoods(tempFormList)
+        val loadFormList = SqlDatabase.getInstance().getFormDao().getAll() as ArrayList
+        formEntities.postValue(loadFormList)
     }
 
 

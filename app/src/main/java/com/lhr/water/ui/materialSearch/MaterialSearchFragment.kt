@@ -14,6 +14,7 @@ import com.lhr.water.R
 import com.lhr.water.data.Form
 import com.lhr.water.data.Form.Companion.toJsonString
 import com.lhr.water.databinding.FragmentMaterialSearchBinding
+import com.lhr.water.room.FormEntity
 import com.lhr.water.ui.base.BaseFragment
 import com.lhr.water.ui.formContent.FormContentActivity
 import com.lhr.water.ui.form.dealMaterial.DealMaterialActivity
@@ -93,10 +94,10 @@ class MaterialSearchFragment : BaseFragment(), View.OnClickListener, FormAdapter
      * 表單列表點擊
      * @param form 被點擊的列資料
      */
-    override fun onItemClick(form: Form) {
+    override fun onItemClick(form: FormEntity) {
         val intent = Intent(requireActivity(), FormContentActivity::class.java)
         intent.putExtra("reportTitle", form.reportTitle)
-        intent.putExtra("jsonString", form.toJsonString())
+        intent.putExtra("jsonString", form.formContent)
         requireActivity().startActivity(intent)
     }
 

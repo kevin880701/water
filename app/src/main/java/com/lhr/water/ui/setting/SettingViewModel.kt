@@ -161,8 +161,8 @@ class SettingViewModel(context: Context, var formRepository: FormRepository,
     fun writeJsonObjectToFolder(activity: Activity) {
         val gson = Gson()
         val jsonArray = JsonArray()
-        for (i in formRepository.formList.value!!) {
-            jsonArray.add(gson.fromJson(i.toJsonString(), JsonObject::class.java))
+        for (i in formRepository.formEntities.value!!) {
+//            jsonArray.add(gson.fromJson(i.toJsonString(), JsonObject::class.java))
         }
 //        for (i in formRepository.inventoryRecord.value!!) {
 //            jsonArray.add(gson.fromJson(i.toJsonString(), JsonObject::class.java))
@@ -208,12 +208,9 @@ class SettingViewModel(context: Context, var formRepository: FormRepository,
 
             val gson = Gson()
             val jsonArray = JsonArray()
-            for (i in formRepository.formList.value!!) {
-                jsonArray.add(gson.fromJson(i.toJsonString(), JsonObject::class.java))
-            }
-//            for (i in formRepository.inventoryRecord.value!!) {
+            for (i in formRepository.formEntities.value!!) {
 //                jsonArray.add(gson.fromJson(i.toJsonString(), JsonObject::class.java))
-//            }
+            }
             val folder = DocumentFile.fromTreeUri(context, folderUri)
             // 當前日期時間
             val dateFormat = SimpleDateFormat("yyyyMMdd_HHmmss", Locale.getDefault())

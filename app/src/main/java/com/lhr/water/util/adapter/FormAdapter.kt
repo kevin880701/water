@@ -10,20 +10,21 @@ import androidx.recyclerview.widget.RecyclerView
 import com.lhr.water.R
 import com.lhr.water.data.Form
 import com.lhr.water.databinding.ItemFormBinding
+import com.lhr.water.room.FormEntity
 
 class FormAdapter(val listener: Listener, context: Context) :
-    ListAdapter<Form, FormAdapter.ViewHolder>(LOCK_DIFF_UTIL) {
+    ListAdapter<FormEntity, FormAdapter.ViewHolder>(LOCK_DIFF_UTIL) {
     var context = context
 
     companion object {
-        val LOCK_DIFF_UTIL = object : DiffUtil.ItemCallback<Form>() {
-            override fun areItemsTheSame(oldItem: Form, newItem: Form): Boolean {
+        val LOCK_DIFF_UTIL = object : DiffUtil.ItemCallback<FormEntity>() {
+            override fun areItemsTheSame(oldItem: FormEntity, newItem: FormEntity): Boolean {
                 return oldItem == newItem
             }
 
             override fun areContentsTheSame(
-                oldItem: Form,
-                newItem: Form
+                oldItem: FormEntity,
+                newItem: FormEntity
             ): Boolean {
                 return oldItem.hashCode() == newItem.hashCode()
             }
@@ -42,11 +43,11 @@ class FormAdapter(val listener: Listener, context: Context) :
     inner class ViewHolder(private val binding: ItemFormBinding) :
         RecyclerView.ViewHolder(binding.root) {
 
-        fun bind(form: Form) {
-            binding.textReportTitle.text = form.reportTitle
-            binding.textFormNumber.text = form.formNumber
-            binding.textDate.text = form.date
-            when (form.dealStatus) {
+        fun bind(formEntity: FormEntity) {
+            binding.textReportTitle.text = formEntity.reportTitle
+            binding.textFormNumber.text = formEntity.formNumber
+            binding.textDate.text = formEntity.date
+            when (formEntity.dealStatus) {
                 context.getString(R.string.wait_deal) -> {
                     binding.imageStatus.setImageDrawable(context.getDrawable(R.drawable.red_light))
                     binding.imageDealGoods.visibility = View.INVISIBLE
@@ -64,7 +65,7 @@ class FormAdapter(val listener: Listener, context: Context) :
             }
 
             binding.imageDealGoods.setOnClickListener {
-                listener.onDealMaterialClick(getItem(adapterPosition))
+//                listener.onDealMaterialClick(getItem(adapterPosition))
             }
             binding.root.setOnClickListener {
                 listener.onItemClick(getItem(adapterPosition))
@@ -73,7 +74,7 @@ class FormAdapter(val listener: Listener, context: Context) :
     }
 
     interface Listener {
-        fun onItemClick(item: Form)
+        fun onItemClick(formEntity: FormEntity)
         fun onDealMaterialClick(item: Form)
     }
 }
