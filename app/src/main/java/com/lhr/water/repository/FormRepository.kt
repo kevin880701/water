@@ -66,29 +66,23 @@ class FormRepository(context: Context) {
     }
 
     init {
+        updateData()
         storageGoods.value = ArrayList<CheckoutEntity>()
 
-        loadRecord()
-        updateData()
         inventoryEntities.value = loadInventoryForm()
-    }
-
-
-    fun updateData(){
-        // 取checkout資料
-        checkoutEntities = SqlDatabase.getInstance().getCheckoutDao().getAll() as ArrayList<CheckoutEntity>
-        // 取儲櫃紀錄資料
-        storageRecordEntities = SqlDatabase.getInstance().getStorageRecordDao().getAll() as ArrayList<StorageRecordEntity>
     }
 
     /**
      * 抓取表單全部記錄
      */
-    fun loadRecord() {
-        updateData()
-
-        val loadFormList = SqlDatabase.getInstance().getFormDao().getAll() as ArrayList
-        formEntities.postValue(loadFormList)
+    fun updateData() {
+        // 取表單資料
+        val loadFormEntities = SqlDatabase.getInstance().getFormDao().getAll() as ArrayList
+        formEntities.postValue(loadFormEntities)
+        // 取checkout資料
+        checkoutEntities = SqlDatabase.getInstance().getCheckoutDao().getAll() as ArrayList<CheckoutEntity>
+        // 取儲櫃紀錄資料
+        storageRecordEntities = SqlDatabase.getInstance().getStorageRecordDao().getAll() as ArrayList<StorageRecordEntity>
     }
 
 
@@ -175,7 +169,7 @@ class FormRepository(context: Context) {
                     formContent = form.toJsonString(),
                 )
                 SqlDatabase.getInstance().getFormDao().insertNewForm(formEntity)
-                loadRecord()
+                updateData()
             }
         }
     }

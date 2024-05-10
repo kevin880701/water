@@ -8,8 +8,6 @@ import androidx.documentfile.provider.DocumentFile
 import androidx.lifecycle.AndroidViewModel
 import com.google.gson.Gson
 import com.google.gson.JsonArray
-import com.google.gson.JsonObject
-import com.lhr.water.data.Form.Companion.toJsonString
 import com.lhr.water.data.upData
 import com.lhr.water.network.Execute
 import com.lhr.water.network.data.UpdateData
@@ -154,7 +152,7 @@ class SettingViewModel(context: Context, var formRepository: FormRepository,
         jsonArray = jsonAddInformation(jsonArray)
         if (checkJson(jsonArray, context)) {
             formRepository.insertNewForm(jsonArray)
-            formRepository.loadRecord()
+            formRepository.updateData()
         }
     }
 
@@ -276,7 +274,7 @@ class SettingViewModel(context: Context, var formRepository: FormRepository,
         sqlDatabase.getFormDao().insertFormEntities(returnFormEntities)
 
         // 更新資料
-        formRepository.loadRecord()
+        formRepository.updateData()
         formRepository.updateData()
         regionRepository.updateData()
 

@@ -271,7 +271,7 @@ class FormContentActivity : BaseActivity(), View.OnClickListener, FormGoodsAdd.L
      */
     fun updateForm(formEntity: FormEntity) {
         SqlDatabase.getInstance().getFormDao().insertOrUpdate(formEntity)
-        FormRepository.getInstance(this).loadRecord()
+        FormRepository.getInstance(this).updateData()
     }
 
 
