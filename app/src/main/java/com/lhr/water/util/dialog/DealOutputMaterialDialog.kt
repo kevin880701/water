@@ -25,7 +25,7 @@ import com.lhr.water.util.spinnerAdapter.RegionEntityAdapter
 import com.lhr.water.util.spinnerAdapter.StorageEntityAdapter
 
 class DealOutputMaterialDialog(
-    var form: FormEntity,
+    var formEntity: FormEntity,
     itemDetail: BaseItem,
     var needOutputQuantity: String
 ) : DialogFragment(), View.OnClickListener {
@@ -58,10 +58,8 @@ class DealOutputMaterialDialog(
         builder.setCancelable(false)
 
         // 先抓指定要出庫貨物在那些儲櫃，有多少數量
-        specifiedMaterialStorageRecordEntities = viewModel.getSpecifiedMaterialStorageRecordEntities(itemDetail.materialNumber!!)
-        println("=============================================================")
-        println("specifiedMaterialStorageRecordEntities：${specifiedMaterialStorageRecordEntities.size}")
-        println("=============================================================")
+        specifiedMaterialStorageRecordEntities =
+            viewModel.getSpecifiedMaterialStorageRecordEntities(itemDetail.materialNumber!!)
         // 取得區域列表
         allRegionList = viewModel.getOutputRegionList(specifiedMaterialStorageRecordEntities)
         regionSpinnerList = allRegionList.distinctBy { it.regionNumber } as ArrayList<RegionEntity>
@@ -81,20 +79,32 @@ class DealOutputMaterialDialog(
         }
 
         viewModel.selectDept.observe(this) { selectDept ->
-            println("******************************************************************************@@@@@@@")
-            storageSpinnerList = viewModel.getOutputStorageSpinnerList(selectDept.deptNumber, selectDept.mapSeq, specifiedMaterialStorageRecordEntities)
+            storageSpinnerList = viewModel.getOutputStorageSpinnerList(
+                selectDept.deptNumber,
+                selectDept.mapSeq,
+                specifiedMaterialStorageRecordEntities
+            )
             storageEntityAdapter = StorageEntityAdapter(requireContext(), storageSpinnerList)
             binding.spinnerStorage.adapter = storageEntityAdapter
         }
 
         viewModel.selectStorage.observe(this) { selectStorage ->
-            inputTimeSpinnerList = viewModel.getOutputTimeSpinnerList(selectStorage.storageId, specifiedMaterialStorageRecordEntities)
+            inputTimeSpinnerList = viewModel.getOutputTimeSpinnerList(
+                selectStorage.storageId,
+                specifiedMaterialStorageRecordEntities
+            )
             inputTimeAdapter = InputTimeEntityAdapter(requireContext(), inputTimeSpinnerList)
             binding.spinnerInputTime.adapter = inputTimeAdapter
         }
 
         viewModel.selectInputTime.observe(this) { selectInputTime ->
-            maxQuantity = viewModel.getOutputMaxQuantity(needOutputQuantity.toInt(), viewModel.selectStorage.value!!.storageId, selectInputTime, specifiedMaterialStorageRecordEntities).toString()
+            maxQuantity = viewModel.getOutputMaxQuantity(
+                needOutputQuantity.toInt(),
+                formEntity.formNumber,
+                viewModel.selectStorage.value!!.storageId,
+                selectInputTime,
+                specifiedMaterialStorageRecordEntities
+            ).toString()
             viewModel.currentQuantity.postValue(maxQuantity)
         }
 
@@ -133,7 +143,6 @@ class DealOutputMaterialDialog(
                 // 在沒有選中項的情況下觸發
             }
         }
-
 
         // 設定部門Spinner
         binding.spinnerDept.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
@@ -197,15 +206,17 @@ class DealOutputMaterialDialog(
             R.id.buttonConfirm -> {
                 if (binding.spinnerStorage.selectedItem == null) {
                     showToast(requireContext(), "儲櫃未選擇")
-                } else {
-                    println("viewModel.selectInputTime.value：${viewModel.selectInputTime.value}");
+                } else if (binding.textQuantity.text.toString().toInt() > 0) {
                     viewModel.inputInTempGoods(
-                        form,
+                        formEntity,
                         itemDetail,
                         viewModel.selectStorage.value!!,
                         binding.textQuantity.text.toString(),
-                        isInput(form),
-                        viewModel.selectInputTime.value)
+                        isInput(formEntity),
+                        viewModel.selectInputTime.value
+                    )
+                    this.dismiss()
+                } else {
                     this.dismiss()
                 }
             }
@@ -216,15 +227,22 @@ class DealOutputMaterialDialog(
 
             R.id.imageSubtract -> {
                 // 減少數量，但不小於 1
-                viewModel.currentQuantity.postValue(maxOf(1, binding.textQuantity.text.toString().toInt() - 1).toString())
+                viewModel.currentQuantity.postValue(
+                    maxOf(
+                        1,
+                        binding.textQuantity.text.toString().toInt() - 1
+                    ).toString()
+                )
             }
 
             R.id.imageAdd -> {
                 // 增加數量，但不大於 maxQuantity
-                viewModel.currentQuantity.postValue(minOf(
-                    maxQuantity.toInt(),
-                    binding.textQuantity.text.toString().toInt() + 1
-                ).toString())
+                viewModel.currentQuantity.postValue(
+                    minOf(
+                        maxQuantity.toInt(),
+                        binding.textQuantity.text.toString().toInt() + 1
+                    ).toString()
+                )
             }
         }
     }

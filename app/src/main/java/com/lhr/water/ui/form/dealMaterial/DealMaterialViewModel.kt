@@ -250,21 +250,27 @@ class DealMaterialViewModel(
         return ArrayList(inputTimeList)
     }
 
-    fun getOutputMaxQuantity(needQuantity: Int, storageId: Int, inputTime: String, specifiedMaterialStorageRecordEntities: ArrayList<StorageRecordEntity>): Int {
+    fun getOutputMaxQuantity(needQuantity: Int, formNumber: String, storageId: Int, inputTime: String, specifiedMaterialStorageRecordEntities: ArrayList<StorageRecordEntity>): Int {
         // 根據指定的 storageId 和 inputTime 查找對應的項
         val matchingRecords = specifiedMaterialStorageRecordEntities.filter {
             it.storageId == storageId && it.inputTime == inputTime
         }
 
+        // 暫存清單裡的數量
+        val tempQuantity = formRepository.tempStorageRecordEntities.value!!
+            .filter { it.formNumber == formNumber }
+            .sumOf { it.quantity }
+
         // 如果找到匹配的記錄
         if (matchingRecords.isNotEmpty()) {
             // 計算匹配記錄的總數量
-            val totalQuantity = matchingRecords.sumBy { it.quantity }
+            val totalQuantity = matchingRecords.sumOf { it.quantity }
+
             // 返回較小的值，即所需數量和總數量之間的較小值
-            return minOf(needQuantity, totalQuantity)
+            return minOf(needQuantity, totalQuantity - tempQuantity).coerceAtLeast(0)
         } else {
             // 如果未找到匹配的記錄，則返回所需數量
-            return needQuantity
+            return 0
         }
     }
 

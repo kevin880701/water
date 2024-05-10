@@ -310,7 +310,7 @@ val upData = """{
               "materialSpec": "5吋",
               "materialUnit": "根",
               "requestedQuantity": 7,
-              "actualQuantity": 7,
+              "actualQuantity": 50,
               "price": "505",
               "itemCost": null
             }
