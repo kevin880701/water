@@ -63,7 +63,7 @@ class FormFragment : BaseFragment(), View.OnClickListener, FormAdapter.Listener 
         }
         // 表單代號輸入後篩選更新
         viewModel.searchFormNumber.observe(viewLifecycleOwner) { searchFormNumber ->
-            formAdapter.submitList(viewModel.filterRecord( formRepository.formEntities.value!!, searchFormNumber , viewModel.filterList.value!!))
+            formAdapter.submitList(viewModel.filterRecord(formRepository.formEntities.value!!, searchFormNumber , viewModel.filterList.value!!))
         }
     }
 

@@ -22,11 +22,7 @@ class FormRepository(context: Context) {
     var tempStorageRecordEntities = MutableLiveData<ArrayList<StorageRecordEntity>>(ArrayList<StorageRecordEntity>())
 
     // 儲櫃中所有貨物
-    var storageGoods =
-        MutableLiveData<ArrayList<CheckoutEntity>>(ArrayList<CheckoutEntity>())
-
-    // 篩選表單代號formNumber的String
-    var searchInventoryFormNumber = MutableLiveData<String>()
+    var storageGoods = MutableLiveData<ArrayList<CheckoutEntity>>(ArrayList<CheckoutEntity>())
 
     var checkoutEntities = ArrayList<CheckoutEntity>()
 

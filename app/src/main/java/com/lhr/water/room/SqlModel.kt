@@ -27,6 +27,15 @@ class SqlModel {
         const val deptName: String = "deptName"
         const val deptNumber: String = "deptNumber"
 
+        // InventoryEntity
+        const val inventoryUnit: String = "inventoryUnit"
+        const val seq: String = "seq"
+        const val actualQuantity: String = "actualQuantity"
+        const val checkDate: String = "checkDate"
+        const val lastUseDate: String = "lastUseDate"
+        const val approvedDate: String = "approvedDate"
+
+
         const val storageId: String = "storageId"
         const val mapSeq: String = "mapSeq"
         const val mapName: String = "mapName"

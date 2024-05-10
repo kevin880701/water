@@ -9,26 +9,22 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
-import com.lhr.water.data.InventoryForm
-import com.lhr.water.data.InventoryForm.Companion.toJsonString
 import com.lhr.water.databinding.ItemInventoryMaterialBinding
-import com.lhr.water.repository.FormRepository
 import com.lhr.water.room.InventoryEntity
-import com.lhr.water.room.SqlDatabase
 
 class InventoryAdapter(val listener: Listener, context: Context) :
-    ListAdapter<InventoryForm, InventoryAdapter.ViewHolder>(LOCK_DIFF_UTIL) {
+    ListAdapter<InventoryEntity, InventoryAdapter.ViewHolder>(LOCK_DIFF_UTIL) {
     var context = context
 
     companion object {
-        val LOCK_DIFF_UTIL = object : DiffUtil.ItemCallback<InventoryForm>() {
-            override fun areItemsTheSame(oldItem: InventoryForm, newItem: InventoryForm): Boolean {
+        val LOCK_DIFF_UTIL = object : DiffUtil.ItemCallback<InventoryEntity>() {
+            override fun areItemsTheSame(oldItem: InventoryEntity, newItem: InventoryEntity): Boolean {
                 return oldItem == newItem
             }
 
             override fun areContentsTheSame(
-                oldItem: InventoryForm,
-                newItem: InventoryForm
+                oldItem: InventoryEntity,
+                newItem: InventoryEntity
             ): Boolean {
                 return oldItem.hashCode() == newItem.hashCode()
             }
@@ -48,11 +44,11 @@ class InventoryAdapter(val listener: Listener, context: Context) :
     inner class ViewHolder(private val binding: ItemInventoryMaterialBinding) :
         RecyclerView.ViewHolder(binding.root) {
 
-        fun bind(inventoryForm: InventoryForm) {
-            binding.textMaterialName.text = inventoryForm.materialName
-            binding.textMaterialSpec.text = inventoryForm.materialSpec
-            binding.textMaterialUnit.text = inventoryForm.materialUnit
-            binding.textQuantity.text = Editable.Factory.getInstance().newEditable(inventoryForm.actualQuantity.toString())
+        fun bind(inventoryEntity: InventoryEntity) {
+            binding.textMaterialName.text = inventoryEntity.materialName
+            binding.textMaterialSpec.text = inventoryEntity.materialSpec
+            binding.textMaterialUnit.text = inventoryEntity.materialUnit
+            binding.textQuantity.text = Editable.Factory.getInstance().newEditable(inventoryEntity.actualQuantity.toString())
 
 
             binding.root.setOnClickListener {
@@ -72,18 +68,14 @@ class InventoryAdapter(val listener: Listener, context: Context) :
                 binding.imageOk.visibility = View.GONE
                 binding.textQuantity.isEnabled = false
                 binding.textQuantity.setBackgroundColor(Color.TRANSPARENT)
-                inventoryForm.actualQuantity = binding.textQuantity.text.toString().toInt()
+                inventoryEntity.actualQuantity = binding.textQuantity.text.toString().toInt()
 
-//                var tempInventoryEntity = InventoryEntity()
-//                tempInventoryEntity.formNumber = inventoryForm.formNumber.toString()
-//                tempInventoryEntity.formContent = inventoryForm.toJsonString()
-//                SqlDatabase.getInstance().getInventoryDao().insertOrUpdate(tempInventoryEntity)
-                FormRepository.getInstance(context).loadInventoryForm()
+//                FormRepository.getInstance(context).loadInventoryEntity()
             }
         }
     }
 
     interface Listener {
-        fun onItemClick(inventoryForm: InventoryForm)
+        fun onItemClick(InventoryEntity: InventoryEntity)
     }
 }

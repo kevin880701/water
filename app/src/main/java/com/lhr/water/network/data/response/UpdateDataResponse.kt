@@ -2,11 +2,11 @@ package com.lhr.water.network.data.response
 
 import com.google.gson.annotations.SerializedName
 import com.lhr.water.data.form.DeliveryForm
-import com.lhr.water.data.form.InventoryForm
 import com.lhr.water.data.form.ReceiveForm
 import com.lhr.water.data.form.ReturnForm
 import com.lhr.water.data.form.TransferForm
 import com.lhr.water.room.CheckoutEntity
+import com.lhr.water.room.InventoryEntity
 import com.lhr.water.room.StorageEntity
 import com.lhr.water.room.StorageRecordEntity
 
@@ -26,7 +26,7 @@ data class DataList(
     @SerializedName("transfer") val transferFormList: List<TransferForm>,
     @SerializedName("receive") val receiveFormList: List<ReceiveForm>,
     @SerializedName("return") val returnFormList: List<ReturnForm>,
-    @SerializedName("inventory") val inventoryFormList: List<InventoryForm>,
+    @SerializedName("inventory") val inventoryFormList: List<InventoryEntity>,
 
     @SerializedName("whseStrg") val storageList: List<StorageEntity>,
     @SerializedName("invtStrg") val storageRecordList: List<StorageRecordEntity>,

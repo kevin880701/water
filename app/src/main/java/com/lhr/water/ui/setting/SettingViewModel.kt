@@ -15,7 +15,6 @@ import com.lhr.water.network.data.response.UpdateDataResponse
 import com.lhr.water.repository.FormRepository
 import com.lhr.water.repository.RegionRepository
 import com.lhr.water.room.FormEntity.Companion.convertFormToFormEntities
-import com.lhr.water.room.InventoryEntity.Companion.convertFormToInventoryEntities
 import com.lhr.water.room.SqlDatabase
 import com.lhr.water.ui.base.APP
 import com.lhr.water.util.manager.checkJson
@@ -276,10 +275,8 @@ class SettingViewModel(context: Context, var formRepository: FormRepository,
         sqlDatabase.getFormDao().insertFormEntities(returnFormEntities)
 
 
-        //將盤點轉成InventoryEntity格式
-        val inventoryEntities = convertFormToInventoryEntities(updateDataResponse.updateData.dataList.inventoryFormList)
         // 插入到資料表中
-        sqlDatabase.getInventoryDao().insertInventoryEntities(inventoryEntities)
+        sqlDatabase.getInventoryDao().insertInventoryEntities(updateDataResponse.updateData.dataList.inventoryFormList)
 
         // 更新資料
         formRepository.updateData()

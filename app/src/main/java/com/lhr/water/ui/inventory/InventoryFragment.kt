@@ -1,6 +1,5 @@
 package com.lhr.water.ui.inventory
 
-import android.net.Uri
 import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
@@ -8,19 +7,17 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.activity.OnBackPressedCallback
-import androidx.activity.result.contract.ActivityResultContracts
 import androidx.fragment.app.viewModels
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.lhr.water.R
-import com.lhr.water.data.InventoryForm
 import com.lhr.water.data.returningFieldMap
 import com.lhr.water.databinding.FragmentInventoryBinding
 import com.lhr.water.repository.FormRepository
+import com.lhr.water.room.InventoryEntity
 import com.lhr.water.ui.base.BaseFragment
 import com.lhr.water.util.adapter.InventoryAdapter
 import com.lhr.water.util.dialog.InventoryGoodsDialog
 import com.lhr.water.util.widget.FormGoodsDataWidget
-import org.json.JSONArray
 import org.json.JSONException
 import org.json.JSONObject
 import timber.log.Timber
@@ -60,12 +57,12 @@ class InventoryFragment : BaseFragment(), View.OnClickListener, InventoryAdapter
 
     private fun bindViewModel() {
         formRepository.inventoryEntities.observe(viewLifecycleOwner) { inventoryEntities ->
-//            inventoryAdapter.submitList(inventoryEntities)
+            inventoryAdapter.submitList(inventoryEntities)
         }
 
         // 盤點表單代號輸入後篩選更新
-        formRepository.searchInventoryFormNumber.observe(viewLifecycleOwner) {
-//            formRepository.formFilterInventoryEntities.postValue(formRepository.filterInventoryRecord(formRepository.inventoryEntities.value!!))
+        viewModel.searchMaterialName.observe(viewLifecycleOwner) {searchMaterialName ->
+            inventoryAdapter.submitList(viewModel.filterRecord(formRepository.inventoryEntities.value!!, searchMaterialName))
         }
     }
 
@@ -87,7 +84,7 @@ class InventoryFragment : BaseFragment(), View.OnClickListener, InventoryAdapter
 
             override fun afterTextChanged(s: Editable?) {
                 // 在文本改變之後執行的操作
-                formRepository.searchInventoryFormNumber.postValue(s.toString())
+                viewModel.searchMaterialName.postValue(s.toString())
             }
         })
 
@@ -109,7 +106,7 @@ class InventoryFragment : BaseFragment(), View.OnClickListener, InventoryAdapter
      * 表單列表點擊
      * @param json 被點擊的列資料
      */
-    override fun onItemClick(inventoryForm: InventoryForm) {
+    override fun onItemClick(inventoryEntity: InventoryEntity) {
         val extractedValues = ArrayList<String>()
         for (fieldName in formFieldNameEngList) {
             try {
