@@ -5,22 +5,14 @@ import androidx.lifecycle.MutableLiveData
 import com.lhr.water.data.Form
 import com.lhr.water.data.Form.Companion.formFromJson
 import com.lhr.water.data.Form.Companion.toJsonString
-import com.lhr.water.data.WaitDealGoodsData
 import com.lhr.water.room.FormEntity
 import com.lhr.water.room.InventoryEntity
 import com.lhr.water.room.SqlDatabase
 import com.lhr.water.room.CheckoutEntity
 import com.lhr.water.room.StorageRecordEntity
-import com.lhr.water.util.DealStatus.nowDeal
 import com.lhr.water.util.FormName.inventoryFormName
-import com.lhr.water.util.FormName.pickingFormName
-import com.lhr.water.util.FormName.returningFormName
-import com.lhr.water.util.FormName.transferFormName
-import com.lhr.water.util.TransferStatus
 import com.lhr.water.util.formTypeMap
-import com.lhr.water.util.transferStatus
 import org.json.JSONArray
-import org.json.JSONObject
 
 class FormRepository(context: Context) {
     val context = context
@@ -35,22 +27,11 @@ class FormRepository(context: Context) {
     var tempStorageRecordEntities = MutableLiveData<ArrayList<StorageRecordEntity>>()
 
     // 儲櫃中所有貨物
-    var storageGoods: MutableLiveData<ArrayList<CheckoutEntity>> =
-        MutableLiveData<ArrayList<CheckoutEntity>>()
-
-    // 篩選後的表單
-    var formFilterRecordList: MutableLiveData<ArrayList<Form>> =
-        MutableLiveData<ArrayList<Form>>()
-    // 篩選後的盤點表單
-    var formFilterInventoryEntities: MutableLiveData<ArrayList<InventoryEntity>> =
-        MutableLiveData<ArrayList<InventoryEntity>>()
+    var storageGoods =
+        MutableLiveData<ArrayList<CheckoutEntity>>(ArrayList<CheckoutEntity>())
 
     // 篩選表單代號formNumber的String
     var searchInventoryFormNumber = MutableLiveData<String>()
-
-    var inventoryFormList: MutableLiveData<ArrayList<JSONObject>> =
-        MutableLiveData<ArrayList<JSONObject>>()
-
 
     var checkoutEntities = ArrayList<CheckoutEntity>()
 
@@ -68,7 +49,6 @@ class FormRepository(context: Context) {
 
     init {
         updateData()
-        storageGoods.value = ArrayList<CheckoutEntity>()
     }
 
     /**
@@ -83,40 +63,6 @@ class FormRepository(context: Context) {
         checkoutEntities = SqlDatabase.getInstance().getCheckoutDao().getAll() as ArrayList<CheckoutEntity>
         // 取儲櫃紀錄資料
         storageRecordEntities = SqlDatabase.getInstance().getStorageRecordDao().getAll() as ArrayList<StorageRecordEntity>
-    }
-
-
-    /**
-     * 更新待出庫貨物列表
-     */
-    fun updateWaitOutputGoods(formList: ArrayList<Form>) {
-        var waitOutputGoodsList = ArrayList<WaitDealGoodsData>()
-        for (form in formList) {
-            val reportTitle = form.reportTitle
-            val dealStatus = form.dealStatus
-
-            var transferStatus = transferStatus(
-                reportTitle == transferFormName,
-                form
-            )
-
-            if ((reportTitle == pickingFormName ||
-                        reportTitle == returningFormName ||
-                        transferStatus == TransferStatus.transferOutput) && dealStatus == nowDeal
-            ) {
-                val itemDetails = form.itemDetails
-                if (itemDetails != null && itemDetails.size > 0) {
-                    for (itemDetail in itemDetails) {
-                        val waitDealGoodsData = WaitDealGoodsData(
-                            reportTitle = reportTitle.toString(),
-                            formNumber = form.formNumber.toString(),
-                            itemDetail = itemDetail
-                        )
-                        waitOutputGoodsList.add(waitDealGoodsData)
-                    }
-                }
-            }
-        }
     }
 
     /**
@@ -212,12 +158,12 @@ class FormRepository(context: Context) {
 
 
     /**
-     * 根據表單名稱和表單代號篩選暫存待入庫的貨物列表（未送出）
+     * 根據表單名稱和表單代號篩選暫存待出入庫的材料列表（tempStorageRecordEntities）
      * @param tempWaitInputGoods 要篩選的待入庫清單
      * @param targetReportTitle 指定表單名稱
      * @param targetFormNumber 指定表單代號
      */
-    fun filterTempWaitInputGoods(
+    fun filterTempStorageRecordEntities(
         tempWaitInputGoods: ArrayList<StorageRecordEntity>,
         targetReportTitle: String,
         targetFormNumber: String
@@ -233,36 +179,11 @@ class FormRepository(context: Context) {
     }
 
     /**
-     * 根據表單名稱和表單代號篩選暫存待出庫的貨物列表（未送出）
-     * @param tempWaitOutputGoods 要篩選的待出庫清單
-     * @param targetReportTitle 指定表單名稱
-     * @param targetFormNumber 指定表單代號
-     */
-    fun filterTempWaitOutputGoods(
-        tempWaitOutputGoods: ArrayList<StorageRecordEntity>,
-        targetReportTitle: String,
-        targetFormNumber: String
-    ): ArrayList<StorageRecordEntity> {
-        val filteredList = tempWaitOutputGoods.filter { data ->
-            data.formType == formTypeMap[targetReportTitle] && data.formNumber == targetFormNumber
-        }
-
-        val resultArrayList = ArrayList<StorageRecordEntity>()
-        filteredList.toCollection(resultArrayList)
-
-        return resultArrayList
-    }
-
-    fun searchStorageContentByMaterialName(targetMaterialName: String): ArrayList<CheckoutEntity>{
-        return storageGoods.value!!.filter { it.materialName.contains(targetMaterialName) } as ArrayList<CheckoutEntity>
-    }
-
-    /**
      * 抓取表單全部記錄
      */
     fun loadInventoryForm(): ArrayList<InventoryEntity> {
         val loadFormList: List<InventoryEntity> = SqlDatabase.getInstance().getInventoryDao().getAll()
         inventoryEntities.postValue(loadFormList as ArrayList<InventoryEntity>)
-        return loadFormList as ArrayList<InventoryEntity>
+        return loadFormList
     }
 }

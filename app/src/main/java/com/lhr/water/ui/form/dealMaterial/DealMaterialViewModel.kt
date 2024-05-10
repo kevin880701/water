@@ -341,7 +341,7 @@ class DealMaterialViewModel(
     fun filterTempWaitInputGoods(
         targetReportTitle: String,
         targetFormNumber: String
-    ) = formRepository.filterTempWaitInputGoods(
+    ) = formRepository.filterTempStorageRecordEntities(
         formRepository.tempStorageRecordEntities.value!!,
         targetReportTitle,
         targetFormNumber
