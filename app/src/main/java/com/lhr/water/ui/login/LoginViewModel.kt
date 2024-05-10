@@ -2,7 +2,6 @@ package com.lhr.water.ui.login
 
 import android.content.Context
 import androidx.lifecycle.AndroidViewModel
-import com.lhr.water.data.RegionInformation
 import com.lhr.water.repository.RegionRepository
 import com.lhr.water.ui.base.APP
 

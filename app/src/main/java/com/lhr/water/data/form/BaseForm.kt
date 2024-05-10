@@ -1,6 +1,14 @@
 package com.lhr.water.data.form
 
+import com.google.gson.Gson
 import com.google.gson.annotations.SerializedName
+import com.google.gson.reflect.TypeToken
+import com.lhr.water.model.LoginData
+import com.lhr.water.util.FormName.deliveryFormName
+import com.lhr.water.util.FormName.pickingFormName
+import com.lhr.water.util.FormName.returningFormName
+import com.lhr.water.util.FormName.transferFormName
+import java.lang.reflect.Type
 
 open class BaseForm(
 ){
@@ -25,4 +33,17 @@ open class BaseForm(
 
     @Transient
     open val itemDetails: List<BaseItem> = ArrayList<BaseItem>()
+
+    fun jsonConvertMap(): Map<String, Any?> {
+        val gson = Gson()
+        val json = gson.toJson(this) // 将对象转换为 JSON 字符串
+        val type: Type = object : TypeToken<Map<String, Any?>>() {}.type
+        return gson.fromJson(json, type) // 将 JSON 字符串转换为 Map
+    }
+
+
+    // 判斷是否是進貨
+    open fun isInput(): Boolean {
+        return true
+    }
 }

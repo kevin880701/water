@@ -8,9 +8,9 @@ import android.widget.AdapterView
 import androidx.fragment.app.DialogFragment
 import androidx.fragment.app.viewModels
 import com.lhr.water.R
-import com.lhr.water.data.FormEntity
-import com.lhr.water.data.ItemDetail
+import com.lhr.water.data.form.BaseItem
 import com.lhr.water.databinding.DialogInputBinding
+import com.lhr.water.room.FormEntity
 import com.lhr.water.room.RegionEntity
 import com.lhr.water.room.StorageEntity
 import com.lhr.water.ui.base.APP
@@ -23,8 +23,8 @@ import com.lhr.water.util.spinnerAdapter.RegionEntityAdapter
 import com.lhr.water.util.spinnerAdapter.StorageEntityAdapter
 
 class DealInputMaterialDialog(
-    var form: FormEntity,
-    itemDetail: ItemDetail,
+    var formEntity: FormEntity,
+    itemDetail: BaseItem,
     maxQuantity: String
 ) : DialogFragment(), View.OnClickListener {
 
@@ -156,11 +156,11 @@ class DealInputMaterialDialog(
                     showToast(requireContext(), "儲櫃未選擇")
                 } else {
                     viewModel.inputInTempGoods(
-                        form,
+                        formEntity,
                         itemDetail,
                         viewModel.selectStorage.value!!,
                         binding.textQuantity.text.toString(),
-                        isInput(form)
+                        isInput(formEntity)
                     )
                     this.dismiss()
                 }

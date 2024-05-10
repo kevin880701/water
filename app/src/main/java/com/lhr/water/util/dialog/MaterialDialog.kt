@@ -5,15 +5,12 @@ import android.app.Dialog
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
-import android.widget.EditText
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.DialogFragment
 import com.lhr.water.R
-import com.lhr.water.data.ItemDetail
 import com.lhr.water.databinding.DialogMaterialBinding
 import com.lhr.water.room.StorageRecordEntity
 import com.lhr.water.util.widget.FormGoodsDataWidget
-import com.lhr.water.util.widget.FormContentDataWidget
 import org.json.JSONObject
 
 class MaterialDialog(

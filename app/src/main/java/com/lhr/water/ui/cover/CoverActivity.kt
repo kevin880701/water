@@ -38,14 +38,6 @@ class CoverActivity : BaseActivity() {
         // 創建Model
         Model
 
-
-        val gson = Gson()
-        val updateDataResponse: UpdateDataResponse = gson.fromJson(upData, UpdateDataResponse::class.java)
-
-        print("@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@")
-        print(updateDataResponse.updateData.dataList.deliveryFormList[0].formNumber)
-        print("@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@")
-
         GlobalScope.launch {
             val layout = findViewById<ConstraintLayout>(R.id.constrain)
             val animation = AlphaAnimation(0.0f, 1.0f)

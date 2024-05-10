@@ -17,4 +17,8 @@ open class BaseItem(
 
     @Transient
     open val materialSpec: String = ""
+
+    open fun getQuantity(): Int {
+        return 0
+    }
 }

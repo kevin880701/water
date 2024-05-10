@@ -3,12 +3,10 @@ package com.lhr.water.ui.regionChoose
 import android.content.Context
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.MutableLiveData
-import com.lhr.water.data.MapData
 import com.lhr.water.repository.RegionRepository
 import com.lhr.water.repository.UserRepository
 import com.lhr.water.room.RegionEntity
 import com.lhr.water.ui.base.APP
-import com.lhr.water.util.MapDataList
 
 enum class SelectStatus {
     RegionPage,

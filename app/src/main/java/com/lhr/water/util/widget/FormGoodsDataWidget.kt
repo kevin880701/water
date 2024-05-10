@@ -7,11 +7,8 @@ import android.widget.RelativeLayout
 import android.widget.TextView
 import androidx.databinding.DataBindingUtil
 import com.lhr.water.R
-import com.lhr.water.data.ItemDetail
 import com.lhr.water.data.form.BaseItem
 import com.lhr.water.databinding.WidgetFormMaterialBinding
-import com.lhr.water.util.manager.jsonObjectContentToList
-import org.json.JSONObject
 
 class FormGoodsDataWidget : RelativeLayout {
     var binding: WidgetFormMaterialBinding

@@ -64,7 +64,6 @@ class InventoryFieldDialog(
                 val formInputDataWidgetView = FormContentDataWidget(
                     activity = requireActivity(),
                     fieldName = chinese,
-                    fieldEngName = english,
                     fieldContent = value
                 )
 

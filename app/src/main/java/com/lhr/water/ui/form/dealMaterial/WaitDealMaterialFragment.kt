@@ -6,9 +6,10 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.viewModels
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.lhr.water.data.FormEntity
-import com.lhr.water.data.ItemDetail
+import com.lhr.water.data.form.BaseForm
+import com.lhr.water.data.form.BaseItem
 import com.lhr.water.databinding.FragmentWaitDealMaterialBinding
+import com.lhr.water.room.FormEntity
 import com.lhr.water.ui.base.BaseFragment
 import com.lhr.water.util.adapter.WaitDealMaterialAdapter
 import com.lhr.water.util.dialog.DealInputMaterialDialog
@@ -16,22 +17,24 @@ import com.lhr.water.util.dialog.DealOutputMaterialDialog
 import com.lhr.water.util.isInput
 
 
-class WaitDealMaterialFragment(form: FormEntity) : BaseFragment(), View.OnClickListener,
+class WaitDealMaterialFragment(var formEntity: FormEntity) : BaseFragment(), View.OnClickListener,
     WaitDealMaterialAdapter.Listener {
 
     private val viewModel: DealMaterialViewModel by viewModels { viewModelFactory }
     private var _binding: FragmentWaitDealMaterialBinding? = null
     private val binding get() = _binding!!
     private lateinit var waitDealMaterialAdapter: WaitDealMaterialAdapter
-    private var form = form
     private var isInput = true
+    private lateinit var baseForm: BaseForm
+
 
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?, savedInstanceState: Bundle?
     ): View? {
         _binding = FragmentWaitDealMaterialBinding.inflate(layoutInflater)
-        isInput = isInput(form)
+        baseForm = formEntity.parseBaseForm()
+        isInput = isInput(formEntity)
         return binding.root
     }
 
@@ -53,15 +56,15 @@ class WaitDealMaterialFragment(form: FormEntity) : BaseFragment(), View.OnClickL
 
     private fun initRecyclerView() {
         waitDealMaterialAdapter = WaitDealMaterialAdapter(
-            requireContext(), form, this, viewModel, isInput
+            requireContext(), formEntity, this, viewModel, isInput
         )
         if (isInput) {
             waitDealMaterialAdapter.submitList(
-                form.itemDetails
+                baseForm.itemDetails
             )
         } else {
             waitDealMaterialAdapter.submitList(
-                form.itemDetails
+                baseForm.itemDetails
             )
         }
         binding.recyclerGoods.adapter = waitDealMaterialAdapter
@@ -75,18 +78,18 @@ class WaitDealMaterialFragment(form: FormEntity) : BaseFragment(), View.OnClickL
         }
     }
 
-    override fun onItemClick(itemDetail: ItemDetail, maxQuantity: String) {
+    override fun onItemClick(itemDetail: BaseItem, maxQuantity: String) {
 
             if (isInput) {
                 var goodsDialog = DealInputMaterialDialog(
-                    form,
+                    formEntity,
                     itemDetail,
                     maxQuantity
                 )
                 goodsDialog.show(requireActivity().supportFragmentManager, "DealInputMaterialDialog")
             } else {
                 var goodsDialog = DealOutputMaterialDialog(
-                    form,
+                    formEntity,
                     itemDetail,
                     maxQuantity
                 )

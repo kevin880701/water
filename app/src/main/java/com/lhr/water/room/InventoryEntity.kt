@@ -7,6 +7,7 @@ import androidx.room.Index
 import androidx.room.PrimaryKey
 import com.google.gson.Gson
 import com.lhr.water.data.form.BaseForm
+import com.lhr.water.data.form.InventoryForm
 import java.io.Serializable
 
 @Entity(tableName = SqlModel.INVENTORY_TABLE_NAME, indices = [Index(value = [SqlModel.formNumber], unique = true)])
@@ -46,7 +47,7 @@ class InventoryEntity(
     var formContent = formContent
 
     companion object {
-        fun convertFormToInventoryEntities(formList: List<BaseForm>): List<InventoryEntity> {
+        fun convertFormToInventoryEntities(formList: List<InventoryForm>): List<InventoryEntity> {
             val gson = Gson()
             val formEntities = ArrayList<InventoryEntity>()
             for (form in formList) {

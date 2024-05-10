@@ -1,6 +1,5 @@
 package com.lhr.water.util
 
-import com.lhr.water.data.MapData
 import com.lhr.water.room.RegionEntity
 import com.lhr.water.util.FormName.deliveryFormName
 import com.lhr.water.util.FormName.inventoryFormName
@@ -201,6 +200,11 @@ object FormField {
         inventoryFormName to arrayOf(inventoryFormField)
     )
 }
+
+
+val dealStatusList: List<String> = listOf(
+    "待處理", "處理中", "處理完成"
+)
 
 val fromTitleList: List<String> = listOf(
     deliveryFormName, pickingFormName, transferFormName, returningFormName, inventoryFormName

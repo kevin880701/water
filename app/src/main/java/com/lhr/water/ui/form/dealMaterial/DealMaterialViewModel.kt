@@ -3,11 +3,11 @@ package com.lhr.water.ui.form.dealMaterial
 import android.content.Context
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.MutableLiveData
-import com.lhr.water.data.FormEntity
-import com.lhr.water.data.ItemDetail
+import com.lhr.water.data.form.BaseItem
 import com.lhr.water.repository.FormRepository
 import com.lhr.water.repository.RegionRepository
 import com.lhr.water.repository.UserRepository
+import com.lhr.water.room.FormEntity
 import com.lhr.water.room.RegionEntity
 import com.lhr.water.room.StorageEntity
 import com.lhr.water.room.StorageRecordEntity
@@ -310,7 +310,7 @@ class DealMaterialViewModel(
      */
     fun inputInTempGoods(
         form: FormEntity,
-        itemDetail: ItemDetail,
+        itemDetail: BaseItem,
         storageEntity: StorageEntity,
         materialQuantity: String,
         isInput: Boolean,

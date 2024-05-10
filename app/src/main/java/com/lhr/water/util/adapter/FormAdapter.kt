@@ -64,7 +64,7 @@ class FormAdapter(val listener: Listener, context: Context) :
             }
 
             binding.imageDealGoods.setOnClickListener {
-//                listener.onDealMaterialClick(getItem(adapterPosition))
+                listener.onDealMaterialClick(getItem(adapterPosition))
             }
             binding.root.setOnClickListener {
                 listener.onItemClick(getItem(adapterPosition))

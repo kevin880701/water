@@ -7,11 +7,16 @@ import androidx.room.Index
 import androidx.room.PrimaryKey
 import com.google.gson.Gson
 import com.lhr.water.data.form.BaseForm
+import com.lhr.water.data.form.DeliveryForm
+import com.lhr.water.data.form.ReceiveForm
+import com.lhr.water.data.form.ReturnForm
+import com.lhr.water.data.form.TransferForm
 import java.io.Serializable
+
 
 @Entity(
     tableName = SqlModel.FORM_TABLE_NAME,
-    indices = [Index(value = [SqlModel.id])]
+    indices = [Index(value = [SqlModel.formNumber], unique = true)]
 )
 class FormEntity(
     formNumber: String,
@@ -47,6 +52,16 @@ class FormEntity(
 
     @ColumnInfo(name = SqlModel.formContent, typeAffinity = ColumnInfo.TEXT)
     var formContent = formContent
+
+    fun parseBaseForm(): BaseForm {
+        return when (reportTitle) {
+            "交貨通知單" -> Gson().fromJson(formContent, DeliveryForm::class.java)
+            "材料領料單" -> Gson().fromJson(formContent, ReceiveForm::class.java)
+            "材料調撥單" -> Gson().fromJson(formContent, TransferForm::class.java)
+            "材料退料單" -> Gson().fromJson(formContent, ReturnForm::class.java)
+            else -> Gson().fromJson(formContent, DeliveryForm::class.java) //要改成null
+        }
+    }
 
     companion object {
         fun convertFormToFormEntities(formList: List<BaseForm>): List<FormEntity> {

@@ -1,18 +1,13 @@
 package com.lhr.water.mapView.layer
 
 import android.graphics.*
-import android.util.Log
 import android.view.MotionEvent
 import androidx.core.content.ContextCompat
 import androidx.core.graphics.BlendModeColorFilterCompat
 import androidx.core.graphics.BlendModeCompat
 import com.lhr.water.mapView.MapView
-import com.lhr.water.mapView.utils.MapMath.getDistanceBetweenTwoPoints
 import com.lhr.water.R
-import com.lhr.water.data.StorageDetail
 import com.lhr.water.model.Model.Companion.markDrawableIdMap
-import com.lhr.water.ui.map.MapViewModel
-import timber.log.Timber
 import java.lang.Math.abs
 
 /**

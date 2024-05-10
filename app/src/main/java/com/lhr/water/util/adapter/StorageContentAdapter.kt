@@ -53,7 +53,7 @@ class StorageContentAdapter(val listener: Listener, var context: Context): ListA
 
         fun bind(storageRecordEntity: StorageRecordEntity){
             binding.textMaterialName.text = storageRecordEntity.materialName
-            binding.textInputDate.text = convertToRocDate(storageRecordEntity.recordDate)
+            binding.textInputDate.text = convertToRocDate(storageRecordEntity.inputTime)
             // 這裡要改
             binding.textQuantity.text = storageRecordEntity.quantity.toString()
             // 加入判斷已交貨未驗收

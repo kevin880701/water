@@ -4,12 +4,11 @@ import android.content.Context
 import android.os.Bundle
 import android.view.View
 import android.view.inputmethod.InputMethodManager
+import android.widget.AdapterView
 import androidx.activity.viewModels
 import androidx.core.content.res.ResourcesCompat
-import androidx.core.view.iterator
 import com.google.gson.Gson
 import com.lhr.water.R
-import com.lhr.water.data.ItemDetail
 import com.lhr.water.data.deliveryFieldMap
 import com.lhr.water.data.deliveryItemFieldMap
 import com.lhr.water.data.form.BaseForm
@@ -27,20 +26,14 @@ import com.lhr.water.data.transferItemFieldMap
 import com.lhr.water.repository.FormRepository
 import com.lhr.water.databinding.ActivityFormContentBinding
 import com.lhr.water.room.FormEntity
-import com.lhr.water.room.FormEntity.Companion.convertFormToFormEntities
 import com.lhr.water.room.SqlDatabase
 import com.lhr.water.ui.base.APP
 import com.lhr.water.ui.base.BaseActivity
+import com.lhr.water.util.adapter.SpinnerAdapter
+import com.lhr.water.util.dealStatusList
 import com.lhr.water.util.dialog.MaterialDialog
-import com.lhr.water.util.FormName.pickingFormName
-import com.lhr.water.util.TransferStatus.transferInput
-import com.lhr.water.util.TransferStatus.transferOutput
-import com.lhr.water.util.getCurrentDate
-import com.lhr.water.util.interfaces.FormContentData
 import com.lhr.water.util.isInput
-import com.lhr.water.util.setPropertyValue
 import com.lhr.water.util.showToast
-import com.lhr.water.util.transferStatus
 import com.lhr.water.util.widget.FormContentDataSpinnerWidget
 import com.lhr.water.util.widget.FormGoodsAdd
 import com.lhr.water.util.widget.FormGoodsDataWidget
@@ -52,12 +45,12 @@ class FormContentActivity : BaseActivity(), View.OnClickListener, FormGoodsAdd.L
     private val viewModel: FormContentViewModel by viewModels { (applicationContext as APP).appContainer.viewModelFactory }
     private var _binding: ActivityFormContentBinding? = null
     private val binding get() = _binding!!
-    private lateinit var reportTitle: String
-    private var jsonString: String? = null
     private var formFieldNameMap: MutableMap<String, String> = linkedMapOf() //表單欄位
     private var formItemFieldNameMap: MutableMap<String, String> = linkedMapOf() //貨物欄位
     private var isInput = true
     private lateinit var formEntity: FormEntity
+    private lateinit var baseForm: BaseForm
+    var currentDealStatus = ""
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -65,11 +58,15 @@ class FormContentActivity : BaseActivity(), View.OnClickListener, FormGoodsAdd.L
         setContentView(binding.root)
         window.statusBarColor = ResourcesCompat.getColor(resources, R.color.primaryBlue, null)
 
-        this.formEntity = intent.getSerializableExtra("formEntity") as FormEntity
-        if (this.formEntity != null) {
-            // 在这里使用 formEntity
+        formEntity = intent.getSerializableExtra("formEntity") as FormEntity
+        baseForm = formEntity.parseBaseForm()
+
+        currentDealStatus = formEntity.dealStatus
+
+        for ((key, value) in baseForm.jsonConvertMap()) {
+            println("Key: $key, Value: $value")
         }
-        isInput = isInput(this.formEntity)
+        isInput = isInput(formEntity)
 
         bindViewModel()
         initView()
@@ -80,9 +77,9 @@ class FormContentActivity : BaseActivity(), View.OnClickListener, FormGoodsAdd.L
     }
 
     private fun initView() {
-        binding.widgetTitleBar.textTitle.text = reportTitle
+        binding.widgetTitleBar.textTitle.text = formEntity.reportTitle
         binding.widgetTitleBar.imageBack.visibility = View.VISIBLE
-        when (reportTitle) {
+        when (formEntity.reportTitle) {
             getString(R.string.delivery_form) -> {
                 formFieldNameMap = deliveryFieldMap.toMutableMap()
                 formItemFieldNameMap = deliveryItemFieldMap.toMutableMap()
@@ -101,16 +98,28 @@ class FormContentActivity : BaseActivity(), View.OnClickListener, FormGoodsAdd.L
                 formItemFieldNameMap = returningItemFieldMap.toMutableMap()
             }
         }
-        // 如果是開啟已有紀錄
-//        jsonString?.let {
-//            // 將jsonString轉成jsonObject
-//            jsonObject = JSONObject(jsonString)
-//            // 使用 map 函數根據key列表提取值並創建新的列表
-//            formFieldContentList = formFieldNameEngList.map { key ->
-//                jsonObject.getString(key)
-//            } as ArrayList<String>
-//            formItemFieldContentList = jsonObject.getJSONArray("itemDetail")
-//        }
+
+
+        // 設定Spinner的選擇項監聽器
+        val adapter = SpinnerAdapter(this, android.R.layout.simple_spinner_item, dealStatusList)
+        binding.spinnerDealStatus.adapter = adapter
+        binding.spinnerDealStatus.setSelection(dealStatusList.indexOf(currentDealStatus))
+        binding.spinnerDealStatus.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
+            override fun onItemSelected(
+                parent: AdapterView<*>?,
+                view: View?,
+                position: Int,
+                id: Long
+            ) {
+                // 當選項被選擇時，將選項的值存儲到content
+                currentDealStatus = dealStatusList[position]
+            }
+
+            override fun onNothingSelected(parent: AdapterView<*>?) {
+                // 如果沒有選項被選擇，你可以在這里處理邏輯
+            }
+        }
+
         addFormData()
         setupBackButton(binding.widgetTitleBar.imageBack)
         binding.buttonSend.setOnClickListener(this)
@@ -121,35 +130,18 @@ class FormContentActivity : BaseActivity(), View.OnClickListener, FormGoodsAdd.L
      * 根據string.xml來增加要輸入的欄位
      */
     private fun addFormData() {
-        formFieldNameMap.forEach { (english, chinese) ->
-            val value = this.formEntity::class.java.getDeclaredField(english).let { field ->
-                field.isAccessible = true
-
-                val fieldValue = field.get(this.formEntity)
-                fieldValue?.toString() ?: ""
-            }
-
-            if (chinese == getString(R.string.deal_status)) {
-                val formContentDataSpinnerWidget = FormContentDataSpinnerWidget(
-                    activity = this,
-                    spinnerList = resources.getStringArray(R.array.deal_status)
-                        .toList() as ArrayList<String>,
-                    fieldName = chinese,
-                    fieldEngName = english,
-                    fieldContent = value
-                )
-                binding.linearFormData.addView(formContentDataSpinnerWidget)
-            } else {
+        baseForm.jsonConvertMap().forEach { key, value ->
+            if(key != "itemDetail" && key != "dealStatus") {
                 val formContentDataWidget = FormContentDataWidget(
                     activity = this,
-                    fieldName = chinese,
-                    fieldEngName = english,
-                    fieldContent = value
+                    fieldName = formFieldNameMap[key]!!,
+                    fieldContent = value.toString()
                 )
                 binding.linearFormData.addView(formContentDataWidget)
             }
         }
 
+        // --------------材料--------------------
         // 根据 reportTitle 的值确定应该转换为哪个子类
         val baseForm: BaseForm? = when (formEntity.reportTitle) {
             "交貨通知單" -> Gson().fromJson(formEntity.formContent, DeliveryForm::class.java)
@@ -173,88 +165,45 @@ class FormContentActivity : BaseActivity(), View.OnClickListener, FormGoodsAdd.L
      * 點擊確認
      */
     private fun onClickSend() {
-        var form = FormEntity()
-        val itemDetailList = ArrayList<ItemDetail>()
-        for (formGoodsDataWidget in binding.linearItemData) {
-            itemDetailList.add((formGoodsDataWidget as FormGoodsDataWidget).itemDetail)
-        }
-        for (formGoodsDataWidget in binding.linearFormData) {
-
-            var fieldName = (formGoodsDataWidget as FormContentData).fieldEngName
-            var value = (formGoodsDataWidget as FormContentData).content
-            if(fieldName != null){
-                setPropertyValue(form, fieldName!!, value)
-            }
-        }
-
-        form.itemDetails = itemDetailList
-
-        var dealStatus = form.dealStatus
-        // 調撥需根據receivingDept(收方單位)和receivingLocation(收料地點)來判斷是進貨還是出貨
-        var transferStatus = transferStatus(
-            reportTitle == getString(R.string.transfer_form),
-            form
-        )
 
         var formEntity = FormEntity(
-            formNumber = form.formNumber!!,
-            dealStatus = form.dealStatus!!,
-            reportId = form.reportId!!,
-            reportTitle = form.reportTitle!!,
-            dealTime = form.dealTime!!,
-            date = form.date!!,
-            formContent = form.toJsonString(),
+            formNumber = formEntity.formNumber,
+            dealStatus = currentDealStatus,
+            reportId = formEntity.reportId,
+            reportTitle = formEntity.reportTitle,
+            dealTime = formEntity.dealTime,
+            date = formEntity.date,
+            formContent = formEntity.formContent,
         )
+        var dealStatus = currentDealStatus
 
         // 如果表單是交貨、退料、進貨調撥並且處理狀態是處理完成的話要判斷表單中的貨物是否已經全部入庫
-        if ((reportTitle == getString(R.string.delivery_form) ||
-                    reportTitle == getString(R.string.returning_form) ||
-                    transferStatus == transferInput) && dealStatus == getString(R.string.complete_deal)
+        if (dealStatus == getString(R.string.complete_deal)
         ) {
             if (isMaterialAlreadyInput(
-                    itemDetailList,
-                    form.formNumber.toString(),
+                    baseForm.itemDetails,
+                    baseForm.formNumber,
                 )
             ) {
 
                 // 如果是退料單取得目前日期並轉換為民國年份
-                if(reportTitle == getString(R.string.returning_form) && form.receivedDate != ""){
-//                    val currentDate = LocalDate.now()
-//                    val rocYear = currentDate.year - 1911
-//                    val formattedDate = String.format("%03d/%02d/%02d", rocYear, currentDate.monthValue, currentDate.dayOfMonth)
-                    form.receivedDate = getCurrentDate()
-                    formEntity.formContent = form.toJsonString()
-                }
+//                if(reportTitle == getString(R.string.returning_form) && form.receivedDate != ""){
+////                    val currentDate = LocalDate.now()
+////                    val rocYear = currentDate.year - 1911
+////                    val formattedDate = String.format("%03d/%02d/%02d", rocYear, currentDate.monthValue, currentDate.dayOfMonth)
+//                    form.receivedDate = getCurrentDate()
+//                    formEntity.formContent = form.toJsonString()
+//                }
 
                 // 將暫存紀錄轉入SQL
                 SqlDatabase.getInstance().getStorageRecordDao().insertStorageRecordEntities(
                     viewModel.getInsertStorageRecord(
-                        itemDetailList,
-                        form.formNumber.toString()
+                        baseForm.itemDetails,
+                        baseForm.formNumber
                     )
                 )
                 updateForm(formEntity)
                 viewModel.formRepository.updateData()
-                finish()
-            } else {
-                showToast(this, "貨物未處理完成!")
-            }
-            // 如果表單是領料、出貨調撥並且處理狀態是處理完成的話要判斷表單中的貨物是否已經全部出庫
-        } else if ((reportTitle == pickingFormName ||
-                    transferStatus == transferOutput) && dealStatus == getString(R.string.complete_deal)
-        ) {
-            if (isMaterialAlreadyInput(
-                    itemDetailList,
-                    form.formNumber.toString(),
-                )
-            ) {
-                SqlDatabase.getInstance().getStorageRecordDao().insertStorageRecordEntities(
-                    viewModel.getInsertStorageRecord(
-                        itemDetailList,
-                        form.formNumber.toString()
-                    )
-                )
-                updateForm(formEntity)
                 finish()
             } else {
                 showToast(this, "貨物未處理完成!")
@@ -264,8 +213,6 @@ class FormContentActivity : BaseActivity(), View.OnClickListener, FormGoodsAdd.L
             finish()
         }
     }
-
-
     /**
      * 更新表單和room
      * @param formEntity 更新的表單資訊
@@ -283,7 +230,7 @@ class FormContentActivity : BaseActivity(), View.OnClickListener, FormGoodsAdd.L
      * @return 回傳Boolean
      */
     fun isMaterialAlreadyInput(
-        itemDetailList: ArrayList<ItemDetail>,
+        itemDetailList: List<BaseItem>,
         targetFormNumber: String,
     ): Boolean {
         for (itemDetail in itemDetailList) {
@@ -300,14 +247,8 @@ class FormContentActivity : BaseActivity(), View.OnClickListener, FormGoodsAdd.L
                 totalQuantity += record.quantity
             }
 
-            if (isInput) {
-                if (totalQuantity < itemDetail.receivedQuantity!!) {
-                    return false
-                }
-            } else {
-                if (totalQuantity < itemDetail.actualQuantity!!) {
-                    return false
-                }
+            if (totalQuantity<itemDetail.getQuantity()) {
+                return false
             }
         }
         return true

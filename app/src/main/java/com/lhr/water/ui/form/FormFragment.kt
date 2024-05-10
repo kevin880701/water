@@ -109,14 +109,12 @@ class FormFragment : BaseFragment(), View.OnClickListener, FormAdapter.Listener 
      */
     override fun onItemClick(formEntity: FormEntity) {
         val intent = Intent(requireActivity(), FormContentActivity::class.java)
-        intent.putExtra("reportTitle", formEntity.reportTitle)
-        intent.putExtra("jsonString", formEntity.formContent)
+        intent.putExtra("formEntity", formEntity)
         requireActivity().startActivity(intent)
     }
 
     override fun onDealMaterialClick(formEntity: FormEntity) {
         val intent = Intent(requireActivity(), DealMaterialActivity::class.java)
-        intent.putExtra("jsonString", formEntity.formContent)
         intent.putExtra("formEntity", formEntity)
         requireActivity().startActivity(intent)
     }

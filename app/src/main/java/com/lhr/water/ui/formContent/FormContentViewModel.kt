@@ -2,7 +2,7 @@ package com.lhr.water.ui.formContent
 
 import android.content.Context
 import androidx.lifecycle.AndroidViewModel
-import com.lhr.water.data.ItemDetail
+import com.lhr.water.data.form.BaseItem
 import com.lhr.water.repository.FormRepository
 import com.lhr.water.room.StorageRecordEntity
 import com.lhr.water.ui.base.APP
@@ -18,7 +18,7 @@ class FormContentViewModel(context: Context, formRepository: FormRepository) :
      * @param formNumber 表單代號
      */
     fun getInsertStorageRecord(
-        itemDetailList: ArrayList<ItemDetail>,
+        itemDetailList: List<BaseItem>,
         formNumber: String,
     ): ArrayList<StorageRecordEntity> {
         val matchedItems = ArrayList<StorageRecordEntity>()

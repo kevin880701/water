@@ -8,9 +8,9 @@ import android.widget.AdapterView
 import androidx.fragment.app.DialogFragment
 import androidx.fragment.app.viewModels
 import com.lhr.water.R
-import com.lhr.water.data.FormEntity
-import com.lhr.water.data.ItemDetail
+import com.lhr.water.data.form.BaseItem
 import com.lhr.water.databinding.DialogOutputBinding
+import com.lhr.water.room.FormEntity
 import com.lhr.water.room.RegionEntity
 import com.lhr.water.room.StorageEntity
 import com.lhr.water.room.StorageRecordEntity
@@ -26,7 +26,7 @@ import com.lhr.water.util.spinnerAdapter.StorageEntityAdapter
 
 class DealOutputMaterialDialog(
     var form: FormEntity,
-    itemDetail: ItemDetail,
+    itemDetail: BaseItem,
     var needOutputQuantity: String
 ) : DialogFragment(), View.OnClickListener {
 

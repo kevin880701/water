@@ -25,7 +25,9 @@ val deliveryFieldMap = mapOf(
     "contact" to "聯絡人",
     "contactPhone" to "電話",
     "applyNo" to "申請單號",
-    "sumAddition" to "合計"
+    "sumAddition" to "合計",
+    "deliveryDay" to "交貨日期",
+    "deliveryStatus" to "交貨狀態"
 )
 
 val deliveryItemFieldMap = mapOf(
@@ -77,7 +79,7 @@ val pickingItemFieldMap = mapOf(
     "itemCost" to "複價"
 )
 
-// 盤點
+// 調撥
 val transferFieldMap = mapOf(
     "formNumber" to "表單單號",
     "dealStatus" to "處理狀態",
@@ -98,6 +100,8 @@ val transferFieldMap = mapOf(
     "contact" to "聯絡人",
     "contactPhone" to "電話",
     "transferDescription" to "調撥或用途說明",
+    "receivingApplyTransferNumber" to "收方請撥單號",
+    "receivingTransferNumber" to "收方調撥單號"
 )
 
 val transferItemFieldMap = mapOf(
