@@ -6,7 +6,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.viewModels
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.lhr.water.data.Form
+import com.lhr.water.data.FormEntity
 import com.lhr.water.data.ItemDetail
 import com.lhr.water.databinding.FragmentWaitDealMaterialBinding
 import com.lhr.water.ui.base.BaseFragment
@@ -16,7 +16,7 @@ import com.lhr.water.util.dialog.DealOutputMaterialDialog
 import com.lhr.water.util.isInput
 
 
-class WaitDealMaterialFragment(form: Form) : BaseFragment(), View.OnClickListener,
+class WaitDealMaterialFragment(form: FormEntity) : BaseFragment(), View.OnClickListener,
     WaitDealMaterialAdapter.Listener {
 
     private val viewModel: DealMaterialViewModel by viewModels { viewModelFactory }

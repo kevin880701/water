@@ -7,7 +7,7 @@ import java.io.Serializable
 import kotlin.reflect.full.findAnnotation
 import kotlin.reflect.full.memberProperties
 
-data class Form(
+data class FormEntity(
     @FieldName(chinese = "處理狀態", english = "dealStatus")
     var dealStatus: String? = null,
     @FieldName(chinese = "報表代號", english = "reportId")
@@ -115,11 +115,11 @@ data class Form(
 
 ) : Serializable {
     companion object {
-        fun formFromJson(json: String): Form {
+        fun formFromJson(json: String): FormEntity {
 
             var jsonMap: Map<String, Any?> = jacksonObjectMapper().readValue(json.toString())
 
-            return Form(
+            return FormEntity(
                 dealStatus = jsonMap["dealStatus"] as? String,
                 reportId = jsonMap["reportId"] as? String,
                 id = jsonMap["id"] as? String,
@@ -179,7 +179,7 @@ data class Form(
             )
         }
 
-        fun Form.toJsonString(): String {
+        fun FormEntity.toJsonString(): String {
             var objectMapper = jacksonObjectMapper()
 
             var formMap = mutableMapOf<String, Any?>(
@@ -243,7 +243,7 @@ data class Form(
 
 
         fun getEnglishFieldName(chineseFieldName: String): String? {
-            val formProperties = Form::class.memberProperties
+            val formProperties = FormEntity::class.memberProperties
             for (property in formProperties) {
                 val fieldNameAnnotation = property.findAnnotation<FieldName>()
                 if (fieldNameAnnotation != null && fieldNameAnnotation.chinese == chineseFieldName) {

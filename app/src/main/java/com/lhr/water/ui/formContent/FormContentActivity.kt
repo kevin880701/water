@@ -1,20 +1,23 @@
 package com.lhr.water.ui.formContent
 
 import android.content.Context
-import android.os.Build
 import android.os.Bundle
 import android.view.View
 import android.view.inputmethod.InputMethodManager
 import androidx.activity.viewModels
 import androidx.core.content.res.ResourcesCompat
 import androidx.core.view.iterator
+import com.google.gson.Gson
 import com.lhr.water.R
-import com.lhr.water.data.Form
-import com.lhr.water.data.Form.Companion.formFromJson
-import com.lhr.water.data.Form.Companion.toJsonString
 import com.lhr.water.data.ItemDetail
 import com.lhr.water.data.deliveryFieldMap
 import com.lhr.water.data.deliveryItemFieldMap
+import com.lhr.water.data.form.BaseForm
+import com.lhr.water.data.form.BaseItem
+import com.lhr.water.data.form.DeliveryForm
+import com.lhr.water.data.form.ReceiveForm
+import com.lhr.water.data.form.ReturnForm
+import com.lhr.water.data.form.TransferForm
 import com.lhr.water.data.pickingFieldMap
 import com.lhr.water.data.pickingItemFieldMap
 import com.lhr.water.data.returningFieldMap
@@ -24,6 +27,7 @@ import com.lhr.water.data.transferItemFieldMap
 import com.lhr.water.repository.FormRepository
 import com.lhr.water.databinding.ActivityFormContentBinding
 import com.lhr.water.room.FormEntity
+import com.lhr.water.room.FormEntity.Companion.convertFormToFormEntities
 import com.lhr.water.room.SqlDatabase
 import com.lhr.water.ui.base.APP
 import com.lhr.water.ui.base.BaseActivity
@@ -42,7 +46,6 @@ import com.lhr.water.util.widget.FormGoodsAdd
 import com.lhr.water.util.widget.FormGoodsDataWidget
 import com.lhr.water.util.widget.FormContentDataWidget
 import org.json.JSONObject
-import timber.log.Timber
 
 class FormContentActivity : BaseActivity(), View.OnClickListener, FormGoodsAdd.Listener,
     FormContentDataWidget.Listener, FormGoodsDataWidget.Listener, MaterialDialog.Listener {
@@ -53,8 +56,8 @@ class FormContentActivity : BaseActivity(), View.OnClickListener, FormGoodsAdd.L
     private var jsonString: String? = null
     private var formFieldNameMap: MutableMap<String, String> = linkedMapOf() //表單欄位
     private var formItemFieldNameMap: MutableMap<String, String> = linkedMapOf() //貨物欄位
-    private lateinit var form: Form
     private var isInput = true
+    private lateinit var formEntity: FormEntity
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -62,21 +65,11 @@ class FormContentActivity : BaseActivity(), View.OnClickListener, FormGoodsAdd.L
         setContentView(binding.root)
         window.statusBarColor = ResourcesCompat.getColor(resources, R.color.primaryBlue, null)
 
-        // 檢查版本
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
-            reportTitle = intent.getParcelableExtra("reportTitle", String::class.java) as String
-        } else {
-            reportTitle = intent.getSerializableExtra("reportTitle") as String
+        this.formEntity = intent.getSerializableExtra("formEntity") as FormEntity
+        if (this.formEntity != null) {
+            // 在这里使用 formEntity
         }
-        if (intent.hasExtra("jsonString")) {
-            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
-                jsonString = intent.getParcelableExtra("jsonString", String::class.java)
-            } else {
-                jsonString = intent.getStringExtra("jsonString")
-            }
-        }
-        form = formFromJson(jsonString!!)
-        isInput = isInput(form)
+        isInput = isInput(this.formEntity)
 
         bindViewModel()
         initView()
@@ -129,10 +122,10 @@ class FormContentActivity : BaseActivity(), View.OnClickListener, FormGoodsAdd.L
      */
     private fun addFormData() {
         formFieldNameMap.forEach { (english, chinese) ->
-            val value = Form::class.java.getDeclaredField(english).let { field ->
+            val value = this.formEntity::class.java.getDeclaredField(english).let { field ->
                 field.isAccessible = true
 
-                val fieldValue = field.get(form)
+                val fieldValue = field.get(this.formEntity)
                 fieldValue?.toString() ?: ""
             }
 
@@ -156,8 +149,16 @@ class FormContentActivity : BaseActivity(), View.OnClickListener, FormGoodsAdd.L
                 binding.linearFormData.addView(formContentDataWidget)
             }
         }
-        Timber.d(form.toJsonString())
-        form.itemDetails?.forEachIndexed { index, itemDetail ->
+
+        // 根据 reportTitle 的值确定应该转换为哪个子类
+        val baseForm: BaseForm? = when (formEntity.reportTitle) {
+            "交貨通知單" -> Gson().fromJson(formEntity.formContent, DeliveryForm::class.java)
+            "材料領料單" -> Gson().fromJson(formEntity.formContent, ReceiveForm::class.java)
+            "材料調撥單" -> Gson().fromJson(formEntity.formContent, TransferForm::class.java)
+            "材料退料單" -> Gson().fromJson(formEntity.formContent, ReturnForm::class.java)
+            else -> null // 未知的 reportTitle，或者其他处理方式
+        }
+        baseForm!!.itemDetails.forEachIndexed { index, itemDetail ->
                 val formGoodsDataWidget =
                     FormGoodsDataWidget(
                         activity = this@FormContentActivity,
@@ -172,7 +173,7 @@ class FormContentActivity : BaseActivity(), View.OnClickListener, FormGoodsAdd.L
      * 點擊確認
      */
     private fun onClickSend() {
-        var form = Form()
+        var form = FormEntity()
         val itemDetailList = ArrayList<ItemDetail>()
         for (formGoodsDataWidget in binding.linearItemData) {
             itemDetailList.add((formGoodsDataWidget as FormGoodsDataWidget).itemDetail)
@@ -353,7 +354,7 @@ class FormContentActivity : BaseActivity(), View.OnClickListener, FormGoodsAdd.L
      * 點擊已有的貨物，在Dialog中顯示貨物資訊
      */
     override fun onGoodsColClick(
-        itemDetail: ItemDetail,
+        itemDetail: BaseItem,
         formGoodsDataWidget: FormGoodsDataWidget
     ) {
 //        val goodsDialog = MaterialDialog(

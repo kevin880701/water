@@ -3,7 +3,7 @@ package com.lhr.water.ui.form.dealMaterial
 import android.content.Context
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.MutableLiveData
-import com.lhr.water.data.Form
+import com.lhr.water.data.FormEntity
 import com.lhr.water.data.ItemDetail
 import com.lhr.water.repository.FormRepository
 import com.lhr.water.repository.RegionRepository
@@ -309,7 +309,7 @@ class DealMaterialViewModel(
      * @param materialQuantity 選擇貨物數量
      */
     fun inputInTempGoods(
-        form: Form,
+        form: FormEntity,
         itemDetail: ItemDetail,
         storageEntity: StorageEntity,
         materialQuantity: String,

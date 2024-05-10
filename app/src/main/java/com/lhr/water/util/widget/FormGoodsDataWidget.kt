@@ -8,6 +8,7 @@ import android.widget.TextView
 import androidx.databinding.DataBindingUtil
 import com.lhr.water.R
 import com.lhr.water.data.ItemDetail
+import com.lhr.water.data.form.BaseItem
 import com.lhr.water.databinding.WidgetFormMaterialBinding
 import com.lhr.water.util.manager.jsonObjectContentToList
 import org.json.JSONObject
@@ -15,14 +16,14 @@ import org.json.JSONObject
 class FormGoodsDataWidget : RelativeLayout {
     var binding: WidgetFormMaterialBinding
     private val activity: Activity
-    var itemDetail: ItemDetail
+    var itemDetail: BaseItem
     private val textMaterialName: TextView
     private val textMaterialNumber: TextView
     private val textMaterialSpec: TextView
     private val textMaterialUnit: TextView
     constructor(
         activity: Activity,
-        itemDetail: ItemDetail,
+        itemDetail: BaseItem,
         listener: Listener? = null,
     ) : super(activity) {
         binding = DataBindingUtil.inflate(
@@ -53,6 +54,6 @@ class FormGoodsDataWidget : RelativeLayout {
 
     interface Listener{
         fun onDeleteGoodsClick(view: View)
-        fun onGoodsColClick(itemDetail: ItemDetail, formGoodsDataWidget: FormGoodsDataWidget)
+        fun onGoodsColClick(itemDetail: BaseItem, formGoodsDataWidget: FormGoodsDataWidget)
     }
 }

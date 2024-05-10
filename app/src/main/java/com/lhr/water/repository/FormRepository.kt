@@ -2,17 +2,12 @@ package com.lhr.water.repository
 
 import android.content.Context
 import androidx.lifecycle.MutableLiveData
-import com.lhr.water.data.Form
-import com.lhr.water.data.Form.Companion.formFromJson
-import com.lhr.water.data.Form.Companion.toJsonString
 import com.lhr.water.room.FormEntity
 import com.lhr.water.room.InventoryEntity
 import com.lhr.water.room.SqlDatabase
 import com.lhr.water.room.CheckoutEntity
 import com.lhr.water.room.StorageRecordEntity
-import com.lhr.water.util.FormName.inventoryFormName
 import com.lhr.water.util.formTypeMap
-import org.json.JSONArray
 
 class FormRepository(context: Context) {
     val context = context
@@ -82,51 +77,6 @@ class FormRepository(context: Context) {
 //            editTextFilterCondition
 //        }?.toMutableList()!! as ArrayList<InventoryEntity>?
 //    }
-
-    /**
-     * 匯入新json時要同步插入到資料庫中
-     * @param jsonArray 要匯入的JSONArray
-     */
-    fun insertNewForm(jsonArray: JSONArray) {
-        // 清空表
-        SqlDatabase.getInstance().getFormDao().clearTable()
-
-        // 將 JSONArray 中的數據逐一插入表中
-        for (i in 0 until jsonArray.length()) {
-            val jsonObject = jsonArray.getJSONObject(i)
-
-            val form: Form = formFromJson(jsonObject.toString())
-            println(form.toJsonString())
-            if(form.reportTitle == inventoryFormName){
-                val jsonObject = jsonArray.getJSONObject(i)
-                val inventoryEntity = InventoryEntity(
-                    formNumber = jsonObject.optString("deptName").toString() + jsonObject.optString("date").toString() + jsonObject.optString("seq").toString(),
-                    dealStatus = form.dealStatus!!,
-                    reportId = form.reportId!!,
-                    reportTitle = form.reportTitle!!,
-                    dealTime = form.dealTime!!,
-                    date = form.date!!,
-                    formContent = jsonObject.toString(),
-                )
-                inventoryEntity.formNumber = jsonObject.optString("deptName").toString() + jsonObject.optString("date").toString() + jsonObject.optString("seq").toString()
-                inventoryEntity.formContent = jsonObject.toString()
-                SqlDatabase.getInstance().getInventoryDao().insertNewForm(inventoryEntity)
-                loadInventoryForm()
-            }else{
-                val formEntity = FormEntity(
-                    formNumber = form.formNumber!!,
-                    dealStatus = form.dealStatus!!,
-                    reportId = form.reportId!!,
-                    reportTitle = form.reportTitle!!,
-                    dealTime = form.dealTime!!,
-                    date = form.date!!,
-                    formContent = form.toJsonString(),
-                )
-                SqlDatabase.getInstance().getFormDao().insertNewForm(formEntity)
-                updateData()
-            }
-        }
-    }
 
 
     /**

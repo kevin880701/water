@@ -11,8 +11,6 @@ import androidx.activity.OnBackPressedCallback
 import androidx.fragment.app.viewModels
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.lhr.water.R
-import com.lhr.water.data.Form
-import com.lhr.water.data.Form.Companion.toJsonString
 import com.lhr.water.repository.FormRepository
 import com.lhr.water.databinding.FragmentFormBinding
 import com.lhr.water.room.FormEntity
@@ -116,9 +114,10 @@ class FormFragment : BaseFragment(), View.OnClickListener, FormAdapter.Listener 
         requireActivity().startActivity(intent)
     }
 
-    override fun onDealMaterialClick(form: Form) {
+    override fun onDealMaterialClick(formEntity: FormEntity) {
         val intent = Intent(requireActivity(), DealMaterialActivity::class.java)
-        intent.putExtra("jsonString", form.toJsonString())
+        intent.putExtra("jsonString", formEntity.formContent)
+        intent.putExtra("formEntity", formEntity)
         requireActivity().startActivity(intent)
     }
 

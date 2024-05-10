@@ -6,22 +6,21 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.viewModels
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.lhr.water.data.Form
 import com.lhr.water.databinding.FragmentAlreadyChooseMaterialBinding
+import com.lhr.water.room.FormEntity
 import com.lhr.water.room.StorageRecordEntity
 import com.lhr.water.ui.base.BaseFragment
 import com.lhr.water.util.adapter.AlreadyChooseMaterialAdapter
 import com.lhr.water.util.isInput
 
 
-class AlreadyChooseGoodsFragment(form: Form) : BaseFragment(), View.OnClickListener,
+class AlreadyChooseGoodsFragment(var formEntity: FormEntity) : BaseFragment(), View.OnClickListener,
     AlreadyChooseMaterialAdapter.Listener {
 
     private val viewModel: DealMaterialViewModel by viewModels { viewModelFactory }
     private var _binding: FragmentAlreadyChooseMaterialBinding? = null
     private val binding get() = _binding!!
     private lateinit var alreadyChooseMaterialAdapter: AlreadyChooseMaterialAdapter
-    private var form = form
     private var isInput = true
 
     override fun onCreateView(
@@ -30,7 +29,7 @@ class AlreadyChooseGoodsFragment(form: Form) : BaseFragment(), View.OnClickListe
     ): View? {
         _binding = FragmentAlreadyChooseMaterialBinding.inflate(layoutInflater)
 
-        isInput = isInput(form)
+        isInput = isInput(formEntity)
         initView()
         bindViewModel()
         return binding.root
@@ -41,8 +40,8 @@ class AlreadyChooseGoodsFragment(form: Form) : BaseFragment(), View.OnClickListe
         viewModel.formRepository.tempStorageRecordEntities.observe(viewLifecycleOwner) { _ ->
             alreadyChooseMaterialAdapter.submitList(
                 viewModel.filterTempWaitInputGoods(
-                    form.reportTitle.toString(),
-                    form.formNumber.toString()
+                    formEntity.reportTitle.toString(),
+                    formEntity.formNumber.toString()
                 )
             )
         }
@@ -59,8 +58,8 @@ class AlreadyChooseGoodsFragment(form: Form) : BaseFragment(), View.OnClickListe
 
         alreadyChooseMaterialAdapter.submitList(
             viewModel.filterTempWaitInputGoods(
-                form.reportTitle.toString(),
-                form.formNumber.toString()
+                formEntity.reportTitle.toString(),
+                formEntity.formNumber.toString()
             )
         )
 

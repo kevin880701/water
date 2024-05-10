@@ -8,7 +8,7 @@ import android.widget.AdapterView
 import androidx.fragment.app.DialogFragment
 import androidx.fragment.app.viewModels
 import com.lhr.water.R
-import com.lhr.water.data.Form
+import com.lhr.water.data.FormEntity
 import com.lhr.water.data.ItemDetail
 import com.lhr.water.databinding.DialogInputBinding
 import com.lhr.water.room.RegionEntity
@@ -23,7 +23,7 @@ import com.lhr.water.util.spinnerAdapter.RegionEntityAdapter
 import com.lhr.water.util.spinnerAdapter.StorageEntityAdapter
 
 class DealInputMaterialDialog(
-    var form: Form,
+    var form: FormEntity,
     itemDetail: ItemDetail,
     maxQuantity: String
 ) : DialogFragment(), View.OnClickListener {

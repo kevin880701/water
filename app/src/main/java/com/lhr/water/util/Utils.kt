@@ -6,7 +6,9 @@ import android.widget.ImageView
 import android.widget.Toast
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.engine.DiskCacheStrategy
-import com.lhr.water.data.Form
+import com.google.gson.Gson
+import com.lhr.water.data.form.TransferForm
+import com.lhr.water.room.FormEntity
 import com.lhr.water.model.LoginData
 import com.lhr.water.util.FormName.deliveryFormName
 import com.lhr.water.util.FormName.pickingFormName
@@ -73,15 +75,17 @@ fun convertToRocDate(inputDate: String): String {
  * 判斷表單是否是進貨
  * @return formContentJsonObject 表單JSON
  */
-fun isInput(form: Form): Boolean{
-    if(form.reportTitle == deliveryFormName ||
-        form.reportTitle == returningFormName
+fun isInput(formEntity: FormEntity): Boolean{
+    val gson = Gson()
+    if(formEntity.reportTitle == deliveryFormName ||
+        formEntity.reportTitle == returningFormName
     ){
         return true
-    }else if(form.reportTitle == pickingFormName){
+    }else if(formEntity.reportTitle == pickingFormName){
         return false
-    }else if(form.reportTitle == transferFormName){
-        return form.receivingDept == LoginData.region && form.receivingLocation == LoginData.map
+    }else if(formEntity.reportTitle == transferFormName){
+        val transferForm: TransferForm = gson.fromJson(formEntity.formContent, TransferForm::class.java)
+        return transferForm.receivingDept == LoginData.region && transferForm.receivingLocation == LoginData.map
     }else{
         return true
     }
@@ -92,9 +96,12 @@ fun isInput(form: Form): Boolean{
  * 判斷調撥單是否是進貨
  * @return formContentJsonObject 表單JSON
  */
-fun transferStatus(isTransferForm: Boolean, form: Form): String{
+fun transferStatus(isTransferForm: Boolean, formEntity: FormEntity): String{
+
+    val gson = Gson()
+    val transferForm: TransferForm = gson.fromJson(formEntity.formContent, TransferForm::class.java)
     return if(isTransferForm){
-        if (form.receivingDept == LoginData.region && form.receivingLocation == LoginData.map){
+        if (transferForm.receivingDept == LoginData.region && transferForm.receivingLocation == LoginData.map){
             transferInput
         }else{
             transferOutput

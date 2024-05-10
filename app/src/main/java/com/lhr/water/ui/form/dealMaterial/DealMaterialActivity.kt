@@ -8,13 +8,12 @@ import androidx.fragment.app.Fragment
 import com.google.android.material.tabs.TabLayout
 import com.google.android.material.tabs.TabLayoutMediator
 import com.lhr.water.R
-import com.lhr.water.data.Form
-import com.lhr.water.data.Form.Companion.formFromJson
+import com.lhr.water.data.FormEntity
+import com.lhr.water.data.FormEntity.Companion.formFromJson
 import com.lhr.water.databinding.ActivityDealMaterialBinding
 import com.lhr.water.ui.base.BaseActivity
 import com.lhr.water.util.isInput
 import com.lhr.water.util.viewPager.ViewPageAdapter
-import timber.log.Timber
 
 
 class DealMaterialActivity : BaseActivity(), View.OnClickListener {
@@ -23,7 +22,7 @@ class DealMaterialActivity : BaseActivity(), View.OnClickListener {
     private val binding get() = _binding!!
     private lateinit var jsonString: String
     private lateinit var pageAdapter: ViewPageAdapter
-    private lateinit var form: Form
+    private lateinit var form: FormEntity
     private var isInput = true
 
     override fun onCreate(savedInstanceState: Bundle?) {

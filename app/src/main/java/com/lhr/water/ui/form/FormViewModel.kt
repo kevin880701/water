@@ -3,23 +3,11 @@ package com.lhr.water.ui.form
 import android.content.Context
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.MutableLiveData
-import com.lhr.water.data.Form
-import com.lhr.water.data.ItemDetail
 import com.lhr.water.repository.FormRepository
 import com.lhr.water.repository.RegionRepository
-import com.lhr.water.repository.UserRepository
-import com.lhr.water.room.RegionEntity
-import com.lhr.water.room.CheckoutEntity
 import com.lhr.water.room.FormEntity
-import com.lhr.water.room.StorageEntity
-import com.lhr.water.room.StorageRecordEntity
 import com.lhr.water.ui.base.APP
-import com.lhr.water.util.MapDataList
-import com.lhr.water.util.formTypeMap
 import com.lhr.water.util.fromTitleList
-import com.lhr.water.util.getCurrentDate
-import java.time.LocalDate
-import java.time.format.DateTimeFormatter
 
 class FormViewModel(
     context: Context,

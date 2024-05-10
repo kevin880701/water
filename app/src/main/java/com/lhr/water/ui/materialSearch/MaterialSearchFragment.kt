@@ -11,8 +11,6 @@ import androidx.activity.OnBackPressedCallback
 import androidx.fragment.app.viewModels
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.lhr.water.R
-import com.lhr.water.data.Form
-import com.lhr.water.data.Form.Companion.toJsonString
 import com.lhr.water.databinding.FragmentMaterialSearchBinding
 import com.lhr.water.room.FormEntity
 import com.lhr.water.ui.base.BaseFragment
@@ -69,7 +67,7 @@ class MaterialSearchFragment : BaseFragment(), View.OnClickListener, FormAdapter
 
             override fun afterTextChanged(s: Editable?) {
                 // 在文本改變之後執行的操作
-                materialSearchAdapter.submitList(viewModel.formRepository.searchStorageContentByMaterialName(s.toString()))
+//                materialSearchAdapter.submitList(viewModel.formRepository.searchStorageContentByMaterialName(s.toString()))
             }
         })
 
@@ -101,9 +99,9 @@ class MaterialSearchFragment : BaseFragment(), View.OnClickListener, FormAdapter
         requireActivity().startActivity(intent)
     }
 
-    override fun onDealMaterialClick(form: Form) {
+    override fun onDealMaterialClick(formEntity: FormEntity) {
         val intent = Intent(requireActivity(), DealMaterialActivity::class.java)
-        intent.putExtra("jsonString", form.toJsonString())
+        intent.putExtra("jsonString", formEntity.formContent)
         requireActivity().startActivity(intent)
     }
 

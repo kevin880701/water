@@ -7,16 +7,15 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
-import com.lhr.water.data.Form
+import com.lhr.water.data.FormEntity
 import com.lhr.water.data.ItemDetail
 import com.lhr.water.databinding.ItemWaitDealMaterialBinding
-import com.lhr.water.ui.form.FormViewModel
 import com.lhr.water.ui.form.dealMaterial.DealMaterialViewModel
 import com.lhr.water.util.showToast
 
 class WaitDealMaterialAdapter(
     val context: Context,
-    val form: Form,
+    val form: FormEntity,
     val listener: Listener,
     val viewModel: DealMaterialViewModel,
     val isInput: Boolean

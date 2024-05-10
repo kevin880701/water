@@ -8,7 +8,6 @@ import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.lhr.water.R
-import com.lhr.water.data.Form
 import com.lhr.water.databinding.ItemFormBinding
 import com.lhr.water.room.FormEntity
 
@@ -75,6 +74,6 @@ class FormAdapter(val listener: Listener, context: Context) :
 
     interface Listener {
         fun onItemClick(formEntity: FormEntity)
-        fun onDealMaterialClick(item: Form)
+        fun onDealMaterialClick(formEntity: FormEntity)
     }
 }

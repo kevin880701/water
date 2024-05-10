@@ -1,5 +1,7 @@
 package com.lhr.water.data.form
 
+import com.google.gson.annotations.SerializedName
+
 open class BaseForm(
 ){
 
@@ -20,4 +22,7 @@ open class BaseForm(
 
     @Transient
     open val date: String = ""
+
+    @Transient
+    open val itemDetails: List<BaseItem> = ArrayList<BaseItem>()
 }

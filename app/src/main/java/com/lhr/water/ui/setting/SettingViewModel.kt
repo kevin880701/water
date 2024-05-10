@@ -152,8 +152,8 @@ class SettingViewModel(context: Context, var formRepository: FormRepository,
         var jsonArray = jsonStringToJsonArray(jsonContent)
         jsonArray = jsonAddInformation(jsonArray)
         if (checkJson(jsonArray, context)) {
-            formRepository.insertNewForm(jsonArray)
-            formRepository.updateData()
+//            formRepository.insertNewForm(jsonArray)
+//            formRepository.updateData()
         }
     }
 
@@ -243,7 +243,7 @@ class SettingViewModel(context: Context, var formRepository: FormRepository,
         var jsonArray = jsonStringToJsonArray(jsonContent)
         jsonArray = jsonAddInformation(jsonArray)
         if (checkJson(jsonArray, context)) {
-            formRepository.insertNewForm(jsonArray)
+//            formRepository.insertNewForm(jsonArray)
         }
     }
 
