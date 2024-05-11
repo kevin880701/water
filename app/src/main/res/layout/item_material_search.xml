@@ -76,28 +76,17 @@
                 android:gravity="center" />
 
             <TextView
-                android:id="@+id/textMaterialNumber"
+                android:id="@+id/textQuantity"
                 style="@style/TextStyle_16dp_black"
                 android:layout_width="match_parent"
                 android:layout_height="0dp"
                 android:layout_weight="1"
                 android:background="@color/transparent"
-                android:text="@string/goods_number"
+                android:text="@string/quantity"
                 android:textColor="@color/primaryBlack"
                 android:gravity="center" />
 
         </androidx.appcompat.widget.LinearLayoutCompat>
-
-        <TextView
-            android:id="@+id/textQuantity"
-            style="@style/TextStyle_16dp_black"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="0.5"
-            android:background="@color/transparent"
-            android:gravity="center"
-            android:text="@string/quantity"
-            android:textColor="@color/primaryBlack" />
 
         <TextView
             android:id="@+id/textMaterialStatus"

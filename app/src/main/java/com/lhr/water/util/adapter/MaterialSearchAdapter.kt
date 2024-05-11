@@ -56,7 +56,6 @@ class MaterialSearchAdapter(val viewModel: MaterialSearchViewModel,
             binding.textStorageName.text = storageEntity.storageName
 
             binding.textMaterialName.text = storageRecordEntity.materialName
-            binding.textMaterialNumber.text = storageRecordEntity.materialNumber
             binding.textQuantity.text = storageRecordEntity.quantity.toString()
 
             // 判斷已交貨未驗收
