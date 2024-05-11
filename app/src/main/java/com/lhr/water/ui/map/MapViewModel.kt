@@ -29,7 +29,7 @@ class MapViewModel(context: Context, var regionRepository: RegionRepository, var
         val currentYearMonth = LocalDate.now().format(DateTimeFormatter.ofPattern("yyyy-MM"))
 
         // 過濾出指定storageId的資料並且是本月的 CheckoutEntity
-        val filteredCheckoutEntities = formRepository.checkoutEntities.filter {
+        val filteredCheckoutEntities = formRepository.checkoutEntities.value!!.filter {
             it.storageId == storageId &&
                     it.checkoutTime.startsWith(currentYearMonth)
         }

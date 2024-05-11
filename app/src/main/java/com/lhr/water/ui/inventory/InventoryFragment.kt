@@ -116,8 +116,8 @@ class InventoryFragment : BaseFragment(), View.OnClickListener, InventoryAdapter
                 e.printStackTrace()
             }
         }
-        val inventoryGoodsDialog = InventoryGoodsDialog(formFieldNameList, formFieldNameEngList, this, formItemFieldContentList = extractedValues)
-        inventoryGoodsDialog.show(requireActivity().supportFragmentManager, "GoodsDialog")
+//        val inventoryGoodsDialog = InventoryGoodsDialog(formFieldNameList, formFieldNameEngList, this, formItemFieldContentList = extractedValues)
+//        inventoryGoodsDialog.show(requireActivity().supportFragmentManager, "GoodsDialog")
     }
 
     override fun onPause() {

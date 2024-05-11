@@ -24,7 +24,7 @@ class FormRepository(context: Context) {
     // 儲櫃中所有貨物
     var storageGoods = MutableLiveData<ArrayList<CheckoutEntity>>(ArrayList<CheckoutEntity>())
 
-    var checkoutEntities = ArrayList<CheckoutEntity>()
+    var checkoutEntities = MutableLiveData<ArrayList<CheckoutEntity>>(ArrayList<CheckoutEntity>())
 
     var storageRecordEntities = ArrayList<StorageRecordEntity>()
 
@@ -51,7 +51,7 @@ class FormRepository(context: Context) {
         // 取盤點表單資料
         inventoryEntities.postValue(SqlDatabase.getInstance().getInventoryDao().getAll() as ArrayList)
         // 取checkout資料
-        checkoutEntities = SqlDatabase.getInstance().getCheckoutDao().getAll() as ArrayList<CheckoutEntity>
+        checkoutEntities.postValue(SqlDatabase.getInstance().getCheckoutDao().getAll() as ArrayList<CheckoutEntity>)
         // 取儲櫃紀錄資料
         storageRecordEntities = SqlDatabase.getInstance().getStorageRecordDao().getAll() as ArrayList<StorageRecordEntity>
     }

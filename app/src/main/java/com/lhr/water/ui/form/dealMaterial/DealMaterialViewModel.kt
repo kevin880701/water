@@ -73,7 +73,7 @@ class DealMaterialViewModel(
         val currentYearMonth = LocalDate.now().format(DateTimeFormatter.ofPattern("yyyy-MM"))
 
         // 過濾出指定storageId的資料並且是本月的 CheckoutEntity
-        val filteredCheckoutEntities = formRepository.checkoutEntities.filter {
+        val filteredCheckoutEntities = formRepository.checkoutEntities.value!!.filter {
             it.materialNumber == materialNumber &&
                     it.checkoutTime.startsWith(currentYearMonth)
         }
