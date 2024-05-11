@@ -1,5 +1,17 @@
 package com.lhr.water.data
 
+val fakerUserInfo = """
+{
+  "code": 0,
+  "message": "成功",
+  "data": {
+    "userInfo": {
+      "deptAno": "0D60",
+      "userId": "123"
+    }
+  }
+}
+"""
 
 val upData = """{
   "code": 200,
