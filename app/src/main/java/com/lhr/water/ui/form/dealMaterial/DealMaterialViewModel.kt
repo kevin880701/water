@@ -99,7 +99,7 @@ class DealMaterialViewModel(
 //--------------------------------------------------------------------------
         // 過濾出指定materialNumber的資料並且是本月的 StorageRecordEntity
         var fullStorageRecordEntities = ArrayList<StorageRecordEntity>()
-        fullStorageRecordEntities.addAll(formRepository.storageRecordEntities)
+        fullStorageRecordEntities.addAll(formRepository.storageRecordEntities.value!!)
         fullStorageRecordEntities.addAll(convertedStorageRecordEntities)
         val filteredStorageRecordEntities = fullStorageRecordEntities.filter {
             it.materialNumber == materialNumber &&
