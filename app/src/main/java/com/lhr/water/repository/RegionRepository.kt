@@ -1,9 +1,6 @@
 package com.lhr.water.repository
 
 import android.content.Context
-import com.lhr.water.data.fakerCheckoutEntities
-import com.lhr.water.data.fakerStorageEntities
-import com.lhr.water.data.fakerStorageRecordEntities
 import com.lhr.water.room.RegionEntity
 import com.lhr.water.room.SqlDatabase
 import com.lhr.water.room.StorageEntity
@@ -26,33 +23,11 @@ class RegionRepository private constructor(private val context: Context) {
     }
 
     init {
-//        importFakeDataIfEmpty()
         updateData()
     }
 
     fun updateData(){
         storageEntities = SqlDatabase.getInstance().getStorageDao().getAll() as ArrayList<StorageEntity>
-    }
-
-
-    fun importFakeDataIfEmpty() {
-        var storageDao = SqlDatabase.getInstance().getStorageDao()
-        var checkoutDao = SqlDatabase.getInstance().getCheckoutDao()
-        var storageRecordDao = SqlDatabase.getInstance().getStorageRecordDao()
-        if (storageDao.getRecordCount() == 0) {
-            // 匯入假資料
-            storageDao.insertStorageEntities(fakerStorageEntities)
-        }
-
-        if (checkoutDao.getRecordCount() == 0) {
-            // 匯入假資料
-            checkoutDao.insertCheckoutEntities(fakerCheckoutEntities)
-        }
-
-        if (storageRecordDao.getRecordCount() == 0) {
-            // 匯入假資料
-            storageRecordDao.insertStorageRecordEntities(fakerStorageRecordEntities)
-        }
     }
 
     fun filterRegionEntity(specifiedDeptNumber: String) {

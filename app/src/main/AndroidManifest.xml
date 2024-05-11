@@ -30,10 +30,6 @@
             android:launchMode="singleTask"
             android:theme="@style/Theme.Water"/>
 
-        <activity android:name="com.lhr.water.ui.map.AddPointActivity"
-            android:launchMode="singleTask"
-            android:theme="@style/Theme.Water"/>
-
         <activity android:name="com.lhr.water.ui.main.MainActivity"
             android:launchMode="singleTask"
             android:theme="@style/Theme.Water"/>
@@ -42,18 +38,10 @@
             android:launchMode="singleTask"
             android:theme="@style/Theme.Water"/>
 
-        <activity android:name="com.lhr.water.ui.qrCode.QrcodeActivity"
-            android:launchMode="singleTask"
-            android:theme="@style/Theme.Water"/>
-
         <activity android:name="com.lhr.water.ui.formContent.FormContentActivity"
             android:launchMode="singleTask"
             android:windowSoftInputMode="adjustResize"
             android:theme="@style/formContentActivityTheme"/>
-
-        <activity android:name="com.lhr.water.ui.storageGoodInput.StorageGoodInputActivity"
-            android:launchMode="singleTask"
-            android:theme="@style/Theme.Water"/>
 
         <activity android:name="com.lhr.water.ui.form.dealMaterial.DealMaterialActivity"
             android:launchMode="singleTask"

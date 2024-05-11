@@ -49,6 +49,9 @@ class DeepLinkActivity : BaseActivity() {
 
     @SuppressLint("SuspiciousIndentation")
     private fun handleUrl(url: String) {
+        println("=======================================")
+        println(url)
+        println("=======================================")
         val thisActivity = this
         try {
             when {
