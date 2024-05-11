@@ -89,8 +89,7 @@ class DealMaterialViewModel(
                 outputTime = "",
                 inputTime = checkoutEntity.inputTime,
                 materialStatus = 2,
-                userId = userRepository.userData.userId,
-                InvtDevi = 2,
+                userId = userRepository.userInfo.userId,
                 quantity = checkoutEntity.quantity,
                 recordDate = checkoutEntity.inputTime
             )
@@ -278,7 +277,7 @@ class DealMaterialViewModel(
 
     fun getInputRegionList(): ArrayList<RegionEntity> {
         // 只列出使用者可看到的儲櫃
-        val filteredStorageEntities = regionRepository.storageEntities.filter { it.deptNumber == userRepository.userData.deptAno}
+        val filteredStorageEntities = regionRepository.storageEntities.filter { it.deptNumber == userRepository.userInfo.deptAno}
 
         // 篩選掉重複的deptNumber和mapSeq
         val resultStorageEntities = filteredStorageEntities.distinctBy { it.deptNumber to it.mapSeq }
@@ -333,7 +332,7 @@ class DealMaterialViewModel(
             outputTime = if (isInput) "" else getCurrentDate(),
             inputTime = if (isInput) getCurrentDate() else inputTime!!,
             materialStatus =  if (isInput) 1 else 3,
-            userId = userRepository.userData.userId,
+            userId = userRepository.userInfo.userId,
             quantity = materialQuantity.toInt(),
             recordDate = getCurrentDate(),
         )

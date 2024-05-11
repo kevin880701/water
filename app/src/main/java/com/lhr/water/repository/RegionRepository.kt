@@ -5,10 +5,8 @@ import com.lhr.water.data.fakerCheckoutEntities
 import com.lhr.water.data.fakerStorageEntities
 import com.lhr.water.data.fakerStorageRecordEntities
 import com.lhr.water.room.RegionEntity
-import com.lhr.water.room.CheckoutEntity
 import com.lhr.water.room.SqlDatabase
 import com.lhr.water.room.StorageEntity
-import com.lhr.water.room.StorageRecordEntity
 import com.lhr.water.util.MapDataList
 
 class RegionRepository private constructor(private val context: Context) {
@@ -28,7 +26,7 @@ class RegionRepository private constructor(private val context: Context) {
     }
 
     init {
-        importFakeDataIfEmpty()
+//        importFakeDataIfEmpty()
         updateData()
     }
 

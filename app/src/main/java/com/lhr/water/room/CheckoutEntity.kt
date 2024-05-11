@@ -19,7 +19,6 @@ class CheckoutEntity(
     quantity: Int,
     inputTime: String, //（InvtLdtm: 材料入庫時間，格式YYYY-MM-DD-HH-MM-SS）
     checkoutTime: String, //（結算時間，格式YYYY-MM-DD-HH-MM-SS）
-    isUpdate: Boolean = false
 ) : Serializable {
 
     @NonNull
@@ -43,7 +42,4 @@ class CheckoutEntity(
 
     @ColumnInfo(name = SqlModel.checkoutTime, typeAffinity = ColumnInfo.TEXT)
     @SerializedName("checkoutTime") var checkoutTime = checkoutTime
-
-    @ColumnInfo(name = "isUpdate", typeAffinity = ColumnInfo.INTEGER)
-    var isUpdate = isUpdate
 }

@@ -5,7 +5,6 @@ import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.MutableLiveData
 import com.lhr.water.repository.FormRepository
 import com.lhr.water.repository.UserRepository
-import com.lhr.water.room.InventoryEntity
 import com.lhr.water.room.StorageRecordEntity
 import com.lhr.water.ui.base.APP
 import java.time.LocalDate
@@ -48,8 +47,7 @@ class MaterialSearchViewModel(
                 outputTime = "",
                 inputTime = checkoutEntity.inputTime,
                 materialStatus = 2,
-                userId = userRepository.userData.userId,
-                InvtDevi = 2,
+                userId = userRepository.userInfo.userId,
                 quantity = checkoutEntity.quantity,
                 recordDate = checkoutEntity.inputTime
             )

@@ -13,7 +13,6 @@ import com.lhr.water.databinding.FragmentRegionChooseBinding
 import com.lhr.water.room.RegionEntity
 import com.lhr.water.ui.base.BaseFragment
 import com.lhr.water.ui.map.MapActivity
-import com.lhr.water.util.MapDataList
 import com.lhr.water.util.adapter.DeptChooseAdapter
 import com.lhr.water.util.adapter.RegionChooseAdapter
 import timber.log.Timber
@@ -70,7 +69,7 @@ class RegionChooseFragment : BaseFragment(), View.OnClickListener, RegionChooseA
 
     private fun initView() {
         binding.widgetTitleBar.textTitle.text = requireActivity().getString(R.string.region_choose)
-        viewModel.regionRepository.filterRegionEntity(viewModel.userRepository.userData.deptAno).run {  }
+        viewModel.regionRepository.filterRegionEntity(viewModel.userRepository.userInfo.deptAno).run {  }
         viewModel.createRegionList()
         initRecyclerView()
 

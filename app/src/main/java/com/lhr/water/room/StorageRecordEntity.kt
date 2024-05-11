@@ -19,7 +19,6 @@ class StorageRecordEntity(
     inputTime: String, //材料入庫時間，假設是入庫那inputTime跟CreatedAt會是一樣;
     materialStatus: Int, //InvtStat: 材料狀態; 1: 已交貨，2: 已驗收，3: 已移出
     userId: String, //InvtUserId: 操作的使用者ID
-    InvtDevi: Int = 2,
     quantity: Int, //InvtNum: 數量
     recordDate: String, //CreatedAt: 紀錄創建時間（出庫入庫時間，格式YYYY-MM-DD-HH-MM-SS）
     isUpdate: Boolean = false
@@ -57,7 +56,7 @@ class StorageRecordEntity(
     @SerializedName("storageUserId") var userId = userId
 
     @ColumnInfo(name = SqlModel.InvtDevi, typeAffinity = ColumnInfo.INTEGER)
-    @SerializedName("storageDevice") var InvtDevi = InvtDevi
+    @SerializedName("storageDevice") var InvtDevi = 2
 
     @ColumnInfo(name = SqlModel.quantity, typeAffinity = ColumnInfo.INTEGER)
     @SerializedName("storageMaterialQuantity") var quantity = quantity

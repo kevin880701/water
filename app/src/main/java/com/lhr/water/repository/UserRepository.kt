@@ -1,11 +1,11 @@
 package com.lhr.water.repository
 
 import android.content.Context
-import com.lhr.water.data.UserData
+import com.lhr.water.network.data.response.UserInfo
 
 class UserRepository private constructor(private val context: Context) {
 
-    var userData = UserData(
+    var userInfo = UserInfo(
         deptAno = "0D60",
         userId = "123"
     )

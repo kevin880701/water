@@ -11,6 +11,7 @@ import androidx.fragment.app.viewModels
 import com.lhr.water.R
 import com.lhr.water.databinding.FragmentSettingBinding
 import com.lhr.water.ui.base.BaseFragment
+import com.lhr.water.util.dialog.DefaultDialog
 
 class SettingFragment : BaseFragment(), View.OnClickListener {
 
@@ -94,7 +95,16 @@ class SettingFragment : BaseFragment(), View.OnClickListener {
             }
 
             R.id.constraintUpdateTest -> {
-                viewModel.updateTest()
+                if (!viewModel.checkIsUpdate()) {
+                    val defaultDialog = DefaultDialog(
+                        title = "尚未備份",
+                        text = "尚有未同步資料，是否覆蓋?",
+                        confirmClick = { viewModel.updateTest() }
+                    )
+                    defaultDialog.show(requireActivity().supportFragmentManager, "DefaultDialog")
+                } else {
+                    viewModel.updateTest()
+                }
             }
         }
     }

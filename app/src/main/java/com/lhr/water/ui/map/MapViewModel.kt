@@ -45,8 +45,7 @@ class MapViewModel(context: Context, var regionRepository: RegionRepository, var
                 outputTime = "",
                 inputTime = checkoutEntity.inputTime,
                 materialStatus = 2,
-                userId = userRepository.userData.userId,
-                InvtDevi = 2,
+                userId = userRepository.userInfo.userId,
                 quantity = checkoutEntity.quantity,
                 recordDate = checkoutEntity.inputTime
             )

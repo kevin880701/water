@@ -13,7 +13,7 @@ enum class SelectStatus {
     DeptPage,
 }
 
-class RegionChooseViewModel(context: Context, regionRepository: RegionRepository,var userRepository: UserRepository) :
+class RegionChooseViewModel(context: Context, regionRepository: RegionRepository, var userRepository: UserRepository) :
     AndroidViewModel(context.applicationContext as APP) {
     var regionRepository = regionRepository
 
@@ -31,8 +31,8 @@ class RegionChooseViewModel(context: Context, regionRepository: RegionRepository
 
 
     fun createRegionList() {
-        if (userRepository.userData.deptAno.length >= 2) {
-            regionFilterList.add(userRepository.userData.deptAno.substring(0, 2))
+        if (userRepository.userInfo.deptAno.length >= 2) {
+            regionFilterList.add(userRepository.userInfo.deptAno.substring(0, 2))
         }
 
         val tempList = regionRepository.regionEntities.filter { mapData ->

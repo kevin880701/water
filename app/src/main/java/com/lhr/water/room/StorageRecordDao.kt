@@ -11,16 +11,13 @@ interface StorageRecordDao {
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     fun insertStorageRecordEntities(storageContentEntities: List<StorageRecordEntity>)
 
-    @Insert(onConflict = OnConflictStrategy.REPLACE)
-    fun insertStorageItem(storageContentEntities: StorageRecordEntity)
-
-    @Query("SELECT * FROM $STORAGE_RECORD_TABLE_NAME WHERE storageId = :storageId")
-    fun getStorageContentByStorageId(storageId: Int): List<StorageRecordEntity>
-
     @Query("SELECT COUNT(*) FROM $STORAGE_RECORD_TABLE_NAME")
     fun getRecordCount(): Int
 
     @Query("DELETE FROM $STORAGE_RECORD_TABLE_NAME")
     fun clearTable()
+
+    @Update
+    fun update(storageRecordEntity: StorageRecordEntity)
 
 }

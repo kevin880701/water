@@ -10,9 +10,6 @@ interface FormDao {
     @Query("SELECT * FROM $FORM_TABLE_NAME")
     fun getAll(): List<FormEntity>
 
-    @Insert(onConflict = OnConflictStrategy.IGNORE)
-    fun insertNewForm(formEntity: FormEntity)
-
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     fun insertOrUpdate(formEntity: FormEntity)
 
@@ -21,4 +18,7 @@ interface FormDao {
 
     @Query("DELETE FROM $FORM_TABLE_NAME")
     fun clearTable()
+
+    @Update
+    fun update(formEntity: FormEntity)
 }
