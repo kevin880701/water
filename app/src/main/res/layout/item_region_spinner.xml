@@ -6,7 +6,7 @@
     <data></data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
-        android:id="@+id/constraintGoods"
+        android:id="@+id/constraintMaterial"
         android:layout_width="match_parent"
         android:layout_height="36dp"
         android:background="@color/gray"

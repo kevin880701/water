@@ -36,7 +36,7 @@ class AppViewModelFactory(
             SettingViewModel::class.java -> SettingViewModel(context, formRepository, regionRepository) as T
             RegionChooseViewModel::class.java -> RegionChooseViewModel(context, regionRepository, userRepository) as T
             MapViewModel::class.java -> MapViewModel(context, regionRepository, formRepository, userRepository) as T
-            MaterialSearchViewModel::class.java -> MaterialSearchViewModel(context, formRepository) as T
+            MaterialSearchViewModel::class.java -> MaterialSearchViewModel(context, formRepository, userRepository) as T
             InventoryViewModel::class.java -> InventoryViewModel(context, formRepository) as T
             DealMaterialViewModel::class.java -> DealMaterialViewModel(context, regionRepository, formRepository, userRepository) as T
             else -> throw IllegalArgumentException("not support")

@@ -48,8 +48,25 @@ class MaterialSearchFragment : BaseFragment(), View.OnClickListener, FormAdapter
     }
 
     private fun bindViewModel() {
-        viewModel.formRepository.checkoutEntities.observe(viewLifecycleOwner) { newcheckoutEntities ->
-            materialSearchAdapter.submitList(newcheckoutEntities)
+
+        // 當storageRecordEntities或checkoutEntities更新後需要重新計算tempStorageRecordEntities
+        viewModel.formRepository.checkoutEntities.observe(viewLifecycleOwner) { _ ->
+            viewModel.tempStorageRecordEntities.postValue(viewModel.getStorageContentList())
+            binding.editSearch.text.clear()
+            viewModel.searchMaterialName.postValue("")
+        }
+        viewModel.formRepository.storageRecordEntities.observe(viewLifecycleOwner) { _ ->
+            viewModel.tempStorageRecordEntities.postValue(viewModel.getStorageContentList())
+            binding.editSearch.text.clear()
+            viewModel.searchMaterialName.postValue("")
+        }
+        // tempStorageRecordEntities有變動後要重新帶入materialSearchAdapter
+        viewModel.tempStorageRecordEntities.observe(viewLifecycleOwner) { list ->
+            materialSearchAdapter.submitList(list)
+        }
+        // 貨物名稱輸入後篩選更新
+        viewModel.searchMaterialName.observe(viewLifecycleOwner) {searchMaterialName ->
+            materialSearchAdapter.submitList(viewModel.filterRecord(viewModel.tempStorageRecordEntities.value!!, searchMaterialName))
         }
     }
 
@@ -67,7 +84,7 @@ class MaterialSearchFragment : BaseFragment(), View.OnClickListener, FormAdapter
 
             override fun afterTextChanged(s: Editable?) {
                 // 在文本改變之後執行的操作
-//                materialSearchAdapter.submitList(viewModel.formRepository.searchStorageContentByMaterialName(s.toString()))
+                viewModel.searchMaterialName.postValue(s.toString())
             }
         })
 
@@ -75,8 +92,7 @@ class MaterialSearchFragment : BaseFragment(), View.OnClickListener, FormAdapter
     }
 
     private fun initRecyclerView() {
-        materialSearchAdapter = MaterialSearchAdapter(viewModel)
-        materialSearchAdapter.submitList(viewModel.formRepository.checkoutEntities.value)
+        materialSearchAdapter = MaterialSearchAdapter(viewModel, requireContext())
         binding.recyclerForm.adapter = materialSearchAdapter
         binding.recyclerForm.layoutManager = LinearLayoutManager(activity)
     }

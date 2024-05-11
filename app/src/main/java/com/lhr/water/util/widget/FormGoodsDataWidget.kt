@@ -36,7 +36,7 @@ class FormGoodsDataWidget : RelativeLayout {
         binding.imageDelete.setOnClickListener {
             listener?.onDeleteGoodsClick(binding.imageDelete)
         }
-        binding.constraintGoods.setOnClickListener {
+        binding.constraintMaterial.setOnClickListener {
             listener?.onGoodsColClick(this@FormGoodsDataWidget.itemDetail, this)
         }
         initView()

@@ -47,6 +47,7 @@
     <string name="wait_output_material">待出庫材料</string>
     <string name="already_choose_material">已選擇材料</string>
     <string name="quantity">數量</string>
+    <string name="material_status">材料狀態</string>
 
     <string name="confirm">確認</string>
     <string name="cancel">取消</string>

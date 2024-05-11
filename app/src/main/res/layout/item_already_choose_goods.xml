@@ -6,7 +6,6 @@
     <data></data>
 
     <androidx.appcompat.widget.LinearLayoutCompat
-        android:id="@+id/constraintGoods"
         android:layout_width="match_parent"
         android:layout_height="96dp"
         android:paddingLeft="12dp"

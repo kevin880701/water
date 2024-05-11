@@ -54,9 +54,8 @@ class StorageContentAdapter(val listener: Listener, var context: Context): ListA
         fun bind(storageRecordEntity: StorageRecordEntity){
             binding.textMaterialName.text = storageRecordEntity.materialName
             binding.textInputDate.text = convertToRocDate(storageRecordEntity.inputTime)
-            // 這裡要改
             binding.textQuantity.text = storageRecordEntity.quantity.toString()
-            // 加入判斷已交貨未驗收
+            // 判斷已交貨未驗收
             binding.textStatus.text = materialStatusMap[storageRecordEntity.materialStatus]
             if(storageRecordEntity.materialStatus == 1){
                 binding.linearLayoutMaterial.setBackgroundColor(ContextCompat.getColor(context, R.color.disableGray))

@@ -5,113 +5,109 @@
 
     <data></data>
 
-    <androidx.constraintlayout.widget.ConstraintLayout
-        android:id="@+id/constraintGoods"
+    <androidx.appcompat.widget.LinearLayoutCompat
+        android:id="@+id/linearItem"
         android:layout_width="match_parent"
-        android:layout_height="72dp"
+        android:layout_height="96dp"
+        android:gravity="center"
+        android:orientation="horizontal"
+        android:background="@drawable/bg_bottom_gray"
+        android:paddingTop="4dp"
+        android:paddingBottom="4dp"
         android:paddingLeft="12dp"
         android:paddingRight="12dp">
-        <androidx.constraintlayout.widget.ConstraintLayout
+
+        <androidx.appcompat.widget.LinearLayoutCompat
+            android:id="@+id/linearRegion"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintLeft_toLeftOf="parent"
-            app:layout_constraintRight_toRightOf="parent">
+            android:layout_weight="1.2"
+            android:orientation="vertical">
+
             <TextView
                 android:id="@+id/textRegion"
-                android:layout_width="0dp"
+                style="@style/TextStyle_16dp_black"
+                android:layout_width="match_parent"
                 android:layout_height="0dp"
-                app:layout_constraintHeight_percent="0.5"
-                app:layout_constraintWidth_percent="0.2"
+                android:layout_weight="1"
                 android:text="@string/region"
-                style="@style/TextStyle_16dp_black"
                 android:textColor="@color/primaryBlue"
-                app:layout_constraintTop_toTopOf="parent"
-                app:layout_constraintLeft_toLeftOf="parent" />
+                android:gravity="center" />
+
             <TextView
-                android:id="@+id/textMap"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                app:layout_constraintWidth_percent="0.2"
-                android:text="@string/map"
-                android:background="@color/transparent"
+                android:id="@+id/textDept"
                 style="@style/TextStyle_16dp_black"
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_weight="1"
+                android:background="@color/transparent"
+                android:text="@string/map"
                 android:textColor="@color/primaryBlack"
-                app:layout_constraintTop_toBottomOf="@+id/textMaterialName"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintLeft_toLeftOf="parent" />
+                android:gravity="center" />
+
             <TextView
                 android:id="@+id/textStorageName"
-                android:layout_width="0dp"
-                android:layout_height="0dp"
-                app:layout_constraintHeight_percent="0.5"
-                app:layout_constraintWidth_percent="0.2"
-                android:text="@string/region"
                 style="@style/TextStyle_16dp_black"
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_weight="1"
+                android:text="@string/region"
                 android:textColor="@color/primaryBlue"
-                app:layout_constraintTop_toTopOf="parent"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintLeft_toRightOf="@+id/textRegion" />
+                android:gravity="center" />
+
+        </androidx.appcompat.widget.LinearLayoutCompat>
+
+        <androidx.appcompat.widget.LinearLayoutCompat
+            android:id="@+id/linearMaterial"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:orientation="vertical">
+
+
             <TextView
                 android:id="@+id/textMaterialName"
-                android:layout_width="0dp"
-                android:layout_height="0dp"
-                app:layout_constraintHeight_percent="0.5"
-                app:layout_constraintWidth_percent="0.2"
-                android:text="@string/goods_name"
                 style="@style/TextStyle_16dp_black"
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_weight="1"
+                android:text="@string/goods_name"
                 android:textColor="@color/primaryBlue"
-                app:layout_constraintTop_toTopOf="parent"
-                app:layout_constraintLeft_toRightOf="@+id/textStorageName" />
+                android:gravity="center" />
+
             <TextView
                 android:id="@+id/textMaterialNumber"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                app:layout_constraintWidth_percent="0.2"
+                style="@style/TextStyle_16dp_black"
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_weight="1"
+                android:background="@color/transparent"
                 android:text="@string/goods_number"
-                android:background="@color/transparent"
-                style="@style/TextStyle_16dp_black"
                 android:textColor="@color/primaryBlack"
-                app:layout_constraintTop_toBottomOf="@+id/textMaterialName"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintLeft_toRightOf="@+id/textStorageName" />
-            <TextView
-                android:id="@+id/textMaterialSpec"
-                android:layout_width="0dp"
-                android:layout_height="0dp"
-                app:layout_constraintHeight_percent="0.5"
-                app:layout_constraintWidth_percent="0.2"
-                android:text="規格"
-                style="@style/TextStyle_16dp_black"
-                android:textColor="@color/primaryBlue"
-                app:layout_constraintTop_toTopOf="parent"
-                app:layout_constraintLeft_toRightOf="@+id/textMaterialName" />
-            <TextView
-                android:id="@+id/textMaterialUnit"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                app:layout_constraintWidth_percent="0.2"
-                android:text="單位"
-                android:background="@color/transparent"
-                style="@style/TextStyle_16dp_black"
-                android:textColor="@color/primaryBlack"
-                app:layout_constraintTop_toBottomOf="@+id/textMaterialName"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintLeft_toRightOf="@+id/textMaterialName" />
-            <TextView
-                android:id="@+id/textQuantity"
-                android:layout_width="0dp"
-                android:layout_height="0dp"
-                app:layout_constraintWidth_percent="0.2"
-                android:text="數量"
-                android:background="@color/transparent"
-                style="@style/TextStyle_16dp_black"
-                android:textColor="@color/primaryBlack"
-                android:gravity="center_vertical"
-                app:layout_constraintTop_toTopOf="parent"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintLeft_toRightOf="@+id/textMaterialUnit" />
-        </androidx.constraintlayout.widget.ConstraintLayout>
-    </androidx.constraintlayout.widget.ConstraintLayout>
+                android:gravity="center" />
+
+        </androidx.appcompat.widget.LinearLayoutCompat>
+
+        <TextView
+            android:id="@+id/textQuantity"
+            style="@style/TextStyle_16dp_black"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="0.5"
+            android:background="@color/transparent"
+            android:gravity="center"
+            android:text="@string/quantity"
+            android:textColor="@color/primaryBlack" />
+
+        <TextView
+            android:id="@+id/textMaterialStatus"
+            style="@style/TextStyle_16dp_black"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:background="@color/transparent"
+            android:gravity="center"
+            android:text="@string/material_status"
+            android:textColor="@color/primaryBlack" />
+    </androidx.appcompat.widget.LinearLayoutCompat>
 </layout>
