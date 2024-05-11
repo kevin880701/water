@@ -21,9 +21,6 @@ class FormRepository(context: Context) {
     // 暫存待出入庫的貨物列表（未送出）
     var tempStorageRecordEntities = MutableLiveData<ArrayList<StorageRecordEntity>>(ArrayList<StorageRecordEntity>())
 
-    // 儲櫃中所有貨物
-    var storageGoods = MutableLiveData<ArrayList<CheckoutEntity>>(ArrayList<CheckoutEntity>())
-
     var checkoutEntities = MutableLiveData<ArrayList<CheckoutEntity>>(ArrayList<CheckoutEntity>())
 
     var storageRecordEntities = MutableLiveData<ArrayList<StorageRecordEntity>>(ArrayList<StorageRecordEntity>())

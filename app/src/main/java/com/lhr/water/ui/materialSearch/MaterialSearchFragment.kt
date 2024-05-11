@@ -48,8 +48,8 @@ class MaterialSearchFragment : BaseFragment(), View.OnClickListener, FormAdapter
     }
 
     private fun bindViewModel() {
-        viewModel.formRepository.storageGoods.observe(viewLifecycleOwner) { newStorageGoods ->
-            materialSearchAdapter.submitList(newStorageGoods)
+        viewModel.formRepository.checkoutEntities.observe(viewLifecycleOwner) { newcheckoutEntities ->
+            materialSearchAdapter.submitList(newcheckoutEntities)
         }
     }
 
@@ -76,7 +76,7 @@ class MaterialSearchFragment : BaseFragment(), View.OnClickListener, FormAdapter
 
     private fun initRecyclerView() {
         materialSearchAdapter = MaterialSearchAdapter(viewModel)
-        materialSearchAdapter.submitList(viewModel.formRepository.storageGoods.value)
+        materialSearchAdapter.submitList(viewModel.formRepository.checkoutEntities.value)
         binding.recyclerForm.adapter = materialSearchAdapter
         binding.recyclerForm.layoutManager = LinearLayoutManager(activity)
     }
