@@ -87,8 +87,9 @@ dependencies {
     // Timber
     implementation ("com.jakewharton.timber:timber:5.0.1")
     //rxjava2
-    implementation ("io.reactivex.rxjava2:rxjava:2.2.10")
-    implementation ("io.reactivex.rxjava2:rxandroid:2.1.1")
+    implementation ("io.reactivex.rxjava3:rxjava:3.1.8")
+    implementation ("io.reactivex.rxjava3:rxandroid:3.0.2")
+    implementation ("com.squareup.retrofit2:adapter-rxjava3:2.9.0")
     //barcode
     implementation ("com.journeyapps:zxing-android-embedded:4.3.0")
 

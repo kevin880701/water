@@ -1,5 +1,6 @@
 package com.lhr.water.util
 
+import com.lhr.water.R
 import com.lhr.water.room.RegionEntity
 import com.lhr.water.util.FormName.deliveryFormName
 import com.lhr.water.util.FormName.inventoryFormName
@@ -225,6 +226,8 @@ val materialStatusMap: Map<Int, String> = mapOf(
     2 to "已驗收",
     3 to "已移出",
 )
+
+var markDrawableIdMap = mapOf(0 to R.drawable.mark, 1 to R.drawable.office, 2 to R.drawable.door, 3 to R.drawable.stairs, 4 to R.drawable.elevator, 5 to R.drawable.wc, 6 to R.drawable.parking)
 
 val MapDataList: List<RegionEntity> =
     listOf(

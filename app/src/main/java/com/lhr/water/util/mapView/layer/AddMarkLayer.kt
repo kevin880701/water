@@ -7,7 +7,7 @@ import androidx.core.graphics.BlendModeColorFilterCompat
 import androidx.core.graphics.BlendModeCompat
 import com.lhr.water.mapView.MapView
 import com.lhr.water.R
-import com.lhr.water.model.Model.Companion.markDrawableIdMap
+import com.lhr.water.util.markDrawableIdMap
 import java.lang.Math.abs
 
 /**

@@ -10,6 +10,7 @@ import com.google.android.material.tabs.TabLayout
 import com.google.android.material.tabs.TabLayoutMediator
 import com.lhr.water.R
 import com.lhr.water.databinding.ActivityMainBinding
+import com.lhr.water.repository.UserRepository
 import com.lhr.water.ui.base.APP
 import com.lhr.water.ui.base.BaseActivity
 import com.lhr.water.ui.form.FormFragment
@@ -31,8 +32,17 @@ class MainActivity : BaseActivity() {
         _binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
         window.statusBarColor = ResourcesCompat.getColor(resources, R.color.primaryBlue, null)
+
         viewModel.updateFormList()
         initTabLayout(binding.tabLayoutMain)
+    }
+
+    override fun onResume() {
+        super.onResume()
+        println("@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@")
+        println("@@@：" + UserRepository.getInstance(this).userInfo.userId)
+        println("@@@：" + UserRepository.getInstance(this).userInfo.deptAno)
+        println("@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@")
     }
 
     fun initTabLayout(tabLayoutMain: TabLayout) {
