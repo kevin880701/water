@@ -60,6 +60,7 @@ class SqlModel {
         const val outputTime: String = "outputTime"
         const val inputTime: String = "inputTime"
         const val checkoutTime: String = "checkoutTime"
+        const val isUpdate: String = "isUpdate"
 
     }
 }

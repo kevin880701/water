@@ -26,7 +26,8 @@ class InventoryEntity(
     actualQuantity: Int,
     checkDate: String,
     lastUseDate: String,
-    approvedDate: String
+    approvedDate: String,
+    isUpdate: Boolean = false
 ) : Serializable {
 
     @NonNull
@@ -100,5 +101,8 @@ class InventoryEntity(
     @ColumnInfo(name = SqlModel.approvedDate, typeAffinity = ColumnInfo.TEXT)
     @SerializedName("approvedDate")
     val approvedDate = approvedDate
+
+    @ColumnInfo(name = "isUpdate", typeAffinity = ColumnInfo.INTEGER)
+    var isUpdate = isUpdate
 
 }

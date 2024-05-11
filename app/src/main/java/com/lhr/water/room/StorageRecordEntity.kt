@@ -22,6 +22,7 @@ class StorageRecordEntity(
     InvtDevi: Int = 2,
     quantity: Int, //InvtNum: 數量
     recordDate: String, //CreatedAt: 紀錄創建時間（出庫入庫時間，格式YYYY-MM-DD-HH-MM-SS）
+    isUpdate: Boolean = false
 ) : Serializable {
 
     @NonNull
@@ -63,4 +64,7 @@ class StorageRecordEntity(
 
     @ColumnInfo(name = SqlModel.recordDate, typeAffinity = ColumnInfo.TEXT)
     @SerializedName("createdAt") var recordDate = recordDate
+
+    @ColumnInfo(name = "isUpdate", typeAffinity = ColumnInfo.INTEGER)
+    var isUpdate = isUpdate
 }

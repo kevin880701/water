@@ -26,6 +26,7 @@ class FormEntity(
     dealTime: String,
     date: String,
     formContent: String,
+    isUpdate: Boolean = false
 ) : Serializable {
 
     @NonNull
@@ -52,6 +53,9 @@ class FormEntity(
 
     @ColumnInfo(name = SqlModel.formContent, typeAffinity = ColumnInfo.TEXT)
     var formContent = formContent
+
+    @ColumnInfo(name = "isUpdate", typeAffinity = ColumnInfo.INTEGER)
+    var isUpdate = isUpdate
 
     fun parseBaseForm(): BaseForm {
         return when (reportTitle) {
