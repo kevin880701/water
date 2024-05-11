@@ -76,8 +76,6 @@ class RegionRepository private constructor(private val context: Context) {
      * @return 符合儲存ID的儲存實體
      */
    fun findStorageEntityByStorageId(storageId :Int): StorageEntity {
-        println("============================================")
-        println("storageId：$storageId")
        val foundStorageEntity = storageEntities.find { it.storageId == storageId }
        return foundStorageEntity!!
    }
