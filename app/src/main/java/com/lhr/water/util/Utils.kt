@@ -9,7 +9,7 @@ import com.bumptech.glide.load.engine.DiskCacheStrategy
 import com.google.gson.Gson
 import com.lhr.water.data.form.TransferForm
 import com.lhr.water.room.FormEntity
-import com.lhr.water.model.LoginData
+import com.lhr.water.data.LoginData
 import com.lhr.water.util.FormName.deliveryFormName
 import com.lhr.water.util.FormName.pickingFormName
 import com.lhr.water.util.FormName.returningFormName

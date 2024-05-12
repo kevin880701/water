@@ -24,7 +24,6 @@ class FilterFormPopupWindow(activity: Activity, viewModel: FormViewModel) : Popu
     var viewModel = viewModel
     var view: View
     var linearItem: LinearLayout
-    var itemList = ArrayList<String>()
 
     init {
         binding = PopupFilterMenuBinding.inflate(LayoutInflater.from(activity))

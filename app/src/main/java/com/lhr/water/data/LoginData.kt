@@ -1,4 +1,4 @@
-package com.lhr.water.model
+package com.lhr.water.data
 
 class LoginData {
     companion object {

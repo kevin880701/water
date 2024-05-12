@@ -242,7 +242,6 @@ class SettingViewModel(
 
 
     fun updateFromPDA(request: UpdateDataRequest) {
-        println("@@@@@@@@@@@@@@@@@@@@@@@@@@###@@@@@@@@@@@@@@@@@@@@@@@@@@@")
         ApiManager().updateFromPDA(request)
             .subscribeOn(Schedulers.io())
             .map { response ->

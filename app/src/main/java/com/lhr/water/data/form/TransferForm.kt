@@ -1,7 +1,7 @@
 package com.lhr.water.data.form
 
 import com.google.gson.annotations.SerializedName
-import com.lhr.water.model.LoginData
+import com.lhr.water.data.LoginData
 
 data class TransferForm(
     @SerializedName("formNumber")

@@ -4,13 +4,11 @@ import android.content.Intent
 import android.os.Bundle
 import android.view.KeyEvent
 import android.view.View
-import android.widget.AdapterView
 import android.widget.Spinner
 import androidx.activity.viewModels
 import androidx.core.content.res.ResourcesCompat
 import com.lhr.water.R
 import com.lhr.water.databinding.ActivityLoginBinding
-import com.lhr.water.model.LoginData
 import com.lhr.water.ui.base.APP
 import com.lhr.water.ui.base.BaseActivity
 import com.lhr.water.ui.main.MainActivity

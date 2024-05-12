@@ -24,13 +24,6 @@ object FormName {
     const val inventoryFormName = "材料盤點單"
 }
 
-
-object DealStatus {
-    const val waitDeal = "待處理"
-    const val nowDeal = "處理中"
-    const val completeDeal = "處理完成"
-}
-
 object FormField {
     // 交貨通知單欄位
     private val deliveryFormField = arrayOf(

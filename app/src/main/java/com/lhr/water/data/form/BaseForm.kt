@@ -1,13 +1,7 @@
 package com.lhr.water.data.form
 
 import com.google.gson.Gson
-import com.google.gson.annotations.SerializedName
 import com.google.gson.reflect.TypeToken
-import com.lhr.water.model.LoginData
-import com.lhr.water.util.FormName.deliveryFormName
-import com.lhr.water.util.FormName.pickingFormName
-import com.lhr.water.util.FormName.returningFormName
-import com.lhr.water.util.FormName.transferFormName
 import java.lang.reflect.Type
 
 open class BaseForm(

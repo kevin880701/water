@@ -16,11 +16,10 @@ import com.lhr.water.room.FormEntity
 import com.lhr.water.ui.base.BaseFragment
 import com.lhr.water.ui.formContent.FormContentActivity
 import com.lhr.water.ui.form.dealMaterial.DealMaterialActivity
-import com.lhr.water.util.adapter.FormAdapter
 import com.lhr.water.util.adapter.MaterialSearchAdapter
 import timber.log.Timber
 
-class MaterialSearchFragment : BaseFragment(), View.OnClickListener, FormAdapter.Listener {
+class MaterialSearchFragment : BaseFragment(), View.OnClickListener {
 
     private var _binding: FragmentMaterialSearchBinding? = null
     private val binding get() = _binding!!
@@ -102,23 +101,6 @@ class MaterialSearchFragment : BaseFragment(), View.OnClickListener, FormAdapter
             R.id.imageFilter -> {
             }
         }
-    }
-
-    /**
-     * 表單列表點擊
-     * @param form 被點擊的列資料
-     */
-    override fun onItemClick(form: FormEntity) {
-        val intent = Intent(requireActivity(), FormContentActivity::class.java)
-        intent.putExtra("reportTitle", form.reportTitle)
-        intent.putExtra("jsonString", form.formContent)
-        requireActivity().startActivity(intent)
-    }
-
-    override fun onDealMaterialClick(formEntity: FormEntity) {
-        val intent = Intent(requireActivity(), DealMaterialActivity::class.java)
-        intent.putExtra("jsonString", formEntity.formContent)
-        requireActivity().startActivity(intent)
     }
 
     override fun onPause() {

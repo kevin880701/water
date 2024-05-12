@@ -18,9 +18,6 @@ interface ApiService {
     @GET
     fun fetchJsonFrom(@Url url: String): Call<UpdateData>
 
-//    @POST("PDA/getUserInfo")
-//    fun getUserInfo(@Query("email") email: String?): Single<Response<String?>?>?
-
     @POST("PDA/getUserInfo")
     fun getUserInfo(): Observable<BaseResponse<UserInfoData>>
 
