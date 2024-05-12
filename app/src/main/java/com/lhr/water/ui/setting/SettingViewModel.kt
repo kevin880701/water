@@ -7,11 +7,11 @@ import android.util.Log
 import androidx.documentfile.provider.DocumentFile
 import androidx.lifecycle.AndroidViewModel
 import com.google.gson.Gson
-import com.google.gson.JsonArray
 import com.lhr.water.data.form.DeliveryForm
 import com.lhr.water.data.form.ReceiveForm
 import com.lhr.water.data.form.ReturnForm
 import com.lhr.water.data.form.TransferForm
+import com.lhr.water.network.ApiManager
 import com.lhr.water.network.Execute
 import com.lhr.water.network.data.UpdateData
 import com.lhr.water.network.data.request.DataList
@@ -26,11 +26,9 @@ import com.lhr.water.ui.base.APP
 import com.lhr.water.util.manager.checkJson
 import com.lhr.water.util.manager.jsonAddInformation
 import com.lhr.water.util.manager.jsonStringToJsonArray
+import io.reactivex.rxjava3.schedulers.Schedulers
 import okhttp3.Call
 import okhttp3.Callback
-import okhttp3.MediaType.Companion.toMediaTypeOrNull
-import okhttp3.RequestBody
-import okhttp3.RequestBody.Companion.toRequestBody
 import okhttp3.Response
 import timber.log.Timber
 import java.io.BufferedReader
@@ -166,44 +164,95 @@ class SettingViewModel(
         }
     }
 
-    fun writeJsonObjectToFolder(activity: Activity) {
-        val gson = Gson()
-        val jsonArray = JsonArray()
-        for (i in formRepository.formEntities.value!!) {
-//            jsonArray.add(gson.fromJson(i.toJsonString(), JsonObject::class.java))
-        }
-//        for (i in formRepository.inventoryRecord.value!!) {
-//            jsonArray.add(gson.fromJson(i.toJsonString(), JsonObject::class.java))
-//        }
+    fun updateFromPda() {
+        try {
+            val gson = Gson()
 
-        val jsonRequestBody: String = jsonArray.toString()
-        val requestBody: RequestBody =
-            jsonRequestBody.toRequestBody("application/json; charset=utf-8".toMediaTypeOrNull())
+            val inventoryEntities = sqlDatabase.getInventoryDao().getAll()
+            val storageRecordEntities = sqlDatabase.getStorageRecordDao().getAll()
+            val formEntities = sqlDatabase.getFormDao().getAll()
 
-        Execute.postRecord(
-            activity, requestBody, object : Callback {
-                override fun onFailure(call: Call, e: IOException) {
-                    Timber.e("onFailure : " + e.toString())
-                }
+            // 把formEntities轉成動應Class的List
+            val deliveryFormList = ArrayList<DeliveryForm>()
+            val receiveFormList = ArrayList<ReceiveForm>()
+            val transferFormList = ArrayList<TransferForm>()
+            val returnFormList = ArrayList<ReturnForm>()
 
-                @Throws(IOException::class)
-                override fun onResponse(call: Call, response: Response) {
-                    val data = response.body!!.string()
+            for (formEntity in formEntities) {
+                val formContent = formEntity.formContent
+                val reportTitle = formEntity.reportTitle
 
-                    try {
-//                        val json = JSONObject(data)
-//                        if (json.getInt("code") == 0) {
-//                            val `object` = json.getJSONObject("data")
-//                            SaveManager.getInstance().saveData(
-//                                activity, `object`.toString()
-//                            )
-//                        }
-                    } catch (e: Exception) {
-                        Timber.e("Exception : " + e.toString())
+                when (reportTitle) {
+                    "交貨通知單" -> {
+                        val deliveryForm = gson.fromJson(formContent, DeliveryForm::class.java)
+                        deliveryFormList.add(deliveryForm)
+                    }
+                    "材料領料單" -> {
+                        val receiveForm = gson.fromJson(formContent, ReceiveForm::class.java)
+                        receiveFormList.add(receiveForm)
+                    }
+                    "材料調撥單" -> {
+                        val transferForm = gson.fromJson(formContent, TransferForm::class.java)
+                        transferFormList.add(transferForm)
+                    }
+                    "材料退料單" -> {
+                        val returnForm = gson.fromJson(formContent, ReturnForm::class.java)
+                        returnFormList.add(returnForm)
+                    }
+                    else -> {
                     }
                 }
             }
-        )
+
+            val updateDataRequest = UpdateDataRequest(
+                dataList = DataList(
+                    deliveryList = deliveryFormList,
+                    transferList = transferFormList,
+                    receiveList = receiveFormList,
+                    returnListList = returnFormList,
+                    inventoryEntities = inventoryEntities,
+                    storageRecordEntities = storageRecordEntities
+                ),
+                userInfo = userRepository.userInfo
+            )
+
+            updateFromPDA(updateDataRequest)
+
+            // 更新 Form 表中的 isUpdate 為 true
+            formEntities.forEach { formEntity ->
+                formEntity.isUpdate = true
+                sqlDatabase.getFormDao().update(formEntity)
+            }
+
+            // 更新 StorageRecord 表中的 isUpdate 為 true
+            storageRecordEntities.forEach { storageRecordEntity ->
+                storageRecordEntity.isUpdate = true
+                sqlDatabase.getStorageRecordDao().update(storageRecordEntity)
+            }
+
+            // 更新 Inventory 表中的 isUpdate 為 true
+            inventoryEntities.forEach { inventoryEntity ->
+                inventoryEntity.isUpdate = true
+                sqlDatabase.getInventoryDao().update(inventoryEntity)
+            }
+        } catch (e: IOException) {
+            Log.e("MainActivity", "Error writing JSONObject to file", e)
+        }
+    }
+
+
+    fun updateFromPDA(request: UpdateDataRequest) {
+        println("@@@@@@@@@@@@@@@@@@@@@@@@@@###@@@@@@@@@@@@@@@@@@@@@@@@@@@")
+        ApiManager().updateFromPDA(request)
+            .subscribeOn(Schedulers.io())
+            .map { response ->
+
+            }
+            .subscribe({ response ->
+                println("请求成功")
+            }, { error ->
+                println("请求失败：${error.message}")
+            })
     }
 
     /**

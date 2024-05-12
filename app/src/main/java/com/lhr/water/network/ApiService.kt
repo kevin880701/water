@@ -1,5 +1,6 @@
 package com.lhr.water.network
 
+import com.lhr.water.network.data.request.UpdateDataRequest
 import com.lhr.water.network.data.response.BaseResponse
 import com.lhr.water.network.data.response.UpdateData
 import com.lhr.water.network.data.response.UserInfo
@@ -26,6 +27,6 @@ interface ApiService {
     @POST("PDA/getWhseStrg")
     fun getDataList(@Body userInfo: UserInfo): Observable<BaseResponse<UpdateData>>
 
-//    @POST("PDA/updateFromPDA")
-//    fun updateFromPDA(@Body data: UpdateFromPdaRequest): Observable<ApiResponse<WhseStrgResponse>>
+    @POST("PDA/updateFromPDA")
+    fun updateFromPDA(@Body data: UpdateDataRequest): Observable<BaseResponse<UpdateData>>
 }

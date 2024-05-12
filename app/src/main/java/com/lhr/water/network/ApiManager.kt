@@ -1,5 +1,6 @@
 package com.lhr.water.network
 
+import com.lhr.water.network.data.request.UpdateDataRequest
 import com.lhr.water.network.data.response.BaseResponse
 import com.lhr.water.network.data.response.UpdateData
 import com.lhr.water.network.data.response.UserInfo
@@ -39,6 +40,12 @@ class ApiManager() {
 
     fun getDataList(userInfo: UserInfo): Observable<BaseResponse<UpdateData>> {
         return apiService.getDataList(userInfo)
+            .subscribeOn(Schedulers.io())
+            .observeOn(AndroidSchedulers.mainThread())
+    }
+
+    fun updateFromPDA(request: UpdateDataRequest): Observable<BaseResponse<UpdateData>> {
+        return apiService.updateFromPDA(request)
             .subscribeOn(Schedulers.io())
             .observeOn(AndroidSchedulers.mainThread())
     }

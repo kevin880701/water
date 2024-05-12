@@ -79,7 +79,8 @@ class SettingFragment : BaseFragment(), View.OnClickListener {
             R.id.constraintBackup -> {
 //                saveFile.launch(null)
 
-                viewModel.writeJsonObjectToFolder(requireActivity())
+                viewModel.updateFromPda()
+
             }
 
             R.id.constraintUpdate -> {

@@ -40,9 +40,6 @@ class CoverViewModel(
             .subscribeOn(Schedulers.io())
             .map { response ->
 
-                println("@@@@@@@@@@@@@@@@@@@@@@@@@@@")
-                println(userRepository.userInfo.userId)
-                println("@@@@@@@@@@@@@@@@@@@@@@@@@@@")
                 formRepository.updateSqlData(
                     response.data.dataList.checkoutFormList,
                     response.data.dataList.storageRecordList,

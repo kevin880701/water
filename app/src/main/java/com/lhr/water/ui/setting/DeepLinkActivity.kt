@@ -61,7 +61,7 @@ class DeepLinkActivity : BaseActivity() {
                 }
 
                 url.contains("https://pda-internal.water.gov.tw/auto-upload") -> {
-                    viewModel.writeJsonObjectToFolder(thisActivity)
+                    viewModel.updateFromPda()
                     finish()
                 }
             }
