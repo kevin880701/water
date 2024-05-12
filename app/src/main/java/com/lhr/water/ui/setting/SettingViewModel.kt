@@ -12,7 +12,6 @@ import com.lhr.water.data.form.DeliveryForm
 import com.lhr.water.data.form.ReceiveForm
 import com.lhr.water.data.form.ReturnForm
 import com.lhr.water.data.form.TransferForm
-import com.lhr.water.data.upData
 import com.lhr.water.network.Execute
 import com.lhr.water.network.data.UpdateData
 import com.lhr.water.network.data.request.DataList
@@ -35,8 +34,6 @@ import okhttp3.RequestBody.Companion.toRequestBody
 import okhttp3.Response
 import timber.log.Timber
 import java.io.BufferedReader
-import java.io.FileOutputStream
-import java.io.FileWriter
 import java.io.IOException
 import java.io.InputStream
 import java.io.InputStreamReader
@@ -334,10 +331,10 @@ class SettingViewModel(
         return !hasUnUpdatedRecord.contains(true)
     }
 
-    fun updateTest() {
+    fun updateTest(json: String) {
         val gson = Gson()
         val updateDataResponse: UpdateDataResponse =
-            gson.fromJson(upData, UpdateDataResponse::class.java)
+            gson.fromJson(json, UpdateDataResponse::class.java)
 
         // 先清除資料表
         sqlDatabase.getFormDao().clearTable()
@@ -376,8 +373,8 @@ class SettingViewModel(
             .insertInventoryEntities(updateDataResponse.updateData.dataList.inventoryFormList)
 
         // 更新資料
-        formRepository.updateData()
-        regionRepository.updateData()
+        formRepository.loadSqlData()
+        regionRepository.loadSqlData()
 
     }
 }

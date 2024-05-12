@@ -47,6 +47,7 @@ class FormFragment : BaseFragment(), View.OnClickListener, FormAdapter.Listener 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         bindViewModel()
+        viewModel.formRepository.loadSqlData()
     }
 
     private fun bindViewModel() {

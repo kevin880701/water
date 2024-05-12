@@ -17,6 +17,6 @@ class MainViewModel(context: Context, formRepository: FormRepository): AndroidVi
     var userName: MutableLiveData<String> = MutableLiveData<String>().apply { value = "Hi XXXXX" }
 
     fun updateFormList(){
-        formRepository.updateData()
+        formRepository.loadSqlData()
     }
 }

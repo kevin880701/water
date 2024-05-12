@@ -9,6 +9,7 @@ import androidx.activity.result.ActivityResultLauncher
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.fragment.app.viewModels
 import com.lhr.water.R
+import com.lhr.water.data.upData
 import com.lhr.water.databinding.FragmentSettingBinding
 import com.lhr.water.ui.base.BaseFragment
 import com.lhr.water.util.dialog.DefaultDialog
@@ -99,11 +100,11 @@ class SettingFragment : BaseFragment(), View.OnClickListener {
                     val defaultDialog = DefaultDialog(
                         title = "尚未備份",
                         text = "尚有未同步資料，是否覆蓋?",
-                        confirmClick = { viewModel.updateTest() }
+                        confirmClick = { viewModel.updateTest(upData) }
                     )
                     defaultDialog.show(requireActivity().supportFragmentManager, "DefaultDialog")
                 } else {
-                    viewModel.updateTest()
+                    viewModel.updateTest(upData)
                 }
             }
         }

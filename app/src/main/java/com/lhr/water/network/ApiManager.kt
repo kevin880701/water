@@ -1,6 +1,8 @@
 package com.lhr.water.network
 
 import com.lhr.water.network.data.response.BaseResponse
+import com.lhr.water.network.data.response.UpdateData
+import com.lhr.water.network.data.response.UserInfo
 import com.lhr.water.network.data.response.UserInfoData
 import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers
 import io.reactivex.rxjava3.core.Observable
@@ -31,6 +33,12 @@ class ApiManager() {
 
     fun getUserInfo(): Observable<BaseResponse<UserInfoData>> {
         return apiService.getUserInfo()
+            .subscribeOn(Schedulers.io())
+            .observeOn(AndroidSchedulers.mainThread())
+    }
+
+    fun getDataList(userInfo: UserInfo): Observable<BaseResponse<UpdateData>> {
+        return apiService.getDataList(userInfo)
             .subscribeOn(Schedulers.io())
             .observeOn(AndroidSchedulers.mainThread())
     }

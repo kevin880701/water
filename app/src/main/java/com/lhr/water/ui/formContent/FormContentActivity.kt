@@ -34,7 +34,6 @@ import com.lhr.water.util.dealStatusList
 import com.lhr.water.util.dialog.MaterialDialog
 import com.lhr.water.util.isInput
 import com.lhr.water.util.showToast
-import com.lhr.water.util.widget.FormContentDataSpinnerWidget
 import com.lhr.water.util.widget.FormGoodsAdd
 import com.lhr.water.util.widget.FormGoodsDataWidget
 import com.lhr.water.util.widget.FormContentDataWidget
@@ -203,7 +202,7 @@ class FormContentActivity : BaseActivity(), View.OnClickListener, FormGoodsAdd.L
                     )
                 )
                 updateForm(formEntity)
-                viewModel.formRepository.updateData()
+                viewModel.formRepository.loadSqlData()
                 finish()
             } else {
                 showToast(this, "貨物未處理完成!")
@@ -219,7 +218,7 @@ class FormContentActivity : BaseActivity(), View.OnClickListener, FormGoodsAdd.L
      */
     fun updateForm(formEntity: FormEntity) {
         SqlDatabase.getInstance().getFormDao().insertOrUpdate(formEntity)
-        FormRepository.getInstance(this).updateData()
+        FormRepository.getInstance(this).loadSqlData()
     }
 
 

@@ -1,16 +1,23 @@
 package com.lhr.water.ui.cover
 
+import android.annotation.SuppressLint
 import android.content.Context
 import androidx.lifecycle.AndroidViewModel
 import com.lhr.water.network.ApiManager
 import com.lhr.water.network.data.response.UserInfo
+import com.lhr.water.repository.FormRepository
 import com.lhr.water.repository.RegionRepository
 import com.lhr.water.repository.UserRepository
 import com.lhr.water.ui.base.APP
 import io.reactivex.rxjava3.core.Observable
 import io.reactivex.rxjava3.schedulers.Schedulers
 
-class CoverViewModel(var context: Context, var regionRepository: RegionRepository, var userRepository: UserRepository): AndroidViewModel(context.applicationContext as APP) {
+class CoverViewModel(
+    var context: Context,
+    var formRepository: FormRepository,
+    var regionRepository: RegionRepository,
+    var userRepository: UserRepository
+) : AndroidViewModel(context.applicationContext as APP) {
 
     fun getUserInfo(): Observable<UserInfo> {
         return ApiManager().getUserInfo()
@@ -26,5 +33,31 @@ class CoverViewModel(var context: Context, var regionRepository: RegionRepositor
 //            }, { error ->
 //                println("请求失败：${error.message}")
 //            })
+    }
+
+    fun getDataList() {
+        ApiManager().getDataList(userRepository.userInfo)
+            .subscribeOn(Schedulers.io())
+            .map { response ->
+
+                println("@@@@@@@@@@@@@@@@@@@@@@@@@@@")
+                println(userRepository.userInfo.userId)
+                println("@@@@@@@@@@@@@@@@@@@@@@@@@@@")
+                formRepository.updateSqlData(
+                    response.data.dataList.checkoutFormList,
+                    response.data.dataList.storageRecordList,
+                    response.data.dataList.deliveryFormList,
+                    response.data.dataList.transferFormList,
+                    response.data.dataList.receiveFormList,
+                    response.data.dataList.returnFormList,
+                    response.data.dataList.inventoryFormList
+                )
+                regionRepository.updateSqlData(response.data.dataList.storageList)
+            }
+            .subscribe({ response ->
+                println("请求成功")
+            }, { error ->
+                println("请求失败：${error.message}")
+            })
     }
 }

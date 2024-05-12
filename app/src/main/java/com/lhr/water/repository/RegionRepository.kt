@@ -1,9 +1,19 @@
 package com.lhr.water.repository
 
 import android.content.Context
+import com.google.gson.Gson
+import com.lhr.water.data.form.DeliveryForm
+import com.lhr.water.data.form.ReceiveForm
+import com.lhr.water.data.form.ReturnForm
+import com.lhr.water.data.form.TransferForm
+import com.lhr.water.network.data.response.UpdateDataResponse
+import com.lhr.water.room.CheckoutEntity
+import com.lhr.water.room.FormEntity
+import com.lhr.water.room.InventoryEntity
 import com.lhr.water.room.RegionEntity
 import com.lhr.water.room.SqlDatabase
 import com.lhr.water.room.StorageEntity
+import com.lhr.water.room.StorageRecordEntity
 import com.lhr.water.util.MapDataList
 
 class RegionRepository private constructor(private val context: Context) {
@@ -11,6 +21,8 @@ class RegionRepository private constructor(private val context: Context) {
     var regionEntities = ArrayList<RegionEntity>()
 
     var storageEntities = ArrayList<StorageEntity>()
+
+    private val sqlDatabase = SqlDatabase.getInstance()
 
     companion object {
         private var instance: RegionRepository? = null
@@ -23,11 +35,26 @@ class RegionRepository private constructor(private val context: Context) {
     }
 
     init {
-        updateData()
+        loadSqlData()
     }
 
-    fun updateData(){
+    fun loadSqlData(){
         storageEntities = SqlDatabase.getInstance().getStorageDao().getAll() as ArrayList<StorageEntity>
+    }
+
+    fun updateSqlData(
+        storageList: List<StorageEntity>
+    ) {
+        // 先清除資料表
+        sqlDatabase.getStorageDao().clearTable()
+
+        // 將updateDataResponse的儲櫃資訊、儲櫃紀錄、月結表插入資料表
+        sqlDatabase.getStorageDao()
+            .insertStorageEntities(storageList)
+
+        // 更新資料
+        loadSqlData()
+
     }
 
     fun filterRegionEntity(specifiedDeptNumber: String) {

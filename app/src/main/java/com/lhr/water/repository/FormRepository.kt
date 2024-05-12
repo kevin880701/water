@@ -2,6 +2,12 @@ package com.lhr.water.repository
 
 import android.content.Context
 import androidx.lifecycle.MutableLiveData
+import com.google.gson.Gson
+import com.lhr.water.data.form.DeliveryForm
+import com.lhr.water.data.form.ReceiveForm
+import com.lhr.water.data.form.ReturnForm
+import com.lhr.water.data.form.TransferForm
+import com.lhr.water.network.data.response.UpdateDataResponse
 import com.lhr.water.room.FormEntity
 import com.lhr.water.room.InventoryEntity
 import com.lhr.water.room.SqlDatabase
@@ -16,14 +22,19 @@ class FormRepository(context: Context) {
     var formEntities = MutableLiveData<ArrayList<FormEntity>>(ArrayList<FormEntity>())
 
     // 盤點表單列表
-    var inventoryEntities = MutableLiveData<ArrayList<InventoryEntity>>(ArrayList<InventoryEntity>())
+    var inventoryEntities =
+        MutableLiveData<ArrayList<InventoryEntity>>(ArrayList<InventoryEntity>())
 
     // 暫存待出入庫的貨物列表（未送出）
-    var tempStorageRecordEntities = MutableLiveData<ArrayList<StorageRecordEntity>>(ArrayList<StorageRecordEntity>())
+    var tempStorageRecordEntities =
+        MutableLiveData<ArrayList<StorageRecordEntity>>(ArrayList<StorageRecordEntity>())
 
     var checkoutEntities = MutableLiveData<ArrayList<CheckoutEntity>>(ArrayList<CheckoutEntity>())
 
-    var storageRecordEntities = MutableLiveData<ArrayList<StorageRecordEntity>>(ArrayList<StorageRecordEntity>())
+    var storageRecordEntities =
+        MutableLiveData<ArrayList<StorageRecordEntity>>(ArrayList<StorageRecordEntity>())
+
+    private val sqlDatabase = SqlDatabase.getInstance()
 
     companion object {
         private var instance: FormRepository? = null
@@ -36,21 +47,72 @@ class FormRepository(context: Context) {
     }
 
     init {
-        updateData()
+        loadSqlData()
     }
 
     /**
      * 抓取表單全部記錄
      */
-    fun updateData() {
+    fun loadSqlData() {
         // 取表單資料
-        formEntities.postValue(SqlDatabase.getInstance().getFormDao().getAll() as ArrayList)
+        formEntities.postValue(sqlDatabase.getFormDao().getAll() as ArrayList)
         // 取盤點表單資料
-        inventoryEntities.postValue(SqlDatabase.getInstance().getInventoryDao().getAll() as ArrayList)
+        inventoryEntities.postValue(sqlDatabase.getInventoryDao().getAll() as ArrayList)
         // 取checkout資料
-        checkoutEntities.postValue(SqlDatabase.getInstance().getCheckoutDao().getAll() as ArrayList<CheckoutEntity>)
+        checkoutEntities.postValue(
+            sqlDatabase.getCheckoutDao().getAll() as ArrayList<CheckoutEntity>
+        )
         // 取儲櫃紀錄資料
-        storageRecordEntities.postValue(SqlDatabase.getInstance().getStorageRecordDao().getAll() as ArrayList<StorageRecordEntity>)
+        storageRecordEntities.postValue(
+            sqlDatabase.getStorageRecordDao().getAll() as ArrayList<StorageRecordEntity>
+        )
+    }
+
+
+    fun updateSqlData(
+        checkoutFormList: List<CheckoutEntity>,
+        storageRecordList: List<StorageRecordEntity>,
+        deliveryFormList: List<DeliveryForm>,
+        transferFormList: List<TransferForm>,
+        receiveFormList: List<ReceiveForm>,
+        returnFormList: List<ReturnForm>,
+        inventoryFormList: List<InventoryEntity>
+    ) {
+
+        // 先清除資料表
+        sqlDatabase.getFormDao().clearTable()
+        sqlDatabase.getCheckoutDao().clearTable()
+        sqlDatabase.getStorageRecordDao().clearTable()
+        sqlDatabase.getInventoryDao().clearTable()
+
+        // 將updateDataResponse的儲櫃紀錄、月結表插入資料表
+        sqlDatabase.getCheckoutDao()
+            .insertCheckoutEntities(checkoutFormList)
+        sqlDatabase.getStorageRecordDao()
+            .insertStorageRecordEntities(storageRecordList)
+
+        //將交貨、領料、退料、調撥轉成FormEntity格式
+        val deliveryFormEntities =
+            FormEntity.convertFormToFormEntities(deliveryFormList)
+        val transferFormEntities =
+            FormEntity.convertFormToFormEntities(transferFormList)
+        val receiveFormEntities =
+            FormEntity.convertFormToFormEntities(receiveFormList)
+        val returnFormEntities =
+            FormEntity.convertFormToFormEntities(returnFormList)
+
+        // 插入到資料表中
+        sqlDatabase.getFormDao().insertFormEntities(deliveryFormEntities)
+        sqlDatabase.getFormDao().insertFormEntities(transferFormEntities)
+        sqlDatabase.getFormDao().insertFormEntities(receiveFormEntities)
+        sqlDatabase.getFormDao().insertFormEntities(returnFormEntities)
+
+        // 插入到資料表中
+        sqlDatabase.getInventoryDao()
+            .insertInventoryEntities(inventoryFormList)
+
+        // 更新資料
+        loadSqlData()
     }
 
     /**
@@ -68,14 +130,14 @@ class FormRepository(context: Context) {
         // 篩選
         val filteredList = tempStorageRecordEntities.value!!.filter { data ->
             data.formType == formTypeMap[targetReportTitle] &&
-            data.formNumber == targetFormNumber &&
+                    data.formNumber == targetFormNumber &&
                     data.materialNumber == materialNumber
 
         }
 
         // 篩選後的List中數量加總
         for (storageContentEntity in filteredList) {
-                totalQuantity += storageContentEntity.quantity
+            totalQuantity += storageContentEntity.quantity
         }
         return totalQuantity
     }

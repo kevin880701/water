@@ -39,10 +39,6 @@ class MainActivity : BaseActivity() {
 
     override fun onResume() {
         super.onResume()
-        println("@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@")
-        println("@@@：" + UserRepository.getInstance(this).userInfo.userId)
-        println("@@@：" + UserRepository.getInstance(this).userInfo.deptAno)
-        println("@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@")
     }
 
     fun initTabLayout(tabLayoutMain: TabLayout) {

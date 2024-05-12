@@ -13,7 +13,8 @@ val fakerUserInfo = """
 }
 """
 
-val upData = """{
+val upData = """
+    {
   "code": 200,
   "message": "Success",
   "data": {
