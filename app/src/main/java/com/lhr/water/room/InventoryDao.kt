@@ -17,4 +17,8 @@ interface InventoryDao {
     @Update
     fun update(inventoryEntity: InventoryEntity)
 
+
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
+    fun insertOrUpdate(inventoryEntity: InventoryEntity)
+
 }

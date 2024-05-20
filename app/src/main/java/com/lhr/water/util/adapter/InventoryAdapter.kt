@@ -11,6 +11,7 @@ import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.lhr.water.databinding.ItemInventoryMaterialBinding
 import com.lhr.water.room.InventoryEntity
+import com.lhr.water.room.SqlDatabase
 
 class InventoryAdapter(val listener: Listener, context: Context) :
     ListAdapter<InventoryEntity, InventoryAdapter.ViewHolder>(LOCK_DIFF_UTIL) {
@@ -45,9 +46,8 @@ class InventoryAdapter(val listener: Listener, context: Context) :
         RecyclerView.ViewHolder(binding.root) {
 
         fun bind(inventoryEntity: InventoryEntity) {
+            binding.textDept.text = inventoryEntity.deptName
             binding.textMaterialName.text = inventoryEntity.materialName
-            binding.textMaterialSpec.text = inventoryEntity.materialSpec
-            binding.textMaterialUnit.text = inventoryEntity.materialUnit
             binding.textQuantity.text = Editable.Factory.getInstance().newEditable(inventoryEntity.actualQuantity.toString())
 
 
@@ -69,8 +69,7 @@ class InventoryAdapter(val listener: Listener, context: Context) :
                 binding.textQuantity.isEnabled = false
                 binding.textQuantity.setBackgroundColor(Color.TRANSPARENT)
                 inventoryEntity.actualQuantity = binding.textQuantity.text.toString().toInt()
-
-//                FormRepository.getInstance(context).loadInventoryEntity()
+                SqlDatabase.getInstance().getInventoryDao().insertOrUpdate(inventoryEntity)
             }
         }
     }
