@@ -69,7 +69,7 @@ class FormFragment : BaseFragment(), View.OnClickListener, FormAdapter.Listener 
     }
 
     private fun initView() {
-        binding.widgetTitleBar.textTitle.text = requireActivity().getString(R.string.form_record)
+        binding.widgetTitleBar.textTitle.text = requireActivity().getString(R.string.material_in_out)
         binding.widgetTitleBar.imageFilter.visibility = View.VISIBLE
         initRecyclerView()
         binding.editSearch.addTextChangedListener(object : TextWatcher {

@@ -4,7 +4,7 @@
 
     <string name="region_choose">地區選擇</string>
     <string name="map_choose">地圖選擇</string>
-    <string name="form_record">表單紀錄</string>
+    <string name="material_in_out">貨物進出</string>
     <string name="search_inventory">貨物盤點</string>
     <string name="choose_storage_point">選擇儲櫃位置</string>
     <string name="search_material">搜尋貨物</string>
