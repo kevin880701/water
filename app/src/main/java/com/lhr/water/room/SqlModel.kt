@@ -33,7 +33,7 @@ class SqlModel {
         const val checkDate: String = "checkDate"
         const val lastUseDate: String = "lastUseDate"
         const val approvedDate: String = "approvedDate"
-
+        const val updatedAt: String = "updatedAt"
 
         const val storageId: String = "storageId"
         const val mapSeq: String = "mapSeq"
