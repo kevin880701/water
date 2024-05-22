@@ -10,44 +10,50 @@ import com.lhr.water.R
 import com.lhr.water.data.form.BaseItem
 import com.lhr.water.databinding.WidgetFormMaterialBinding
 
-class FormGoodsDataWidget : RelativeLayout {
+class MaterialWidget : RelativeLayout {
     var binding: WidgetFormMaterialBinding
     private val activity: Activity
     var itemDetail: BaseItem
     private val textMaterialName: TextView
-    private val textMaterialNumber: TextView
     private val textRequestQuantity: TextView
     private val textApprovedQuantity: TextView
+    var isDeliveryStatus: Boolean = false
     constructor(
         activity: Activity,
         itemDetail: BaseItem,
-        listener: Listener? = null,
+        deliveryStatus: String? = null
     ) : super(activity) {
         binding = DataBindingUtil.inflate(
             LayoutInflater.from(context), R.layout.widget_form_material, this, true
         )
-        this@FormGoodsDataWidget.activity = activity
-        this@FormGoodsDataWidget.itemDetail = itemDetail
+        this@MaterialWidget.activity = activity
+        this@MaterialWidget.itemDetail = itemDetail
+
+        if(deliveryStatus == "true"){
+            binding.switchDeliveryStatus.isChecked = true
+            isDeliveryStatus = true
+        }else{
+            binding.switchDeliveryStatus.isChecked = false
+            isDeliveryStatus = false
+        }
+        if(deliveryStatus == null){
+            binding.switchDeliveryStatus.visibility = View.GONE
+        }
+
         textMaterialName = binding.textMaterialName
-        textMaterialNumber = binding.textMaterialNumber
         textRequestQuantity = binding.textRequestQuantity
         textApprovedQuantity = binding.textApprovedQuantity
 
-        binding.constraintMaterial.setOnClickListener {
-            listener?.onGoodsColClick(this@FormGoodsDataWidget.itemDetail, this)
-        }
         initView()
     }
 
     fun initView(){
         textMaterialName.text = itemDetail.materialName
-        textMaterialNumber.text = itemDetail.materialNumber
         textRequestQuantity.text = itemDetail.getRequestQuantity().toString()
         textApprovedQuantity.text = itemDetail.getApprovedQuantity().toString()
-    }
 
-    interface Listener{
-        fun onDeleteGoodsClick(view: View)
-        fun onGoodsColClick(itemDetail: BaseItem, formGoodsDataWidget: FormGoodsDataWidget)
+        binding.switchDeliveryStatus.setOnCheckedChangeListener { _, isChecked ->
+            isDeliveryStatus = isChecked
+        }
     }
 }

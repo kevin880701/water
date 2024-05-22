@@ -5,14 +5,11 @@ import android.app.Dialog
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
-import android.widget.EditText
-import android.widget.TextView
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.DialogFragment
 import com.lhr.water.R
 import com.lhr.water.databinding.DialogMaterialBinding
-import com.lhr.water.util.manager.listToJsonObject
-import com.lhr.water.util.widget.FormGoodsDataWidget
+import com.lhr.water.util.widget.MaterialWidget
 import org.json.JSONObject
 
 class InventoryGoodsDialog(
@@ -20,7 +17,7 @@ class InventoryGoodsDialog(
     formItemFieldNameEngList: ArrayList<String>,
     listener: Listener,
     var formItemFieldContentList: ArrayList<String>? = null,
-    var formGoodsDataWidget: FormGoodsDataWidget? = null
+    var formGoodsDataWidget: MaterialWidget? = null
 ) : DialogFragment() {
 
     private var dialog: AlertDialog? = null
@@ -79,6 +76,6 @@ class InventoryGoodsDialog(
     }
 
     interface Listener {
-        fun onChangeGoodsInfo(formItemJson: JSONObject, formGoodsDataWidget: FormGoodsDataWidget)
+        fun onChangeGoodsInfo(formItemJson: JSONObject, formGoodsDataWidget: MaterialWidget)
     }
 }

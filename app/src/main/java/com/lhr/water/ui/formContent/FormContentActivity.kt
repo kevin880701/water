@@ -31,11 +31,10 @@ import com.lhr.water.util.adapter.SpinnerAdapter
 import com.lhr.water.util.dealStatusList
 import com.lhr.water.util.isInput
 import com.lhr.water.util.showToast
-import com.lhr.water.util.widget.FormGoodsDataWidget
+import com.lhr.water.util.widget.MaterialWidget
 import com.lhr.water.util.widget.FormContentDataWidget
 
-class FormContentActivity : BaseActivity(), View.OnClickListener,
-    FormContentDataWidget.Listener, FormGoodsDataWidget.Listener {
+class FormContentActivity : BaseActivity(), View.OnClickListener {
     private val viewModel: FormContentViewModel by viewModels { (applicationContext as APP).appContainer.viewModelFactory }
     private var _binding: ActivityFormContentBinding? = null
     private val binding get() = _binding!!
@@ -113,6 +112,11 @@ class FormContentActivity : BaseActivity(), View.OnClickListener,
 
         addFormData()
         setupBackButton(binding.widgetTitleBar.imageBack)
+
+        if(formEntity.reportTitle != "交貨通知單"){
+            binding.textDeliveryStatus.visibility = View.GONE
+        }
+
         binding.buttonSend.setOnClickListener(this)
     }
 
@@ -141,12 +145,13 @@ class FormContentActivity : BaseActivity(), View.OnClickListener,
             "材料退料單" -> Gson().fromJson(formEntity.formContent, ReturnForm::class.java)
             else -> null // 未知的 reportTitle，或者其他处理方式
         }
+
         baseForm!!.itemDetails.forEachIndexed { index, itemDetail ->
                 val formGoodsDataWidget =
-                    FormGoodsDataWidget(
+                    MaterialWidget(
                         activity = this@FormContentActivity,
                         itemDetail = itemDetail,
-                        listener = this@FormContentActivity
+                        deliveryStatus = if(formEntity.reportTitle == "交貨通知單"){(baseForm as DeliveryForm).itemDetails[index].deliveryStatus}else{null}
                     )
                 binding.linearItemData.addView(formGoodsDataWidget)
         }
@@ -167,6 +172,19 @@ class FormContentActivity : BaseActivity(), View.OnClickListener,
         )
         var dealStatus = currentDealStatus
 
+        // 交貨單要更新每個材料的分段交貨欄位
+        if(formEntity.reportTitle == "交貨通知單"){
+            for (i in 0 until binding.linearItemData.childCount) {
+                var deliveryForm = Gson().fromJson(formEntity.formContent, DeliveryForm::class.java)
+
+                val childView = binding.linearItemData.getChildAt(i) as MaterialWidget
+                deliveryForm.itemDetails[i].deliveryStatus = childView.isDeliveryStatus.toString()
+
+                val gson = Gson()
+                val jsonString = gson.toJson(deliveryForm)
+                formEntity.formContent = jsonString
+            }
+        }
         // 如果表單是交貨、退料、進貨調撥並且處理狀態是處理完成的話要判斷表單中的貨物是否已經全部入庫
         if (dealStatus == getString(R.string.complete_deal)
         ) {
@@ -175,16 +193,6 @@ class FormContentActivity : BaseActivity(), View.OnClickListener,
                     baseForm.formNumber,
                 )
             ) {
-
-                // 如果是退料單取得目前日期並轉換為民國年份
-//                if(reportTitle == getString(R.string.returning_form) && form.receivedDate != ""){
-////                    val currentDate = LocalDate.now()
-////                    val rocYear = currentDate.year - 1911
-////                    val formattedDate = String.format("%03d/%02d/%02d", rocYear, currentDate.monthValue, currentDate.dayOfMonth)
-//                    form.receivedDate = getCurrentDate()
-//                    formEntity.formContent = form.toJsonString()
-//                }
-
                 // 將暫存紀錄轉入SQL
                 SqlDatabase.getInstance().getStorageRecordDao().insertStorageRecordEntities(
                     viewModel.getInsertStorageRecord(
@@ -255,24 +263,5 @@ class FormContentActivity : BaseActivity(), View.OnClickListener,
                 onClickSend()
             }
         }
-    }
-
-    override fun onDeleteGoodsClick(view: View) {
-    }
-
-    /**
-     * 點擊已有的貨物，在Dialog中顯示貨物資訊
-     */
-    override fun onGoodsColClick(
-        itemDetail: BaseItem,
-        formGoodsDataWidget: FormGoodsDataWidget
-    ) {
-//        val goodsDialog = MaterialDialog(
-//            false,
-//            formItemFieldNameMap,
-//            this,
-//            itemDetail
-//        )
-//        goodsDialog.show(supportFragmentManager, "GoodsDialog")
     }
 }

@@ -92,6 +92,75 @@
                     </androidx.constraintlayout.widget.ConstraintLayout>
                 </LinearLayout>
 
+
+
+                <androidx.appcompat.widget.LinearLayoutCompat
+                    android:id="@+id/constraintMaterial"
+                    android:layout_width="match_parent"
+                    android:layout_height="72dp"
+                    android:gravity="center"
+                    android:orientation="horizontal"
+                    android:paddingLeft="12dp"
+                    android:paddingRight="12dp">
+
+                    <androidx.appcompat.widget.LinearLayoutCompat
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:orientation="vertical">
+
+                        <TextView
+                            android:id="@+id/textMaterialName"
+                            style="@style/TextStyle_16dp_black"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:gravity="center"
+                            android:text="@string/goods_name"
+                            android:textColor="@color/primaryBlue" />
+
+                    </androidx.appcompat.widget.LinearLayoutCompat>
+
+                    <androidx.appcompat.widget.LinearLayoutCompat
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:orientation="vertical">
+
+                        <TextView
+                            android:id="@+id/textRequestQuantity"
+                            style="@style/TextStyle_16dp_black"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:background="@color/transparent"
+                            android:gravity="center"
+                            android:text="請求數量"
+                            android:textColor="@color/primaryBlack" />
+
+                        <TextView
+                            android:id="@+id/textApprovedQuantity"
+                            style="@style/TextStyle_16dp_black"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:gravity="center"
+                            android:text="核定數量" />
+                    </androidx.appcompat.widget.LinearLayoutCompat>
+
+                    <androidx.appcompat.widget.LinearLayoutCompat
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="0.5"
+                        android:gravity="center">
+                        <TextView
+                            android:id="@+id/textDeliveryStatus"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            style="@style/TextStyle_16dp_black"
+                            android:gravity="center"
+                            android:text="分段交貨" />
+                    </androidx.appcompat.widget.LinearLayoutCompat>
+
+                </androidx.appcompat.widget.LinearLayoutCompat>
+
                 <LinearLayout
                     android:id="@+id/linearItemData"
                     android:layout_width="match_parent"

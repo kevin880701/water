@@ -17,7 +17,7 @@ import com.lhr.water.room.InventoryEntity
 import com.lhr.water.ui.base.BaseFragment
 import com.lhr.water.util.adapter.InventoryAdapter
 import com.lhr.water.util.dialog.InventoryGoodsDialog
-import com.lhr.water.util.widget.FormGoodsDataWidget
+import com.lhr.water.util.widget.MaterialWidget
 import org.json.JSONException
 import org.json.JSONObject
 import timber.log.Timber
@@ -135,7 +135,7 @@ class InventoryFragment : BaseFragment(), View.OnClickListener, InventoryAdapter
 
     override fun onChangeGoodsInfo(
         formItemJson: JSONObject,
-        formGoodsDataWidget: FormGoodsDataWidget
+        formGoodsDataWidget: MaterialWidget
     ) {
 //        formGoodsDataWidget.binding.textMaterialName.text = formItemJson.getString("materialName")
 //        formGoodsDataWidget.binding.textMaterialNumber.text = formItemJson.getString("materialNumber")

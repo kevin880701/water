@@ -25,17 +25,9 @@
                 style="@style/TextStyle_16dp_black"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:gravity="center"
                 android:text="@string/goods_name"
                 android:textColor="@color/primaryBlue" />
-
-            <TextView
-                android:id="@+id/textMaterialNumber"
-                style="@style/TextStyle_16dp_black"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:background="@color/transparent"
-                android:text="@string/goods_number"
-                android:textColor="@color/primaryBlack" />
 
         </androidx.appcompat.widget.LinearLayoutCompat>
 
@@ -51,6 +43,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:background="@color/transparent"
+                android:gravity="center"
                 android:text="單位"
                 android:textColor="@color/primaryBlack" />
 
@@ -59,13 +52,19 @@
                 style="@style/TextStyle_16dp_black"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:gravity="center"
                 android:text="規格" />
         </androidx.appcompat.widget.LinearLayoutCompat>
-
-        <Switch
-            android:id="@+id/switchDeliveryStatus"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:checked="false" />
+<androidx.appcompat.widget.LinearLayoutCompat
+    android:layout_width="0dp"
+    android:layout_height="wrap_content"
+    android:layout_weight="0.5"
+    android:gravity="center">
+    <Switch
+        android:id="@+id/switchDeliveryStatus"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:checked="false" />
+</androidx.appcompat.widget.LinearLayoutCompat>
     </androidx.appcompat.widget.LinearLayoutCompat>
 </layout>

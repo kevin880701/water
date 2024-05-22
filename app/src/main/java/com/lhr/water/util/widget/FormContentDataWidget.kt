@@ -73,8 +73,4 @@ class FormContentDataWidget : RelativeLayout, FormContentData {
             }
         })
     }
-
-    interface Listener {
-        fun onDeleteGoodsClick(view: View)
-    }
 }

@@ -133,7 +133,7 @@ data class DeliveryItemDetail(
     val updatedAt: String,
 
     @SerializedName("deliveryStatus")
-    val deliveryStatus: String
+    var deliveryStatus: String
     
 ) : BaseItem(){
     override fun getRequestQuantity(): Int {

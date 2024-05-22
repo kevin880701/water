@@ -9,9 +9,7 @@ import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.DialogFragment
 import com.lhr.water.R
 import com.lhr.water.databinding.DialogDefaultBinding
-import com.lhr.water.databinding.DialogMaterialBinding
-import com.lhr.water.room.StorageRecordEntity
-import com.lhr.water.util.widget.FormGoodsDataWidget
+import com.lhr.water.util.widget.MaterialWidget
 import org.json.JSONObject
 
 class DefaultDialog(
@@ -64,6 +62,6 @@ class DefaultDialog(
 
     interface Listener {
         fun onGoodsDialogConfirm(formItemJson: JSONObject)
-        fun onChangeGoodsInfo(formItemJson: JSONObject, formGoodsDataWidget: FormGoodsDataWidget)
+        fun onChangeGoodsInfo(formItemJson: JSONObject, formGoodsDataWidget: MaterialWidget)
     }
 }

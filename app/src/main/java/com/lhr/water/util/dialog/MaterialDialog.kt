@@ -10,7 +10,6 @@ import androidx.fragment.app.DialogFragment
 import com.lhr.water.R
 import com.lhr.water.databinding.DialogMaterialBinding
 import com.lhr.water.room.StorageRecordEntity
-import com.lhr.water.util.widget.FormGoodsDataWidget
 import org.json.JSONObject
 
 class MaterialDialog(
