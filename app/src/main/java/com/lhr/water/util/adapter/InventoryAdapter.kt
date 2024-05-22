@@ -69,6 +69,7 @@ class InventoryAdapter(val listener: Listener, context: Context) :
                 binding.textQuantity.isEnabled = false
                 binding.textQuantity.setBackgroundColor(Color.TRANSPARENT)
                 inventoryEntity.actualQuantity = binding.textQuantity.text.toString().toInt()
+                inventoryEntity.dealStatus = "處理完成"
                 SqlDatabase.getInstance().getInventoryDao().insertOrUpdate(inventoryEntity)
             }
         }
