@@ -3,11 +3,48 @@ package com.lhr.water.data.form
 import com.google.gson.annotations.SerializedName
 
 data class ReturnForm(
-    @SerializedName("formNumber")
-    override val formNumber: String,
+
+    @SerializedName("accountingSubject")
+    val accountingSubject: String,
+
+    @SerializedName("ano")
+    val ano: String,
+
+    @SerializedName("costAllocationUnit")
+    val costAllocationUnit: String,
+
+    @SerializedName("date")
+    override val date: String,
 
     @SerializedName("dealStatus")
     override val dealStatus: String,
+
+    @SerializedName("formNumber")
+    override val formNumber: String,
+
+    @SerializedName("id")
+    override val id: String,
+
+    @SerializedName("leadDept")
+    val leadDept: String,
+
+    @SerializedName("leadNumber")
+    val leadNumber: String,
+
+    @SerializedName("originalVoucherNumber")
+    val originalVoucherNumber: String,
+
+    @SerializedName("projectName")
+    val projectName: String,
+
+    @SerializedName("projectNumber")
+    val projectNumber: String,
+
+    @SerializedName("receiptDept")
+    val receiptDept: String,
+
+    @SerializedName("receivedDate")
+    val receivedDate: String,
 
     @SerializedName("reportId")
     override val reportId: String,
@@ -15,47 +52,17 @@ data class ReturnForm(
     @SerializedName("reportTitle")
     override val reportTitle: String,
 
-    @SerializedName("date")
-    override val date: String,
-
-    @SerializedName("dealTime")
-    override val dealTime: String,
-
-    @SerializedName("receiptDept")
-    val receiptDept: String?,
-
-    @SerializedName("leadNumber")
-    val leadNumber: String?,
-
-    @SerializedName("leadDept")
-    val leadDept: String?,
-
-    @SerializedName("receivedDate")
-    val receivedDate: String?,
-
-    @SerializedName("accountingSubject")
-    val accountingSubject: String?,
-
-    @SerializedName("costAllocationUnit")
-    val costAllocationUnit: String?,
-
     @SerializedName("returnDept")
-    val returnDept: String?,
+    val returnDept: String,
 
     @SerializedName("systemCode")
-    val systemCode: String?,
+    val systemCode: String,
+
+    @SerializedName("updatedAt")
+    val updatedAt: String,
 
     @SerializedName("usageCode")
-    val usageCode: String?,
-
-    @SerializedName("projectNumber")
-    val projectNumber: String?,
-
-    @SerializedName("projectName")
-    val projectName: String?,
-
-    @SerializedName("originalVoucherNumber")
-    val originalVoucherNumber: String?,
+    val usageCode: String,
 
     @SerializedName("itemDetail")
     override val itemDetails: List<ReturnItemDetail>
@@ -67,6 +74,9 @@ data class ReturnForm(
 }
 
 data class ReturnItemDetail(
+    @SerializedName("id")
+    override val id: String,
+
     @SerializedName("number")
     override val number: String,
 
@@ -82,19 +92,22 @@ data class ReturnItemDetail(
     @SerializedName("materialUnit")
     override val materialUnit: String,
 
-    @SerializedName("returnedQuantity")
-    val returnedQuantity: Int?,
+    @SerializedName("inRequestQuantity")
+    val inRequestQuantity: String,
 
-    @SerializedName("receivedQuantity")
-    val receivedQuantity: Int,
+    @SerializedName("inApprovedQuantity")
+    val inApprovedQuantity: String,
 
-    @SerializedName("stockingPrice")
-    val stockingPrice: String?,
+    @SerializedName("price")
+    val price: String,
 
-    @SerializedName("returnAmt")
-    val returnAmt: String?
-): BaseItem(){
+    @SerializedName("amount")
+    val amount: String,
+    
+    @SerializedName("updatedAt")
+    val updatedAt: String,
+    ): BaseItem(){
     override fun getQuantity(): Int {
-        return receivedQuantity
+        return inRequestQuantity.toInt()
     }
 }

@@ -4,8 +4,45 @@ import com.google.gson.annotations.SerializedName
 import com.lhr.water.data.LoginData
 
 data class TransferForm(
+
+    @SerializedName("contact")
+    val contact: String,
+
+    @SerializedName("contactPhone")
+    val contactPhone: String,
+
+    @SerializedName("date")
+    override val date: String,
+
+    @SerializedName("dealStatus")
+    override val dealStatus: String,
+
     @SerializedName("formNumber")
     override val formNumber: String,
+
+    @SerializedName("id")
+    override val id: String,
+
+    @SerializedName("originalVoucherNumber")
+    val originalVoucherNumber: String,
+
+    @SerializedName("receivingApplyTransferDate")
+    val receivingApplyTransferDate: String,
+
+    @SerializedName("receivingApplyTransferNumber")
+    val receivingApplyTransferNumber: String,
+
+    @SerializedName("receivingDept")
+    val receivingDept: String,
+
+    @SerializedName("receivingLocation")
+    val receivingLocation: String,
+
+    @SerializedName("receivingTransferDate")
+    val receivingTransferDate: String,
+
+    @SerializedName("receivingTransferNumber")
+    val receivingTransferNumber: String,
 
     @SerializedName("reportId")
     override val reportId: String,
@@ -13,69 +50,42 @@ data class TransferForm(
     @SerializedName("reportTitle")
     override val reportTitle: String,
 
-    @SerializedName("dealStatus")
-    override val dealStatus: String,
-
-    @SerializedName("date")
-    override val date: String,
-
-    @SerializedName("dealTime")
-    override val dealTime: String,
-
-    @SerializedName("transferringDept")
-    val transferringDept: String?,
-
-    @SerializedName("receivingDept")
-    val receivingDept: String?,
-
-    @SerializedName("receivingLocation")
-    val receivingLocation: String?,
-
-    @SerializedName("receivingTransferDate")
-    val receivingTransferDate: String?,
-
-    @SerializedName("receivingApplyTransferDate")
-    val receivingApplyTransferDate: String?,
-
-    @SerializedName("receivingApplyTransferNumber")
-    val receivingApplyTransferNumber: String?,
-
-    @SerializedName("receivingTransferNumber")
-    val receivingTransferNumber: String?,
-
     @SerializedName("requiredDate")
-    val requiredDate: String?,
-
-    @SerializedName("transferringTransferNumber")
-    val transferringTransferNumber: String?,
-
-    @SerializedName("originalVoucherNumber")
-    val originalVoucherNumber: String?,
-
-    @SerializedName("transferringTransferDate")
-    val transferringTransferDate: String?,
-
-    @SerializedName("contact")
-    val contact: String?,
-
-    @SerializedName("contactPhone")
-    val contactPhone: String?,
+    val requiredDate: String,
 
     @SerializedName("transferDescription")
-    val transferDescription: String?,
+    val transferDescription: String,
+
+    @SerializedName("transferringDept")
+    val transferringDept: String,
+
+    @SerializedName("transferringDeptAno")
+    val transferringDeptAno: String,
+
+    @SerializedName("transferringTransferDate")
+    val transferringTransferDate: String,
+
+    @SerializedName("transferringTransferNumber")
+    val transferringTransferNumber: String,
+
+    @SerializedName("transferStatus")
+    val transferStatus: String,
+
+    @SerializedName("updatedAt")
+    val updatedAt: String,
 
     @SerializedName("itemDetail")
     override val itemDetails: ArrayList<TransferItemDetail>
 ) : BaseForm(){
 
     override fun isInput(): Boolean {
-        return (receivingDept == LoginData.region && receivingLocation == LoginData.map)
+        return (transferStatus == "撥方已送出")
     }
 
     data class TransferItemDetail(
 
-        val receivingDept: String,
-        val receivingLocation: String,
+        @SerializedName("id")
+        override val id: String,
 
         @SerializedName("number")
         override val number: String,
@@ -92,23 +102,35 @@ data class TransferForm(
         @SerializedName("materialUnit")
         override val materialUnit: String,
 
-        @SerializedName("actualQuantity")
-        val actualQuantity: Int,
+        @SerializedName("outRequestQuantity")
+        val outRequestQuantity: String,
+
+        @SerializedName("outApprovedQuantity")
+        val outApprovedQuantity: String,
+
+        @SerializedName("inRequestQuantity")
+        val inRequestQuantity: String,
+
+        @SerializedName("inApprovedQuantity")
+        val inApprovedQuantity: String,
+
+        @SerializedName("approvalResult")
+        val approvalResult: String,
 
         @SerializedName("applyNumber")
-        val applyNumber: Int?,
+        val applyNumber: String,
 
-        @SerializedName("allocatedQuantity")
-        val allocatedQuantity: Int?,
+        @SerializedName("updatedAt")
+        val updatedAt: String,
 
-        @SerializedName("receivedQuantity")
-        val receivedQuantity: Int
+        val transferStatus: String,
+
     ) : BaseItem(){
         override fun getQuantity(): Int {
-            if (receivingDept == LoginData.region && receivingLocation == LoginData.map){
-                return receivedQuantity
+            if (transferStatus == "單據提出"){
+                return outRequestQuantity.toInt()
             }else{
-                return actualQuantity
+                return inRequestQuantity.toInt()
             }
         }
     }

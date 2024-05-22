@@ -170,7 +170,6 @@ class FormContentActivity : BaseActivity(), View.OnClickListener, FormGoodsAdd.L
             dealStatus = currentDealStatus,
             reportId = formEntity.reportId,
             reportTitle = formEntity.reportTitle,
-            dealTime = formEntity.dealTime,
             date = formEntity.date,
             formContent = formEntity.formContent,
         )

@@ -14,7 +14,6 @@ class InventoryEntity(
     dealStatus: String,
     reportId: String,
     reportTitle: String,
-    dealTime: String,
     date: String,
     deptName: String,
     seq: String,
@@ -49,10 +48,6 @@ class InventoryEntity(
     @ColumnInfo(name = SqlModel.reportTitle, typeAffinity = ColumnInfo.TEXT)
     @SerializedName("reportTitle")
     var reportTitle = reportTitle
-
-    @ColumnInfo(name = SqlModel.dealTime, typeAffinity = ColumnInfo.TEXT)
-    @SerializedName("dealTime")
-    var dealTime = dealTime
 
     @ColumnInfo(name = SqlModel.date, typeAffinity = ColumnInfo.TEXT)
     @SerializedName("date")

@@ -23,7 +23,6 @@ class FormEntity(
     dealStatus: String,
     reportId: String,
     reportTitle: String,
-    dealTime: String,
     date: String,
     formContent: String,
     isUpdate: Boolean = false
@@ -44,9 +43,6 @@ class FormEntity(
 
     @ColumnInfo(name = SqlModel.reportTitle, typeAffinity = ColumnInfo.TEXT)
     var reportTitle = reportTitle
-
-    @ColumnInfo(name = SqlModel.dealTime, typeAffinity = ColumnInfo.TEXT)
-    var dealTime = dealTime
 
     @ColumnInfo(name = SqlModel.date, typeAffinity = ColumnInfo.TEXT)
     var date = date
@@ -78,7 +74,6 @@ class FormEntity(
                     form.dealStatus,
                     form.reportId,
                     form.reportTitle,
-                    form.dealTime,
                     form.date,
                     formContentJson
                 )

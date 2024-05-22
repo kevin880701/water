@@ -6,6 +6,8 @@ import java.lang.reflect.Type
 
 open class BaseForm(
 ){
+    @Transient
+    open val id: String = ""
 
     @Transient
     open val formNumber: String = ""
@@ -18,9 +20,6 @@ open class BaseForm(
 
     @Transient
     open val reportTitle: String = ""
-
-    @Transient
-    open val dealTime: String = ""
 
     @Transient
     open val date: String = ""

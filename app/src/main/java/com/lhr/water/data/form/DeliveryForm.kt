@@ -3,11 +3,66 @@ package com.lhr.water.data.form
 import com.google.gson.annotations.SerializedName
 
 data class DeliveryForm(
-    @SerializedName("formNumber")
-    override val formNumber: String,
+
+    @SerializedName("ano")
+    val ano: String,
+
+    @SerializedName("applyNo")
+    val applyNo: String,
+
+    @SerializedName("contact")
+    val contact: String,
+
+    @SerializedName("contactPhone")
+    val contactPhone: String,
+
+    @SerializedName("contractNumber")
+    val contractNumber: String,
+
+    @SerializedName("date")
+    override val date: String,
 
     @SerializedName("dealStatus")
     override val dealStatus: String,
+
+    @SerializedName("deliveryDate")
+    val deliveryDate: String,
+
+    @SerializedName("deliverylocation")
+    val deliverylocation: String,
+
+    @SerializedName("deptName")
+    val deptName: String,
+
+    @SerializedName("extendDate1")
+    val extendDate1: String,
+
+    @SerializedName("extendDate2")
+    val extendDate2: String,
+
+    @SerializedName("extendDate3")
+    val extendDate3: String,
+
+    @SerializedName("extendNo1")
+    val extendNo1: String,
+
+    @SerializedName("extendNo2")
+    val extendNo2: String,
+
+    @SerializedName("extendNo3")
+    val extendNo3: String,
+
+    @SerializedName("formNumber")
+    override val formNumber: String,
+
+    @SerializedName("id")
+    override val id: String,
+
+    @SerializedName("projectNumber")
+    val projectNumber: String,
+
+    @SerializedName("receiptDept")
+    val receiptDept: String,
 
     @SerializedName("reportId")
     override val reportId: String,
@@ -15,71 +70,18 @@ data class DeliveryForm(
     @SerializedName("reportTitle")
     override val reportTitle: String,
 
-    @SerializedName("date")
-    override val date: String,
-
-    @SerializedName("dealTime")
-    override val dealTime: String,
-
-    @SerializedName("ano")
-    val ano: String?,
+    @SerializedName("sumAddition")
+    val sumAddition: String,
 
     @SerializedName("underwriter")
-    val underwriter: String?,
+    val underwriter: String,
 
-    @SerializedName("deliveryDay")
-    val deliveryDay: String?,
-
-    @SerializedName("contractNumber")
-    val contractNumber: String?,
-
-    @SerializedName("deliveryDate")
-    val deliveryDate: String?,
-
-    @SerializedName("extendDate1")
-    val extendDate1: String?,
-
-    @SerializedName("extendDate2")
-    val extendDate2: String?,
-
-    @SerializedName("extendDate3")
-    val extendDate3: String?,
-
-    @SerializedName("receiptDept")
-    val receiptDept: String?,
-
-    @SerializedName("deliverylocation")
-    val deliverylocation: String?,
-
-    @SerializedName("deliveryStatus")
-    val deliveryStatus: String?,
-
-    @SerializedName("extendNo1")
-    val extendNo1: String?,
-
-    @SerializedName("extendNo2")
-    val extendNo2: String?,
-
-    @SerializedName("extendNo3")
-    val extendNo3: String?,
-
-    @SerializedName("projectNumber")
-    val projectNumber: String?,
-
-    @SerializedName("contact")
-    val contact: String?,
-
-    @SerializedName("contactPhone")
-    val contactPhone: String?,
-
-    @SerializedName("applyNo")
-    val applyNo: String?,
+    @SerializedName("updatedAt")
+    val updatedAt: String,
 
     @SerializedName("itemDetail")
     override val itemDetails: List<DeliveryItemDetail>,
 
-    @SerializedName("sumAddition")
-    val sumAddition: String?
 ) : BaseForm(){
 
     override fun isInput(): Boolean {
@@ -88,17 +90,20 @@ data class DeliveryForm(
 }
 
 data class DeliveryItemDetail(
+    @SerializedName("id")
+    override val id: String,
+
     @SerializedName("number")
     override val number: String,
 
     @SerializedName("itemNo")
-    val itemNo: String?,
+    val itemNo: String,
 
     @SerializedName("batch")
-    val batch: String?,
+    val batch: String,
 
     @SerializedName("no")
-    val no: String?,
+    val no: String,
 
     @SerializedName("materialNumber")
     override val materialNumber: String,
@@ -112,19 +117,26 @@ data class DeliveryItemDetail(
     @SerializedName("materialUnit")
     override val materialUnit: String,
 
-    @SerializedName("deliveryQuantity")
-    val deliveryQuantity: Int?,
+    @SerializedName("inRequestQuantity")
+    val inRequestQuantity: String,
 
-    @SerializedName("receivedQuantity")
-    val receivedQuantity: Int,
+    @SerializedName("inApprovedQuantity")
+    val inApprovedQuantity: String,
 
     @SerializedName("price")
-    val price: String?,
+    val price: String,
 
-    @SerializedName("itemCost")
-    val itemCost: String?
+    @SerializedName("amount")
+    val amount: String,
+
+    @SerializedName("updatedAt")
+    val updatedAt: String,
+
+    @SerializedName("deliveryStatus")
+    val deliveryStatus: String
+    
 ) : BaseItem(){
     override fun getQuantity(): Int {
-        return receivedQuantity
+        return inRequestQuantity.toInt()
     }
 }

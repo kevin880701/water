@@ -4,6 +4,9 @@ open class BaseItem(
 ){
 
     @Transient
+    open val id: String = ""
+
+    @Transient
     open val number: String = ""
 
     @Transient
