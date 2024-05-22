@@ -44,6 +44,7 @@
                 android:layout_height="wrap_content"
                 android:background="@color/transparent"
                 android:gravity="center"
+                android:layout_marginBottom="8dp"
                 android:text="單位"
                 android:textColor="@color/primaryBlack" />
 

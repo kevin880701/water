@@ -121,7 +121,7 @@ data class DeliveryItemDetail(
     val inRequestQuantity: String,
 
     @SerializedName("inApprovedQuantity")
-    val inApprovedQuantity: String,
+    var inApprovedQuantity: String,
 
     @SerializedName("price")
     val price: String,
@@ -144,4 +144,7 @@ data class DeliveryItemDetail(
         return inApprovedQuantity.toInt()
     }
 
+    override fun setApprovedQuantity(quantity: String){
+        inApprovedQuantity = quantity
+    }
 }

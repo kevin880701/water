@@ -28,4 +28,7 @@ open class BaseItem(
     open fun getApprovedQuantity(): Int {
         return 0
     }
+
+    open fun setApprovedQuantity(quantity: String){
+    }
 }

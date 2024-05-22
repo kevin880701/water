@@ -106,13 +106,13 @@ data class TransferForm(
         val outRequestQuantity: String,
 
         @SerializedName("outApprovedQuantity")
-        val outApprovedQuantity: String,
+        var outApprovedQuantity: String,
 
         @SerializedName("inRequestQuantity")
         val inRequestQuantity: String,
 
         @SerializedName("inApprovedQuantity")
-        val inApprovedQuantity: String,
+        var inApprovedQuantity: String,
 
         @SerializedName("approvalResult")
         val approvalResult: String,
@@ -139,6 +139,14 @@ data class TransferForm(
                 return outApprovedQuantity.toInt()
             }else{
                 return inApprovedQuantity.toInt()
+            }
+        }
+
+        override fun setApprovedQuantity(quantity: String){
+            if (transferStatus == "單據提出"){
+                outApprovedQuantity = quantity
+            }else{
+                inApprovedQuantity = quantity
             }
         }
     }

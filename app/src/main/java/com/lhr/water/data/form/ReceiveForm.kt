@@ -93,7 +93,7 @@ data class ReceiveItemDetail(
     val outRequestQuantity: String,
 
     @SerializedName("outApprovedQuantity")
-    val outApprovedQuantity: String,
+    var outApprovedQuantity: String,
 
     @SerializedName("price")
     val price: String,
@@ -111,5 +111,9 @@ data class ReceiveItemDetail(
 
     override fun getApprovedQuantity(): Int {
         return outApprovedQuantity.toInt()
+    }
+
+    override fun setApprovedQuantity(quantity: String){
+        outApprovedQuantity = quantity
     }
 }
