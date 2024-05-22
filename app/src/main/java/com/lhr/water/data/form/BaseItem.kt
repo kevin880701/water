@@ -21,7 +21,11 @@ open class BaseItem(
     @Transient
     open val materialSpec: String = ""
 
-    open fun getQuantity(): Int {
+    open fun getRequestQuantity(): Int {
+        return 0
+    }
+
+    open fun getApprovedQuantity(): Int {
         return 0
     }
 }

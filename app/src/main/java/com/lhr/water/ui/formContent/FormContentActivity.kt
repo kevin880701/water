@@ -1,9 +1,7 @@
 package com.lhr.water.ui.formContent
 
-import android.content.Context
 import android.os.Bundle
 import android.view.View
-import android.view.inputmethod.InputMethodManager
 import android.widget.AdapterView
 import androidx.activity.viewModels
 import androidx.core.content.res.ResourcesCompat
@@ -17,8 +15,8 @@ import com.lhr.water.data.form.DeliveryForm
 import com.lhr.water.data.form.ReceiveForm
 import com.lhr.water.data.form.ReturnForm
 import com.lhr.water.data.form.TransferForm
-import com.lhr.water.data.pickingFieldMap
-import com.lhr.water.data.pickingItemFieldMap
+import com.lhr.water.data.receiveFieldMap
+import com.lhr.water.data.receiveItemFieldMap
 import com.lhr.water.data.returningFieldMap
 import com.lhr.water.data.returningItemFieldMap
 import com.lhr.water.data.transferFieldMap
@@ -31,16 +29,13 @@ import com.lhr.water.ui.base.APP
 import com.lhr.water.ui.base.BaseActivity
 import com.lhr.water.util.adapter.SpinnerAdapter
 import com.lhr.water.util.dealStatusList
-import com.lhr.water.util.dialog.MaterialDialog
 import com.lhr.water.util.isInput
 import com.lhr.water.util.showToast
-import com.lhr.water.util.widget.FormGoodsAdd
 import com.lhr.water.util.widget.FormGoodsDataWidget
 import com.lhr.water.util.widget.FormContentDataWidget
-import org.json.JSONObject
 
-class FormContentActivity : BaseActivity(), View.OnClickListener, FormGoodsAdd.Listener,
-    FormContentDataWidget.Listener, FormGoodsDataWidget.Listener, MaterialDialog.Listener {
+class FormContentActivity : BaseActivity(), View.OnClickListener,
+    FormContentDataWidget.Listener, FormGoodsDataWidget.Listener {
     private val viewModel: FormContentViewModel by viewModels { (applicationContext as APP).appContainer.viewModelFactory }
     private var _binding: ActivityFormContentBinding? = null
     private val binding get() = _binding!!
@@ -62,9 +57,6 @@ class FormContentActivity : BaseActivity(), View.OnClickListener, FormGoodsAdd.L
 
         currentDealStatus = formEntity.dealStatus
 
-        for ((key, value) in baseForm.jsonConvertMap()) {
-            println("Key: $key, Value: $value")
-        }
         isInput = isInput(formEntity)
 
         bindViewModel()
@@ -83,9 +75,9 @@ class FormContentActivity : BaseActivity(), View.OnClickListener, FormGoodsAdd.L
                 formFieldNameMap = deliveryFieldMap.toMutableMap()
                 formItemFieldNameMap = deliveryItemFieldMap.toMutableMap()
             }
-            getString(R.string.picking_form) -> {
-                formFieldNameMap = pickingFieldMap.toMutableMap()
-                formItemFieldNameMap = pickingItemFieldMap.toMutableMap()
+            getString(R.string.receive_form) -> {
+                formFieldNameMap = receiveFieldMap.toMutableMap()
+                formItemFieldNameMap = receiveItemFieldMap.toMutableMap()
             }
             getString(R.string.transfer_form) -> {
                 formFieldNameMap = transferFieldMap.toMutableMap()
@@ -245,7 +237,7 @@ class FormContentActivity : BaseActivity(), View.OnClickListener, FormGoodsAdd.L
                 totalQuantity += record.quantity
             }
 
-            if (totalQuantity<itemDetail.getQuantity()) {
+            if (totalQuantity<itemDetail.getRequestQuantity()) {
                 return false
             }
         }
@@ -262,31 +254,10 @@ class FormContentActivity : BaseActivity(), View.OnClickListener, FormGoodsAdd.L
             R.id.buttonSend -> {
                 onClickSend()
             }
-
-            R.id.imageAdd -> {
-                val imm = getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
-                imm.hideSoftInputFromWindow(this.currentFocus?.windowToken, 0)
-                onAddGoodsClick()
-            }
         }
-    }
-
-
-    /**
-     * 點擊新增貨物的按鈕後跳出Dialog輸入新增的貨物資訊
-     */
-    override fun onAddGoodsClick() {
-//        val goodsDialog = MaterialDialog(true, formItemFieldNameMap, this)
-//        goodsDialog.show(supportFragmentManager, "GoodsDialog")
     }
 
     override fun onDeleteGoodsClick(view: View) {
-        if (view.id == R.id.imageDelete) {
-            // 抓imageDelete的父層，這邊需要跨三層
-            val parentItem = view.parent.parent.parent as View
-            // 刪除指定列
-            binding.linearItemData.removeView(parentItem)
-        }
     }
 
     /**
@@ -303,32 +274,5 @@ class FormContentActivity : BaseActivity(), View.OnClickListener, FormGoodsAdd.L
 //            itemDetail
 //        )
 //        goodsDialog.show(supportFragmentManager, "GoodsDialog")
-    }
-
-
-    /**
-     * 在Dialog中輸入完新增的貨物資訊並送出後，新增一列
-     */
-    override fun onGoodsDialogConfirm(formItemJson: JSONObject) {
-//        val formGoodsDataWidget =
-//            FormGoodsDataWidget(this@FormContentActivity, formItemJson, this@FormContentActivity)
-//        // 創建一個點擊事件
-//        binding.linearItemData.addView(formGoodsDataWidget)
-//        //新增後能下移顯示新增的widget
-//        binding.scrollViewData.post {
-//            binding.scrollViewData.fullScroll(View.FOCUS_DOWN)
-//        }
-    }
-
-    override fun onChangeGoodsInfo(
-        formItemJson: JSONObject,
-        formGoodsDataWidget: FormGoodsDataWidget
-    ) {
-        formGoodsDataWidget.binding.textMaterialName.text = formItemJson.getString("materialName")
-        formGoodsDataWidget.binding.textMaterialNumber.text = formItemJson.getString("materialNumber")
-        formGoodsDataWidget.binding.textMaterialSpec.text = formItemJson.getString("materialSpec")
-        formGoodsDataWidget.binding.textMaterialUnit.text = formItemJson.getString("materialUnit")
-//        formGoodsDataWidget.itemDetail = formItemJson
-        binding.scrollViewData.smoothScrollTo(0, formGoodsDataWidget.top)
     }
 }

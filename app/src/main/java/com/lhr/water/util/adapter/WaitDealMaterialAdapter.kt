@@ -68,13 +68,13 @@ class WaitDealMaterialAdapter(
             // 1.判斷是進貨還是出貨
             // 2.需判斷暫存待出入庫的貨物列表是否有相對應貨物，有的話需要減去數量
             var quantity = if (isInput) {
-                baseItem.getQuantity() - viewModel.formRepository.getMaterialQuantityByTempWaitInputGoods(
+                baseItem.getRequestQuantity() - viewModel.formRepository.getMaterialQuantityByTempWaitInputGoods(
                     formEntity.reportTitle,
                     formEntity.formNumber,
                     baseItem.materialNumber
                 )
             } else {
-                baseItem.getQuantity() - viewModel.formRepository.getMaterialQuantityByTempWaitInputGoods(
+                baseItem.getRequestQuantity() - viewModel.formRepository.getMaterialQuantityByTempWaitInputGoods(
                     formEntity.reportTitle!!,
                     formEntity.formNumber!!,
                     baseItem.materialNumber!!

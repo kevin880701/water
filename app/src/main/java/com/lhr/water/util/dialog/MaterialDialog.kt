@@ -51,6 +51,5 @@ class MaterialDialog(
 
     interface Listener {
         fun onGoodsDialogConfirm(formItemJson: JSONObject)
-        fun onChangeGoodsInfo(formItemJson: JSONObject, formGoodsDataWidget: FormGoodsDataWidget)
     }
 }

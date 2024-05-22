@@ -23,7 +23,7 @@
     <string name="inventory">盤點</string>
 
     <string name="delivery_form">交貨通知單</string>
-    <string name="picking_form">材料領料單</string>
+    <string name="receive_form">材料領料單</string>
     <string name="transfer_form">材料調撥單</string>
     <string name="returning_form">材料退料單</string>
     <string name="inventory_form">材料盤點單</string>

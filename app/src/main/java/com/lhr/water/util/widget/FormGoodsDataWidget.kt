@@ -16,8 +16,8 @@ class FormGoodsDataWidget : RelativeLayout {
     var itemDetail: BaseItem
     private val textMaterialName: TextView
     private val textMaterialNumber: TextView
-    private val textMaterialSpec: TextView
-    private val textMaterialUnit: TextView
+    private val textRequestQuantity: TextView
+    private val textApprovedQuantity: TextView
     constructor(
         activity: Activity,
         itemDetail: BaseItem,
@@ -30,12 +30,9 @@ class FormGoodsDataWidget : RelativeLayout {
         this@FormGoodsDataWidget.itemDetail = itemDetail
         textMaterialName = binding.textMaterialName
         textMaterialNumber = binding.textMaterialNumber
-        textMaterialSpec = binding.textMaterialSpec
-        textMaterialUnit = binding.textMaterialUnit
+        textRequestQuantity = binding.textRequestQuantity
+        textApprovedQuantity = binding.textApprovedQuantity
 
-        binding.imageDelete.setOnClickListener {
-            listener?.onDeleteGoodsClick(binding.imageDelete)
-        }
         binding.constraintMaterial.setOnClickListener {
             listener?.onGoodsColClick(this@FormGoodsDataWidget.itemDetail, this)
         }
@@ -45,8 +42,8 @@ class FormGoodsDataWidget : RelativeLayout {
     fun initView(){
         textMaterialName.text = itemDetail.materialName
         textMaterialNumber.text = itemDetail.materialNumber
-        textMaterialSpec.text = itemDetail.materialSpec
-        textMaterialUnit.text = itemDetail.materialUnit
+        textRequestQuantity.text = itemDetail.getRequestQuantity().toString()
+        textApprovedQuantity.text = itemDetail.getApprovedQuantity().toString()
     }
 
     interface Listener{

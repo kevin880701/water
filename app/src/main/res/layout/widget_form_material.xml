@@ -5,79 +5,67 @@
 
     <data></data>
 
-    <androidx.constraintlayout.widget.ConstraintLayout
+    <androidx.appcompat.widget.LinearLayoutCompat
         android:id="@+id/constraintMaterial"
         android:layout_width="match_parent"
         android:layout_height="72dp"
+        android:gravity="center"
+        android:orientation="horizontal"
         android:paddingLeft="12dp"
         android:paddingRight="12dp">
-        <androidx.constraintlayout.widget.ConstraintLayout
+
+        <androidx.appcompat.widget.LinearLayoutCompat
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            app:layout_constraintWidth_percent="0.8"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintLeft_toLeftOf="parent"
-            app:layout_constraintRight_toRightOf="parent">
+            android:layout_weight="1"
+            android:orientation="vertical">
+
             <TextView
                 android:id="@+id/textMaterialName"
-                android:layout_width="0dp"
-                android:layout_height="0dp"
-                app:layout_constraintHeight_percent="0.5"
-                app:layout_constraintWidth_percent="0.5"
-                android:text="@string/goods_name"
                 style="@style/TextStyle_16dp_black"
-                android:textColor="@color/primaryBlue"
-                app:layout_constraintTop_toTopOf="parent"
-                app:layout_constraintLeft_toLeftOf="parent" />
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/goods_name"
+                android:textColor="@color/primaryBlue" />
+
             <TextView
                 android:id="@+id/textMaterialNumber"
-                android:layout_width="0dp"
+                style="@style/TextStyle_16dp_black"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                app:layout_constraintWidth_percent="0.5"
+                android:background="@color/transparent"
                 android:text="@string/goods_number"
-                android:background="@color/transparent"
-                style="@style/TextStyle_16dp_black"
-                android:textColor="@color/primaryBlack"
-                app:layout_constraintTop_toBottomOf="@+id/textMaterialName"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintLeft_toLeftOf="parent" />
+                android:textColor="@color/primaryBlack" />
+
+        </androidx.appcompat.widget.LinearLayoutCompat>
+
+        <androidx.appcompat.widget.LinearLayoutCompat
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:orientation="vertical">
+
             <TextView
-                android:id="@+id/textMaterialSpec"
-                android:layout_width="0dp"
-                android:layout_height="0dp"
-                app:layout_constraintHeight_percent="0.5"
-                app:layout_constraintWidth_percent="0.5"
-                android:text="規格"
+                android:id="@+id/textRequestQuantity"
                 style="@style/TextStyle_16dp_black"
-                android:textColor="@color/primaryBlue"
-                app:layout_constraintTop_toTopOf="parent"
-                app:layout_constraintLeft_toRightOf="@+id/textMaterialName" />
-            <TextView
-                android:id="@+id/textMaterialUnit"
-                android:layout_width="0dp"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                app:layout_constraintWidth_percent="0.5"
-                android:text="單位"
                 android:background="@color/transparent"
+                android:text="單位"
+                android:textColor="@color/primaryBlack" />
+
+            <TextView
+                android:id="@+id/textApprovedQuantity"
                 style="@style/TextStyle_16dp_black"
-                android:textColor="@color/primaryBlack"
-                app:layout_constraintTop_toBottomOf="@+id/textMaterialName"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintLeft_toRightOf="@+id/textMaterialName" />
-            <ImageView
-                android:id="@+id/imageDelete"
-                android:layout_width="0dp"
-                android:layout_height="match_parent"
-                app:layout_constraintDimensionRatio="1:1"
-                app:layout_constraintTop_toTopOf="parent"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintRight_toRightOf="parent"
-                android:padding="12dp"
-                android:background="@color/background"
-                app:tint="@color/design_default_color_error"
-                android:visibility="gone"
-                android:src="@drawable/remove"/>
-        </androidx.constraintlayout.widget.ConstraintLayout>
-    </androidx.constraintlayout.widget.ConstraintLayout>
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="規格" />
+        </androidx.appcompat.widget.LinearLayoutCompat>
+
+        <Switch
+            android:id="@+id/switchDeliveryStatus"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:checked="false" />
+    </androidx.appcompat.widget.LinearLayoutCompat>
 </layout>

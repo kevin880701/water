@@ -107,7 +107,12 @@ data class ReturnItemDetail(
     @SerializedName("updatedAt")
     val updatedAt: String,
     ): BaseItem(){
-    override fun getQuantity(): Int {
+
+    override fun getRequestQuantity(): Int {
         return inRequestQuantity.toInt()
+    }
+
+    override fun getApprovedQuantity(): Int {
+        return inApprovedQuantity.toInt()
     }
 }

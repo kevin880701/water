@@ -109,10 +109,4 @@ class StorageContentBottom(
     override fun onGoodsDialogConfirm(formItemJson: JSONObject) {
 
     }
-
-    override fun onChangeGoodsInfo(
-        formItemJson: JSONObject,
-        formGoodsDataWidget: FormGoodsDataWidget
-    ) {
-    }
 }

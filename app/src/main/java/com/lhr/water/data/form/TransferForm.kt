@@ -126,11 +126,19 @@ data class TransferForm(
         val transferStatus: String,
 
     ) : BaseItem(){
-        override fun getQuantity(): Int {
+        override fun getRequestQuantity(): Int {
             if (transferStatus == "單據提出"){
                 return outRequestQuantity.toInt()
             }else{
                 return inRequestQuantity.toInt()
+            }
+        }
+
+        override fun getApprovedQuantity(): Int {
+            if (transferStatus == "單據提出"){
+                return outApprovedQuantity.toInt()
+            }else{
+                return inApprovedQuantity.toInt()
             }
         }
     }

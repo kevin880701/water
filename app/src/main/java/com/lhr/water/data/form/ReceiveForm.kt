@@ -105,7 +105,11 @@ data class ReceiveItemDetail(
     val updatedAt: String,
 
     ) : BaseItem() {
-    override fun getQuantity(): Int {
+    override fun getRequestQuantity(): Int {
         return outRequestQuantity.toInt()
+    }
+
+    override fun getApprovedQuantity(): Int {
+        return outApprovedQuantity.toInt()
     }
 }
