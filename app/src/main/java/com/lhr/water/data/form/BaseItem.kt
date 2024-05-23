@@ -4,7 +4,7 @@ open class BaseItem(
 ){
 
     @Transient
-    open val id: String = ""
+    open val itemId: Int = 0
 
     @Transient
     open val number: String = ""
@@ -21,14 +21,13 @@ open class BaseItem(
     @Transient
     open val materialSpec: String = ""
 
-    open fun getRequestQuantity(): Int {
-        return 0
-    }
+    @Transient
+    open val requestQuantity: String = ""
 
-    open fun getApprovedQuantity(): Int {
-        return 0
-    }
+    @Transient
+    open var approvedQuantity: String = ""
 
-    open fun setApprovedQuantity(quantity: String){
-    }
+    @Transient
+    open val updatedAt: String = ""
+
 }

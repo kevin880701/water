@@ -20,8 +20,8 @@ data class TransferForm(
     @SerializedName("formNumber")
     override val formNumber: String,
 
-    @SerializedName("id")
-    override val id: String,
+    @SerializedName("formId")
+    override val formId: Int,
 
     @SerializedName("originalVoucherNumber")
     val originalVoucherNumber: String,
@@ -72,7 +72,7 @@ data class TransferForm(
     val transferStatus: String,
 
     @SerializedName("updatedAt")
-    val updatedAt: String,
+    override val updatedAt: String,
 
     @SerializedName("itemDetail")
     override val itemDetails: ArrayList<TransferItemDetail>
@@ -84,8 +84,8 @@ data class TransferForm(
 
     data class TransferItemDetail(
 
-        @SerializedName("id")
-        override val id: String,
+        @SerializedName("itemId")
+        override val itemId: Int,
 
         @SerializedName("number")
         override val number: String,
@@ -102,17 +102,11 @@ data class TransferForm(
         @SerializedName("materialUnit")
         override val materialUnit: String,
 
-        @SerializedName("outRequestQuantity")
-        val outRequestQuantity: String,
+        @SerializedName("requestQuantity")
+        override val requestQuantity: String,
 
-        @SerializedName("outApprovedQuantity")
-        var outApprovedQuantity: String,
-
-        @SerializedName("inRequestQuantity")
-        val inRequestQuantity: String,
-
-        @SerializedName("inApprovedQuantity")
-        var inApprovedQuantity: String,
+        @SerializedName("approvedQuantity")
+        override var approvedQuantity: String,
 
         @SerializedName("approvalResult")
         val approvalResult: String,
@@ -121,33 +115,10 @@ data class TransferForm(
         val applyNumber: String,
 
         @SerializedName("updatedAt")
-        val updatedAt: String,
+        override val updatedAt: String,
 
         val transferStatus: String,
 
     ) : BaseItem(){
-        override fun getRequestQuantity(): Int {
-            if (transferStatus == "單據提出"){
-                return outRequestQuantity.toInt()
-            }else{
-                return inRequestQuantity.toInt()
-            }
-        }
-
-        override fun getApprovedQuantity(): Int {
-            if (transferStatus == "單據提出"){
-                return outApprovedQuantity.toInt()
-            }else{
-                return inApprovedQuantity.toInt()
-            }
-        }
-
-        override fun setApprovedQuantity(quantity: String){
-            if (transferStatus == "單據提出"){
-                outApprovedQuantity = quantity
-            }else{
-                inApprovedQuantity = quantity
-            }
-        }
     }
 }

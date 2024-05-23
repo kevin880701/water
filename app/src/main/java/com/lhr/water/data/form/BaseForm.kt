@@ -7,7 +7,7 @@ import java.lang.reflect.Type
 open class BaseForm(
 ){
     @Transient
-    open val id: String = ""
+    open val formId: Int = 0
 
     @Transient
     open val formNumber: String = ""
@@ -27,6 +27,8 @@ open class BaseForm(
     @Transient
     open val itemDetails: List<BaseItem> = ArrayList<BaseItem>()
 
+    @Transient
+    open val updatedAt: String = ""
     fun jsonConvertMap(): Map<String, Any?> {
         val gson = Gson()
         val json = gson.toJson(this) // 将对象转换为 JSON 字符串

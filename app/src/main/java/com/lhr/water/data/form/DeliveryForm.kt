@@ -55,8 +55,8 @@ data class DeliveryForm(
     @SerializedName("formNumber")
     override val formNumber: String,
 
-    @SerializedName("id")
-    override val id: String,
+    @SerializedName("formId")
+    override val formId: Int,
 
     @SerializedName("projectNumber")
     val projectNumber: String,
@@ -77,7 +77,7 @@ data class DeliveryForm(
     val underwriter: String,
 
     @SerializedName("updatedAt")
-    val updatedAt: String,
+    override val updatedAt: String,
 
     @SerializedName("itemDetail")
     override val itemDetails: List<DeliveryItemDetail>,
@@ -90,8 +90,8 @@ data class DeliveryForm(
 }
 
 data class DeliveryItemDetail(
-    @SerializedName("id")
-    override val id: String,
+    @SerializedName("itemId")
+    override val itemId: Int,
 
     @SerializedName("number")
     override val number: String,
@@ -117,11 +117,11 @@ data class DeliveryItemDetail(
     @SerializedName("materialUnit")
     override val materialUnit: String,
 
-    @SerializedName("inRequestQuantity")
-    val inRequestQuantity: String,
+    @SerializedName("requestQuantity")
+    override val requestQuantity: String,
 
-    @SerializedName("inApprovedQuantity")
-    var inApprovedQuantity: String,
+    @SerializedName("approvedQuantity")
+    override var approvedQuantity: String,
 
     @SerializedName("price")
     val price: String,
@@ -130,21 +130,10 @@ data class DeliveryItemDetail(
     val amount: String,
 
     @SerializedName("updatedAt")
-    val updatedAt: String,
+    override val updatedAt: String,
 
     @SerializedName("deliveryStatus")
     var deliveryStatus: String
     
 ) : BaseItem(){
-    override fun getRequestQuantity(): Int {
-        return inRequestQuantity.toInt()
-    }
-
-    override fun getApprovedQuantity(): Int {
-        return inApprovedQuantity.toInt()
-    }
-
-    override fun setApprovedQuantity(quantity: String){
-        inApprovedQuantity = quantity
-    }
 }

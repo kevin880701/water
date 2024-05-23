@@ -32,7 +32,7 @@ class InventoryEntity(
 
     @NonNull
     @PrimaryKey(autoGenerate = true)
-    @SerializedName("id")
+    @SerializedName("formId")
     var id = 0
 
     @ColumnInfo(name = SqlModel.actualQuantity, typeAffinity = ColumnInfo.TEXT)

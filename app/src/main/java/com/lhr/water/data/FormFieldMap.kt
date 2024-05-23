@@ -19,7 +19,7 @@ val deliveryFieldMap = mapOf(
     "extendNo2" to "展延文號(二)",
     "extendNo3" to "展延文號(三)",
     "formNumber" to "交貨通知單號",
-    "id" to "id",
+    "formId" to "formId",
     "projectNumber" to "工程編號",
     "receiptDept" to "收料單位",
     "reportId" to "報表代號",
@@ -30,7 +30,7 @@ val deliveryFieldMap = mapOf(
 )
 
 val deliveryItemFieldMap = mapOf(
-    "id" to "id",
+    "itemId" to "itemId",
     "number" to "序號",
     "itemNo" to "標項",
     "batch" to "批次",
@@ -56,7 +56,7 @@ val receiveFieldMap = mapOf(
     "date" to "印表日期",
     "dealStatus" to "處理狀態",
     "formNumber" to "領料單號",
-    "id" to "id",
+    "formId" to "formId",
     "issuingUnit" to "發料單位",
     "originalVoucherNumber" to "原憑證字號",
     "pickingDate" to "領料日期",
@@ -71,7 +71,7 @@ val receiveFieldMap = mapOf(
 )
 
 val receiveItemFieldMap = mapOf(
-    "id" to "id",
+    "itemId" to "itemId",
     "number" to "序號",
     "materialNumber" to "材料編號",
     "materialName" to "材料名稱",
@@ -91,7 +91,7 @@ val transferFieldMap = mapOf(
     "date" to "印表日期",
     "dealStatus" to "處理狀態",
     "formNumber" to "表單單號",
-    "id" to "id",
+    "formId" to "formId",
     "originalVoucherNumber" to "原憑證字號號",
     "receivingApplyTransferDate" to "收方撥入日期",
     "receivingApplyTransferNumber" to "收方請撥單號",
@@ -112,7 +112,7 @@ val transferFieldMap = mapOf(
 )
 
 val transferItemFieldMap = mapOf(
-    "id" to "id",
+    "itemId" to "itemId",
     "number" to "序號",
     "materialNumber" to "材料編號",
     "materialName" to "材料名稱",
@@ -135,7 +135,7 @@ val returningFieldMap = mapOf(
     "date" to "印表日期",
     "dealStatus" to "處理狀態",
     "formNumber" to "退料單號",
-    "id" to "資料編號",
+    "formId" to "formId",
     "leadDept" to "領調單位",
     "leadNumber" to "領調單號",
     "originalVoucherNumber" to "原憑證字號",
@@ -152,7 +152,7 @@ val returningFieldMap = mapOf(
 )
 
 val returningItemFieldMap = mapOf(
-    "id" to "id",
+    "itemId" to "itemId",
     "number" to "序號",
     "materialNumber" to "材料編號",
     "materialName" to "材料名稱",
@@ -174,7 +174,7 @@ val inventoryFieldMap = mapOf(
     "dealStatus" to "處理狀態",
     "deptName" to "單位",
     "formNumber" to "盤點單號",
-    "id" to "盤點單Id",
+    "formId" to "盤點單Id",
     "inventoryUnit" to "單位代號",
     "lastUseDate" to "最後使用日期",
     "materialName" to "材料名稱",

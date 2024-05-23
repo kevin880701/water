@@ -21,11 +21,13 @@ class MaterialWidget : RelativeLayout {
     private val textMaterialName: TextView
     private val textRequestQuantity: TextView
     val textApprovedQuantity: TextView
+    var dealStatus = ""
     constructor(
         activity: FormContentActivity,
         baseForm: BaseForm,
         itemDetail: BaseItem,
         deliveryStatus: String? = null,
+        dealStatus: String
     ) : super(activity) {
         binding = DataBindingUtil.inflate(
             LayoutInflater.from(context), R.layout.widget_form_material, this, true
@@ -33,6 +35,7 @@ class MaterialWidget : RelativeLayout {
         this@MaterialWidget.activity = activity
         this@MaterialWidget.itemDetail = itemDetail
         this@MaterialWidget.baseForm = baseForm
+        this@MaterialWidget.dealStatus = dealStatus
 
         binding.switchDeliveryStatus.isChecked = deliveryStatus == "true"
 
@@ -49,10 +52,9 @@ class MaterialWidget : RelativeLayout {
 
     fun initView(){
         textMaterialName.text = itemDetail.materialName
-        textRequestQuantity.text = itemDetail.getRequestQuantity().toString()
+        textRequestQuantity.text = itemDetail.requestQuantity
 
-
-        textApprovedQuantity.text = calculateApprovedQuantity(baseForm.formNumber, itemDetail.materialName, itemDetail.materialNumber)
+        textApprovedQuantity.text = if(dealStatus == "處理完成") itemDetail.approvedQuantity else calculateApprovedQuantity(baseForm.formNumber, itemDetail.materialName, itemDetail.materialNumber)
     }
 
     fun calculateApprovedQuantity(

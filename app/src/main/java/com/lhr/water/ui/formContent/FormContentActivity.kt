@@ -60,10 +60,10 @@ class FormContentActivity : BaseActivity(), View.OnClickListener {
         formEntity = intent.getSerializableExtra("formEntity") as FormEntity
         baseForm = formEntity.parseBaseForm()
 
-        deliveryForm = Gson().fromJson(formEntity.formContent, DeliveryForm::class.java)
-        receiveForm = Gson().fromJson(formEntity.formContent, ReceiveForm::class.java)
-        transferForm = Gson().fromJson(formEntity.formContent, TransferForm::class.java)
-        returnForm = Gson().fromJson(formEntity.formContent, ReturnForm::class.java)
+//        deliveryForm = Gson().fromJson(formEntity.formContent, DeliveryForm::class.java)
+//        receiveForm = Gson().fromJson(formEntity.formContent, ReceiveForm::class.java)
+//        transferForm = Gson().fromJson(formEntity.formContent, TransferForm::class.java)
+//        returnForm = Gson().fromJson(formEntity.formContent, ReturnForm::class.java)
 
         currentDealStatus = formEntity.dealStatus
 
@@ -153,7 +153,7 @@ class FormContentActivity : BaseActivity(), View.OnClickListener {
 
         // --------------材料--------------------
 
-        baseForm!!.itemDetails.forEachIndexed { index, itemDetail ->
+        baseForm.itemDetails.forEachIndexed { index, itemDetail ->
             val formGoodsDataWidget =
                 MaterialWidget(
                     activity = this@FormContentActivity,
@@ -163,7 +163,8 @@ class FormContentActivity : BaseActivity(), View.OnClickListener {
                         (baseForm as DeliveryForm).itemDetails[index].deliveryStatus
                     } else {
                         null
-                    }
+                    },
+                    dealStatus = formEntity.dealStatus
                 )
             binding.linearItemData.addView(formGoodsDataWidget)
         }
@@ -174,14 +175,6 @@ class FormContentActivity : BaseActivity(), View.OnClickListener {
      */
     private fun onClickSend() {
 
-        var formEntity = FormEntity(
-            formNumber = formEntity.formNumber,
-            dealStatus = currentDealStatus,
-            reportId = formEntity.reportId,
-            reportTitle = formEntity.reportTitle,
-            date = formEntity.date,
-            formContent = formEntity.formContent,
-        )
         var dealStatus = currentDealStatus
 
         for (i in 0 until binding.linearItemData.childCount) {
@@ -190,29 +183,27 @@ class FormContentActivity : BaseActivity(), View.OnClickListener {
             var jsonString = ""
 
             // 更新核定數量
-            if(formEntity.reportTitle == "交貨通知單"){
-                deliveryForm.itemDetails[i].setApprovedQuantity(childView.textApprovedQuantity.text.toString())
-                jsonString = gson.toJson(deliveryForm)
-            }else if(formEntity.reportTitle == "材料領料單"){
-                receiveForm.itemDetails[i].setApprovedQuantity(childView.textApprovedQuantity.text.toString())
-                jsonString = gson.toJson(receiveForm)
-            }else if(formEntity.reportTitle == "材料調撥單"){
-                transferForm.itemDetails[i].setApprovedQuantity(childView.textApprovedQuantity.text.toString())
-                jsonString = gson.toJson(transferForm)
-            }else if(formEntity.reportTitle == "材料退料單"){
-                returnForm.itemDetails[i].setApprovedQuantity(childView.textApprovedQuantity.text.toString())
-                jsonString = gson.toJson(returnForm)
-            }
+            baseForm.itemDetails[i].approvedQuantity = childView.textApprovedQuantity.text.toString()
+            jsonString = gson.toJson(baseForm)
+
             formEntity.formContent = jsonString
 
             // 交貨單要更新每個材料的分段交貨欄位
             if (formEntity.reportTitle == "交貨通知單") {
-                deliveryForm.itemDetails[i].deliveryStatus = childView.binding.switchDeliveryStatus.isChecked.toString()
-
-                val jsonString = gson.toJson(deliveryForm)
-                formEntity.formContent = jsonString
+                (baseForm as DeliveryForm).itemDetails[i].deliveryStatus = childView.binding.switchDeliveryStatus.isChecked.toString()
             }
+            jsonString = gson.toJson(baseForm)
+            formEntity.formContent = jsonString
         }
+
+        var formEntity = FormEntity(
+            formNumber = formEntity.formNumber,
+            dealStatus = currentDealStatus,
+            reportId = formEntity.reportId,
+            reportTitle = formEntity.reportTitle,
+            date = formEntity.date,
+            formContent = formEntity.formContent,
+        )
 
 
         // 如果表單是交貨、退料、進貨調撥並且處理狀態是處理完成的話要判斷表單中的貨物是否已經全部入庫
@@ -277,7 +268,7 @@ class FormContentActivity : BaseActivity(), View.OnClickListener {
                 totalQuantity += record.quantity
             }
 
-            if (totalQuantity < itemDetail.getRequestQuantity()) {
+            if (totalQuantity < itemDetail.requestQuantity.toInt()) {
                 return false
             }
         }
