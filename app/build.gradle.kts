@@ -10,6 +10,23 @@ plugins {
 }
 
 android {
+
+
+    signingConfigs {
+        getByName("debug") {
+            storeFile = file("../lhrkey.jks")
+            storePassword = "W@lf6875"
+            keyAlias = "key0"
+            keyPassword = "W@lf6875"
+        }
+        create("release") {
+            storeFile = file("../lhrkey.jks")
+            storePassword = "W@lf6875"
+            keyAlias = "key0"
+            keyPassword = "W@lf6875"
+        }
+    }
+
     namespace = "com.lhr.water"
     compileSdk = 33
 
@@ -21,15 +38,30 @@ android {
         versionName = "1.0"
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
+
     }
 
+//    buildTypes {
+//        release {
+//            isMinifyEnabled = false
+//            proguardFiles(
+//                getDefaultProguardFile("proguard-android-optimize.txt"),
+//                "proguard-rules.pro"
+//            )
+//        }
+//    }
+
     buildTypes {
-        release {
+        getByName("release") {
             isMinifyEnabled = false
-            proguardFiles(
-                getDefaultProguardFile("proguard-android-optimize.txt"),
-                "proguard-rules.pro"
-            )
+            proguardFiles(getDefaultProguardFile("proguard-android-optimize.txt"), "proguard-rules.pro")
+            signingConfig = signingConfigs.getByName("release")
+            isDebuggable = false
+        }
+        getByName("debug") {
+            signingConfig = signingConfigs.getByName("debug")
+            proguardFiles(getDefaultProguardFile("proguard-android-optimize.txt"), "proguard-rules.pro")
+            isDebuggable = true
         }
     }
     compileOptions {
@@ -79,11 +111,10 @@ dependencies {
     implementation ("androidx.room:room-ktx:$room")
     //CircleImageView
     implementation ("de.hdodenhof:circleimageview:3.1.0")
-    // Firebase BoM
-    implementation(platform("com.google.firebase:firebase-bom:32.3.1"))
-    // 如有使用BoM，皆不需要指定版本
-    implementation("com.google.firebase:firebase-analytics-ktx")
-    implementation("com.google.firebase:firebase-crashlytics-ktx")
+    // Firebase
+    implementation(platform("com.google.firebase:firebase-bom:33.0.0"))
+    implementation("com.google.firebase:firebase-crashlytics")
+    implementation("com.google.firebase:firebase-analytics")
     // Timber
     implementation ("com.jakewharton.timber:timber:5.0.1")
     //rxjava2
