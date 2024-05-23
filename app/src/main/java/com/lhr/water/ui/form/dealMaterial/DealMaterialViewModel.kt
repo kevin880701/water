@@ -331,7 +331,11 @@ class DealMaterialViewModel(
             materialNumber = itemDetail.materialNumber!!,
             outputTime = if (isInput) "" else getCurrentDate(),
             inputTime = if (isInput) getCurrentDate() else inputTime!!,
-            materialStatus =  if (isInput) 1 else 3,
+            materialStatus =  if (isInput) {
+                if (form.reportTitle == "交貨通知單") 1 else 2
+            } else {
+                3
+            },
             userId = userRepository.userInfo.userId,
             quantity = materialQuantity.toInt(),
             recordDate = getCurrentDate(),
