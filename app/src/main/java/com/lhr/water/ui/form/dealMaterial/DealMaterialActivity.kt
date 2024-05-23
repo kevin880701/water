@@ -53,7 +53,7 @@ class DealMaterialActivity : BaseActivity(), View.OnClickListener {
                 AlreadyChooseGoodsFragment(formEntity),
             ) as ArrayList<Fragment>
             val tabTextList = arrayListOf(
-                if (isInput) getString(R.string.wait_input_material) else getString(R.string.wait_output_material),
+                if (baseForm.isInput()) getString(R.string.wait_input_material) else getString(R.string.wait_output_material),
                 getString(R.string.already_choose_material)
             )
             pageAdapter = ViewPageAdapter(supportFragmentManager, lifecycle, fragments)

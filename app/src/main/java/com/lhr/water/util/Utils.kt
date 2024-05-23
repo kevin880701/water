@@ -85,7 +85,7 @@ fun isInput(formEntity: FormEntity): Boolean{
         return false
     }else if(formEntity.reportTitle == transferFormName){
         val transferForm: TransferForm = gson.fromJson(formEntity.formContent, TransferForm::class.java)
-        return transferForm.receivingDept == LoginData.region && transferForm.receivingLocation == LoginData.map
+        return transferForm.transferStatus == "撥方已送出"
     }else{
         return true
     }

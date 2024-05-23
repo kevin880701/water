@@ -40,8 +40,8 @@ class AlreadyChooseGoodsFragment(var formEntity: FormEntity) : BaseFragment(), V
         viewModel.formRepository.tempStorageRecordEntities.observe(viewLifecycleOwner) { _ ->
             alreadyChooseMaterialAdapter.submitList(
                 viewModel.filterTempWaitInputGoods(
-                    formEntity.reportTitle.toString(),
-                    formEntity.formNumber.toString()
+                    formEntity.reportTitle,
+                    formEntity.formNumber
                 )
             )
         }
@@ -58,8 +58,8 @@ class AlreadyChooseGoodsFragment(var formEntity: FormEntity) : BaseFragment(), V
 
         alreadyChooseMaterialAdapter.submitList(
             viewModel.filterTempWaitInputGoods(
-                formEntity.reportTitle.toString(),
-                formEntity.formNumber.toString()
+                formEntity.reportTitle,
+                formEntity.formNumber
             )
         )
 

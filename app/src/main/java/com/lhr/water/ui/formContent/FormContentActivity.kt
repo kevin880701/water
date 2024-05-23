@@ -29,7 +29,6 @@ import com.lhr.water.ui.base.APP
 import com.lhr.water.ui.base.BaseActivity
 import com.lhr.water.util.adapter.SpinnerAdapter
 import com.lhr.water.util.dealStatusList
-import com.lhr.water.util.isInput
 import com.lhr.water.util.showToast
 import com.lhr.water.util.widget.MaterialWidget
 import com.lhr.water.util.widget.FormContentDataWidget
@@ -41,7 +40,6 @@ class FormContentActivity : BaseActivity(), View.OnClickListener {
     private val binding get() = _binding!!
     private var formFieldNameMap: MutableMap<String, String> = linkedMapOf() //表單欄位
     private var formItemFieldNameMap: MutableMap<String, String> = linkedMapOf() //貨物欄位
-    private var isInput = true
     private lateinit var formEntity: FormEntity
     private lateinit var baseForm: BaseForm
     var currentDealStatus = ""
@@ -66,8 +64,6 @@ class FormContentActivity : BaseActivity(), View.OnClickListener {
 //        returnForm = Gson().fromJson(formEntity.formContent, ReturnForm::class.java)
 
         currentDealStatus = formEntity.dealStatus
-
-        isInput = isInput(formEntity)
 
         bindViewModel()
         initView()
