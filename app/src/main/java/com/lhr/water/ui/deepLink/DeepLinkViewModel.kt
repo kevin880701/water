@@ -17,6 +17,7 @@ import com.lhr.water.network.data.UpdateData
 import com.lhr.water.network.data.request.DataList
 import com.lhr.water.network.data.request.UpdateDataRequest
 import com.lhr.water.network.data.response.UpdateDataResponse
+import com.lhr.water.network.data.response.UserInfo
 import com.lhr.water.repository.FormRepository
 import com.lhr.water.repository.RegionRepository
 import com.lhr.water.repository.UserRepository
@@ -26,6 +27,7 @@ import com.lhr.water.ui.base.APP
 import com.lhr.water.util.manager.checkJson
 import com.lhr.water.util.manager.jsonAddInformation
 import com.lhr.water.util.manager.jsonStringToJsonArray
+import io.reactivex.rxjava3.core.Observable
 import io.reactivex.rxjava3.schedulers.Schedulers
 import okhttp3.Call
 import okhttp3.Callback
@@ -47,6 +49,20 @@ class DeepLinkViewModel(
 ) :
     AndroidViewModel(context.applicationContext as APP) {
     var sqlDatabase = SqlDatabase.getInstance()
+
+    fun autoDownload() {
+        updatePda()
+    }
+
+    fun autoUpload() {
+        uploadFromPda()
+        getUserInfo().subscribe({ response ->
+            println("請求成功")
+            updatePda()
+        }, { error ->
+            println("請求失敗：${error.message}")
+        })
+    }
 
     fun updatePda() {
         ApiManager().getDataList(userRepository.userInfo)
@@ -157,5 +173,15 @@ class DeepLinkViewModel(
             }, { error ->
                 println("sendData Failed：${error.message}")
             })
+    }
+
+
+    fun getUserInfo(): Observable<UserInfo> {
+        return ApiManager().getUserInfo()
+            .subscribeOn(Schedulers.io())
+            .map { response ->
+                userRepository.userInfo = response.data.userInfo
+                response.data.userInfo
+            }
     }
 }

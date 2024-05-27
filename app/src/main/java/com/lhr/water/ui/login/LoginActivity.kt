@@ -30,6 +30,18 @@ class LoginActivity : BaseActivity(), View.OnClickListener {
         setContentView(binding.root)
         window.statusBarColor = ResourcesCompat.getColor(resources, R.color.primaryBlue, null)
 
+
+
+        // 检查是否接收到 Intent
+        println("@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@")
+        val receivedIntent = intent
+        if (receivedIntent.action == Intent.ACTION_SEND) {
+            println("@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@")
+            // 如果收到的 Intent 是 SEND 动作，则从 Intent 中提取字符串消息
+            val message = receivedIntent.getStringExtra(Intent.EXTRA_TEXT)
+            // 将消息显示在 TextView 中
+            println("message : $message")
+        }
         initView()
     }
 

@@ -56,28 +56,28 @@ open class BaseActivity : AppCompatActivity() {
 
     override fun onStart() {
         super.onStart()
-        if (logLifeCycle) Timber.tag("ActivityLife").d("onStart $this")
+//        if (logLifeCycle) Timber.tag("ActivityLife").d("onStart $this")
     }
 
     override fun onResume() {
         super.onResume()
-        if (logLifeCycle) Timber.tag("ActivityLife").d("onResume $this")
+//        if (logLifeCycle) Timber.tag("ActivityLife").d("onResume $this")
     }
 
     override fun onPause() {
         super.onPause()
-        if (logLifeCycle) Timber.tag("ActivityLife").d("onPause $this")
+//        if (logLifeCycle) Timber.tag("ActivityLife").d("onPause $this")
     }
 
     override fun onStop() {
         super.onStop()
-        if (logLifeCycle) Timber.tag("ActivityLife").d("onStop $this")
+//        if (logLifeCycle) Timber.tag("ActivityLife").d("onStop $this")
     }
 
     override fun onDestroy() {
         super.onDestroy()
-        if (logLifeCycle) Timber.tag("ActivityLife").d("onDestroy $this")
-        disposable.clear()
+//        if (logLifeCycle) Timber.tag("ActivityLife").d("onDestroy $this")
+//        disposable.clear()
     }
 
 }

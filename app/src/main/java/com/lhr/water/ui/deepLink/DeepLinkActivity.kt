@@ -56,12 +56,12 @@ class DeepLinkActivity : BaseActivity() {
         try {
             when {
                 url.contains("https://pda-internal.water.gov.tw/auto-download") -> {
-                    viewModel.updatePda()
+                    viewModel.autoDownload()
                     finish()
                 }
 
                 url.contains("https://pda-internal.water.gov.tw/auto-upload") -> {
-                    viewModel.uploadFromPda()
+                    viewModel.autoUpload()
                     finish()
                 }
             }
