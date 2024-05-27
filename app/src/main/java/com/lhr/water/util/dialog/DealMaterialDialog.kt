@@ -3,6 +3,7 @@ package com.lhr.water.util.dialog
 import android.app.AlertDialog
 import android.app.Dialog
 import android.os.Bundle
+import android.text.Editable
 import android.view.View
 import android.widget.AdapterView
 import androidx.fragment.app.DialogFragment
@@ -22,7 +23,7 @@ import com.lhr.water.util.spinnerAdapter.DeptAdapter
 import com.lhr.water.util.spinnerAdapter.RegionEntityAdapter
 import com.lhr.water.util.spinnerAdapter.StorageEntityAdapter
 
-class DealInputMaterialDialog(
+class DealMaterialDialog(
     var formEntity: FormEntity,
     itemDetail: BaseItem,
     maxQuantity: String
@@ -77,7 +78,7 @@ class DealInputMaterialDialog(
             activity?.resources?.getString(R.string.goods_information)
         binding.widgetTitleBar.imageCancel.visibility = View.VISIBLE
 
-        binding.textQuantity.text = maxQuantity
+        binding.editQuantity.text = Editable.Factory.getInstance().newEditable(maxQuantity)
 
         // 取得區域列表
         allRegionList = viewModel.getInputRegionList()
@@ -143,8 +144,6 @@ class DealInputMaterialDialog(
                 }
             }
 
-        binding.imageSubtract.setOnClickListener(this)
-        binding.imageAdd.setOnClickListener(this)
         binding.buttonConfirm.setOnClickListener(this)
         binding.widgetTitleBar.imageCancel.setOnClickListener(this)
     }
@@ -159,7 +158,7 @@ class DealInputMaterialDialog(
                         formEntity,
                         itemDetail,
                         viewModel.selectStorage.value!!,
-                        binding.textQuantity.text.toString(),
+                        binding.editQuantity.text.toString(),
                         isInput(formEntity)
                     )
                     this.dismiss()
@@ -170,19 +169,19 @@ class DealInputMaterialDialog(
                 this.dismiss()
             }
 
-            R.id.imageSubtract -> {
-                // 減少數量，但不小於 1
-                binding.textQuantity.text =
-                    maxOf(0, binding.textQuantity.text.toString().toInt() - 1).toString()
-            }
-
-            R.id.imageAdd -> {
-                // 增加數量，但不大於 maxQuantity
-                binding.textQuantity.text = minOf(
-                    maxQuantity.toInt(),
-                    binding.textQuantity.text.toString().toInt() + 1
-                ).toString()
-            }
+//            R.id.imageSubtract -> {
+//                // 減少數量，但不小於 1
+//                binding.textQuantity.text =
+//                    maxOf(0, binding.textQuantity.text.toString().toInt() - 1).toString()
+//            }
+//
+//            R.id.imageAdd -> {
+//                // 增加數量，但不大於 maxQuantity
+//                binding.textQuantity.text = minOf(
+//                    maxQuantity.toInt(),
+//                    binding.textQuantity.text.toString().toInt() + 1
+//                ).toString()
+//            }
         }
     }
 }

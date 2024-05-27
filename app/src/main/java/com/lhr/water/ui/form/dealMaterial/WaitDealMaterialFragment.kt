@@ -12,8 +12,7 @@ import com.lhr.water.databinding.FragmentWaitDealMaterialBinding
 import com.lhr.water.room.FormEntity
 import com.lhr.water.ui.base.BaseFragment
 import com.lhr.water.util.adapter.WaitDealMaterialAdapter
-import com.lhr.water.util.dialog.DealInputMaterialDialog
-import com.lhr.water.util.dialog.DealOutputMaterialDialog
+import com.lhr.water.util.dialog.DealMaterialDialog
 import com.lhr.water.util.isInput
 
 
@@ -80,20 +79,11 @@ class WaitDealMaterialFragment(var formEntity: FormEntity) : BaseFragment(), Vie
 
     override fun onItemClick(itemDetail: BaseItem, maxQuantity: String) {
 
-            if (isInput) {
-                var goodsDialog = DealInputMaterialDialog(
-                    formEntity,
-                    itemDetail,
-                    maxQuantity
-                )
-                goodsDialog.show(requireActivity().supportFragmentManager, "DealInputMaterialDialog")
-            } else {
-                var goodsDialog = DealOutputMaterialDialog(
-                    formEntity,
-                    itemDetail,
-                    maxQuantity
-                )
-                goodsDialog.show(requireActivity().supportFragmentManager, "DealOutputMaterialDialog")
-            }
+        var dealMaterialDialog = DealMaterialDialog(
+            formEntity,
+            itemDetail,
+            maxQuantity
+        )
+        dealMaterialDialog.show(requireActivity().supportFragmentManager, "DealInputMaterialDialog")
     }
 }
