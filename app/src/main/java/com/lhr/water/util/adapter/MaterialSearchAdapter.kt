@@ -60,7 +60,7 @@ class MaterialSearchAdapter(val viewModel: MaterialSearchViewModel,
 
             // 判斷已交貨未驗收
             binding.textMaterialStatus.text = materialStatusMap[storageRecordEntity.materialStatus]
-            if(storageRecordEntity.materialStatus == 1){
+            if(storageRecordEntity.materialStatus == "1"){
                 binding.linearItem.setBackgroundColor(ContextCompat.getColor(context, R.color.disableGray))
             }
         }

@@ -261,7 +261,7 @@ class FormContentActivity : BaseActivity(), View.OnClickListener {
 
             // 將匹配記錄的quantity加總到totalQuantity
             for (record in matchingRecords) {
-                totalQuantity += record.quantity
+                totalQuantity += record.quantity.toInt()
             }
 
             if (totalQuantity < itemDetail.requestQuantity.toInt()) {

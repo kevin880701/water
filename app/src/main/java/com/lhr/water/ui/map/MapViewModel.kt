@@ -38,16 +38,15 @@ class MapViewModel(context: Context, var regionRepository: RegionRepository, var
         val convertedStorageRecordEntities = filteredCheckoutEntities.map { checkoutEntity ->
             StorageRecordEntity(
                 storageId = checkoutEntity.storageId,
-                formType = 0,
+                formType = "0",
                 formNumber = "",
                 materialName = checkoutEntity.materialName,
                 materialNumber = checkoutEntity.materialNumber,
-                outputTime = "",
-                inputTime = checkoutEntity.inputTime,
-                materialStatus = 2,
+                materialStatus = "2",
                 userId = userRepository.userInfo.userId,
-                quantity = checkoutEntity.quantity,
-                recordDate = checkoutEntity.inputTime
+                quantity = checkoutEntity.quantity.toString(),
+                recordDate = checkoutEntity.inputTime,
+                storageArrivalId = "",
             )
         }.toMutableList() as ArrayList<StorageRecordEntity>
 
@@ -62,34 +61,34 @@ class MapViewModel(context: Context, var regionRepository: RegionRepository, var
         }
 
         // 創建InvtStat=3 的數據的列表
-        val invtStat3Records = filteredStorageRecordEntities.filter { it.materialStatus == 3 }
+        val invtStat3Records = filteredStorageRecordEntities.filter { it.materialStatus == "3" }
         // 創建InvtStat=2 的數據的列表
-        val invtStat2Records = filteredStorageRecordEntities.filter { it.materialStatus == 2 }
+        val invtStat2Records = filteredStorageRecordEntities.filter { it.materialStatus == "2" }
         // 創建InvtStat=1 的數據的列表
-        val invtStat1Records = filteredStorageRecordEntities.filter { it.materialStatus == 1 }
+        val invtStat1Records = filteredStorageRecordEntities.filter { it.materialStatus == "1" }
 
         // 根據 materialName、materialNumber、date 進行分組
         val groupedInvtStat3Records = invtStat3Records.groupBy {
-            Triple(it.materialName, it.materialNumber, it.inputTime)
+            Triple(it.materialName, it.materialNumber, it.recordDate)
         }
         val groupedInvtStat2Records = invtStat2Records.groupBy {
-            Triple(it.materialName, it.materialNumber, it.inputTime)
+            Triple(it.materialName, it.materialNumber, it.recordDate)
         }
         val groupedInvtStat1Records = invtStat1Records.groupBy {
-            Triple(it.materialName, it.materialNumber, it.inputTime)
+            Triple(it.materialName, it.materialNumber, it.recordDate)
         }
 
         // 將各自materialName、materialNumber、date的quantity加總
         val processedInvtStat3Records = groupedInvtStat3Records.mapValues { (_, records) ->
-            records.sumOf { it.quantity }
+            records.sumOf { it.quantity.toInt() }
         }.toList()
 
         val processedInvtStat2Records = groupedInvtStat2Records.mapValues { (_, records) ->
-            records.sumOf { it.quantity }
+            records.sumOf { it.quantity.toInt() }
         }.toList()
 
         val processedInvtStat1Records = groupedInvtStat1Records.mapValues { (_, records) ->
-            records.sumOf { it.quantity }
+            records.sumOf { it.quantity.toInt() }
         }.toList()
 
         // 創建一個新的 ArrayList 用於存儲結果
@@ -106,16 +105,15 @@ class MapViewModel(context: Context, var regionRepository: RegionRepository, var
             if (totalQuantity != 0) {
                 resultStorageRecordEntities.add(StorageRecordEntity(
                     storageId = 0, 
-                    formType = 0, 
+                    formType = "0",
                     formNumber = "", 
                     materialName = materialName,
                     materialNumber = materialNumber,
-                    outputTime = "",
-                    inputTime = inputTime,
-                    materialStatus = 2,
+                    materialStatus = "2",
                     userId = "", 
-                    quantity = totalQuantity,
-                    recordDate = inputTime
+                    quantity = totalQuantity.toString(),
+                    recordDate = inputTime,
+                    storageArrivalId = ""
                 ))
             }
         }
@@ -125,16 +123,15 @@ class MapViewModel(context: Context, var regionRepository: RegionRepository, var
             val (materialName, materialNumber, inputTime) = key
             resultStorageRecordEntities.add(StorageRecordEntity(
                 storageId = 0, 
-                formType = 0, 
+                formType = "0",
                 formNumber = "", 
                 materialName = materialName,
                 materialNumber = materialNumber,
-                outputTime = "",
-                inputTime = inputTime,
-                materialStatus = 1,
+                materialStatus = "1",
                 userId = "", 
-                quantity = quantity,
-                recordDate = inputTime
+                quantity = quantity.toString(),
+                recordDate = inputTime,
+                storageArrivalId = ""
             ))
         }
 

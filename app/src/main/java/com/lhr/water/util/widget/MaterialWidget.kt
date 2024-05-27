@@ -66,7 +66,7 @@ class MaterialWidget : RelativeLayout {
                     it.materialName == materialName &&
                     it.materialNumber == materialNumber
         }.sumOf {
-            it.quantity
+            it.quantity.toInt()
         }.toString()
     }
 }

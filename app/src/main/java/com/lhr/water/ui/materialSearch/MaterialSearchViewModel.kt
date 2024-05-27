@@ -40,16 +40,15 @@ class MaterialSearchViewModel(
         val convertedStorageRecordEntities = filteredCheckoutEntities.map { checkoutEntity ->
             StorageRecordEntity(
                 storageId = checkoutEntity.storageId,
-                formType = 0,
+                formType = "0",
                 formNumber = "",
                 materialName = checkoutEntity.materialName,
                 materialNumber = checkoutEntity.materialNumber,
-                outputTime = "",
-                inputTime = checkoutEntity.inputTime,
-                materialStatus = 2,
+                materialStatus = "2",
                 userId = userRepository.userInfo.userId,
-                quantity = checkoutEntity.quantity,
-                recordDate = checkoutEntity.inputTime
+                quantity = checkoutEntity.quantity.toString(),
+                recordDate = checkoutEntity.inputTime,
+                storageArrivalId = ""
             )
         }.toMutableList() as ArrayList<StorageRecordEntity>
 
@@ -63,21 +62,21 @@ class MaterialSearchViewModel(
         }
 
         // 創建InvtStat=1 的數據的列表
-        val invtStat1Records = filteredStorageRecordEntities.filter { it.materialStatus == 1 }
+        val invtStat1Records = filteredStorageRecordEntities.filter { it.materialStatus == "1" }
         // 創建InvtStat=2 的數據的列表
-        val invtStat2Records = filteredStorageRecordEntities.filter { it.materialStatus == 2 }
+        val invtStat2Records = filteredStorageRecordEntities.filter { it.materialStatus == "2" }
         // 創建InvtStat=3 的數據的列表
-        val invtStat3Records = filteredStorageRecordEntities.filter { it.materialStatus == 3 }
+        val invtStat3Records = filteredStorageRecordEntities.filter { it.materialStatus == "3" }
 
         // 根據 storageId、materialName、materialNumber、date 進行分組
         val groupedRecords1 = invtStat1Records.groupBy { record ->
-            "${record.materialName}-${record.materialNumber}-${record.inputTime}-${record.storageId}"
+            "${record.materialName}-${record.materialNumber}-${record.recordDate}-${record.storageId}"
         }
         val groupedRecords2 = invtStat2Records.groupBy { record ->
-            "${record.materialName}-${record.materialNumber}-${record.inputTime}-${record.storageId}"
+            "${record.materialName}-${record.materialNumber}-${record.recordDate}-${record.storageId}"
         }
         val groupedRecords3 = invtStat3Records.groupBy { record ->
-            "${record.materialName}-${record.materialNumber}-${record.inputTime}-${record.storageId}"
+            "${record.materialName}-${record.materialNumber}-${record.recordDate}-${record.storageId}"
         }
 
         // 用於儲存計算完的List
@@ -90,7 +89,7 @@ class MaterialSearchViewModel(
             var totalQuantity = 0
 
             records.forEach { record ->
-                totalQuantity += record.quantity
+                totalQuantity += record.quantity.toInt()
             }
 
             // 創建整合後的記錄StorageRecordEntity，並添加到列表中
@@ -102,12 +101,11 @@ class MaterialSearchViewModel(
                         formNumber = firstRecord.formNumber,
                         materialName = firstRecord.materialName,
                         materialNumber = firstRecord.materialNumber,
-                        outputTime = firstRecord.outputTime,
-                        inputTime = firstRecord.inputTime,
                         materialStatus = firstRecord.materialStatus,
                         userId = firstRecord.userId,
-                        quantity = totalQuantity,  // 整合後的數量
-                        recordDate = firstRecord.recordDate
+                        quantity = totalQuantity.toString(),
+                        recordDate = firstRecord.recordDate,
+                        storageArrivalId = ""
                     )
                 )
             }
@@ -117,7 +115,7 @@ class MaterialSearchViewModel(
             var totalQuantity = 0
 
             records.forEach { record ->
-                totalQuantity += record.quantity
+                totalQuantity += record.quantity.toInt()
             }
 
             // 創建整合後的記錄StorageRecordEntity，並添加到列表中
@@ -129,12 +127,11 @@ class MaterialSearchViewModel(
                         formNumber = firstRecord.formNumber,
                         materialName = firstRecord.materialName,
                         materialNumber = firstRecord.materialNumber,
-                        outputTime = firstRecord.outputTime,
-                        inputTime = firstRecord.inputTime,
                         materialStatus = firstRecord.materialStatus,
                         userId = firstRecord.userId,
-                        quantity = totalQuantity,  // 整合後的數量
-                        recordDate = firstRecord.recordDate
+                        quantity = totalQuantity.toString(),  // 整合後的數量
+                        recordDate = firstRecord.recordDate,
+                        storageArrivalId = ""
                     )
                 )
             }
@@ -144,7 +141,7 @@ class MaterialSearchViewModel(
             var totalQuantity = 0
 
             records.forEach { record ->
-                totalQuantity += record.quantity
+                totalQuantity += record.quantity.toInt()
             }
 
             // 創建整合後的記錄StorageRecordEntity，並添加到列表中
@@ -156,12 +153,11 @@ class MaterialSearchViewModel(
                         formNumber = firstRecord.formNumber,
                         materialName = firstRecord.materialName,
                         materialNumber = firstRecord.materialNumber,
-                        outputTime = firstRecord.outputTime,
-                        inputTime = firstRecord.inputTime,
                         materialStatus = firstRecord.materialStatus,
                         userId = firstRecord.userId,
-                        quantity = totalQuantity,  // 整合後的數量
-                        recordDate = firstRecord.recordDate
+                        quantity = totalQuantity.toString(),  // 整合後的數量
+                        recordDate = firstRecord.recordDate,
+                        storageArrivalId = ""
                     )
                 )
             }
@@ -179,11 +175,11 @@ class MaterialSearchViewModel(
                 // 檢查是否存在匹配的記錄
                 if (record2.materialName == record3.materialName &&
                     record2.materialNumber == record3.materialNumber &&
-                    record2.inputTime == record3.inputTime &&
+                    record2.recordDate == record3.recordDate &&
                     record2.storageId == record3.storageId
                 ) {
                     // 找到匹配的記錄，將 record2 的數量減去 record3 的數量，並添加到結果列表中
-                    val quantityDiff = record2.quantity - record3.quantity
+                    val quantityDiff = record2.quantity.toInt() - record3.quantity.toInt()
                     if (quantityDiff != 0) {
                         resultRecords.add(
                             StorageRecordEntity(
@@ -192,12 +188,11 @@ class MaterialSearchViewModel(
                                 formNumber = record2.formNumber,
                                 materialName = record2.materialName,
                                 materialNumber = record2.materialNumber,
-                                outputTime = record2.outputTime,
-                                inputTime = record2.inputTime,
                                 materialStatus = record2.materialStatus,
                                 userId = record2.userId,
-                                quantity = quantityDiff,
-                                recordDate = record2.recordDate
+                                quantity = quantityDiff.toString(),
+                                recordDate = record2.recordDate,
+                                storageArrivalId = ""
                             )
                         )
                     }

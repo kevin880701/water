@@ -205,19 +205,19 @@ val fromTitleList: List<String> = listOf(
 )
 
 // 1-交貨，2-驗收，3-調撥，4-領料，5-退料，6-盤點
-val formTypeMap: Map<String, Int> = mapOf(
-    deliveryFormName to 1,
-    transferFormName to 3,
-    pickingFormName to 4,
-    returningFormName to 5,
-    inventoryFormName to 6
+val formTypeMap: Map<String, String> = mapOf(
+    deliveryFormName to "1",
+    transferFormName to "3",
+    pickingFormName to "4",
+    returningFormName to "5",
+    inventoryFormName to "6"
 )
 
 // 1: 已交貨，2: 已驗收，3: 已移出
-val materialStatusMap: Map<Int, String> = mapOf(
-    1 to "已交貨",
-    2 to "已驗收",
-    3 to "已移出",
+val materialStatusMap: Map<String, String> = mapOf(
+    "1" to "已交貨",
+    "2" to "已驗收",
+    "3" to "已移出",
 )
 
 var markDrawableIdMap = mapOf(0 to R.drawable.mark, 1 to R.drawable.office, 2 to R.drawable.door, 3 to R.drawable.stairs, 4 to R.drawable.elevator, 5 to R.drawable.wc, 6 to R.drawable.parking)

@@ -29,7 +29,6 @@ class SqlModel {
         // InventoryEntity
         const val inventoryUnit: String = "inventoryUnit"
         const val seq: String = "seq"
-        const val formId: String = "formId"
         const val actualQuantity: String = "actualQuantity"
         const val checkDate: String = "checkDate"
         const val lastUseDate: String = "lastUseDate"
@@ -38,29 +37,24 @@ class SqlModel {
 
         const val storageId: String = "storageId"
         const val mapSeq: String = "mapSeq"
-        const val mapName: String = "mapName"
-        const val storageNum: String = "storageNum"
         const val storageName: String = "storageName"
         const val storageX: String = "storageX"
         const val storageY: String = "storageY"
         const val formType: String = "formType"
         const val reportTitle: String = "reportTitle"
         const val recordDate: String = "recordDate"
-        const val type: String = "type"
+        const val storageArrivalId: String = "storageArrivalId"
+
         const val itemDetail: String = "itemDetail"
         const val materialStatus: String = "materialStatus"
         const val userId: String = "userId"
-        const val InvtDevi: String = "InvtDevi"
         const val materialNumber: String = "materialNumber"
         const val materialName: String = "materialName"
         const val materialSpec: String = "materialSpec"
         const val materialUnit: String = "materialUnit"
-        const val length: String = "length"
         const val quantity: String = "quantity"
-        const val outputTime: String = "outputTime"
         const val inputTime: String = "inputTime"
         const val checkoutTime: String = "checkoutTime"
-        const val isUpdate: String = "isUpdate"
 
     }
 }

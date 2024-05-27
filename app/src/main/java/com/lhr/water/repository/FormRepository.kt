@@ -137,7 +137,7 @@ class FormRepository(context: Context) {
 
         // 篩選後的List中數量加總
         for (storageContentEntity in filteredList) {
-            totalQuantity += storageContentEntity.quantity
+            totalQuantity += storageContentEntity.quantity.toInt()
         }
         return totalQuantity
     }

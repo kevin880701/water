@@ -82,16 +82,15 @@ class DealMaterialViewModel(
         val convertedStorageRecordEntities = filteredCheckoutEntities.map { checkoutEntity ->
             StorageRecordEntity(
                 storageId = checkoutEntity.storageId,
-                formType = 0,
+                formType = "0",
                 formNumber = "",
                 materialName = checkoutEntity.materialName,
                 materialNumber = checkoutEntity.materialNumber,
-                outputTime = "",
-                inputTime = checkoutEntity.inputTime,
-                materialStatus = 2,
+                materialStatus = "2",
                 userId = userRepository.userInfo.userId,
-                quantity = checkoutEntity.quantity,
-                recordDate = checkoutEntity.inputTime
+                quantity = checkoutEntity.quantity.toString(),
+                recordDate = checkoutEntity.inputTime,
+                storageArrivalId = "",
             )
         }.toMutableList() as ArrayList<StorageRecordEntity>
 
@@ -106,16 +105,16 @@ class DealMaterialViewModel(
         }
 
         // 創建InvtStat=2 的數據的列表
-        val invtStat2Records = filteredStorageRecordEntities.filter { it.materialStatus == 2 }
+        val invtStat2Records = filteredStorageRecordEntities.filter { it.materialStatus == "2" }
         // 創建InvtStat=3 的數據的列表
-        val invtStat3Records = filteredStorageRecordEntities.filter { it.materialStatus == 3 }
+        val invtStat3Records = filteredStorageRecordEntities.filter { it.materialStatus == "3" }
 
         // 根據 storageId、materialName、materialNumber、date 進行分組
         val groupedRecords2 = invtStat2Records.groupBy { record ->
-            "${record.materialName}-${record.materialNumber}-${record.inputTime}-${record.storageId}"
+            "${record.materialName}-${record.materialNumber}-${record.recordDate}-${record.storageId}"
         }
         val groupedRecords3 = invtStat3Records.groupBy { record ->
-            "${record.materialName}-${record.materialNumber}-${record.inputTime}-${record.storageId}"
+            "${record.materialName}-${record.materialNumber}-${record.recordDate}-${record.storageId}"
         }
 
         // 用於儲存計算完的List
@@ -127,7 +126,7 @@ class DealMaterialViewModel(
             var totalQuantity = 0
 
             records.forEach { record ->
-                totalQuantity += record.quantity
+                totalQuantity += record.quantity.toInt()
             }
 
             // 創建整合後的記錄StorageRecordEntity，並添加到列表中
@@ -139,12 +138,11 @@ class DealMaterialViewModel(
                         formNumber = firstRecord.formNumber,
                         materialName = firstRecord.materialName,
                         materialNumber = firstRecord.materialNumber,
-                        outputTime = firstRecord.outputTime,
-                        inputTime = firstRecord.inputTime,
                         materialStatus = firstRecord.materialStatus,
                         userId = firstRecord.userId,
-                        quantity = totalQuantity,  // 整合后的总量
-                        recordDate = firstRecord.recordDate
+                        quantity = totalQuantity.toString(),
+                        recordDate = firstRecord.recordDate,
+                        storageArrivalId = firstRecord.recordDate
                     )
                 )
             }
@@ -154,7 +152,7 @@ class DealMaterialViewModel(
             var totalQuantity = 0
 
             records.forEach { record ->
-                totalQuantity += record.quantity
+                totalQuantity += record.quantity.toInt()
             }
 
             // 創建整合後的記錄StorageRecordEntity，並添加到列表中
@@ -166,12 +164,11 @@ class DealMaterialViewModel(
                         formNumber = firstRecord.formNumber,
                         materialName = firstRecord.materialName,
                         materialNumber = firstRecord.materialNumber,
-                        outputTime = firstRecord.outputTime,
-                        inputTime = firstRecord.inputTime,
                         materialStatus = firstRecord.materialStatus,
                         userId = firstRecord.userId,
-                        quantity = totalQuantity,  // 整合后的总量
-                        recordDate = firstRecord.recordDate
+                        quantity = totalQuantity.toString(),
+                        recordDate = firstRecord.recordDate,
+                        storageArrivalId = ""
                     )
                 )
             }
@@ -189,11 +186,11 @@ class DealMaterialViewModel(
                 // 檢查是否存在匹配的記錄
                 if (record2.materialName == record3.materialName &&
                     record2.materialNumber == record3.materialNumber &&
-                    record2.inputTime == record3.inputTime &&
+                    record2.recordDate == record3.recordDate &&
                     record2.storageId == record3.storageId
                 ) {
                     // 找到匹配的記錄，將 record2 的數量減去 record3 的數量，並添加到結果列表中
-                    val quantityDiff = record2.quantity - record3.quantity
+                    val quantityDiff = record2.quantity.toInt() - record3.quantity.toInt()
                     if (quantityDiff != 0) {
                         resultRecords.add(
                             StorageRecordEntity(
@@ -202,12 +199,11 @@ class DealMaterialViewModel(
                                 formNumber = record2.formNumber,
                                 materialName = record2.materialName,
                                 materialNumber = record2.materialNumber,
-                                outputTime = record2.outputTime,
-                                inputTime = record2.inputTime,
                                 materialStatus = record2.materialStatus,
                                 userId = record2.userId,
-                                quantity = quantityDiff,
-                                recordDate = record2.recordDate
+                                quantity = quantityDiff.toString(),
+                                recordDate = record2.recordDate,
+                                storageArrivalId = ""
                             )
                         )
                     }
@@ -243,7 +239,7 @@ class DealMaterialViewModel(
     fun getOutputTimeSpinnerList(storageId: Int, specifiedMaterialStorageRecordEntities: ArrayList<StorageRecordEntity>): ArrayList<String> {
         val inputTimeList = specifiedMaterialStorageRecordEntities
             .filter { it.storageId == storageId }
-            .map { it.inputTime }
+            .map { it.recordDate }
             .toList()
 
         return ArrayList(inputTimeList)
@@ -252,18 +248,18 @@ class DealMaterialViewModel(
     fun getOutputMaxQuantity(needQuantity: Int, formNumber: String, storageId: Int, inputTime: String, specifiedMaterialStorageRecordEntities: ArrayList<StorageRecordEntity>): Int {
         // 根據指定的 storageId 和 inputTime 查找對應的項
         val matchingRecords = specifiedMaterialStorageRecordEntities.filter {
-            it.storageId == storageId && it.inputTime == inputTime
+            it.storageId == storageId && it.recordDate == inputTime
         }
 
         // 暫存清單裡的數量
         val tempQuantity = formRepository.tempStorageRecordEntities.value!!
             .filter { it.formNumber == formNumber }
-            .sumOf { it.quantity }
+            .sumOf { it.quantity.toInt() }
 
         // 如果找到匹配的記錄
         if (matchingRecords.isNotEmpty()) {
             // 計算匹配記錄的總數量
-            val totalQuantity = matchingRecords.sumOf { it.quantity }
+            val totalQuantity = matchingRecords.sumOf { it.quantity.toInt() }
 
             // 返回較小的值，即所需數量和總數量之間的較小值
             return minOf(needQuantity, totalQuantity - tempQuantity).coerceAtLeast(0)
@@ -325,20 +321,19 @@ class DealMaterialViewModel(
         // 需要為貨物加上地區、地圖、儲櫃名稱、報表名稱、報表代號、入庫時間欄位
         var tempDealGoodsData = StorageRecordEntity(
             storageId = storageEntity.storageId,
-            formType = formTypeMap[form.reportTitle!!]?.let { it }?:0,
-            formNumber =  form.formNumber!!,
-            materialName =  itemDetail.materialName.toString(),
-            materialNumber = itemDetail.materialNumber!!,
-            outputTime = if (isInput) "" else getCurrentDate(),
-            inputTime = if (isInput) getCurrentDate() else inputTime!!,
+            formType = formTypeMap[form.reportTitle] ?:"0",
+            formNumber =  form.formNumber,
+            materialName =  itemDetail.materialName,
+            materialNumber = itemDetail.materialNumber,
             materialStatus =  if (isInput) {
-                if (form.reportTitle == "交貨通知單") 1 else 2
+                if (form.reportTitle == "交貨通知單") "1" else "2"
             } else {
-                3
+                "3"
             },
             userId = userRepository.userInfo.userId,
-            quantity = materialQuantity.toInt(),
+            quantity = materialQuantity,
             recordDate = getCurrentDate(),
+            storageArrivalId = "",
         )
 
         // 更新暫存進貨列表
