@@ -87,9 +87,9 @@ class DeepLinkViewModel(
         try {
             val gson = Gson()
 
-            val inventoryEntities = sqlDatabase.getInventoryDao().getAll()
-            val storageRecordEntities = sqlDatabase.getStorageRecordDao().getAll()
-            val formEntities = sqlDatabase.getFormDao().getAll()
+            val inventoryEntities = sqlDatabase.getInventoryDao().getAllNotUpdated()
+            val storageRecordEntities = sqlDatabase.getStorageRecordDao().getAllNotUpdated()
+            val formEntities = sqlDatabase.getFormDao().getAllNotUpdated()
 
             // 把formEntities轉成動應Class的List
             val deliveryFormList = ArrayList<DeliveryForm>()

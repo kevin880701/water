@@ -21,4 +21,8 @@ interface FormDao {
 
     @Update
     fun update(formEntity: FormEntity)
+
+    @Query("SELECT * FROM $FORM_TABLE_NAME WHERE isUpdate = 0")
+    fun getAllNotUpdated(): List<FormEntity>
+
 }

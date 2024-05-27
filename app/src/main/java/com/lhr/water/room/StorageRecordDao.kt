@@ -20,4 +20,7 @@ interface StorageRecordDao {
     @Update
     fun update(storageRecordEntity: StorageRecordEntity)
 
+    @Query("SELECT * FROM $STORAGE_RECORD_TABLE_NAME WHERE isUpdate = 0")
+    fun getAllNotUpdated(): List<StorageRecordEntity>
+
 }
