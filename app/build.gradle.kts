@@ -34,8 +34,8 @@ android {
         applicationId = "com.lhr.water"
         minSdk = 26
         targetSdk = 33
-        versionCode = 1
-        versionName = "1.0"
+        versionCode = 2
+        versionName = "1.0.1"
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
 
@@ -59,7 +59,7 @@ android {
         variant.outputs
             .map { it as com.android.build.gradle.internal.api.BaseVariantOutputImpl }
             .forEach { output ->
-                val outputFileName = "Water_${variant.baseName}_${variant.versionName}.${variant.versionCode}.apk"
+                val outputFileName = "Water_${variant.baseName}_${variant.versionName}+${variant.versionCode}.apk"
                 println("OutputFileName: $outputFileName")
                 output.outputFileName = outputFileName
             }

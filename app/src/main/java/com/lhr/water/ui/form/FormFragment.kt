@@ -52,12 +52,8 @@ class FormFragment : BaseFragment(), View.OnClickListener, FormAdapter.Listener 
 
     private fun bindViewModel() {
         formRepository.formEntities.observe(viewLifecycleOwner) { newFormRecordList ->
-            formAdapter.submitList(newFormRecordList)
+            formAdapter.submitList(viewModel.filterRecord( newFormRecordList, viewModel.searchFormNumber.value!! ,viewModel.filterList.value!!))
         }
-        // 根據篩選的表單類別和表單代號更新列表
-//        formRepository.formFilterRecordList.observe(viewLifecycleOwner) { newFormRecordList ->
-//            formAdapter.submitList(newFormRecordList)
-//        }
         // 表單類別篩選更新
         viewModel.filterList.observe(viewLifecycleOwner) { filterList ->
             formAdapter.submitList(viewModel.filterRecord( formRepository.formEntities.value!!, viewModel.searchFormNumber.value!! ,filterList))
