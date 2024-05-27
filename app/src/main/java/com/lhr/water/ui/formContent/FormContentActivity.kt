@@ -202,7 +202,7 @@ class FormContentActivity : BaseActivity(), View.OnClickListener {
         )
 
 
-        // 如果表單是交貨、退料、進貨調撥並且處理狀態是處理完成的話要判斷表單中的貨物是否已經全部入庫
+        // 如果表單是處理完成的話要判斷表單中的貨物是否已經全部入庫
         if (dealStatus == getString(R.string.complete_deal)
         ) {
             if (isMaterialAlreadyInput(
@@ -217,6 +217,7 @@ class FormContentActivity : BaseActivity(), View.OnClickListener {
                         baseForm.formNumber
                     )
                 )
+                formEntity.isUpdate = false
                 updateForm(formEntity)
                 viewModel.formRepository.loadSqlData()
                 finish()
@@ -224,6 +225,7 @@ class FormContentActivity : BaseActivity(), View.OnClickListener {
                 showToast(this, "貨物未處理完成!")
             }
         } else {
+            formEntity.isUpdate = true
             updateForm(formEntity)
             finish()
         }
