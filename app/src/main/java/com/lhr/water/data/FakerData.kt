@@ -264,81 +264,75 @@ val upData = """
       "invtStrg": [
         {
         "storageId": 1,
-        "storageFromType": 1,
+        "storageFromType": "1",
         "storageFromNo": "M0001",
         "storageMaterialName": "材料1",
         "storageMaterialNo": "1",
-        "storageArrivalTime": "2024-05-07-18-26-31",
-        "storageDepartureTime": "2024-05-07-18-26-31",
-        "InvtStat": 2,
+        "InvtStat": "2",
         "storageUserId": "U0001",
-        "storageMaterialQuantity": 10,
-        "createdAt": "2024-05-07-18-26-31"
+        "storageMaterialQuantity": "10",
+        "createdAt": "2024-05-07-18-26-31",
+        "storageArrivalId": "A001"
     },
     {
         "storageId": 1,
-        "storageFromType": 5,
+        "storageFromType": "5",
         "storageFromNo": "M0002",
         "storageMaterialName": "材料1",
         "storageMaterialNo": "1",
-        "storageArrivalTime": "2024-05-07-18-26-31",
-        "storageDepartureTime": "2024-05-07-18-26-31",
-        "InvtStat": 3,
+        "InvtStat": "3",
         "storageUserId": "U0001",
-        "storageMaterialQuantity": 7,
-        "createdAt": "2024-05-07-18-26-31"
+        "storageMaterialQuantity": "7",
+        "createdAt": "2024-05-07-18-26-31",
+        "storageArrivalId": "A001"
     },
     {
         "storageId": 1,
-        "storageFromType": 1,
+        "storageFromType": "1",
         "storageFromNo": "M0003",
         "storageMaterialName": "材料3",
         "storageMaterialNo": "3",
-        "storageArrivalTime": "2024-05-07-18-26-31",
-        "storageDepartureTime": "2024-05-07-18-26-31",
-        "InvtStat": 1,
+        "InvtStat": "1",
         "storageUserId": "U0001",
-        "storageMaterialQuantity": 4,
-        "createdAt": "2024-05-07-18-26-31"
+        "storageMaterialQuantity": "4",
+        "createdAt": "2024-05-07-18-26-31",
+        "storageArrivalId": "A001"
     },
     {
         "storageId": 3,
-        "storageFromType": 1,
+        "storageFromType": "1",
         "storageFromNo": "M165651",
         "storageMaterialName": "水管",
         "storageMaterialNo": "M001",
-        "storageArrivalTime": "2024-05-07-18-26-31",
-        "storageDepartureTime": "2024-05-07-18-26-31",
-        "InvtStat": 2,
+        "InvtStat": "2",
         "storageUserId": "U0001",
-        "storageMaterialQuantity": 20,
-        "createdAt": "2024-05-07-18-26-31"
+        "storageMaterialQuantity": "20",
+        "createdAt": "2024-05-07-18-26-31",
+        "storageArrivalId": "A001"
     },
     {
         "storageId": 4,
-        "storageFromType": 1,
+        "storageFromType": "1",
         "storageFromNo": "M165651",
         "storageMaterialName": "水管2",
         "storageMaterialNo": "M002",
-        "storageArrivalTime": "2024-05-07-18-26-31",
-        "storageDepartureTime": "2024-05-07-18-26-31",
-        "InvtStat": 2,
+        "InvtStat": "2",
         "storageUserId": "U0001",
-        "storageMaterialQuantity": 20,
-        "createdAt": "2024-05-07-18-26-31"
+        "storageMaterialQuantity": "20",
+        "createdAt": "2024-05-07-18-26-31",
+        "storageArrivalId": "A001"
     },
     {
         "storageId": 3,
-        "storageFromType": 1,
+        "storageFromType": "1",
         "storageFromNo": "M165651",
         "storageMaterialName": "水管",
         "storageMaterialNo": "M001",
-        "storageArrivalTime": "2024-05-06-18-26-31",
-        "storageDepartureTime": "2024-05-06-18-26-31",
-        "InvtStat": 2,
+        "InvtStat": "2",
         "storageUserId": "U0001",
-        "storageMaterialQuantity": 2,
-        "createdAt": "2024-05-07-18-26-31"
+        "storageMaterialQuantity": "2",
+        "createdAt": "2024-05-07-18-26-31",
+        "storageArrivalId": "A001"
     }
       ],
       "checkoutForm": [
