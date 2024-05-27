@@ -48,7 +48,7 @@ class RegionRepository private constructor(private val context: Context) {
         // 先清除資料表
         sqlDatabase.getStorageDao().clearTable()
 
-        // 將updateDataResponse的儲櫃資訊、儲櫃紀錄、月結表插入資料表
+        // 將updateDataResponse的儲櫃資訊插入資料表
         sqlDatabase.getStorageDao()
             .insertStorageEntities(storageList)
 

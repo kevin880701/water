@@ -58,9 +58,16 @@ class DeepLinkViewModel(
         ApiManager().getDataList(userRepository.userInfo)
             .subscribeOn(Schedulers.io())
             .map { response ->
+
+                val tempList = response.data.dataList.storageRecordList
+                tempList.forEach { storageRecord ->
+                    storageRecord.isUpdate = true
+                }
+
+                response.data.dataList.storageRecordList.forEach { it.isUpdate = true }
                 formRepository.updateSqlData(
                     response.data.dataList.checkoutFormList,
-                    response.data.dataList.storageRecordList,
+                    tempList,
                     response.data.dataList.deliveryFormList,
                     response.data.dataList.transferFormList,
                     response.data.dataList.receiveFormList,
