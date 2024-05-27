@@ -20,7 +20,7 @@ class StorageRecordEntity(
     quantity: String, //InvtNum: 數量
     recordDate: String, //CreatedAt: 紀錄創建時間（出庫入庫時間，格式YYYY-MM-DD-HH-MM-SS）
     storageArrivalId: String, //CreatedAt: 紀錄創建時間（出庫入庫時間，格式YYYY-MM-DD-HH-MM-SS）
-    isUpdate: Boolean = false
+    isUpdate: Boolean = true
 ) : Serializable {
 
     @NonNull

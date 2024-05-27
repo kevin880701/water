@@ -27,7 +27,7 @@ class InventoryEntity(
     checkDate: String,
     lastUseDate: String,
     approvedDate: String,
-    isUpdate: Boolean = false
+    isUpdate: Boolean = true
 ) : Serializable {
 
     @NonNull

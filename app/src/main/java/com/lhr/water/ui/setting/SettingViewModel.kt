@@ -48,52 +48,6 @@ class SettingViewModel(
     AndroidViewModel(context.applicationContext as APP) {
     var sqlDatabase = SqlDatabase.getInstance()
 
-    /**
-     * 寫入JSON檔案到指定資料夾
-     * @param context 要被讀取的內容
-     * @param folderUri 指定資料夾位置
-     */
-//    fun writeJsonObjectToFolder(context: Context, folderUri: Uri) {
-//        try {
-//            val jsonObject = JSONArray(formRepository.formRecordList.value)
-//            val folder = DocumentFile.fromTreeUri(context, folderUri)
-//            // 當前日期時間
-//            val dateFormat = SimpleDateFormat("yyyyMMdd_HHmmss", Locale.getDefault())
-//            val currentDate = dateFormat.format(Date())
-//            // 儲存的檔案名稱
-//            val file = folder?.createFile("application/json", "output_${currentDate}.json")
-//
-//            file?.let {
-//                val outputStream = context.contentResolver.openOutputStream(it.uri)
-//                outputStream?.use { stream ->
-//                    stream.write(jsonObject.toString().toByteArray())
-//                }
-//
-//                Log.d("MainActivity", "JSONObject written to file: ${it.uri}")
-//            }
-//        } catch (e: IOException) {
-//            Log.e("MainActivity", "Error writing JSONObject to file", e)
-//        }
-//    }
-
-
-    /**
-     * 更新表單資料
-     * @param context
-     * @param fileUri json檔位址
-     */
-//    fun updateFormData(context: Context, fileUri: Uri){
-//        val inputStream: InputStream? =
-//            context.contentResolver.openInputStream(fileUri)
-//        var jsonContent = readJsonFromInputStream(inputStream)
-//        var jsonArray = jsonStringToJsonArray(jsonContent)
-//        jsonArray = jsonAddInformation(jsonArray)
-//        if(checkJson(jsonArray, context)){
-//            formRepository.insertNewForm(jsonArray)
-//            formRepository.loadRecord()
-//        }
-//    }
-
 
     /**
      * 讀取JSON檔案

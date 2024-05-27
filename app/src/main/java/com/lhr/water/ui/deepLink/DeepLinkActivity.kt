@@ -40,7 +40,6 @@ class DeepLinkActivity : BaseActivity() {
         setIntent(intent) // 設置新的Intent為當前Activity的Intent
         // 從 Intent 獲取 URL
         val url = intent?.data?.toString()
-
         // 根據不同的 URL 路徑處理
         url?.let {
             handleUrl(it)
@@ -50,9 +49,9 @@ class DeepLinkActivity : BaseActivity() {
 
     @SuppressLint("SuspiciousIndentation")
     private fun handleUrl(url: String) {
-        println("=======================================")
-        println(url)
-        println("=======================================")
+        Timber.d("=======================================")
+        Timber.d(url)
+        Timber.d("=======================================")
         try {
             when {
                 url.contains("https://pda-internal.water.gov.tw/auto-download") -> {

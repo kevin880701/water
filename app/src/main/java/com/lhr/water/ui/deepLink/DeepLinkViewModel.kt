@@ -54,16 +54,6 @@ class DeepLinkViewModel(
         updatePda()
     }
 
-    fun autoUpload() {
-        uploadFromPda()
-        getUserInfo().subscribe({ response ->
-            println("請求成功")
-            updatePda()
-        }, { error ->
-            println("請求失敗：${error.message}")
-        })
-    }
-
     fun updatePda() {
         ApiManager().getDataList(userRepository.userInfo)
             .subscribeOn(Schedulers.io())
@@ -86,7 +76,7 @@ class DeepLinkViewModel(
             })
     }
 
-    fun uploadFromPda() {
+    fun autoUpload() {
         try {
             val gson = Gson()
 
@@ -138,43 +128,42 @@ class DeepLinkViewModel(
                 userInfo = userRepository.userInfo
             )
 
-            sendData(updateDataRequest)
+            ApiManager().updateFromPDA(updateDataRequest)
+                .subscribeOn(Schedulers.io())
+                .subscribe({ response ->
+                    println(response.toString())
+                    getUserInfo().subscribe({ response ->
+                        println("請求成功")
 
-            // 更新 Form 表中的 isUpdate 為 true
-            formEntities.forEach { formEntity ->
-                formEntity.isUpdate = true
-                sqlDatabase.getFormDao().update(formEntity)
-            }
+                        // 更新 Form 表中的 isUpdate 為 true
+                        formEntities.forEach { formEntity ->
+                            formEntity.isUpdate = true
+                            sqlDatabase.getFormDao().update(formEntity)
+                        }
 
-            // 更新 StorageRecord 表中的 isUpdate 為 true
-            storageRecordEntities.forEach { storageRecordEntity ->
-                storageRecordEntity.isUpdate = true
-                sqlDatabase.getStorageRecordDao().update(storageRecordEntity)
-            }
+                        // 更新 StorageRecord 表中的 isUpdate 為 true
+                        storageRecordEntities.forEach { storageRecordEntity ->
+                            storageRecordEntity.isUpdate = true
+                            sqlDatabase.getStorageRecordDao().update(storageRecordEntity)
+                        }
 
-            // 更新 Inventory 表中的 isUpdate 為 true
-            inventoryEntities.forEach { inventoryEntity ->
-                inventoryEntity.isUpdate = true
-                sqlDatabase.getInventoryDao().update(inventoryEntity)
-            }
+                        // 更新 Inventory 表中的 isUpdate 為 true
+                        inventoryEntities.forEach { inventoryEntity ->
+                            inventoryEntity.isUpdate = true
+                            sqlDatabase.getInventoryDao().update(inventoryEntity)
+                        }
+
+                        updatePda()
+                    }, { error ->
+                        println("請求失敗：${error.message}")
+                    })
+                }, { error ->
+                    println("sendData Failed：${error.message}")
+                })
         } catch (e: IOException) {
             Log.e("MainActivity", "Error writing JSONObject to file", e)
         }
     }
-
-    fun sendData(request: UpdateDataRequest) {
-        ApiManager().updateFromPDA(request)
-            .subscribeOn(Schedulers.io())
-            .map { response ->
-
-            }
-            .subscribe({ response ->
-                println(response.toString())
-            }, { error ->
-                println("sendData Failed：${error.message}")
-            })
-    }
-
 
     fun getUserInfo(): Observable<UserInfo> {
         return ApiManager().getUserInfo()

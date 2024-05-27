@@ -25,7 +25,7 @@ class FormEntity(
     reportTitle: String,
     date: String,
     formContent: String,
-    isUpdate: Boolean = false
+    isUpdate: Boolean = true
 ) : Serializable {
 
     @NonNull
