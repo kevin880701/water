@@ -34,7 +34,7 @@ class CoverActivity : BaseActivity() {
 //        viewModel.getUserInfo().subscribe({ _ ->
 //            viewModel.getDataList()
 //        }, { error ->
-//            println("请求失败：${error.message}")
+//            println("請求失敗：${error.message}")
 //        })
 
         GlobalScope.launch {

@@ -31,7 +31,7 @@ class CoverViewModel(
 ////                var gson = Gson()
 ////                userRepository.userInfo = gson.fromJson(response.data.userInfo, UserInfo::class.java)
 //            }, { error ->
-//                println("请求失败：${error.message}")
+//                println("請求失敗：${error.message}")
 //            })
     }
 
@@ -52,9 +52,9 @@ class CoverViewModel(
                 regionRepository.updateSqlData(response.data.dataList.storageList)
             }
             .subscribe({ response ->
-                println("请求成功")
+                println("請求成功")
             }, { error ->
-                println("请求失败：${error.message}")
+                println("請求失敗：${error.message}")
             })
     }
 }

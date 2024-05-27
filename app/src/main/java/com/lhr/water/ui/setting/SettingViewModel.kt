@@ -121,11 +121,9 @@ class SettingViewModel(
 
 
     fun updatePda() {
-        println("##############################################################")
         ApiManager().getDataList(userRepository.userInfo)
             .subscribeOn(Schedulers.io())
             .map { response ->
-
                 formRepository.updateSqlData(
                     response.data.dataList.checkoutFormList,
                     response.data.dataList.storageRecordList,
@@ -138,9 +136,9 @@ class SettingViewModel(
                 regionRepository.updateSqlData(response.data.dataList.storageList)
             }
             .subscribe({ response ->
-                println("请求成功")
+                println("請求成功")
             }, { error ->
-                println("请求失败：${error.message}")
+                println("請求失敗：${error.message}")
             })
     }
 
