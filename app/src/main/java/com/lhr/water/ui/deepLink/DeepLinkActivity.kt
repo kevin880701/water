@@ -6,10 +6,12 @@ import android.os.Bundle
 import androidx.activity.viewModels
 import androidx.core.content.res.ResourcesCompat
 import com.lhr.water.R
+import com.lhr.water.data.upData
 import com.lhr.water.databinding.ActivityCoverBinding
 import com.lhr.water.ui.base.APP
 import com.lhr.water.ui.base.BaseActivity
 import com.lhr.water.ui.setting.SettingViewModel
+import com.lhr.water.util.dialog.DefaultDialog
 import timber.log.Timber
 
 class DeepLinkActivity : BaseActivity() {
@@ -55,8 +57,23 @@ class DeepLinkActivity : BaseActivity() {
         try {
             when {
                 url.contains("https://pda-internal.water.gov.tw/auto-download") -> {
-                    viewModel.autoDownload()
-                    finish()
+                    if (!viewModel.checkIsUpdate()) {
+                        val defaultDialog = DefaultDialog(
+                            title = "尚未備份",
+                            text = "尚有未同步資料，是否覆蓋?",
+                            confirmClick = {
+                                viewModel.autoDownload()
+                                finish()
+                            },
+                            cancelClick = {
+                                finish()
+                            }
+                        )
+                        defaultDialog.show(supportFragmentManager, "DefaultDialog")
+                    } else {
+                        viewModel.autoDownload()
+                        finish()
+                    }
                 }
 
                 url.contains("https://pda-internal.water.gov.tw/auto-upload") -> {

@@ -180,4 +180,19 @@ class DeepLinkViewModel(
                 response.data.userInfo
             }
     }
+
+    // 判斷儲櫃紀錄StorageRecord、表單FormEntity、盤點表單InventoryEntity是否已經備份
+    fun checkIsUpdate(): Boolean {
+        val formDao = sqlDatabase.getFormDao()
+        val storageRecordDao = sqlDatabase.getStorageRecordDao()
+        val inventoryDao = sqlDatabase.getInventoryDao()
+
+        val hasUnUpdatedRecord = listOf(
+            formDao.getAll().isNotEmpty() && formDao.getAll().any { !it.isUpdate },
+            storageRecordDao.getAll().isNotEmpty() && storageRecordDao.getAll().any { !it.isUpdate },
+            inventoryDao.getAll().isNotEmpty() && inventoryDao.getAll().any { !it.isUpdate }
+        )
+
+        return !hasUnUpdatedRecord.contains(true)
+    }
 }
