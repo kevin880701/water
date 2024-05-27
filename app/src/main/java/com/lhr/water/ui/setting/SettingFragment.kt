@@ -77,14 +77,11 @@ class SettingFragment : BaseFragment(), View.OnClickListener {
     override fun onClick(v: View?) {
         when (v?.id) {
             R.id.constraintBackup -> {
-//                saveFile.launch(null)
-
                 viewModel.updateFromPda()
 
             }
 
             R.id.constraintUpdate -> {
-//                pickFile.launch("application/json")
                 viewModel.uploadFiles(this.requireActivity())
             }
 

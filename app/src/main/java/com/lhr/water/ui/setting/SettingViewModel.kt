@@ -131,14 +131,12 @@ class SettingViewModel(
                 override fun onResponse(call: Call, response: Response) {
                     val data = response.body!!.string()
 
-                    // 将 JSON 字符串转换为 YourDataModel 对象
                     val dataModel: UpdateData =
                         Gson().fromJson(data, UpdateData::class.java)
 
                     Timber.e("data : " + data)
                     Timber.e("data : " + dataModel.data)
                     updateFormData(activity, dataModel.data)
-//                    viewModel.updateFormData(requireContext(), it)
                     try {
 //                        val json = JSONObject(data)
 //                        if (json.getInt("code") == 0) {

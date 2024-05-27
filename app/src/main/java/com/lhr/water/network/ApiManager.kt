@@ -15,21 +15,20 @@ import retrofit2.converter.gson.GsonConverterFactory
 import java.util.concurrent.TimeUnit
 
 class ApiManager() {
-    // 创建 OkHttpClient 实例，设置一些网络请求的属性
+    // 創建 OkHttpClient 實例，設定一些網路請求的屬性
     val client = OkHttpClient.Builder()
-        .connectTimeout(10, TimeUnit.SECONDS) // 连接超时时间为 10 秒
-        .readTimeout(10, TimeUnit.SECONDS) // 读取超时时间为 10 秒
-        .writeTimeout(10, TimeUnit.SECONDS) // 写入超时时间为 10 秒
+        .connectTimeout(10, TimeUnit.SECONDS) // 連接超時時間為 10 秒
+        .readTimeout(10, TimeUnit.SECONDS) // 讀取超時時間為 10 秒
+        .writeTimeout(10, TimeUnit.SECONDS) // 寫入超時時間為 10 秒
         .build()
 
     val retrofit = Retrofit.Builder()
-        .baseUrl("http://192.168.31.113:8081/")
+        .baseUrl("http://192.168.11.34:8081/")
         .addConverterFactory(GsonConverterFactory.create())
         .client(client)
         .addCallAdapterFactory(RxJava3CallAdapterFactory.create()) // help turns Call to Observable
         .build()
 
-    // 创建 ApiService 实例
     val apiService = retrofit.create(ApiService::class.java)
 
     fun getUserInfo(): Observable<BaseResponse<UserInfoData>> {
