@@ -7,6 +7,7 @@ import com.lhr.water.repository.FormRepository
 import com.lhr.water.repository.RegionRepository
 import com.lhr.water.repository.UserRepository
 import com.lhr.water.ui.cover.CoverViewModel
+import com.lhr.water.ui.deepLink.DeepLinkViewModel
 import com.lhr.water.ui.formContent.FormContentViewModel
 import com.lhr.water.ui.form.FormViewModel
 import com.lhr.water.ui.form.dealMaterial.DealMaterialViewModel
@@ -34,6 +35,7 @@ class AppViewModelFactory(
             FormContentViewModel::class.java -> FormContentViewModel(context, formRepository) as T
             FormViewModel::class.java -> FormViewModel(context, regionRepository, formRepository) as T
             SettingViewModel::class.java -> SettingViewModel(context, formRepository, regionRepository, userRepository) as T
+            DeepLinkViewModel::class.java -> DeepLinkViewModel(context, formRepository, regionRepository, userRepository) as T
             RegionChooseViewModel::class.java -> RegionChooseViewModel(context, regionRepository, userRepository) as T
             MapViewModel::class.java -> MapViewModel(context, regionRepository, formRepository, userRepository) as T
             MaterialSearchViewModel::class.java -> MaterialSearchViewModel(context, formRepository, userRepository) as T

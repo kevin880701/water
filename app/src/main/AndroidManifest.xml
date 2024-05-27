@@ -47,7 +47,7 @@
             android:launchMode="singleTask"
             android:theme="@style/Theme.Water"/>
         <activity
-            android:name="com.lhr.water.ui.setting.DeepLinkActivity"
+            android:name="com.lhr.water.ui.deepLink.DeepLinkActivity"
             android:exported="true"
             android:launchMode="singleTop">
             <intent-filter>

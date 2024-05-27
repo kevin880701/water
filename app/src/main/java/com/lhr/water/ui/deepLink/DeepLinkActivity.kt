@@ -1,4 +1,4 @@
-package com.lhr.water.ui.setting
+package com.lhr.water.ui.deepLink
 
 import android.annotation.SuppressLint
 import android.content.Intent
@@ -9,10 +9,11 @@ import com.lhr.water.R
 import com.lhr.water.databinding.ActivityCoverBinding
 import com.lhr.water.ui.base.APP
 import com.lhr.water.ui.base.BaseActivity
+import com.lhr.water.ui.setting.SettingViewModel
 import timber.log.Timber
 
 class DeepLinkActivity : BaseActivity() {
-    private val viewModel:SettingViewModel by viewModels{ (applicationContext as APP).appContainer.viewModelFactory }
+    private val viewModel: DeepLinkViewModel by viewModels{ (applicationContext as APP).appContainer.viewModelFactory }
     private var _binding: ActivityCoverBinding? = null
     private val binding get() = _binding!!
 
