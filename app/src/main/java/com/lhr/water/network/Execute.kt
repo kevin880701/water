@@ -104,16 +104,9 @@ object Execute {
     }
 
     fun getNewForm(
-        activity: Activity, callback: Callback
+        activity: Activity, body: RequestBody, callback: Callback
     ) {
         val api = "/PDA/ExportList"
-        Execute[activity, api, callback]
-    }
-
-    fun postRecord(
-        activity: Activity, requestBody: RequestBody, callback: Callback
-    ) {
-        val api = "/PDA/UpdateStatus"
-        Execute.post(activity, api, requestBody, callback)
+        Execute.post(activity, api, body, callback)
     }
 }

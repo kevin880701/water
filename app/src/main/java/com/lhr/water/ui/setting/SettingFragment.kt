@@ -71,27 +71,29 @@ class SettingFragment : BaseFragment(), View.OnClickListener {
         binding.constraintBackup.setOnClickListener(this)
         binding.constraintUpdateLocal.setOnClickListener(this)
         binding.constraintBackupLocal.setOnClickListener(this)
+        binding.constraintUpdateLocal.visibility = View.GONE
+        binding.constraintBackupLocal.visibility = View.GONE
         binding.constraintUpdateTest.setOnClickListener(this)
     }
 
     override fun onClick(v: View?) {
         when (v?.id) {
             R.id.constraintBackup -> {
-                viewModel.updateFromPda()
+                viewModel.uploadFromPda()
 
             }
 
             R.id.constraintUpdate -> {
-                viewModel.uploadFiles(this.requireActivity())
+                viewModel.updatePda()
             }
 
-            R.id.constraintBackupLocal -> {
-                saveFile.launch(null)
-            }
-
-            R.id.constraintUpdateLocal -> {
-                pickFile.launch("application/json")
-            }
+//            R.id.constraintBackupLocal -> {
+//                saveFile.launch(null)
+//            }
+//
+//            R.id.constraintUpdateLocal -> {
+//                pickFile.launch("application/json")
+//            }
 
             R.id.constraintUpdateTest -> {
                 if (!viewModel.checkIsUpdate()) {

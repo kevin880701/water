@@ -120,37 +120,28 @@ class SettingViewModel(
     }
 
 
-    fun uploadFiles(activity: Activity) {
-        Execute.getNewForm(
-            activity, object : Callback {
-                override fun onFailure(call: Call, e: IOException) {
-                    Timber.e("onFailure : " + e.toString())
-                }
+    fun updatePda() {
+        println("##############################################################")
+        ApiManager().getDataList(userRepository.userInfo)
+            .subscribeOn(Schedulers.io())
+            .map { response ->
 
-                @Throws(IOException::class)
-                override fun onResponse(call: Call, response: Response) {
-                    val data = response.body!!.string()
-
-                    val dataModel: UpdateData =
-                        Gson().fromJson(data, UpdateData::class.java)
-
-                    Timber.e("data : " + data)
-                    Timber.e("data : " + dataModel.data)
-                    updateFormData(activity, dataModel.data)
-                    try {
-//                        val json = JSONObject(data)
-//                        if (json.getInt("code") == 0) {
-//                            val `object` = json.getJSONObject("data")
-//                            SaveManager.getInstance().saveData(
-//                                activity, `object`.toString()
-//                            )
-//                        }
-                    } catch (e: Exception) {
-                        Timber.e("Exception : " + e.toString())
-                    }
-                }
+                formRepository.updateSqlData(
+                    response.data.dataList.checkoutFormList,
+                    response.data.dataList.storageRecordList,
+                    response.data.dataList.deliveryFormList,
+                    response.data.dataList.transferFormList,
+                    response.data.dataList.receiveFormList,
+                    response.data.dataList.returnFormList,
+                    response.data.dataList.inventoryFormList
+                )
+                regionRepository.updateSqlData(response.data.dataList.storageList)
             }
-        )
+            .subscribe({ response ->
+                println("请求成功")
+            }, { error ->
+                println("请求失败：${error.message}")
+            })
     }
 
     fun updateFormData(context: Context, jsonContent: String) {
@@ -162,7 +153,7 @@ class SettingViewModel(
         }
     }
 
-    fun updateFromPda() {
+    fun uploadFromPda() {
         try {
             val gson = Gson()
 
@@ -214,7 +205,7 @@ class SettingViewModel(
                 userInfo = userRepository.userInfo
             )
 
-            updateFromPDA(updateDataRequest)
+            sendData(updateDataRequest)
 
             // 更新 Form 表中的 isUpdate 為 true
             formEntities.forEach { formEntity ->
@@ -239,16 +230,16 @@ class SettingViewModel(
     }
 
 
-    fun updateFromPDA(request: UpdateDataRequest) {
+    fun sendData(request: UpdateDataRequest) {
         ApiManager().updateFromPDA(request)
             .subscribeOn(Schedulers.io())
             .map { response ->
 
             }
             .subscribe({ response ->
-                println("请求成功")
+                println(response.toString())
             }, { error ->
-                println("请求失败：${error.message}")
+                println("sendData Failed：${error.message}")
             })
     }
 

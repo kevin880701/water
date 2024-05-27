@@ -31,11 +31,11 @@ class CoverActivity : BaseActivity() {
         window.statusBarColor = ResourcesCompat.getColor(resources, R.color.primaryBlue, null)
         createWaterFolder()
 
-        viewModel.getUserInfo().subscribe({ _ ->
-            viewModel.getDataList()
-        }, { error ->
-            println("请求失败：${error.message}")
-        })
+//        viewModel.getUserInfo().subscribe({ _ ->
+//            viewModel.getDataList()
+//        }, { error ->
+//            println("请求失败：${error.message}")
+//        })
 
         GlobalScope.launch {
             val layout = findViewById<ConstraintLayout>(R.id.constrain)
