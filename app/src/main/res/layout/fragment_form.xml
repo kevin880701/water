@@ -49,6 +49,7 @@
                 android:layout_marginBottom="12dp"
                 android:background="@color/transparent"
                 android:hint="輸入表單代號"
+                android:inputType="text"
                 android:textColor="@color/deep_gray"
                 android:textColorHint="@color/deep_gray"
                 app:layout_constraintLeft_toLeftOf="parent"
