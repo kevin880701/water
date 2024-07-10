@@ -22,8 +22,7 @@
             app:layout_constraintRight_toRightOf="parent"
             app:layout_constraintTop_toTopOf="parent"
             android:layout_marginTop="120dp"
-            app:tint="@color/primaryBlue"
-            android:src="@drawable/map" />
+            android:src="@drawable/app_icon" />
 
         <TextView
             android:id="@+id/textWelcome"

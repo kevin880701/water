@@ -26,9 +26,7 @@
           android:id="@+id/imageMusicCover"
           android:layout_width="180dp"
           android:layout_height="180dp"
-          android:padding="10dp"
-          app:tint="@color/primaryBlue"
-          android:src="@drawable/map" />
+          android:src="@drawable/app_icon" />
 
       <TextView
           android:layout_width="match_parent"
