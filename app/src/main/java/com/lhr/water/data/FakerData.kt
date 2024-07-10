@@ -272,7 +272,8 @@ val upData = """
         "storageUserId": "U0001",
         "storageMaterialQuantity": "10",
         "createdAt": "2024-05-07-18-26-31",
-        "storageArrivalId": "A001"
+        "storageArrivalId": "A001",
+        "itemId": 0
     },
     {
         "storageId": 1,
@@ -284,7 +285,8 @@ val upData = """
         "storageUserId": "U0001",
         "storageMaterialQuantity": "7",
         "createdAt": "2024-05-07-18-26-31",
-        "storageArrivalId": "A001"
+        "storageArrivalId": "A001",
+        "itemId": 0
     },
     {
         "storageId": 1,
@@ -296,7 +298,8 @@ val upData = """
         "storageUserId": "U0001",
         "storageMaterialQuantity": "4",
         "createdAt": "2024-05-07-18-26-31",
-        "storageArrivalId": "A001"
+        "storageArrivalId": "A001",
+        "itemId": 0
     },
     {
         "storageId": 3,
@@ -308,7 +311,8 @@ val upData = """
         "storageUserId": "U0001",
         "storageMaterialQuantity": "20",
         "createdAt": "2024-05-07-18-26-31",
-        "storageArrivalId": "A001"
+        "storageArrivalId": "A001",
+        "itemId": 0
     },
     {
         "storageId": 4,
@@ -320,7 +324,8 @@ val upData = """
         "storageUserId": "U0001",
         "storageMaterialQuantity": "20",
         "createdAt": "2024-05-07-18-26-31",
-        "storageArrivalId": "A001"
+        "storageArrivalId": "A001",
+        "itemId": 0
     },
     {
         "storageId": 3,
@@ -332,7 +337,8 @@ val upData = """
         "storageUserId": "U0001",
         "storageMaterialQuantity": "2",
         "createdAt": "2024-05-07-18-26-31",
-        "storageArrivalId": "A001"
+        "storageArrivalId": "A001",
+        "itemId": 0
     }
       ],
       "checkoutForm": [
