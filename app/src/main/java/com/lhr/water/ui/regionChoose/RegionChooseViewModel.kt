@@ -31,8 +31,8 @@ class RegionChooseViewModel(context: Context, regionRepository: RegionRepository
 
 
     fun createRegionList() {
-        if (userRepository.userInfo.deptAno.length >= 2) {
-            regionFilterList.add(userRepository.userInfo.deptAno.substring(0, 2))
+        if (userRepository.userInfo.value!!.deptAno.length >= 2) {
+            regionFilterList.add(userRepository.userInfo.value!!.deptAno.substring(0, 2))
         }
 
         val tempList = regionRepository.regionEntities.filter { mapData ->

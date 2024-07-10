@@ -1,6 +1,11 @@
 <resources>
     <string name="app_name">water</string>
+
+    <!--  登入頁面  -->
     <string name="login">登入</string>
+    <string name="dept_no_field">部門代號：</string>
+    <string name="user_no_field">使用者代號：</string>
+    <string name="reload_user_info">重新讀取使用者資訊</string>
 
     <string name="region_choose">地區選擇</string>
     <string name="map_choose">地圖選擇</string>

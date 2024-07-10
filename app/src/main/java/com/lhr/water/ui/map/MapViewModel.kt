@@ -43,7 +43,7 @@ class MapViewModel(context: Context, var regionRepository: RegionRepository, var
                 materialName = checkoutEntity.materialName,
                 materialNumber = checkoutEntity.materialNumber,
                 materialStatus = "2",
-                userId = userRepository.userInfo.userId,
+                userId = userRepository.userInfo.value!!.userId,
                 quantity = checkoutEntity.quantity.toString(),
                 recordDate = checkoutEntity.inputTime,
                 storageArrivalId = "",

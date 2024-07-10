@@ -55,7 +55,7 @@ class DeepLinkViewModel(
     }
 
     fun updatePda() {
-        ApiManager().getDataList(userRepository.userInfo)
+        ApiManager().getDataList(userRepository.userInfo.value!!)
             .subscribeOn(Schedulers.io())
             .map { response ->
 
@@ -132,7 +132,7 @@ class DeepLinkViewModel(
                     inventoryEntities = inventoryEntities,
                     storageRecordEntities = storageRecordEntities
                 ),
-                userInfo = userRepository.userInfo
+                userInfo = userRepository.userInfo.value!!
             )
 
             ApiManager().updateFromPDA(updateDataRequest)
@@ -176,7 +176,7 @@ class DeepLinkViewModel(
         return ApiManager().getUserInfo()
             .subscribeOn(Schedulers.io())
             .map { response ->
-                userRepository.userInfo = response.data.userInfo
+                userRepository.userInfo.postValue(response.data.userInfo)
                 response.data.userInfo
             }
     }

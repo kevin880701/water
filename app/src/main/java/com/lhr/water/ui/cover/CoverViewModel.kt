@@ -19,42 +19,4 @@ class CoverViewModel(
     var userRepository: UserRepository
 ) : AndroidViewModel(context.applicationContext as APP) {
 
-    fun getUserInfo(): Observable<UserInfo> {
-        return ApiManager().getUserInfo()
-            .subscribeOn(Schedulers.io())
-            .map { response ->
-                userRepository.userInfo = response.data.userInfo
-                response.data.userInfo
-            }
-//            .subscribe({ response ->
-//                userRepository.userInfo = response
-////                var gson = Gson()
-////                userRepository.userInfo = gson.fromJson(response.data.userInfo, UserInfo::class.java)
-//            }, { error ->
-//                println("請求失敗：${error.message}")
-//            })
-    }
-
-    fun getDataList() {
-        ApiManager().getDataList(userRepository.userInfo)
-            .subscribeOn(Schedulers.io())
-            .map { response ->
-
-                formRepository.updateSqlData(
-                    response.data.dataList.checkoutFormList,
-                    response.data.dataList.storageRecordList,
-                    response.data.dataList.deliveryFormList,
-                    response.data.dataList.transferFormList,
-                    response.data.dataList.receiveFormList,
-                    response.data.dataList.returnFormList,
-                    response.data.dataList.inventoryFormList
-                )
-                regionRepository.updateSqlData(response.data.dataList.storageList)
-            }
-            .subscribe({ response ->
-                println("請求成功")
-            }, { error ->
-                println("請求失敗：${error.message}")
-            })
-    }
 }

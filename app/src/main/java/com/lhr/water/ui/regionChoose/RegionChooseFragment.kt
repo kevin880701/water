@@ -69,7 +69,7 @@ class RegionChooseFragment : BaseFragment(), View.OnClickListener, RegionChooseA
 
     private fun initView() {
         binding.widgetTitleBar.textTitle.text = requireActivity().getString(R.string.region_choose)
-        viewModel.regionRepository.filterRegionEntity(viewModel.userRepository.userInfo.deptAno).run {  }
+        viewModel.regionRepository.filterRegionEntity(viewModel.userRepository.userInfo.value!!.deptAno).run {  }
         viewModel.createRegionList()
         initRecyclerView()
 

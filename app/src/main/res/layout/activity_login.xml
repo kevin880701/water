@@ -53,34 +53,30 @@
             app:layout_constraintRight_toRightOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/textWelcome">
 
-            <androidx.appcompat.widget.AppCompatImageView
-                android:id="@id/imageRegion"
-                android:layout_width="24dp"
-                android:layout_height="24dp"
+            <TextView
+                android:id="@id/textDeptNoField"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
                 android:layout_margin="16dp"
-                android:src="@drawable/region_choose"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintLeft_toLeftOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
-                app:tint="@color/primaryBlue" />
+                android:text="@string/dept_no_field"
+                style="@style/TextStyle_16dp_black" />
 
-            <Spinner
-                android:id="@+id/spinnerRegion"
+            <TextView
+                android:id="@+id/textDeptNo"
                 android:layout_width="0dp"
-                android:layout_height="0dp"
-                android:layout_marginLeft="15dp"
-                android:layout_marginTop="15dp"
-                android:layout_marginRight="50dp"
-                android:layout_marginBottom="15dp"
-                android:background="@null"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="16dp"
+                android:layout_marginRight="16dp"
+                android:layout_marginBottom="16dp"
                 style="@style/TextStyle_16dp_black"
                 app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintLeft_toRightOf="@+id/imageRegion"
+                app:layout_constraintLeft_toRightOf="@+id/textDeptNoField"
                 app:layout_constraintRight_toRightOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
         </androidx.constraintlayout.widget.ConstraintLayout>
-
-
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:id="@+id/constraintMap"
@@ -94,41 +90,73 @@
             app:layout_constraintRight_toRightOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/constraintRegion">
 
-            <androidx.appcompat.widget.AppCompatImageView
-                android:id="@id/imageMap"
-                android:layout_width="24dp"
-                android:layout_height="24dp"
+            <TextView
+                android:id="@id/textUserNoField"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
                 android:layout_margin="16dp"
-                android:src="@drawable/store_house"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintLeft_toLeftOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
-                app:tint="@color/primaryBlue" />
+                android:text="@string/user_no_field"
+                style="@style/TextStyle_16dp_black" />
 
-            <Spinner
-                android:id="@+id/spinnerDept"
+            <TextView
+                android:id="@+id/textUserNo"
                 android:layout_width="0dp"
-                android:layout_height="0dp"
-                android:layout_marginLeft="15dp"
-                android:layout_marginTop="15dp"
-                android:layout_marginRight="50dp"
-                android:layout_marginBottom="15dp"
-                android:background="@null"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="16dp"
+                android:layout_marginRight="16dp"
+                android:layout_marginBottom="16dp"
                 style="@style/TextStyle_16dp_black"
                 app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintLeft_toRightOf="@+id/imageMap"
+                app:layout_constraintLeft_toRightOf="@+id/textUserNoField"
                 app:layout_constraintRight_toRightOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/constraintReload"
+            android:layout_width="match_parent"
+            android:layout_height="56dp"
+            android:layout_marginLeft="24dp"
+            android:layout_marginRight="24dp"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/constraintMap" >
+
+            <LinearLayout
+                android:id="@+id/linearReload"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintRight_toRightOf="parent">
+
+                <ImageView
+                    android:layout_width="24dp"
+                    android:layout_height="24dp"
+                    android:src="@drawable/reload"/>
+
+                <TextView
+                    android:id="@+id/textReload"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    style="@style/TextStyle_16dp_black"
+                    android:text="@string/reload_user_info"/>
+            </LinearLayout>
         </androidx.constraintlayout.widget.ConstraintLayout>
 
         <com.google.android.material.button.MaterialButton
             android:id="@+id/buttonLogin"
             android:layout_width="match_parent"
             android:layout_height="56dp"
-            android:layout_marginTop="42dp"
+            android:layout_marginTop="12dp"
             android:layout_marginLeft="16dp"
             android:layout_marginRight="16dp"
-            app:layout_constraintTop_toBottomOf="@id/constraintMap"
+            app:layout_constraintTop_toBottomOf="@id/constraintReload"
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintRight_toRightOf="parent"
             style="@style/TextStyle_16dp_black"

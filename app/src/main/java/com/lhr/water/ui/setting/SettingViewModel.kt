@@ -75,7 +75,7 @@ class SettingViewModel(
 
 
     fun updatePda() {
-        ApiManager().getDataList(userRepository.userInfo)
+        ApiManager().getDataList(userRepository.userInfo.value!!)
             .subscribeOn(Schedulers.io())
             .map { response ->
                 formRepository.updateSqlData(
@@ -154,7 +154,7 @@ class SettingViewModel(
                     inventoryEntities = inventoryEntities,
                     storageRecordEntities = storageRecordEntities
                 ),
-                userInfo = userRepository.userInfo
+                userInfo = userRepository.userInfo.value!!
             )
 
             sendData(updateDataRequest)
@@ -249,7 +249,7 @@ class SettingViewModel(
                     inventoryEntities = inventoryEntities,
                     storageRecordEntities = storageRecordEntities
                 ),
-                userInfo = userRepository.userInfo
+                userInfo = userRepository.userInfo.value!!
             )
 
             val jsonString = gson.toJson(updateDataRequest)
