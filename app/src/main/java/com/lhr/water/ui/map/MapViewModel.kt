@@ -47,6 +47,7 @@ class MapViewModel(context: Context, var regionRepository: RegionRepository, var
                 quantity = checkoutEntity.quantity.toString(),
                 recordDate = checkoutEntity.inputTime,
                 storageArrivalId = "",
+                itemId = 0
             )
         }.toMutableList() as ArrayList<StorageRecordEntity>
 
@@ -113,7 +114,8 @@ class MapViewModel(context: Context, var regionRepository: RegionRepository, var
                     userId = "", 
                     quantity = totalQuantity.toString(),
                     recordDate = inputTime,
-                    storageArrivalId = ""
+                    storageArrivalId = "",
+                    itemId = 0
                 ))
             }
         }
@@ -131,7 +133,8 @@ class MapViewModel(context: Context, var regionRepository: RegionRepository, var
                 userId = "", 
                 quantity = quantity.toString(),
                 recordDate = inputTime,
-                storageArrivalId = ""
+                storageArrivalId = "",
+                itemId = 0
             ))
         }
 

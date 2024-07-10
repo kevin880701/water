@@ -48,7 +48,8 @@ class MaterialSearchViewModel(
                 userId = userRepository.userInfo.value!!.userId,
                 quantity = checkoutEntity.quantity.toString(),
                 recordDate = checkoutEntity.inputTime,
-                storageArrivalId = ""
+                storageArrivalId = "",
+                itemId = 0
             )
         }.toMutableList() as ArrayList<StorageRecordEntity>
 
@@ -105,7 +106,8 @@ class MaterialSearchViewModel(
                         userId = firstRecord.userId,
                         quantity = totalQuantity.toString(),
                         recordDate = firstRecord.recordDate,
-                        storageArrivalId = ""
+                        storageArrivalId = "",
+                        itemId = 0
                     )
                 )
             }
@@ -131,7 +133,8 @@ class MaterialSearchViewModel(
                         userId = firstRecord.userId,
                         quantity = totalQuantity.toString(),  // 整合後的數量
                         recordDate = firstRecord.recordDate,
-                        storageArrivalId = ""
+                        storageArrivalId = "",
+                        itemId = 0
                     )
                 )
             }
@@ -157,7 +160,8 @@ class MaterialSearchViewModel(
                         userId = firstRecord.userId,
                         quantity = totalQuantity.toString(),  // 整合後的數量
                         recordDate = firstRecord.recordDate,
-                        storageArrivalId = ""
+                        storageArrivalId = "",
+                        itemId = 0
                     )
                 )
             }
@@ -192,7 +196,8 @@ class MaterialSearchViewModel(
                                 userId = record2.userId,
                                 quantity = quantityDiff.toString(),
                                 recordDate = record2.recordDate,
-                                storageArrivalId = ""
+                                storageArrivalId = "",
+                                itemId = 0
                             )
                         )
                     }

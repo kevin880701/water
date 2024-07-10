@@ -20,7 +20,8 @@ class StorageRecordEntity(
     quantity: String, //InvtNum: 數量
     recordDate: String, //CreatedAt: 紀錄創建時間（出庫入庫時間，格式YYYY-MM-DD-HH-MM-SS）
     storageArrivalId: String, //CreatedAt: 紀錄創建時間（出庫入庫時間，格式YYYY-MM-DD-HH-MM-SS）
-    isUpdate: Boolean = true
+    isUpdate: Boolean = true,
+    itemId: Int
 ) : Serializable {
 
     @NonNull
@@ -56,6 +57,9 @@ class StorageRecordEntity(
 
     @ColumnInfo(name = SqlModel.storageArrivalId, typeAffinity = ColumnInfo.TEXT)
     @SerializedName("storageArrivalId") var storageArrivalId = storageArrivalId
+
+    @ColumnInfo(name = SqlModel.itemId, typeAffinity = ColumnInfo.INTEGER)
+    @SerializedName("itemId") var itemId = itemId
 
     @ColumnInfo(name = "isUpdate", typeAffinity = ColumnInfo.INTEGER)
     var isUpdate = isUpdate

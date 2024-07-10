@@ -44,6 +44,7 @@ class SqlModel {
         const val reportTitle: String = "reportTitle"
         const val recordDate: String = "recordDate"
         const val storageArrivalId: String = "storageArrivalId"
+        const val itemId: String = "itemId"
 
         const val itemDetail: String = "itemDetail"
         const val materialStatus: String = "materialStatus"

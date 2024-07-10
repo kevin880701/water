@@ -91,6 +91,7 @@ class DealMaterialViewModel(
                 quantity = checkoutEntity.quantity.toString(),
                 recordDate = checkoutEntity.inputTime,
                 storageArrivalId = "",
+                itemId = 0
             )
         }.toMutableList() as ArrayList<StorageRecordEntity>
 
@@ -142,7 +143,8 @@ class DealMaterialViewModel(
                         userId = firstRecord.userId,
                         quantity = totalQuantity.toString(),
                         recordDate = firstRecord.recordDate,
-                        storageArrivalId = firstRecord.recordDate
+                        storageArrivalId = firstRecord.recordDate,
+                        itemId = 0
                     )
                 )
             }
@@ -168,7 +170,8 @@ class DealMaterialViewModel(
                         userId = firstRecord.userId,
                         quantity = totalQuantity.toString(),
                         recordDate = firstRecord.recordDate,
-                        storageArrivalId = ""
+                        storageArrivalId = "",
+                        itemId = 0
                     )
                 )
             }
@@ -203,7 +206,8 @@ class DealMaterialViewModel(
                                 userId = record2.userId,
                                 quantity = quantityDiff.toString(),
                                 recordDate = record2.recordDate,
-                                storageArrivalId = ""
+                                storageArrivalId = "",
+                                itemId = 0
                             )
                         )
                     }
@@ -334,7 +338,8 @@ class DealMaterialViewModel(
             quantity = materialQuantity,
             recordDate = getCurrentDate(),
             storageArrivalId = "",
-            isUpdate = false
+            isUpdate = false,
+            itemId = 0
         )
 
         // 更新暫存進貨列表
