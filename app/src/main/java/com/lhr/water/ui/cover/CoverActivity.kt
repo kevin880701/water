@@ -31,12 +31,6 @@ class CoverActivity : BaseActivity() {
         window.statusBarColor = ResourcesCompat.getColor(resources, R.color.primaryBlue, null)
         createWaterFolder()
 
-//        viewModel.getUserInfo().subscribe({ _ ->
-//            viewModel.getDataList()
-//        }, { error ->
-//            println("請求失敗：${error.message}")
-//        })
-
         GlobalScope.launch {
             val layout = findViewById<ConstraintLayout>(R.id.constrain)
             val animation = AlphaAnimation(0.0f, 1.0f)
