@@ -8,11 +8,13 @@ import android.view.animation.Animation
 import androidx.activity.viewModels
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.core.content.res.ResourcesCompat
+import com.google.gson.Gson
 import com.lhr.water.R
 import com.lhr.water.databinding.ActivityCoverBinding
 import com.lhr.water.ui.base.APP
 import com.lhr.water.ui.base.BaseActivity
 import com.lhr.water.ui.login.LoginActivity
+import com.lhr.water.util.SharedPreferencesHelper
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
 import java.io.File
@@ -30,6 +32,12 @@ class CoverActivity : BaseActivity() {
         setContentView(binding.root)
         window.statusBarColor = ResourcesCompat.getColor(resources, R.color.primaryBlue, null)
         createWaterFolder()
+        var userInfo = SharedPreferencesHelper.getUserInfo(this)
+        if (userInfo != null) {
+            viewModel.userRepository.userInfo.postValue(userInfo.userInfo)
+        } else {
+            println("No UserInfoData found")
+        }
 
         GlobalScope.launch {
             val layout = findViewById<ConstraintLayout>(R.id.constrain)
