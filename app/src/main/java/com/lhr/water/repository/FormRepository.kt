@@ -55,7 +55,10 @@ class FormRepository(context: Context) {
      */
     fun loadSqlData() {
         // 取表單資料
-        formEntities.postValue(sqlDatabase.getFormDao().getAll() as ArrayList)
+        var formList = sqlDatabase.getFormDao().getAll().toMutableList() // 确保得到的是一个 MutableList
+        val sortedList = formList.sortedWith(compareByDescending<FormEntity> { it.dealStatus == "處理中" }
+            .thenBy { it.dealStatus })
+        formEntities.postValue(ArrayList(sortedList))
         // 取盤點表單資料
         inventoryEntities.postValue(sqlDatabase.getInventoryDao().getAll() as ArrayList)
         // 取checkout資料
