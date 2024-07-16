@@ -102,7 +102,7 @@ val upData = """
               "materialName": "螺紋式水量計",
               "materialSpec": "13 mm",
               "materialUnit": "只",
-              "requestQuantity": "0",
+              "requestQuantity": "100",
               "approvedQuantity": "100",
               "approvalResult": "",
               "applyNumber": "",

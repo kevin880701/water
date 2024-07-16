@@ -18,6 +18,7 @@ import com.lhr.water.repository.UserRepository
 import com.lhr.water.room.SqlDatabase
 import com.lhr.water.ui.base.APP
 import com.lhr.water.util.SharedPreferencesHelper
+import com.lhr.water.util.showToast
 import io.reactivex.rxjava3.core.Observable
 import io.reactivex.rxjava3.schedulers.Schedulers
 import java.io.IOException
@@ -54,6 +55,7 @@ class DeepLinkViewModel(var context: Context, var formRepository: FormRepository
             .subscribe({ response ->
                 println("請求成功")
             }, { error ->
+                showToast(context,"更新資料失敗！")
                 println("請求失敗：${error.message}")
             })
     }
@@ -152,6 +154,7 @@ class DeepLinkViewModel(var context: Context, var formRepository: FormRepository
                             println("請求失敗：${error.message}")
                         })
                     }, { error ->
+                        showToast(context,"更新資料失敗！")
                         println("sendData Failed：${error.message}")
                     })
             }
