@@ -22,19 +22,20 @@ class FormContentViewModel(context: Context, formRepository: FormRepository) :
         formNumber: String,
     ): ArrayList<StorageRecordEntity> {
         val matchedItems = ArrayList<StorageRecordEntity>()
-        var tempList = formRepository.tempStorageRecordEntities.value!!
-        // 遍历itemDetailList
+        val tempList = (formRepository.tempStorageRecordEntities.value ?: emptyList()).toMutableList()
+
+        // 遍歷itemDetailList
         for (itemDetail in itemDetailList) {
-            // 在tempWaitOutputGoods中查找匹配的元素
-            val matchedItem =
-                tempList.find { it.formNumber == formNumber && it.materialNumber == itemDetail.materialNumber }
-            // 如果找到匹配的元素，则将其移动到matchedItems列表中
-            matchedItem?.let {
-                matchedItems.add(it)
-                tempList.remove(it)
-            }
+            // 在tempList中查找所有匹配的元素
+            val matchedItemsInTempList = tempList.filter { it.formNumber == formNumber && it.materialNumber == itemDetail.materialNumber }
+
+            // 將匹配的元素添加到matchedItems列表中
+            matchedItems.addAll(matchedItemsInTempList)
+
+            // 從tempList中移除所有匹配的元素
+            tempList.removeAll(matchedItemsInTempList)
         }
-        formRepository.tempStorageRecordEntities.postValue(tempList)
+        formRepository.tempStorageRecordEntities.postValue(ArrayList(tempList))
         return matchedItems
     }
 }
