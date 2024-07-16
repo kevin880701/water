@@ -12,8 +12,8 @@ class UserRepository private constructor(private val context: Context) {
 //        userId = ""
 //    ))
     var userInfo = MutableLiveData<UserInfo>(UserInfo(
-        deptAno = "",
-        userId = ""
+        deptAno = "0D",
+        userId = "123"
     ))
 //    var userInfo = UserInfo(
 //        deptAno = "",

@@ -13,10 +13,11 @@
 
         <LinearLayout
             android:id="@+id/linearReport"
-            android:layout_width="150dp"
+            android:layout_width="0dp"
             android:layout_height="match_parent"
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toLeftOf="@+id/textDate"
             android:orientation="vertical">
 
             <TextView
@@ -49,11 +50,12 @@
 
         <TextView
             android:id="@+id/textDate"
-            android:layout_width="100dp"
+            android:layout_width="wrap_content"
             android:layout_height="match_parent"
             android:gravity="center"
             app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintLeft_toRightOf="@+id/linearReport"
+            app:layout_constraintRight_toLeftOf="@+id/imageDealGoods"
+            android:layout_marginRight="8dp"
             style="@style/TextStyle_16dp_black"
             android:text="2023-11-19"
             android:singleLine="true"
@@ -66,8 +68,8 @@
             android:layout_height="match_parent"
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintLeft_toRightOf="@+id/textDate"
             app:layout_constraintRight_toLeftOf="@+id/imageStatus"
+            android:layout_marginRight="8dp"
             android:src="@drawable/shipment_deal"
             app:tint="@color/primaryBlue"/>
 
