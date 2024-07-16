@@ -93,7 +93,7 @@ val transferFieldMap = mapOf(
     "formNumber" to "表單單號",
     "formId" to "formId",
     "originalVoucherNumber" to "原憑證字號號",
-    "receivingApplyTransferDate" to "收方撥入日期",
+    "receivingApplyTransferDate" to "請撥日期",
     "receivingApplyTransferNumber" to "收方請撥單號",
     "receivingDept" to "收方單位",
     "receivingLocation" to "收料地點",
