@@ -73,7 +73,9 @@ class FormAdapter(val listener: Listener, context: Context) :
                 listener.onDealMaterialClick(getItem(adapterPosition))
             }
             binding.root.setOnClickListener {
-                listener.onItemClick(getItem(adapterPosition))
+                if(adapterPosition != -1){
+                    listener.onItemClick(getItem(adapterPosition))
+                }
             }
         }
     }
