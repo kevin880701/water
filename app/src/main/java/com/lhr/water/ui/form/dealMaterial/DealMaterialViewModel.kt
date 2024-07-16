@@ -339,7 +339,7 @@ class DealMaterialViewModel(
             recordDate = getCurrentDate(),
             storageArrivalId = "",
             isUpdate = false,
-            itemId = 0
+            itemId = itemDetail.itemId
         )
 
         // 更新暫存進貨列表
