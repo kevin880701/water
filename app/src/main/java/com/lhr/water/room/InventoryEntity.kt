@@ -10,6 +10,8 @@ import java.io.Serializable
 
 @Entity(tableName = SqlModel.INVENTORY_TABLE_NAME, indices = [Index(value = [SqlModel.formNumber], unique = true)])
 class InventoryEntity(
+
+    formId: Int,
     formNumber: String,
     dealStatus: String,
     reportId: String,
@@ -32,8 +34,11 @@ class InventoryEntity(
 
     @NonNull
     @PrimaryKey(autoGenerate = true)
-    @SerializedName("formId")
     var id = 0
+
+    @ColumnInfo(name = SqlModel.formId, typeAffinity = ColumnInfo.INTEGER)
+    @SerializedName("formId")
+    var formId = formId
 
     @ColumnInfo(name = SqlModel.actualQuantity, typeAffinity = ColumnInfo.TEXT)
     @SerializedName("actualQuantity")

@@ -29,6 +29,7 @@ class SqlModel {
         // InventoryEntity
         const val inventoryUnit: String = "inventoryUnit"
         const val seq: String = "seq"
+        const val formId: String = "formId"
         const val actualQuantity: String = "actualQuantity"
         const val checkDate: String = "checkDate"
         const val lastUseDate: String = "lastUseDate"
