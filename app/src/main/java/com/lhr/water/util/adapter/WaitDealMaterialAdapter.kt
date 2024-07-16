@@ -44,8 +44,7 @@ class WaitDealMaterialAdapter(
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
-        val binding =
-            ItemWaitDealMaterialBinding.inflate(LayoutInflater.from(parent.context), parent, false)
+        val binding = ItemWaitDealMaterialBinding.inflate(LayoutInflater.from(parent.context), parent, false)
         return ViewHolder(binding)
     }
 
@@ -59,12 +58,10 @@ class WaitDealMaterialAdapter(
         fun bind(baseItem: BaseItem) {
             binding.textMaterialName.text =
                 baseItem.materialName
-            binding.textMaterialNumber.text =
-                baseItem.materialNumber
-            binding.textMaterialSpec.text =
-                baseItem.materialSpec
-            binding.textMaterialUnit.text =
-                baseItem.materialUnit
+//            binding.textMaterialSpec.text =
+//                baseItem.materialSpec
+//            binding.textMaterialUnit.text =
+//                baseItem.materialUnit
             // 1.判斷是進貨還是出貨
             // 2.需判斷暫存待出入庫的貨物列表是否有相對應貨物，有的話需要減去數量
             var quantity = if (isInput) {

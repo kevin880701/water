@@ -1,30 +1,66 @@
 <?xml version="1.0" encoding="utf-8"?>
-<layout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools" >
+    xmlns:tools="http://schemas.android.com/tools">
 
-    <data>
-    </data>
+    <data></data>
 
-    <androidx.constraintlayout.widget.ConstraintLayout
+
+    <LinearLayout
+        android:id="@+id/constraint1"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:background="@color/background">
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:minHeight="64dp"
+        android:padding="12dp"
+        android:orientation="vertical">
 
-        <include
-            android:id="@+id/widgetField"
-            layout="@layout/item_wait_deal_material"
-            app:layout_constraintTop_toTopOf="parent" />
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
 
+            <TextView
+                android:id="@+id/textMaterialName"
+                style="@style/TextStyle_16dp_black"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:gravity="left|center_vertical"
+                android:minHeight="48dp"
+                android:text="@string/goods_name"
+                android:textColor="@color/primaryBlue" />
+
+            <TextView
+                android:id="@+id/textQuantity"
+                style="@style/TextStyle_16dp_black"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:background="@color/transparent"
+                android:gravity="center"
+                android:minWidth="48dp"
+                android:minHeight="48dp"
+                android:text="數量"
+                android:textColor="@color/primaryBlue" />
+        </LinearLayout>
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="2dp"
+            android:background="@color/deep_gray"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/constraint1" />
 
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/recyclerGoods"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            app:layout_constraintTop_toBottomOf="@+id/widgetField"
+            android:layout_height="0dp"
+            android:layout_weight="1"
+            app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/constraint1"
             tools:itemCount="3"
             tools:listitem="@layout/item_wait_deal_material" />
-    </androidx.constraintlayout.widget.ConstraintLayout>
+    </LinearLayout>
 </layout>
