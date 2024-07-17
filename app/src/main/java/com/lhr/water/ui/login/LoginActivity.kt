@@ -65,21 +65,21 @@ class LoginActivity : BaseActivity(), View.OnClickListener {
     }
 
     private fun initView() {
-        binding.linearReload.setOnClickListener(this)
+//        binding.linearReload.setOnClickListener(this)
         binding.buttonLogin.setOnClickListener(this)
     }
     override fun onClick(v: View?) {
         when (v?.id) {
-            R.id.linearReload -> {
-                viewModel.getUserInfo().subscribe({ _ ->
-                    viewModel.getDataList()
-                }, { error ->
-                    viewModel.userRepository.userInfo.postValue(UserInfo(
-                        deptAno = "",
-                        userId = ""
-                    ))
-                })
-            }
+//            R.id.linearReload -> {
+//                viewModel.getUserInfo().subscribe({ _ ->
+//                    viewModel.getDataList()
+//                }, { error ->
+//                    viewModel.userRepository.userInfo.postValue(UserInfo(
+//                        deptAno = "",
+//                        userId = ""
+//                    ))
+//                })
+//            }
             R.id.buttonLogin -> {
                 if(viewModel.userRepository.userInfo.value!!.userId != "") {
                     val intent = Intent(this, MainActivity::class.java)
