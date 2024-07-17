@@ -121,7 +121,7 @@ class DeepLinkViewModel(var context: Context, var formRepository: FormRepository
                         inventoryEntities = inventoryEntities,
                         storageRecordEntities = storageRecordEntities
                     ),
-                    userInfo = userRepository.userInfo.value!!
+                    userInfo = userInfo
                 )
 
                 println("@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@")
