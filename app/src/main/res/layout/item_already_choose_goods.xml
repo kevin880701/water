@@ -50,15 +50,15 @@
 
         <androidx.appcompat.widget.LinearLayoutCompat
             android:layout_width="0dp"
-            android:layout_height="84dp"
+            android:layout_height="wrap_content"
+            android:minHeight="84dp"
             android:layout_weight="1"
             android:orientation="vertical">
 
             <TextView
                 android:id="@+id/textRegion"
                 android:layout_width="match_parent"
-                android:layout_height="0dp"
-                android:layout_weight="1"
+                android:layout_height="wrap_content"
                 android:text="@string/region"
                 style="@style/TextStyle_16dp_black"
                 android:textColor="@color/primaryBlue"
@@ -66,8 +66,7 @@
             <TextView
                 android:id="@+id/textDept"
                 android:layout_width="match_parent"
-                android:layout_height="0dp"
-                android:layout_weight="1"
+                android:layout_height="wrap_content"
                 android:text="@string/dept"
                 android:background="@color/transparent"
                 style="@style/TextStyle_16dp_black"
@@ -75,8 +74,7 @@
             <TextView
                 android:id="@+id/textStorage"
                 android:layout_width="match_parent"
-                android:layout_height="0dp"
-                android:layout_weight="1"
+                android:layout_height="wrap_content"
                 android:text="@string/storage_name"
                 android:background="@color/transparent"
                 style="@style/TextStyle_16dp_black"

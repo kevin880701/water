@@ -230,7 +230,7 @@ val upData = """
       "whseStrg": [
             {
         "storageId": 1,
-        "storageWarehouseDeptAno": "0D60",
+        "storageWarehouseDeptAno": "0349",
         "storageWarehouseSeq": 1,
         "storageName": "儲櫃1",
         "storageX": 100,
