@@ -11,10 +11,12 @@ import androidx.core.content.res.ResourcesCompat
 import com.google.gson.Gson
 import com.lhr.water.R
 import com.lhr.water.databinding.ActivityCoverBinding
+import com.lhr.water.network.data.response.UserInfo
 import com.lhr.water.ui.base.APP
 import com.lhr.water.ui.base.BaseActivity
 import com.lhr.water.ui.login.LoginActivity
 import com.lhr.water.util.SharedPreferencesHelper
+import com.lhr.water.util.showToast
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
 import java.io.File
@@ -34,8 +36,14 @@ class CoverActivity : BaseActivity() {
         createWaterFolder()
         var userInfo = SharedPreferencesHelper.getUserInfo(this)
         if (userInfo != null) {
-            viewModel.userRepository.userInfo.postValue(userInfo.userInfo)
+            viewModel.userRepository.userInfo.postValue(userInfo)
         } else {
+            viewModel.userRepository.userInfo.postValue(
+                UserInfo(
+                deptAno = "",
+                userId = ""
+            )
+            )
             println("No UserInfoData found")
         }
 

@@ -13,9 +13,11 @@ import com.lhr.water.databinding.ActivityLoginBinding
 import com.lhr.water.network.data.response.UserInfo
 import com.lhr.water.ui.base.APP
 import com.lhr.water.ui.base.BaseActivity
+import com.lhr.water.ui.deepLink.DeepLinkViewModel
 import com.lhr.water.ui.main.MainActivity
 import com.lhr.water.util.adapter.SpinnerAdapter
 import com.lhr.water.util.dialog.DefaultDialog
+import com.lhr.water.util.showToast
 
 
 class LoginActivity : BaseActivity(), View.OnClickListener {
@@ -67,6 +69,8 @@ class LoginActivity : BaseActivity(), View.OnClickListener {
     private fun initView() {
 //        binding.linearReload.setOnClickListener(this)
         binding.buttonLogin.setOnClickListener(this)
+        binding.textAutoDownloadTest.setOnClickListener(this)
+        binding.textGetUserInfo.setOnClickListener(this)
     }
     override fun onClick(v: View?) {
         when (v?.id) {
@@ -80,6 +84,41 @@ class LoginActivity : BaseActivity(), View.OnClickListener {
 //                    ))
 //                })
 //            }
+            R.id.textGetUserInfo -> {
+                val testViewModel: DeepLinkViewModel by viewModels{ (applicationContext as APP).appContainer.viewModelFactory }
+                if(testViewModel.userRepository.userInfo.value!!.deptAno == ""){
+                    testViewModel.getUserInfo().subscribe({ getUserInfoResponse ->
+                        println("請求成功")
+                        showToast(this,"請求成功")
+//                        updatePdaData(getUserInfoResponse)
+                    }, { error ->
+                        showToast(this,"請求失敗")
+                        println("請求失敗：${error.message}")
+                    })
+                }else{
+                    showToast(this,"已有UserInfo：${testViewModel.userRepository.userInfo.value!!.deptAno}")
+                }
+            }
+            R.id.textAutoDownloadTest -> {
+                val testViewModel: DeepLinkViewModel by viewModels{ (applicationContext as APP).appContainer.viewModelFactory }
+                if (!testViewModel.checkIsUpdate()) {
+                    val defaultDialog = DefaultDialog(
+                        title = "尚未備份",
+                        text = "尚有未同步資料，是否直接覆蓋?",
+                        confirmClick = {
+                            testViewModel.updatePdaData(testViewModel.userRepository.userInfo.value!!)
+                            finish()
+                        },
+                        cancelClick = {
+                            finish()
+                        }
+                    )
+                    defaultDialog.show(supportFragmentManager, "DefaultDialog")
+                } else {
+                    testViewModel.updatePdaData(testViewModel.userRepository.userInfo.value!!)
+                    finish()
+                }
+            }
             R.id.buttonLogin -> {
                 if(viewModel.userRepository.userInfo.value!!.userId != "") {
                     val intent = Intent(this, MainActivity::class.java)

@@ -163,13 +163,13 @@ class DeepLinkViewModel(var context: Context, var formRepository: FormRepository
         }
     }
 
-    private fun getUserInfo(): Observable<UserInfo> {
+    fun getUserInfo(): Observable<UserInfo> {
         return ApiManager().getUserInfo()
             .subscribeOn(Schedulers.io())
             .map { response ->
                 userRepository.userInfo.postValue(response.data.userInfo)
 
-                SharedPreferencesHelper.saveUserInfo(context, response.data)
+                SharedPreferencesHelper.saveUserInfo(context, response.data.userInfo)
                 response.data.userInfo
             }
     }
