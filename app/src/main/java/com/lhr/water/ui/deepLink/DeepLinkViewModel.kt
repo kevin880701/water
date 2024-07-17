@@ -60,9 +60,9 @@ class DeepLinkViewModel(var context: Context, var formRepository: FormRepository
             })
     }
 
-    fun uploadPdaData() {
+    fun uploadPdaData(userInfo: UserInfo) {
         try {
-            if(userRepository.userInfo.value!!.deptAno == ""){
+            if(userInfo.deptAno == ""){
                 getUserInfo().subscribe({ getUserInfoResponse ->
                     println("getUserInfoResponse請求成功")
                     updatePdaData(getUserInfoResponse)
@@ -125,8 +125,8 @@ class DeepLinkViewModel(var context: Context, var formRepository: FormRepository
                 )
 
                 println("@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@")
-                println("userRepository.userInfo.deptAno!!：${userRepository.userInfo.value!!.deptAno}")
-                println("userRepository.userInfo.userId!!：${userRepository.userInfo.value!!.userId}")
+                println("userRepository.userInfo.deptAno!!：${userInfo.deptAno}")
+                println("userRepository.userInfo.userId!!：${userInfo.userId}")
                 println("@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@")
 
                 ApiManager().updateFromPDA(updateDataRequest)

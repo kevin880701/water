@@ -15,6 +15,7 @@ import com.lhr.water.ui.base.APP
 import com.lhr.water.ui.base.BaseActivity
 import com.lhr.water.ui.deepLink.DeepLinkViewModel
 import com.lhr.water.ui.main.MainActivity
+import com.lhr.water.util.SharedPreferencesHelper
 import com.lhr.water.util.adapter.SpinnerAdapter
 import com.lhr.water.util.dialog.DefaultDialog
 import com.lhr.water.util.showToast
@@ -102,7 +103,18 @@ class LoginActivity : BaseActivity(), View.OnClickListener {
             }
             R.id.textAutoUploadTest -> {
                 val testViewModel: DeepLinkViewModel by viewModels{ (applicationContext as APP).appContainer.viewModelFactory }
-                testViewModel.uploadPdaData()
+                var userInfo = SharedPreferencesHelper.getUserInfo(this)
+                if (userInfo != null) {
+                    testViewModel.userRepository.userInfo.postValue(userInfo)
+                } else {
+                    userInfo = UserInfo(
+                        deptAno = "",
+                        userId = ""
+                    )
+
+                    println("No UserInfoData found")
+                }
+                testViewModel.uploadPdaData(userInfo)
             }
             R.id.textAutoDownloadTest -> {
                 val testViewModel: DeepLinkViewModel by viewModels{ (applicationContext as APP).appContainer.viewModelFactory }

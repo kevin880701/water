@@ -27,18 +27,7 @@ class DeepLinkActivity : BaseActivity() {
         setContentView(binding.root)
         window.statusBarColor = ResourcesCompat.getColor(resources, R.color.primaryBlue, null)
 
-        var userInfo = SharedPreferencesHelper.getUserInfo(this)
-        if (userInfo != null) {
-            viewModel.userRepository.userInfo.postValue(userInfo)
-        } else {
-            viewModel.userRepository.userInfo.postValue(
-                UserInfo(
-                    deptAno = "",
-                    userId = ""
-                )
-            )
-            println("No UserInfoData found")
-        }
+
 
         // 從 Intent 獲取 URL
         val url = intent?.data?.toString()
@@ -90,7 +79,14 @@ class DeepLinkActivity : BaseActivity() {
                 }
 
                 url.contains("https://pda-internal.water.gov.tw/auto-upload") -> {
-                    viewModel.uploadPdaData()
+                    var userInfo = SharedPreferencesHelper.getUserInfo(this)
+                    if (userInfo == null) {
+                        userInfo = UserInfo(
+                            deptAno = "",
+                            userId = ""
+                        )
+                    }
+                    viewModel.uploadPdaData(userInfo)
                     finish()
                 }
             }
