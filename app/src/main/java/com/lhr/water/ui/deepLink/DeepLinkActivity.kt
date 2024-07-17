@@ -7,8 +7,10 @@ import androidx.activity.viewModels
 import androidx.core.content.res.ResourcesCompat
 import com.lhr.water.R
 import com.lhr.water.databinding.ActivityCoverBinding
+import com.lhr.water.network.data.response.UserInfo
 import com.lhr.water.ui.base.APP
 import com.lhr.water.ui.base.BaseActivity
+import com.lhr.water.util.SharedPreferencesHelper
 import com.lhr.water.util.dialog.DefaultDialog
 import timber.log.Timber
 
@@ -24,6 +26,19 @@ class DeepLinkActivity : BaseActivity() {
         _binding = ActivityCoverBinding.inflate(layoutInflater)
         setContentView(binding.root)
         window.statusBarColor = ResourcesCompat.getColor(resources, R.color.primaryBlue, null)
+
+        var userInfo = SharedPreferencesHelper.getUserInfo(this)
+        if (userInfo != null) {
+            viewModel.userRepository.userInfo.postValue(userInfo)
+        } else {
+            viewModel.userRepository.userInfo.postValue(
+                UserInfo(
+                    deptAno = "",
+                    userId = ""
+                )
+            )
+            println("No UserInfoData found")
+        }
 
         // 從 Intent 獲取 URL
         val url = intent?.data?.toString()
@@ -61,7 +76,7 @@ class DeepLinkActivity : BaseActivity() {
                             text = "尚有未同步資料，是否直接覆蓋?",
                             confirmClick = {
                                 viewModel.updatePdaData(viewModel.userRepository.userInfo.value!!)
-                                finish()
+//                                finish()
                             },
                             cancelClick = {
                                 finish()

@@ -62,9 +62,9 @@ class DeepLinkViewModel(var context: Context, var formRepository: FormRepository
 
     fun uploadPdaData() {
         try {
-            if(userRepository.userInfo.value == null){
+            if(userRepository.userInfo.value!!.deptAno == ""){
                 getUserInfo().subscribe({ getUserInfoResponse ->
-                    println("請求成功")
+                    println("getUserInfoResponse請求成功")
                     updatePdaData(getUserInfoResponse)
                 }, { error ->
                     println("請求失敗：${error.message}")
@@ -124,12 +124,17 @@ class DeepLinkViewModel(var context: Context, var formRepository: FormRepository
                     userInfo = userRepository.userInfo.value!!
                 )
 
+                println("@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@")
+                println("userRepository.userInfo.deptAno!!：${userRepository.userInfo.value!!.deptAno}")
+                println("userRepository.userInfo.userId!!：${userRepository.userInfo.value!!.userId}")
+                println("@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@")
+
                 ApiManager().updateFromPDA(updateDataRequest)
                     .subscribeOn(Schedulers.io())
                     .subscribe({ response ->
                         println(response.toString())
                         getUserInfo().subscribe({ getUserInfoResponse ->
-                            println("請求成功")
+                            println("updateFromPDA請求成功")
 
                             // 更新 Form 表中的 isUpdate 為 true
                             formEntities.forEach { formEntity ->

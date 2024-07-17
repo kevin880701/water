@@ -70,6 +70,7 @@ class LoginActivity : BaseActivity(), View.OnClickListener {
 //        binding.linearReload.setOnClickListener(this)
         binding.buttonLogin.setOnClickListener(this)
         binding.textAutoDownloadTest.setOnClickListener(this)
+        binding.textAutoUploadTest.setOnClickListener(this)
         binding.textGetUserInfo.setOnClickListener(this)
     }
     override fun onClick(v: View?) {
@@ -98,6 +99,10 @@ class LoginActivity : BaseActivity(), View.OnClickListener {
                 }else{
                     showToast(this,"已有UserInfo：${testViewModel.userRepository.userInfo.value!!.deptAno}")
                 }
+            }
+            R.id.textAutoUploadTest -> {
+                val testViewModel: DeepLinkViewModel by viewModels{ (applicationContext as APP).appContainer.viewModelFactory }
+                testViewModel.uploadPdaData()
             }
             R.id.textAutoDownloadTest -> {
                 val testViewModel: DeepLinkViewModel by viewModels{ (applicationContext as APP).appContainer.viewModelFactory }
