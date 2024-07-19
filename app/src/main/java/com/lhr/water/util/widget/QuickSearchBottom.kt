@@ -6,19 +6,14 @@ import android.widget.RelativeLayout
 import android.widget.Toast
 import androidx.activity.viewModels
 import androidx.databinding.DataBindingUtil
-import androidx.recyclerview.widget.LinearLayoutManager
 import com.lhr.water.R
 import com.lhr.water.databinding.WidgetQuickSearchBinding
 import com.lhr.water.repository.FormRepository
 import com.lhr.water.room.RegionEntity
-import com.lhr.water.room.StorageEntity
-import com.lhr.water.room.StorageRecordEntity
 import com.lhr.water.ui.base.APP
 import com.lhr.water.ui.map.MapActivity
 import com.lhr.water.ui.map.MapViewModel
 import com.lhr.water.util.adapter.StorageContentAdapter
-import com.lhr.water.util.dialog.MaterialDialog
-import org.json.JSONObject
 
 class QuickSearchBottom(
     var activity: MapActivity,
