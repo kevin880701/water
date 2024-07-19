@@ -139,4 +139,5 @@ dependencies {
     implementation ("com.google.code.gson:gson:2.8.9")
     implementation ("com.fasterxml.jackson.module:jackson-module-kotlin:2.9.10")
 
+    implementation ("androidx.paging:paging-runtime:3.1.1")
 }
