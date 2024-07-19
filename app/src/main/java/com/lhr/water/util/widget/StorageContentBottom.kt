@@ -82,23 +82,6 @@ class StorageContentBottom(
      * @param storageRecordEntity 貨物資訊
      */
     override fun onMaterialClick(storageRecordEntity: StorageRecordEntity) {
-        val goodFieldNameList = resources.getStringArray(R.array.storage_Good_field_name)
-            .toList() as ArrayList<String>
-        val goodFieldNameEngList =
-            resources.getStringArray(R.array.storage_Good_field_name_eng)
-                .toList() as ArrayList<String>
-        val goodContent = ArrayList<String>()
-//        val goodJsonObject = jsonStringToJson(storageContentEntity.itemInformation)
-//        goodFieldNameEngList.forEach { key ->
-//            if (goodJsonObject.has(key)) {
-//                val value = goodJsonObject.getString(key)
-//                goodContent.add(value)
-//            } else {
-//                // Handle the case where the key is not present in the JSON object
-//                // You can choose to add a default value or take any other action
-//                goodContent.add("Key $key not found")
-//            }
-//        }
         val materialDialog = MaterialDialog(
             storageRecordEntity = storageRecordEntity,
             listener = this,
