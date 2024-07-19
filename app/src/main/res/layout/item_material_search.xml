@@ -13,6 +13,7 @@
         android:gravity="center"
         android:orientation="horizontal"
         android:background="@drawable/bg_bottom_gray"
+        android:layout_marginBottom="2dp"
         android:paddingTop="4dp"
         android:paddingBottom="4dp"
         android:paddingLeft="12dp"
@@ -65,7 +66,6 @@
             android:layout_weight="1"
             android:orientation="vertical">
 
-
             <TextView
                 android:id="@+id/textMaterialName"
                 style="@style/TextStyle_16dp_black"
@@ -73,6 +73,16 @@
                 android:layout_height="0dp"
                 android:layout_weight="1"
                 android:text="@string/goods_name"
+                android:textColor="@color/primaryBlue"
+                android:gravity="center" />
+
+            <TextView
+                android:id="@+id/textMaterialNumber"
+                style="@style/TextStyle_16dp_black"
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_weight="1"
+                android:text="@string/goods_number"
                 android:textColor="@color/primaryBlue"
                 android:gravity="center" />
 

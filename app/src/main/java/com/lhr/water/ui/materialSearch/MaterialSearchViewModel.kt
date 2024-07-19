@@ -222,9 +222,11 @@ class MaterialSearchViewModel(
     /**
      * 篩選貨物名稱
      */
-    fun filterRecord(storageRecordEntities: ArrayList<StorageRecordEntity>, searchMaterialName: String): ArrayList<StorageRecordEntity>? {
-
-        return storageRecordEntities.filter { it.materialName.contains(searchMaterialName) } as ArrayList<StorageRecordEntity>
+    fun filterRecord(storageRecordEntities: ArrayList<StorageRecordEntity>, searchQuery: String): ArrayList<StorageRecordEntity>? {
+        return storageRecordEntities.filter {
+            it.materialName.contains(searchQuery, ignoreCase = true) ||
+                    it.materialNumber.contains(searchQuery, ignoreCase = true)
+        } as ArrayList<StorageRecordEntity>
     }
 
 }
