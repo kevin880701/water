@@ -55,23 +55,17 @@ class FormAdapter(val listener: Listener, context: Context) :
             }
             when (formEntity.dealStatus) {
                 context.getString(R.string.wait_deal) -> {
-                    binding.viewStatus.setOnClickListener {
-                        binding.viewStatus.setBackgroundColor(ContextCompat.getColor(context, R.color.red))
-                    }
+                    binding.viewStatus.setBackgroundColor(ContextCompat.getColor(context, R.color.red))
                     binding.imageDealGoods.visibility = View.INVISIBLE
                 }
 
                 context.getString(R.string.now_deal) -> {
-                    binding.viewStatus.setOnClickListener {
-                        binding.viewStatus.setBackgroundColor(ContextCompat.getColor(context, R.color.yellow))
-                    }
+                    binding.viewStatus.setBackgroundColor(ContextCompat.getColor(context, R.color.yellow))
                     binding.imageDealGoods.visibility = View.VISIBLE
                 }
 
                 context.getString(R.string.complete_deal) -> {
-                    binding.viewStatus.setOnClickListener {
-                        binding.viewStatus.setBackgroundColor(ContextCompat.getColor(context, R.color.green))
-                    }
+                    binding.viewStatus.setBackgroundColor(ContextCompat.getColor(context, R.color.green))
                     binding.imageDealGoods.visibility = View.INVISIBLE
                 }
             }
