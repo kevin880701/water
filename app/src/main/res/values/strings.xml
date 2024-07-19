@@ -1,5 +1,8 @@
 <resources>
     <string name="app_name">water</string>
+    <string name="confirm">確認</string>
+    <string name="cancel">取消</string>
+    <string name="send">送出</string>
 
     <!--  登入頁面  -->
     <string name="login">登入</string>
@@ -7,11 +10,12 @@
     <string name="user_no_field">使用者代號：</string>
     <string name="reload_user_info">重新讀取使用者資訊</string>
 
-    <!--  登入頁面  -->
+    <!--  地圖  -->
     <string name="quick_search">快速搜尋</string>
     <string name="please_enter_storage_name">請輸入儲櫃名稱</string>
     <string name="storage_name_field">儲櫃名稱：</string>
     <string name="storage_name_wrong">儲櫃名稱錯誤</string>
+    <string name="storage_content">儲櫃內容</string>
 
     <string name="region_choose">地區選擇</string>
     <string name="map_choose">地圖選擇</string>
@@ -46,10 +50,6 @@
     <string name="storage_name">儲櫃名稱</string>
     <string name="storage_num">儲櫃代號</string>
 
-    <string name="storage_content">儲櫃內容</string>
-    <string name="good_input">貨物入庫</string>
-    <string name="good_output">貨物出庫</string>
-    <string name="scan_qr_code">掃描QR CODE</string>
     <string name="permission_error">獲取權限失敗，將導致部分功能無法使用，是否前往授權？</string>
 
     <!--  待處理材料  -->
@@ -60,13 +60,6 @@
     <string name="quantity">數量</string>
     <string name="material_status">材料狀態</string>
 
-    <string name="confirm">確認</string>
-    <string name="cancel">取消</string>
-    <string name="send">送出</string>
-
-    <string name="personal_information">個人資料</string>
-    <string name="feedback">意見反饋</string>
-    <string name="change_password">修改密碼</string>
     <string name="check_delete">確定刪除資料？</string>
 
     <string name="new_goods">新增貨物</string>
@@ -83,14 +76,6 @@
     <string name="complete_deal">處理完成</string>
 
     <string name="setting">設定</string>
-    <string name="backup">備份</string>
-    <string name="update">更新</string>
-
-    <!--  MaterialDialog  -->
-    <string name="storage_field">儲存儲櫃：</string>
-    <string name="form_number_field">表單代號：</string>
-    <string name="material_name_field">材料名稱:</string>
 
     <string name="already_choose">已選擇</string>
-    <string name="not_choose">未選擇</string>
 </resources>
