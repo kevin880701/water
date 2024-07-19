@@ -12,6 +12,8 @@
     <color name="deep_gray">#999999</color>
     <color name="white">#FFFFFFFF</color>
     <color name="red">#D83C3C</color>
+    <color name="yellow">#FFE4D442</color>
+    <color name="green">#FF9ED558</color>
     <color name="transparent">#00000000</color>
     <color name="md_theme_light_primary">#2A5EA7</color>
 </resources>

@@ -4,6 +4,7 @@ import android.content.Context
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
@@ -54,17 +55,23 @@ class FormAdapter(val listener: Listener, context: Context) :
             }
             when (formEntity.dealStatus) {
                 context.getString(R.string.wait_deal) -> {
-                    binding.imageStatus.setImageDrawable(context.getDrawable(R.drawable.red_light))
+                    binding.viewStatus.setOnClickListener {
+                        binding.viewStatus.setBackgroundColor(ContextCompat.getColor(context, R.color.red))
+                    }
                     binding.imageDealGoods.visibility = View.INVISIBLE
                 }
 
                 context.getString(R.string.now_deal) -> {
-                    binding.imageStatus.setImageDrawable(context.getDrawable(R.drawable.yellow_light))
+                    binding.viewStatus.setOnClickListener {
+                        binding.viewStatus.setBackgroundColor(ContextCompat.getColor(context, R.color.yellow))
+                    }
                     binding.imageDealGoods.visibility = View.VISIBLE
                 }
 
                 context.getString(R.string.complete_deal) -> {
-                    binding.imageStatus.setImageDrawable(context.getDrawable(R.drawable.green_light))
+                    binding.viewStatus.setOnClickListener {
+                        binding.viewStatus.setBackgroundColor(ContextCompat.getColor(context, R.color.green))
+                    }
                     binding.imageDealGoods.visibility = View.INVISIBLE
                 }
             }
