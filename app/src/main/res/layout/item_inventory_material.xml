@@ -37,8 +37,20 @@
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintLeft_toRightOf="@+id/constraint1" />
+        <TextView
+            android:id="@+id/textDefaultQuantity"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="0.6"
+            android:text="數量"
+            android:background="@color/transparent"
+            style="@style/TextStyle_16dp_black"
+            android:textColor="@color/primaryBlack"
+            android:gravity="center"
+            android:inputType="number"
+            android:enabled="false" />
         <EditText
-            android:id="@+id/textQuantity"
+            android:id="@+id/editQuantity"
             android:layout_width="0dp"
             android:layout_height="match_parent"
             android:layout_weight="0.6"
@@ -58,11 +70,10 @@
             <ImageView
                 android:id="@+id/imageEdit"
                 android:layout_width="0dp"
-                android:layout_height="0dp"
-                android:padding="24dp"
+                android:layout_height="match_parent"
+                android:padding="18dp"
                 android:src="@drawable/edit"
                 app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintDimensionRatio="1:1"
                 app:layout_constraintRight_toRightOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
                 app:tint="@color/primaryBlue" />

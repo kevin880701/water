@@ -48,7 +48,8 @@ class InventoryAdapter(val listener: Listener, context: Context) :
         fun bind(inventoryEntity: InventoryEntity) {
             binding.textDept.text = inventoryEntity.deptName
             binding.textMaterialName.text = inventoryEntity.materialName
-            binding.textQuantity.text = Editable.Factory.getInstance().newEditable(inventoryEntity.actualQuantity.toString())
+            binding.editQuantity.text = Editable.Factory.getInstance().newEditable(inventoryEntity.actualQuantity.toString())
+            binding.textDefaultQuantity.text = Editable.Factory.getInstance().newEditable(inventoryEntity.defaultQuantity.toString())
 
 
             binding.root.setOnClickListener {
@@ -58,17 +59,16 @@ class InventoryAdapter(val listener: Listener, context: Context) :
             binding.imageEdit.setOnClickListener {
                 binding.imageEdit.visibility = View.GONE
                 binding.imageOk.visibility = View.VISIBLE
-                binding.textQuantity.isEnabled = true
-                binding.textQuantity.isEnabled = true
-                binding.textQuantity.setBackgroundColor(Color.LTGRAY)
+                binding.editQuantity.isEnabled = true
+                binding.editQuantity.setBackgroundColor(Color.LTGRAY)
             }
 
             binding.imageOk.setOnClickListener {
                 binding.imageEdit.visibility = View.VISIBLE
                 binding.imageOk.visibility = View.GONE
-                binding.textQuantity.isEnabled = false
-                binding.textQuantity.setBackgroundColor(Color.TRANSPARENT)
-                inventoryEntity.actualQuantity = binding.textQuantity.text.toString()
+                binding.editQuantity.isEnabled = false
+                binding.editQuantity.setBackgroundColor(Color.TRANSPARENT)
+                inventoryEntity.actualQuantity = binding.editQuantity.text.toString()
                 inventoryEntity.dealStatus = "處理完成"
                 inventoryEntity.isUpdate = false
                 SqlDatabase.getInstance().getInventoryDao().insertOrUpdate(inventoryEntity)

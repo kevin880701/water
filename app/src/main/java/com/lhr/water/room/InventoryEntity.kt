@@ -25,6 +25,7 @@ class InventoryEntity(
     materialSpec: String,
     inventoryUnit: String,
     materialUnit: String,
+    defaultQuantity: String,
     actualQuantity: String,
     checkDate: String,
     lastUseDate: String,
@@ -39,6 +40,10 @@ class InventoryEntity(
     @ColumnInfo(name = SqlModel.formId, typeAffinity = ColumnInfo.INTEGER)
     @SerializedName("formId")
     var formId = formId
+
+    @ColumnInfo(name = SqlModel.defaultQuantity, typeAffinity = ColumnInfo.TEXT)
+    @SerializedName("defaultQuantity")
+    var defaultQuantity = defaultQuantity
 
     @ColumnInfo(name = SqlModel.actualQuantity, typeAffinity = ColumnInfo.TEXT)
     @SerializedName("actualQuantity")
