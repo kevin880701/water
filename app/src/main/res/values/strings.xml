@@ -7,6 +7,12 @@
     <string name="user_no_field">使用者代號：</string>
     <string name="reload_user_info">重新讀取使用者資訊</string>
 
+    <!--  登入頁面  -->
+    <string name="quick_search">快速搜尋</string>
+    <string name="please_enter_storage_name">請輸入儲櫃名稱</string>
+    <string name="storage_name_field">儲櫃名稱：</string>
+    <string name="storage_name_wrong">儲櫃名稱錯誤</string>
+
     <string name="region_choose">地區選擇</string>
     <string name="map_choose">地圖選擇</string>
     <string name="material_in_out">貨物進出</string>

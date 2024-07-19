@@ -40,6 +40,33 @@
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintRight_toRightOf="parent" />
 
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/constraintSearch"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:layout_constraintTop_toBottomOf="@+id/widgetTitleBar"
+            app:layout_constraintRight_toRightOf="parent"
+            android:background="@drawable/quick_search_button_background"
+            android:layout_margin="24dp"
+            android:padding="8dp">
+            <ImageView
+                android:id="@+id/imageSearch"
+                android:layout_width="20dp"
+                android:layout_height="20dp"
+                android:src="@drawable/search"
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:tint="@color/white"/>
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/quick_search"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintLeft_toRightOf="@+id/imageSearch"
+                android:textColor="@color/white"/>
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
         <RelativeLayout
             android:id="@+id/relativeLayoutBackView"
             android:layout_width="match_parent"

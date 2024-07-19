@@ -22,13 +22,14 @@ import com.lhr.water.room.StorageEntity
 import com.lhr.water.ui.base.APP
 import com.lhr.water.ui.base.BaseActivity
 import com.lhr.water.util.mapView.MapViewListener
+import com.lhr.water.util.widget.QuickSearchBottom
 import com.lhr.water.util.widget.StorageContentBottom
 import com.lhr.water.util.widget.StorageInfoBottom
 import java.io.IOException
 
 
 class MapActivity(): BaseActivity(), View.OnClickListener, StorageInfoBottom.Listener{
-    private val viewModel: MapViewModel by viewModels{(applicationContext as APP).appContainer.viewModelFactory}
+    val viewModel: MapViewModel by viewModels{(applicationContext as APP).appContainer.viewModelFactory}
     private var _binding: ActivityMapBinding? = null
     private val binding get() = _binding!!
 
@@ -71,6 +72,7 @@ class MapActivity(): BaseActivity(), View.OnClickListener, StorageInfoBottom.Lis
         backView = binding.relativeLayoutBackView
         setupBackButton(binding.widgetTitleBar.imageBack)
         initMapView()
+        binding.constraintSearch.setOnClickListener(this)
     }
 
     private fun bindViewModel() {
@@ -105,7 +107,7 @@ class MapActivity(): BaseActivity(), View.OnClickListener, StorageInfoBottom.Lis
         val storageInfoBottom = StorageInfoBottom(this, this, storageEntity)
         showBottomSheet(storageInfoBottom)
     }
-    private fun showBottomSheet(view: View?) {
+    fun showBottomSheet(view: View?) {
         if (backView == null) {
             return
         }
@@ -146,6 +148,10 @@ class MapActivity(): BaseActivity(), View.OnClickListener, StorageInfoBottom.Lis
 
     override fun onClick(v: View) {
         when (v.id) {
+            R.id.constraintSearch -> {
+                val quickSearchBottom = QuickSearchBottom(this, regionEntity)
+                showBottomSheet(quickSearchBottom)
+            }
         }
     }
 
