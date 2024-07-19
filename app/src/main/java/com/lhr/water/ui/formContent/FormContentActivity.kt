@@ -3,6 +3,7 @@ package com.lhr.water.ui.formContent
 import android.os.Bundle
 import android.view.View
 import android.widget.AdapterView
+import android.widget.Toast
 import androidx.activity.viewModels
 import androidx.core.content.res.ResourcesCompat
 import com.google.gson.Gson
@@ -44,11 +45,6 @@ class FormContentActivity : BaseActivity(), View.OnClickListener {
     private lateinit var baseForm: BaseForm
     var currentDealStatus = ""
 
-    lateinit var deliveryForm: DeliveryForm
-    lateinit var receiveForm: ReceiveForm
-    lateinit var transferForm: TransferForm
-    lateinit var returnForm: ReturnForm
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         _binding = ActivityFormContentBinding.inflate(layoutInflater)
@@ -58,12 +54,21 @@ class FormContentActivity : BaseActivity(), View.OnClickListener {
         formEntity = intent.getSerializableExtra("formEntity") as FormEntity
         baseForm = formEntity.parseBaseForm()
 
-//        deliveryForm = Gson().fromJson(formEntity.formContent, DeliveryForm::class.java)
-//        receiveForm = Gson().fromJson(formEntity.formContent, ReceiveForm::class.java)
-//        transferForm = Gson().fromJson(formEntity.formContent, TransferForm::class.java)
-//        returnForm = Gson().fromJson(formEntity.formContent, ReturnForm::class.java)
-
         currentDealStatus = formEntity.dealStatus
+
+
+        // 如果表單是待處理則提前確認是否有入庫完成，若有則自動把狀態改為處理完成
+        if (currentDealStatus == getString(R.string.now_deal)
+        ) {
+            if (isMaterialAlreadyInput(
+                    baseForm.itemDetails,
+                    baseForm.formNumber,
+                )
+            ) {
+                formEntity.dealStatus = getString(R.string.complete_deal)
+                currentDealStatus = getString(R.string.complete_deal)
+            }
+        }
 
         bindViewModel()
         initView()
@@ -200,7 +205,6 @@ class FormContentActivity : BaseActivity(), View.OnClickListener {
             date = formEntity.date,
             formContent = formEntity.formContent,
         )
-
 
         // 如果表單是處理完成的話要判斷表單中的貨物是否已經全部入庫
         if (dealStatus == getString(R.string.complete_deal)
