@@ -86,7 +86,11 @@ class DeepLinkActivity : BaseActivity() {
                             userId = ""
                         )
                     }
-                    viewModel.uploadPdaData(userInfo)
+                    var isInventoryCompleted = SharedPreferencesHelper.isInventoryCompleted(this)
+                    if (isInventoryCompleted == null) {
+                        isInventoryCompleted = false
+                    }
+                    viewModel.uploadPdaData(userInfo, isInventoryCompleted)
                     finish()
                 }
             }

@@ -114,7 +114,7 @@ class LoginActivity : BaseActivity(), View.OnClickListener {
 
                     println("No UserInfoData found")
                 }
-                testViewModel.uploadPdaData(userInfo)
+                testViewModel.uploadPdaData(userInfo, viewModel.formRepository.isInventoryCompleted.value!!)
             }
             R.id.textAutoDownloadTest -> {
                 val testViewModel: DeepLinkViewModel by viewModels{ (applicationContext as APP).appContainer.viewModelFactory }

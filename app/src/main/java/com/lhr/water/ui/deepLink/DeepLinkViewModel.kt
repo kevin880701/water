@@ -60,7 +60,7 @@ class DeepLinkViewModel(var context: Context, var formRepository: FormRepository
             })
     }
 
-    fun uploadPdaData(userInfo: UserInfo) {
+    fun uploadPdaData(userInfo: UserInfo, isInventoryCompleted: Boolean) {
         try {
             if(userInfo.deptAno == ""){
                 getUserInfo().subscribe({ getUserInfoResponse ->
@@ -72,7 +72,11 @@ class DeepLinkViewModel(var context: Context, var formRepository: FormRepository
             }else{
                 val gson = Gson()
 
-                val inventoryEntities = sqlDatabase.getInventoryDao().getAllNotUpdated()
+                val inventoryEntities = if(isInventoryCompleted){
+                     sqlDatabase.getInventoryDao().getAllNotUpdated()
+                }else {
+                    emptyList()
+                }
                 val storageRecordEntities = sqlDatabase.getStorageRecordDao().getAllNotUpdated()
                 val formEntities = sqlDatabase.getFormDao().getAllNotUpdated()
 
