@@ -82,15 +82,34 @@
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintRight_toRightOf="parent">
+
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:layout_height="wrap_content"
                 android:layout_width="match_parent"
                 app:layout_constraintTop_toBottomOf="@+id/viewUserBackground" >
+
+                <CheckBox
+                    android:id="@+id/checkbox"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintLeft_toLeftOf="parent" />
+
+                <TextView
+                    android:id="@+id/textInventory"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="盤點完成"
+                    style="@style/TextStyle_16dp_black"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintBottom_toBottomOf="@+id/checkbox"
+                    app:layout_constraintLeft_toRightOf="@+id/checkbox" />
+
                 <androidx.recyclerview.widget.RecyclerView
                     android:id="@+id/recyclerInventory"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/checkbox"
                     app:layout_constraintLeft_toLeftOf="parent"
                     android:layout_marginTop="8dp"
                     tools:itemCount="3"

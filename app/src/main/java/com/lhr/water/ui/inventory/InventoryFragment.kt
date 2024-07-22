@@ -15,6 +15,7 @@ import com.lhr.water.databinding.FragmentInventoryBinding
 import com.lhr.water.repository.FormRepository
 import com.lhr.water.room.InventoryEntity
 import com.lhr.water.ui.base.BaseFragment
+import com.lhr.water.util.SharedPreferencesHelper
 import com.lhr.water.util.adapter.InventoryAdapter
 import org.json.JSONException
 import timber.log.Timber
@@ -61,6 +62,11 @@ class InventoryFragment : BaseFragment(), View.OnClickListener, InventoryAdapter
         viewModel.searchMaterialName.observe(viewLifecycleOwner) {searchMaterialName ->
             inventoryAdapter.submitList(viewModel.filterRecord(formRepository.inventoryEntities.value!!, searchMaterialName))
         }
+
+        // 盤點表單代號輸入後篩選更新
+        viewModel.formRepository.isInventoryCompleted.observe(viewLifecycleOwner) {isInventoryCompleted ->
+            binding.checkbox.isChecked = isInventoryCompleted
+        }
     }
 
     private fun initView() {
@@ -84,6 +90,11 @@ class InventoryFragment : BaseFragment(), View.OnClickListener, InventoryAdapter
                 viewModel.searchMaterialName.postValue(s.toString())
             }
         })
+
+        binding.checkbox.setOnCheckedChangeListener { _, isChecked ->
+            viewModel.formRepository.isInventoryCompleted.postValue(isChecked)
+            SharedPreferencesHelper.saveInventoryCompleted(requireContext(), isChecked)
+        }
 
         binding.widgetTitleBar.imageBackup.setOnClickListener(this)
     }

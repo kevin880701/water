@@ -35,6 +35,7 @@ class CoverActivity : BaseActivity() {
         window.statusBarColor = ResourcesCompat.getColor(resources, R.color.primaryBlue, null)
         createWaterFolder()
         var userInfo = SharedPreferencesHelper.getUserInfo(this)
+        var isInventoryCompleted = SharedPreferencesHelper.isInventoryCompleted(this)
         if (userInfo != null) {
             viewModel.userRepository.userInfo.postValue(userInfo)
         } else {
@@ -46,6 +47,13 @@ class CoverActivity : BaseActivity() {
             )
             println("No UserInfoData found")
         }
+
+        if (isInventoryCompleted == null) {
+            viewModel.formRepository.isInventoryCompleted.postValue(false)
+        } else {
+            viewModel.formRepository.isInventoryCompleted.postValue(isInventoryCompleted)
+        }
+
 
         GlobalScope.launch {
             val layout = findViewById<ConstraintLayout>(R.id.constrain)

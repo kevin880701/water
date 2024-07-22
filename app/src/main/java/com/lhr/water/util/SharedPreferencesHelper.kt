@@ -11,6 +11,7 @@ object SharedPreferencesHelper {
 
     private const val PREFS_NAME = "user_prefs"
     private const val USER_INFO_KEY = "user_info"
+    private const val IS_INVENTORY_COMPLETED_KEY = "is_inventory_completed"
 
     private fun getSharedPreferences(context: Context): SharedPreferences {
         return context.getSharedPreferences(PREFS_NAME, Context.MODE_PRIVATE)
@@ -38,6 +39,22 @@ object SharedPreferencesHelper {
     fun clearUserInfo(context: Context) {
         val editor = getSharedPreferences(context).edit()
         editor.remove(USER_INFO_KEY)
+        editor.apply()
+    }
+
+    fun saveInventoryCompleted(context: Context, isCompleted: Boolean) {
+        val editor = getSharedPreferences(context).edit()
+        editor.putBoolean(IS_INVENTORY_COMPLETED_KEY, isCompleted)
+        editor.apply()
+    }
+
+    fun isInventoryCompleted(context: Context): Boolean {
+        return getSharedPreferences(context).getBoolean(IS_INVENTORY_COMPLETED_KEY, false)
+    }
+
+    fun clearInventoryCompleted(context: Context) {
+        val editor = getSharedPreferences(context).edit()
+        editor.remove(IS_INVENTORY_COMPLETED_KEY)
         editor.apply()
     }
 }

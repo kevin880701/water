@@ -34,6 +34,8 @@ class FormRepository(context: Context) {
     var storageRecordEntities =
         MutableLiveData<ArrayList<StorageRecordEntity>>(ArrayList<StorageRecordEntity>())
 
+    var isInventoryCompleted = MutableLiveData<Boolean>(false)
+
     private val sqlDatabase = SqlDatabase.getInstance()
 
     companion object {
