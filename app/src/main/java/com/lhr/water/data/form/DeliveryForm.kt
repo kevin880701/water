@@ -82,6 +82,9 @@ data class DeliveryForm(
     @SerializedName("itemDetail")
     override val itemDetails: List<DeliveryItemDetail>,
 
+    @SerializedName("isCreateRNumber")
+    override val isCreateRNumber: String,
+
 ) : BaseForm(){
 
     override fun isInput(): Boolean {

@@ -195,9 +195,12 @@ object FormField {
     )
 }
 
-
 val dealStatusList: List<String> = listOf(
     "待處理", "處理中", "處理完成"
+)
+
+val isCreateRNumberList: List<String> = listOf(
+    "是", "否"
 )
 
 val fromTitleList: List<String> = listOf(

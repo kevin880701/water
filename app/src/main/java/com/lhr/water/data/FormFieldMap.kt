@@ -27,6 +27,7 @@ val deliveryFieldMap = mapOf(
     "sumAddition" to "合計",
     "underwriter" to "承售廠商",
     "updatedAt" to "更新時間",
+    "isCreateRNumber" to "產生領料單"
 )
 
 val deliveryItemFieldMap = mapOf(
@@ -68,6 +69,7 @@ val receiveFieldMap = mapOf(
     "systemCode" to "系統代號",
     "updatedAt" to "更新時間",
     "usageCode" to "用途代號",
+    "isCreateRNumber" to "產生領料單"
 )
 
 val receiveItemFieldMap = mapOf(
@@ -108,7 +110,8 @@ val transferFieldMap = mapOf(
     "transferringTransferDate" to "撥方調撥日期",
     "transferringTransferNumber" to "撥方調撥單號",
     "transferStatus" to "單據狀態",
-    "updatedAt" to "更新時間"
+    "updatedAt" to "更新時間",
+    "isCreateRNumber" to "產生領料單"
 )
 
 val transferItemFieldMap = mapOf(
@@ -148,7 +151,8 @@ val returningFieldMap = mapOf(
     "returnDept" to "退料單位",
     "systemCode" to "系統代號",
     "updatedAt" to "更新時間",
-    "usageCode" to "用途代號"
+    "usageCode" to "用途代號",
+    "isCreateRNumber" to "產生領料單"
 )
 
 val returningItemFieldMap = mapOf(

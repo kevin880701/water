@@ -65,7 +65,10 @@ data class ReturnForm(
     val usageCode: String,
 
     @SerializedName("itemDetail")
-    override val itemDetails: List<ReturnItemDetail>
+    override val itemDetails: List<ReturnItemDetail>,
+
+    @SerializedName("isCreateRNumber")
+    override val isCreateRNumber: String
 ) : BaseForm(){
 
     override fun isInput(): Boolean {

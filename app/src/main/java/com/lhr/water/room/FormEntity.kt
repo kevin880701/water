@@ -25,7 +25,8 @@ class FormEntity(
     reportTitle: String,
     date: String,
     formContent: String,
-    isUpdate: Boolean = true
+    isCreateRNumber: String,
+    isUpdate: Boolean = true,
 ) : Serializable {
 
     @NonNull
@@ -53,6 +54,9 @@ class FormEntity(
     @ColumnInfo(name = "isUpdate", typeAffinity = ColumnInfo.INTEGER)
     var isUpdate = isUpdate
 
+    @ColumnInfo(name = "isCreateRNumber", typeAffinity = ColumnInfo.TEXT)
+    var isCreateRNumber = isCreateRNumber
+
     fun parseBaseForm(): BaseForm {
         return when (reportTitle) {
             "交貨通知單" -> Gson().fromJson(formContent, DeliveryForm::class.java)
@@ -75,7 +79,8 @@ class FormEntity(
                     form.reportId,
                     form.reportTitle,
                     form.date,
-                    formContentJson
+                    formContentJson,
+                    form.isCreateRNumber
                 )
                 formEntities.add(formEntity)
             }

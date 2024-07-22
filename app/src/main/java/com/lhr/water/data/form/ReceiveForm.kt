@@ -62,7 +62,10 @@ data class ReceiveForm(
     val usageCode: String,
 
     @SerializedName("itemDetail")
-    override val itemDetails: List<ReceiveItemDetail>
+    override val itemDetails: List<ReceiveItemDetail>,
+
+    @SerializedName("isCreateRNumber")
+    override val isCreateRNumber: String
 ) : BaseForm() {
 
     override fun isInput(): Boolean {

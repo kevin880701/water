@@ -29,6 +29,9 @@ open class BaseForm(
 
     @Transient
     open val updatedAt: String = ""
+
+    @Transient
+    open val isCreateRNumber: String = ""
     fun jsonConvertMap(): Map<String, Any?> {
         val gson = Gson()
         val json = gson.toJson(this) // 将对象转换为 JSON 字符串

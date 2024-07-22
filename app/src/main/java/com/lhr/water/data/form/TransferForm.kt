@@ -74,6 +74,9 @@ data class TransferForm(
     @SerializedName("updatedAt")
     override val updatedAt: String,
 
+    @SerializedName("isCreateRNumber")
+    override val isCreateRNumber: String,
+
     @SerializedName("itemDetail")
     override val itemDetails: ArrayList<TransferItemDetail>
 ) : BaseForm(){

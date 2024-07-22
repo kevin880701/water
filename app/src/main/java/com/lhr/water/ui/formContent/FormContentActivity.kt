@@ -30,6 +30,7 @@ import com.lhr.water.ui.base.APP
 import com.lhr.water.ui.base.BaseActivity
 import com.lhr.water.util.adapter.SpinnerAdapter
 import com.lhr.water.util.dealStatusList
+import com.lhr.water.util.isCreateRNumberList
 import com.lhr.water.util.showToast
 import com.lhr.water.util.widget.MaterialWidget
 import com.lhr.water.util.widget.FormContentDataWidget
@@ -44,6 +45,7 @@ class FormContentActivity : BaseActivity(), View.OnClickListener {
     private lateinit var formEntity: FormEntity
     private lateinit var baseForm: BaseForm
     var currentDealStatus = ""
+    var currentIsCreateRNumber = ""
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -54,7 +56,7 @@ class FormContentActivity : BaseActivity(), View.OnClickListener {
         formEntity = intent.getSerializableExtra("formEntity") as FormEntity
         baseForm = formEntity.parseBaseForm()
 
-        currentDealStatus = formEntity.dealStatus
+        currentDealStatus = formEntity.isCreateRNumber
 
 
         // 如果表單是待處理則提前確認是否有入庫完成，若有則自動把狀態改為處理完成
@@ -69,6 +71,8 @@ class FormContentActivity : BaseActivity(), View.OnClickListener {
                 currentDealStatus = getString(R.string.complete_deal)
             }
         }
+
+        currentIsCreateRNumber = baseForm.isCreateRNumber
 
         bindViewModel()
         initView()
@@ -104,7 +108,7 @@ class FormContentActivity : BaseActivity(), View.OnClickListener {
         }
 
 
-        // 設定Spinner的選擇項監聽器
+        // 設定處理狀態Spinner的選擇項監聽器
         val adapter = SpinnerAdapter(this, android.R.layout.simple_spinner_item, dealStatusList)
         binding.spinnerDealStatus.adapter = adapter
         binding.spinnerDealStatus.setSelection(dealStatusList.indexOf(currentDealStatus))
@@ -142,13 +146,42 @@ class FormContentActivity : BaseActivity(), View.OnClickListener {
      */
     private fun addFormData() {
         baseForm.jsonConvertMap().forEach { key, value ->
-            if (key != "itemDetail" && key != "dealStatus") {
+            if (key != "itemDetail" && key != "dealStatus" && key != "isCreateRNumber") {
                 val formContentDataWidget = FormContentDataWidget(
                     activity = this,
                     fieldName = formFieldNameMap[key]!!,
                     fieldContent = value.toString()
                 )
                 binding.linearFormData.addView(formContentDataWidget)
+            }else if(formEntity.reportTitle == "材料調撥單"){
+                if((baseForm as TransferForm).transferStatus == "撥方已送出") {
+                    // 當單據為"調撥單"並且transferStatus為"撥方已送出"時才有
+                    // 設定產生領料單Spinner的選擇項監聽器
+                    binding.constraintIsCreateRNumber.visibility = View.VISIBLE
+                    val adapter = SpinnerAdapter(
+                        this,
+                        android.R.layout.simple_spinner_item,
+                        isCreateRNumberList
+                    )
+                    binding.spinnerIsCreateRNumber.adapter = adapter
+                    binding.spinnerIsCreateRNumber.setSelection(currentDealStatus.toInt())
+                    binding.spinnerIsCreateRNumber.onItemSelectedListener =
+                        object : AdapterView.OnItemSelectedListener {
+                            override fun onItemSelected(
+                                parent: AdapterView<*>?,
+                                view: View?,
+                                position: Int,
+                                id: Long
+                            ) {
+                                // 當選項被選擇時，將選項的值存儲到content
+                                currentDealStatus = position.toString()
+                            }
+
+                            override fun onNothingSelected(parent: AdapterView<*>?) {
+                                // 如果沒有選項被選擇，你可以在這里處理邏輯
+                            }
+                        }
+                }
             }
         }
 
@@ -204,6 +237,7 @@ class FormContentActivity : BaseActivity(), View.OnClickListener {
             reportTitle = formEntity.reportTitle,
             date = formEntity.date,
             formContent = formEntity.formContent,
+            isCreateRNumber = currentIsCreateRNumber,
         )
 
         // 如果表單是處理完成的話要判斷表單中的貨物是否已經全部入庫
