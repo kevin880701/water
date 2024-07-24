@@ -23,4 +23,6 @@ interface InventoryDao {
     @Query("SELECT * FROM $INVENTORY_TABLE_NAME WHERE isUpdate = 0")
     fun getAllNotUpdated(): List<InventoryEntity>
 
+    @Query("UPDATE $INVENTORY_TABLE_NAME SET isUpdate = :isUpdate, dealStatus = :dealStatus")
+    fun updateAllStatus(isUpdate: Boolean, dealStatus: String)
 }
