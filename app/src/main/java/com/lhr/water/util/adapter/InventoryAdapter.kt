@@ -6,6 +6,7 @@ import android.text.Editable
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.view.inputmethod.InputMethodManager
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
@@ -56,6 +57,11 @@ class InventoryAdapter(context: Context) :
                 binding.imageOk.visibility = View.VISIBLE
                 binding.editQuantity.isEnabled = true
                 binding.line.visibility = View.VISIBLE
+
+                binding.editQuantity.requestFocus()
+                binding.editQuantity.setSelection(binding.editQuantity.text.length)
+                val imm = binding.editQuantity.context.getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
+                imm.showSoftInput(binding.editQuantity, InputMethodManager.SHOW_IMPLICIT)
             }
 
             binding.imageOk.setOnClickListener {
