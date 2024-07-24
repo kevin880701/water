@@ -56,10 +56,11 @@ class FormContentActivity : BaseActivity(), View.OnClickListener {
         formEntity = intent.getSerializableExtra("formEntity") as FormEntity
         baseForm = formEntity.parseBaseForm()
 
-        currentDealStatus = formEntity.isCreateRNumber
+        currentDealStatus = formEntity.dealStatus
+        currentIsCreateRNumber = formEntity.isCreateRNumber
 
 
-        // 如果表單是待處理則提前確認是否有入庫完成，若有則自動把狀態改為處理完成
+        // 如果表單是處理中則提前確認是否有入庫完成，若有則自動把狀態改為處理完成
         if (currentDealStatus == getString(R.string.now_deal)
         ) {
             if (isMaterialAlreadyInput(
