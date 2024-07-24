@@ -13,7 +13,7 @@ import com.lhr.water.databinding.ItemInventoryMaterialBinding
 import com.lhr.water.room.InventoryEntity
 import com.lhr.water.room.SqlDatabase
 
-class InventoryAdapter(val listener: Listener, context: Context) :
+class InventoryAdapter(context: Context) :
     ListAdapter<InventoryEntity, InventoryAdapter.ViewHolder>(LOCK_DIFF_UTIL) {
     var context = context
 
@@ -51,11 +51,6 @@ class InventoryAdapter(val listener: Listener, context: Context) :
             binding.editQuantity.text = Editable.Factory.getInstance().newEditable(inventoryEntity.actualQuantity.toString())
             binding.textDefaultQuantity.text = Editable.Factory.getInstance().newEditable(inventoryEntity.defaultQuantity.toString())
 
-
-            binding.root.setOnClickListener {
-                listener.onItemClick(getItem(adapterPosition))
-            }
-
             binding.imageEdit.setOnClickListener {
                 binding.imageEdit.visibility = View.GONE
                 binding.imageOk.visibility = View.VISIBLE
@@ -74,9 +69,5 @@ class InventoryAdapter(val listener: Listener, context: Context) :
                 SqlDatabase.getInstance().getInventoryDao().insertOrUpdate(inventoryEntity)
             }
         }
-    }
-
-    interface Listener {
-        fun onItemClick(InventoryEntity: InventoryEntity)
     }
 }

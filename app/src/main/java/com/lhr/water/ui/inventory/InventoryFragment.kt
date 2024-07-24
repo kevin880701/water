@@ -21,7 +21,7 @@ import org.json.JSONException
 import timber.log.Timber
 
 
-class InventoryFragment : BaseFragment(), View.OnClickListener, InventoryAdapter.Listener {
+class InventoryFragment : BaseFragment(), View.OnClickListener {
 
     private var _binding: FragmentInventoryBinding? = null
     private val binding get() = _binding!!
@@ -100,29 +100,13 @@ class InventoryFragment : BaseFragment(), View.OnClickListener, InventoryAdapter
     }
 
     private fun initRecyclerView() {
-        inventoryAdapter = InventoryAdapter(this, requireContext())
+        inventoryAdapter = InventoryAdapter(requireContext())
         binding.recyclerInventory.adapter = inventoryAdapter
         binding.recyclerInventory.layoutManager = LinearLayoutManager(activity)
     }
 
     override fun onClick(v: View?) {
         when (v?.id) {
-        }
-    }
-
-    /**
-     * 表單列表點擊
-     * @param json 被點擊的列資料
-     */
-    override fun onItemClick(inventoryEntity: InventoryEntity) {
-        val extractedValues = ArrayList<String>()
-        for (fieldName in formFieldNameEngList) {
-            try {
-//                val value: String = json.getString(fieldName)
-//                extractedValues.add(value)
-            } catch (e: JSONException) {
-                e.printStackTrace()
-            }
         }
     }
 
