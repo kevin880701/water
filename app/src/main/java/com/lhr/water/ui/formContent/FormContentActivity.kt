@@ -3,7 +3,6 @@ package com.lhr.water.ui.formContent
 import android.os.Bundle
 import android.view.View
 import android.widget.AdapterView
-import android.widget.Toast
 import androidx.activity.viewModels
 import androidx.core.content.res.ResourcesCompat
 import com.google.gson.Gson
@@ -13,8 +12,6 @@ import com.lhr.water.data.deliveryItemFieldMap
 import com.lhr.water.data.form.BaseForm
 import com.lhr.water.data.form.BaseItem
 import com.lhr.water.data.form.DeliveryForm
-import com.lhr.water.data.form.ReceiveForm
-import com.lhr.water.data.form.ReturnForm
 import com.lhr.water.data.form.TransferForm
 import com.lhr.water.data.receiveFieldMap
 import com.lhr.water.data.receiveItemFieldMap
@@ -34,7 +31,6 @@ import com.lhr.water.util.isCreateRNumberList
 import com.lhr.water.util.showToast
 import com.lhr.water.util.widget.MaterialWidget
 import com.lhr.water.util.widget.FormContentDataWidget
-import kotlin.reflect.KClass
 
 class FormContentActivity : BaseActivity(), View.OnClickListener {
     val viewModel: FormContentViewModel by viewModels { (applicationContext as APP).appContainer.viewModelFactory }
@@ -68,7 +64,6 @@ class FormContentActivity : BaseActivity(), View.OnClickListener {
                     baseForm.formNumber,
                 )
             ) {
-                formEntity.dealStatus = getString(R.string.complete_deal)
                 currentDealStatus = getString(R.string.complete_deal)
             }
         }
@@ -189,7 +184,7 @@ class FormContentActivity : BaseActivity(), View.OnClickListener {
         // --------------材料--------------------
 
         baseForm.itemDetails.forEachIndexed { index, itemDetail ->
-            val formGoodsDataWidget =
+            val formMaterialDataWidget =
                 MaterialWidget(
                     activity = this@FormContentActivity,
                     baseForm = baseForm,
@@ -201,7 +196,7 @@ class FormContentActivity : BaseActivity(), View.OnClickListener {
                     },
                     dealStatus = formEntity.dealStatus
                 )
-            binding.linearItemData.addView(formGoodsDataWidget)
+            binding.linearItemData.addView(formMaterialDataWidget)
         }
     }
 
