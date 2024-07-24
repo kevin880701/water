@@ -20,6 +20,7 @@ interface InventoryDao {
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     fun insertOrUpdate(inventoryEntity: InventoryEntity)
 
+
     @Query("SELECT * FROM $INVENTORY_TABLE_NAME WHERE isUpdate = 0")
     fun getAllNotUpdated(): List<InventoryEntity>
 

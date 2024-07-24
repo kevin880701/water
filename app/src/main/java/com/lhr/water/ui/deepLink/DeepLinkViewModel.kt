@@ -72,11 +72,7 @@ class DeepLinkViewModel(var context: Context, var formRepository: FormRepository
             }else{
                 val gson = Gson()
 
-                val inventoryEntities = if(isInventoryCompleted){
-                     sqlDatabase.getInventoryDao().getAllNotUpdated()
-                }else {
-                    emptyList()
-                }
+                val inventoryEntities = sqlDatabase.getInventoryDao().getAll()
                 val storageRecordEntities = sqlDatabase.getStorageRecordDao().getAllNotUpdated()
                 val formEntities = sqlDatabase.getFormDao().getAllNotUpdated()
 
