@@ -55,14 +55,14 @@ class InventoryAdapter(context: Context) :
                 binding.imageEdit.visibility = View.GONE
                 binding.imageOk.visibility = View.VISIBLE
                 binding.editQuantity.isEnabled = true
-                binding.editQuantity.setBackgroundColor(Color.LTGRAY)
+                binding.line.visibility = View.VISIBLE
             }
 
             binding.imageOk.setOnClickListener {
                 binding.imageEdit.visibility = View.VISIBLE
                 binding.imageOk.visibility = View.GONE
                 binding.editQuantity.isEnabled = false
-                binding.editQuantity.setBackgroundColor(Color.TRANSPARENT)
+                binding.line.visibility = View.GONE
                 inventoryEntity.actualQuantity = binding.editQuantity.text.toString()
                 inventoryEntity.dealStatus = "處理完成"
                 inventoryEntity.isUpdate = false

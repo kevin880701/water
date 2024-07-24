@@ -41,8 +41,8 @@ class CoverActivity : BaseActivity() {
         } else {
             viewModel.userRepository.userInfo.postValue(
                 UserInfo(
-                deptAno = "",
-                userId = ""
+        deptAno = "0D60",
+        userId = "123"
             )
             )
             println("No UserInfoData found")
