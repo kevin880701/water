@@ -154,14 +154,29 @@ class DealMaterialDialog(
                 if (binding.spinnerStorage.selectedItem == null) {
                     showToast(requireContext(), "儲櫃未選擇")
                 } else {
-                    viewModel.inputInTempGoods(
-                        formEntity,
-                        itemDetail,
-                        viewModel.selectStorage.value!!,
-                        binding.editQuantity.text.toString(),
-                        isInput(formEntity)
-                    )
-                    this.dismiss()
+                    if(formEntity.reportTitle == "材料調撥單"){
+                        if(binding.editQuantity.text.toString().toInt() > maxQuantity.toInt()){
+                            showToast(requireContext(), "數量不可大於剩餘數量")
+                        }else{
+                            viewModel.inputInTempGoods(
+                                formEntity,
+                                itemDetail,
+                                viewModel.selectStorage.value!!,
+                                binding.editQuantity.text.toString(),
+                                isInput(formEntity)
+                            )
+                            this.dismiss()
+                        }
+                    }else{
+                        viewModel.inputInTempGoods(
+                            formEntity,
+                            itemDetail,
+                            viewModel.selectStorage.value!!,
+                            binding.editQuantity.text.toString(),
+                            isInput(formEntity)
+                        )
+                        this.dismiss()
+                    }
                 }
             }
 

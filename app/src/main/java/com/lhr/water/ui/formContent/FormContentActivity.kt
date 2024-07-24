@@ -160,7 +160,7 @@ class FormContentActivity : BaseActivity(), View.OnClickListener {
                         isCreateRNumberList
                     )
                     binding.spinnerIsCreateRNumber.adapter = adapter
-                    binding.spinnerIsCreateRNumber.setSelection(currentDealStatus.toInt())
+                    binding.spinnerIsCreateRNumber.setSelection(currentIsCreateRNumber.toInt())
                     binding.spinnerIsCreateRNumber.onItemSelectedListener =
                         object : AdapterView.OnItemSelectedListener {
                             override fun onItemSelected(
@@ -170,7 +170,7 @@ class FormContentActivity : BaseActivity(), View.OnClickListener {
                                 id: Long
                             ) {
                                 // 當選項被選擇時，將選項的值存儲到content
-                                currentDealStatus = position.toString()
+                                currentIsCreateRNumber = position.toString()
                             }
 
                             override fun onNothingSelected(parent: AdapterView<*>?) {
