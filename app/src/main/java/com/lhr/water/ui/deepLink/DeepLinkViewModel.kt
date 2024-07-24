@@ -51,6 +51,7 @@ class DeepLinkViewModel(var context: Context, var formRepository: FormRepository
                     response.data.dataList.inventoryFormList
                 )
                 regionRepository.updateSqlData(response.data.dataList.storageList)
+                SharedPreferencesHelper.saveInventoryCompleted(context, false)
             }
             .subscribe({ response ->
                 println("請求成功")
