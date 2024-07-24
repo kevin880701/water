@@ -70,7 +70,6 @@ class InventoryAdapter(context: Context) :
                 binding.editQuantity.isEnabled = false
                 binding.line.visibility = View.GONE
                 inventoryEntity.actualQuantity = binding.editQuantity.text.toString()
-                inventoryEntity.dealStatus = "處理完成"
                 inventoryEntity.isUpdate = false
                 SqlDatabase.getInstance().getInventoryDao().insertOrUpdate(inventoryEntity)
             }
