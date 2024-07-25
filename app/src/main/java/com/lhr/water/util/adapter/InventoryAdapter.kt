@@ -14,9 +14,9 @@ import com.lhr.water.databinding.ItemInventoryMaterialBinding
 import com.lhr.water.room.InventoryEntity
 import com.lhr.water.room.SqlDatabase
 
-class InventoryAdapter(context: Context) :
-    ListAdapter<InventoryEntity, InventoryAdapter.ViewHolder>(LOCK_DIFF_UTIL) {
+class InventoryAdapter(context: Context) : ListAdapter<InventoryEntity, InventoryAdapter.ViewHolder>(LOCK_DIFF_UTIL) {
     var context = context
+    var editIndex: Int = -1
 
     companion object {
         val LOCK_DIFF_UTIL = object : DiffUtil.ItemCallback<InventoryEntity>() {
@@ -24,48 +24,52 @@ class InventoryAdapter(context: Context) :
                 return oldItem == newItem
             }
 
-            override fun areContentsTheSame(
-                oldItem: InventoryEntity,
-                newItem: InventoryEntity
-            ): Boolean {
+            override fun areContentsTheSame(oldItem: InventoryEntity, newItem: InventoryEntity): Boolean {
                 return oldItem.hashCode() == newItem.hashCode()
             }
         }
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
-        val binding =
-            ItemInventoryMaterialBinding.inflate(LayoutInflater.from(parent.context), parent, false)
+        val binding = ItemInventoryMaterialBinding.inflate(LayoutInflater.from(parent.context), parent, false)
         return ViewHolder(binding)
     }
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
-        holder.bind(getItem(position))
+        holder.bind(getItem(position), position)
     }
 
-    inner class ViewHolder(private val binding: ItemInventoryMaterialBinding) :
-        RecyclerView.ViewHolder(binding.root) {
+    inner class ViewHolder(private val binding: ItemInventoryMaterialBinding) : RecyclerView.ViewHolder(binding.root) {
 
-        fun bind(inventoryEntity: InventoryEntity) {
+        fun bind(inventoryEntity: InventoryEntity, position: Int) {
             binding.textDept.text = inventoryEntity.deptName
             binding.textMaterialName.text = inventoryEntity.materialName
             binding.textMaterialNumber.text = inventoryEntity.materialNumber
             binding.editQuantity.text = Editable.Factory.getInstance().newEditable(inventoryEntity.actualQuantity.toString())
             binding.textDefaultQuantity.text = Editable.Factory.getInstance().newEditable(inventoryEntity.defaultQuantity.toString())
 
-            binding.imageEdit.setOnClickListener {
+            if (position == editIndex) {
                 binding.imageEdit.visibility = View.GONE
                 binding.imageOk.visibility = View.VISIBLE
                 binding.line.visibility = View.VISIBLE
                 binding.editQuantity.isEnabled = true
+                binding.editQuantity.requestFocus()
+                binding.editQuantity.setSelection(binding.editQuantity.text.length)
 
-
-                binding.editQuantity.post {
-                    binding.editQuantity.requestFocus()
-                    binding.editQuantity.setSelection(binding.editQuantity.text.length)
+                binding.editQuantity.postDelayed({
                     val imm = binding.editQuantity.context.getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
                     imm.showSoftInput(binding.editQuantity, InputMethodManager.SHOW_IMPLICIT)
-                }
+                }, 100)  // 加入100毫秒的延遲
+            } else {
+                binding.imageEdit.visibility = View.VISIBLE
+                binding.imageOk.visibility = View.GONE
+                binding.line.visibility = View.GONE
+                binding.editQuantity.isEnabled = false
+            }
+
+            binding.imageEdit.setOnClickListener {
+                editIndex = position
+                notifyDataSetChanged()
             }
 
             binding.imageOk.setOnClickListener {
@@ -73,9 +77,13 @@ class InventoryAdapter(context: Context) :
                 binding.imageOk.visibility = View.GONE
                 binding.editQuantity.isEnabled = false
                 binding.line.visibility = View.GONE
+
                 inventoryEntity.actualQuantity = binding.editQuantity.text.toString()
                 inventoryEntity.isUpdate = false
                 SqlDatabase.getInstance().getInventoryDao().insertOrUpdate(inventoryEntity)
+
+                editIndex = -1
+                notifyDataSetChanged()
             }
         }
     }
