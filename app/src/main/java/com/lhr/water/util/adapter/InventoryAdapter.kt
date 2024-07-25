@@ -1,18 +1,21 @@
 package com.lhr.water.util.adapter
 
 import android.content.Context
-import android.graphics.Color
 import android.text.Editable
+import android.view.KeyEvent
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.view.inputmethod.EditorInfo
 import android.view.inputmethod.InputMethodManager
+import android.widget.TextView.OnEditorActionListener
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.lhr.water.databinding.ItemInventoryMaterialBinding
 import com.lhr.water.room.InventoryEntity
 import com.lhr.water.room.SqlDatabase
+
 
 class InventoryAdapter(context: Context) : ListAdapter<InventoryEntity, InventoryAdapter.ViewHolder>(LOCK_DIFF_UTIL) {
     var context = context
@@ -56,10 +59,16 @@ class InventoryAdapter(context: Context) : ListAdapter<InventoryEntity, Inventor
                 binding.editQuantity.requestFocus()
                 binding.editQuantity.setSelection(binding.editQuantity.text.length)
 
-                binding.editQuantity.postDelayed({
+
+                // 確保在設置焦點和顯示小鍵盤之前檢查當前的焦點狀態
+                binding.editQuantity.post {
+                    if (!binding.editQuantity.isFocused) {
+                        binding.editQuantity.requestFocus()
+                    }
+                    binding.editQuantity.setSelection(binding.editQuantity.text.length)
                     val imm = binding.editQuantity.context.getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
                     imm.showSoftInput(binding.editQuantity, InputMethodManager.SHOW_IMPLICIT)
-                }, 100)  // 加入100毫秒的延遲
+                }
             } else {
                 binding.imageEdit.visibility = View.VISIBLE
                 binding.imageOk.visibility = View.GONE
@@ -71,7 +80,15 @@ class InventoryAdapter(context: Context) : ListAdapter<InventoryEntity, Inventor
                 editIndex = position
                 notifyDataSetChanged()
             }
-
+            // 設置 EditorActionListener 來處理回車鍵
+            binding.editQuantity.setOnEditorActionListener { v, actionId, event ->
+                if (actionId == EditorInfo.IME_ACTION_DONE || event?.keyCode == KeyEvent.KEYCODE_ENTER) {
+                    binding.imageOk.performClick()
+                    true
+                } else {
+                    false
+                }
+            }
             binding.imageOk.setOnClickListener {
                 binding.imageEdit.visibility = View.VISIBLE
                 binding.imageOk.visibility = View.GONE
