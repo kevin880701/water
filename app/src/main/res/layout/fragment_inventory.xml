@@ -105,11 +105,92 @@
                     app:layout_constraintBottom_toBottomOf="@+id/checkbox"
                     app:layout_constraintLeft_toRightOf="@+id/checkbox" />
 
+
+
+                <androidx.appcompat.widget.LinearLayoutCompat
+                    android:id="@+id/linearLayoutFieldTitle"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:minHeight="64dp"
+                    android:paddingLeft="12dp"
+                    android:paddingRight="12dp"
+                    android:orientation="horizontal"
+                    android:gravity="center_vertical"
+                    app:layout_constraintTop_toBottomOf="@+id/textInventory">
+                    <TextView
+                        android:id="@+id/textDept"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:text="單位名稱"
+                        android:gravity="center"
+                        style="@style/TextStyle_16dp_black"
+                        android:textColor="@color/primaryBlue" />
+                    <LinearLayout
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1.2"
+                        android:orientation="vertical"
+                        android:gravity="center_horizontal"
+                        android:paddingLeft="4dp"
+                        android:paddingRight="4dp">
+                        <TextView
+                            android:id="@+id/textMaterialName"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:text="材料名稱"
+                            android:background="@color/transparent"
+                            style="@style/TextStyle_16dp_black"
+                            android:textColor="@color/primaryBlack"
+                            android:gravity="center" />
+                        <TextView
+                            android:id="@+id/textMaterialNumber"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:text="材料代號"
+                            android:background="@color/transparent"
+                            style="@style/TextStyle_16dp_black"
+                            android:textColor="@color/deep_gray"
+                            android:gravity="center" />
+                    </LinearLayout>
+                    <TextView
+                        android:id="@+id/textDefaultQuantity"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="0.6"
+                        android:text="預計\n數量"
+                        style="@style/TextStyle_16dp_black"
+                        android:textColor="@color/primaryBlack"
+                        android:gravity="center" />
+
+                    <TextView
+                        android:id="@+id/editQuantity"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="0.6"
+                        android:text="實核\n數量"
+                        style="@style/TextStyle_16dp_black"
+                        android:textColor="@color/primaryBlack"
+                        android:gravity="center"
+                        android:layout_marginLeft="8dp"
+                        app:layout_constraintTop_toTopOf="parent"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintRight_toRightOf="parent"
+                        app:layout_constraintLeft_toLeftOf="parent" />
+
+                    <View
+                        android:layout_width="36dp"
+                        android:layout_height="36dp"/>
+                </androidx.appcompat.widget.LinearLayoutCompat>
+
+
+
                 <androidx.recyclerview.widget.RecyclerView
                     android:id="@+id/recyclerInventory"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    app:layout_constraintTop_toBottomOf="@+id/checkbox"
+                    android:layout_height="0dp"
+                    app:layout_constraintTop_toBottomOf="@+id/linearLayoutFieldTitle"
+                    app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintLeft_toLeftOf="parent"
                     android:layout_marginTop="8dp"
                     tools:itemCount="3"
