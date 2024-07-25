@@ -204,7 +204,7 @@ val isCreateRNumberList: List<String> = listOf(
 )
 
 val fromTitleList: List<String> = listOf(
-    deliveryFormName, pickingFormName, transferFormName, returningFormName, inventoryFormName
+    deliveryFormName, pickingFormName, transferFormName, returningFormName
 )
 
 // 1-交貨，2-驗收，3-調撥，4-領料，5-退料，6-盤點
