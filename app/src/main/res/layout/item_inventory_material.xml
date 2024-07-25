@@ -24,16 +24,33 @@
             android:gravity="center"
             style="@style/TextStyle_16dp_black"
             android:textColor="@color/primaryBlue" />
-        <TextView
-            android:id="@+id/textMaterialName"
+        <LinearLayout
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1.2"
-            android:text="材料名稱"
-            android:background="@color/transparent"
-            style="@style/TextStyle_16dp_black"
-            android:textColor="@color/primaryBlack"
-            android:gravity="center" />
+            android:orientation="vertical"
+            android:gravity="center_horizontal"
+            android:paddingLeft="4dp"
+            android:paddingRight="4dp">
+            <TextView
+                android:id="@+id/textMaterialName"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="材料名稱"
+                android:background="@color/transparent"
+                style="@style/TextStyle_16dp_black"
+                android:textColor="@color/primaryBlack"
+                android:gravity="center" />
+            <TextView
+                android:id="@+id/textMaterialNumber"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="材料代號"
+                android:background="@color/transparent"
+                style="@style/TextStyle_16dp_black"
+                android:textColor="@color/deep_gray"
+                android:gravity="center" />
+        </LinearLayout>
         <TextView
             android:id="@+id/textDefaultQuantity"
             android:layout_width="0dp"

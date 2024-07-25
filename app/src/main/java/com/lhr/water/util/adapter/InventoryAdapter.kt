@@ -49,6 +49,7 @@ class InventoryAdapter(context: Context) :
         fun bind(inventoryEntity: InventoryEntity) {
             binding.textDept.text = inventoryEntity.deptName
             binding.textMaterialName.text = inventoryEntity.materialName
+            binding.textMaterialNumber.text = inventoryEntity.materialNumber
             binding.editQuantity.text = Editable.Factory.getInstance().newEditable(inventoryEntity.actualQuantity.toString())
             binding.textDefaultQuantity.text = Editable.Factory.getInstance().newEditable(inventoryEntity.defaultQuantity.toString())
 
