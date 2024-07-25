@@ -56,13 +56,16 @@ class InventoryAdapter(context: Context) :
             binding.imageEdit.setOnClickListener {
                 binding.imageEdit.visibility = View.GONE
                 binding.imageOk.visibility = View.VISIBLE
-                binding.editQuantity.isEnabled = true
                 binding.line.visibility = View.VISIBLE
+                binding.editQuantity.isEnabled = true
 
-                binding.editQuantity.requestFocus()
-                binding.editQuantity.setSelection(binding.editQuantity.text.length)
-                val imm = binding.editQuantity.context.getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
-                imm.showSoftInput(binding.editQuantity, InputMethodManager.SHOW_IMPLICIT)
+
+                binding.editQuantity.post {
+                    binding.editQuantity.requestFocus()
+                    binding.editQuantity.setSelection(binding.editQuantity.text.length)
+                    val imm = binding.editQuantity.context.getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
+                    imm.showSoftInput(binding.editQuantity, InputMethodManager.SHOW_IMPLICIT)
+                }
             }
 
             binding.imageOk.setOnClickListener {
