@@ -51,18 +51,18 @@
                 android:textColor="@color/deep_gray"
                 android:gravity="center" />
         </LinearLayout>
-        <TextView
-            android:id="@+id/textDefaultQuantity"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="0.6"
-            android:text="數量"
-            android:background="@color/transparent"
-            style="@style/TextStyle_16dp_black"
-            android:textColor="@color/primaryBlack"
-            android:gravity="center"
-            android:inputType="number"
-            android:enabled="false" />
+<!--        <TextView-->
+<!--            android:id="@+id/textDefaultQuantity"-->
+<!--            android:layout_width="0dp"-->
+<!--            android:layout_height="wrap_content"-->
+<!--            android:layout_weight="0.6"-->
+<!--            android:text="數量"-->
+<!--            android:background="@color/transparent"-->
+<!--            style="@style/TextStyle_16dp_black"-->
+<!--            android:textColor="@color/primaryBlack"-->
+<!--            android:gravity="center"-->
+<!--            android:inputType="number"-->
+<!--            android:enabled="false" />-->
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="0dp"
             android:layout_height="wrap_content"

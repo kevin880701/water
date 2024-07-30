@@ -150,14 +150,14 @@
                             android:textColor="@color/deep_gray"
                             android:gravity="center" />
                     </LinearLayout>
-                    <TextView
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="0.6"
-                        android:text="預計\n數量"
-                        style="@style/TextStyle_16dp_black"
-                        android:textColor="@color/primaryBlack"
-                        android:gravity="center" />
+<!--                    <TextView-->
+<!--                        android:layout_width="0dp"-->
+<!--                        android:layout_height="wrap_content"-->
+<!--                        android:layout_weight="0.6"-->
+<!--                        android:text="預計\n數量"-->
+<!--                        style="@style/TextStyle_16dp_black"-->
+<!--                        android:textColor="@color/primaryBlack"-->
+<!--                        android:gravity="center" />-->
 
                     <TextView
                         android:layout_width="0dp"

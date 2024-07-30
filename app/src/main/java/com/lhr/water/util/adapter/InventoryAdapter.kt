@@ -49,7 +49,7 @@ class InventoryAdapter(context: Context) : ListAdapter<InventoryEntity, Inventor
             binding.textMaterialName.text = inventoryEntity.materialName
             binding.textMaterialNumber.text = inventoryEntity.materialNumber
             binding.editQuantity.text = Editable.Factory.getInstance().newEditable(inventoryEntity.actualQuantity.toString())
-            binding.textDefaultQuantity.text = Editable.Factory.getInstance().newEditable(inventoryEntity.defaultQuantity.toString())
+//            binding.textDefaultQuantity.text = Editable.Factory.getInstance().newEditable(inventoryEntity.defaultQuantity.toString())
 
             if (position == editIndex) {
                 binding.imageEdit.visibility = View.GONE
