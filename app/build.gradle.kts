@@ -34,7 +34,7 @@ android {
         applicationId = "com.lhr.water"
         minSdk = 26
         targetSdk = 33
-        versionCode = 8
+        versionCode = 9
         versionName = "1.0.1"
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
