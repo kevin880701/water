@@ -85,21 +85,25 @@ class FormContentActivity : BaseActivity(), View.OnClickListener {
             getString(R.string.delivery_form) -> {
                 formFieldNameMap = deliveryFieldMap.toMutableMap()
                 formItemFieldNameMap = deliveryItemFieldMap.toMutableMap()
+                binding.textRequestQuantity.text = "發出數量"
             }
 
             getString(R.string.receive_form) -> {
                 formFieldNameMap = receiveFieldMap.toMutableMap()
                 formItemFieldNameMap = receiveItemFieldMap.toMutableMap()
+                binding.textRequestQuantity.text = "請領數量"
             }
 
             getString(R.string.transfer_form) -> {
                 formFieldNameMap = transferFieldMap.toMutableMap()
                 formItemFieldNameMap = transferItemFieldMap.toMutableMap()
+                binding.textRequestQuantity.text = "實撥數量"
             }
 
             getString(R.string.returning_form) -> {
                 formFieldNameMap = returningFieldMap.toMutableMap()
                 formItemFieldNameMap = returningItemFieldMap.toMutableMap()
+                binding.textRequestQuantity.text = "退回數量"
             }
         }
 
