@@ -9,9 +9,11 @@ import android.view.ViewGroup
 import android.view.inputmethod.EditorInfo
 import android.view.inputmethod.InputMethodManager
 import android.widget.TextView.OnEditorActionListener
+import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
+import com.lhr.water.R
 import com.lhr.water.databinding.ItemInventoryMaterialBinding
 import com.lhr.water.room.InventoryEntity
 import com.lhr.water.room.SqlDatabase
@@ -49,8 +51,11 @@ class InventoryAdapter(context: Context) : ListAdapter<InventoryEntity, Inventor
             binding.textMaterialName.text = inventoryEntity.materialName
             binding.textMaterialNumber.text = inventoryEntity.materialNumber
             binding.editQuantity.text = Editable.Factory.getInstance().newEditable(inventoryEntity.actualQuantity.toString())
-//            binding.textDefaultQuantity.text = Editable.Factory.getInstance().newEditable(inventoryEntity.defaultQuantity.toString())
-
+            if(binding.editQuantity.text.toString() == inventoryEntity.defaultQuantity){
+                binding.editQuantity.setTextColor(context.getColor(R.color.green))
+            }else{
+                binding.editQuantity.setTextColor(context.getColor(R.color.red))
+            }
             if (position == editIndex) {
                 binding.imageEdit.visibility = View.GONE
                 binding.imageOk.visibility = View.VISIBLE
