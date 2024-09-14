@@ -82,11 +82,11 @@ class StorageContentBottom(
      * @param storageRecordEntity 貨物資訊
      */
     override fun onMaterialClick(storageRecordEntity: StorageRecordEntity) {
-        val materialDialog = MaterialDialog(
-            storageRecordEntity = storageRecordEntity,
-            listener = this,
-        )
-        materialDialog.show(activity.supportFragmentManager, "MaterialDialog")
+//        val materialDialog = MaterialDialog(
+//            storageRecordEntity = storageRecordEntity,
+//            listener = this,
+//        )
+//        materialDialog.show(activity.supportFragmentManager, "MaterialDialog")
     }
 
     override fun onGoodsDialogConfirm(formItemJson: JSONObject) {
