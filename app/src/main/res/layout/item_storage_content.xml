@@ -9,6 +9,7 @@
         android:id="@+id/linearLayoutMaterial"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:gravity="center_vertical"
         android:minHeight="72dp"
         android:paddingLeft="12dp"
         android:paddingRight="12dp"
