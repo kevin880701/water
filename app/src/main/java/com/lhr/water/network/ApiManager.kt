@@ -18,8 +18,8 @@ class ApiManager() {
     // 創建 OkHttpClient 實例，設定一些網路請求的屬性
     val client = OkHttpClient.Builder()
         .connectTimeout(10, TimeUnit.SECONDS) // 連接超時時間為 10 秒
-        .readTimeout(10, TimeUnit.SECONDS) // 讀取超時時間為 10 秒
-        .writeTimeout(10, TimeUnit.SECONDS) // 寫入超時時間為 10 秒
+        .readTimeout(300, TimeUnit.SECONDS) // 讀取超時時間為 300 秒
+        .writeTimeout(300, TimeUnit.SECONDS) // 寫入超時時間為 300 秒
         .build()
 
     val retrofit = Retrofit.Builder()
