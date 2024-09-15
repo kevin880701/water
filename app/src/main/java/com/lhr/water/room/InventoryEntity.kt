@@ -7,7 +7,9 @@ import androidx.room.Index
 import androidx.room.PrimaryKey
 import com.google.gson.annotations.SerializedName
 import java.io.Serializable
-
+/**
+ * 盤點單單據資訊，用於存儲每張盤點單的詳細資訊。
+ */
 @Entity(tableName = SqlModel.INVENTORY_TABLE_NAME, indices = [Index(value = [SqlModel.formNumber], unique = true)])
 class InventoryEntity(
 

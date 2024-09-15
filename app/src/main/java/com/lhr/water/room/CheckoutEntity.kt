@@ -8,6 +8,9 @@ import androidx.room.PrimaryKey
 import com.google.gson.annotations.SerializedName
 import java.io.Serializable
 
+/**
+ * 儲櫃結算後的物料數量。
+ */
 @Entity(
     tableName = SqlModel.CHECKOUT_TABLE_NAME,
     indices = [Index(value = [SqlModel.id])]

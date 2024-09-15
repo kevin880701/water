@@ -6,7 +6,9 @@ import androidx.room.Entity
 import androidx.room.Index
 import androidx.room.PrimaryKey
 import java.io.Serializable
-
+/**
+ * 區域地圖資訊，用於存儲每個區域的相關資訊。
+ */
 @Entity(
     tableName = SqlModel.REGION_TABLE_NAME,
     indices = [Index(

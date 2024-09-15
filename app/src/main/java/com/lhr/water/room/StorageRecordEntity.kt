@@ -7,7 +7,9 @@ import androidx.room.Index
 import androidx.room.PrimaryKey
 import com.google.gson.annotations.SerializedName
 import java.io.Serializable
-
+/**
+ * 儲位出入庫紀錄，用於存儲每次出入庫操作的詳細信息。
+ */
 @Entity(tableName = SqlModel.STORAGE_RECORD_TABLE_NAME, indices = [Index(value = [SqlModel.id])])
 class StorageRecordEntity(
     storageId: Int,  //InvtSlotId: 儲位編號
@@ -19,7 +21,7 @@ class StorageRecordEntity(
     userId: String, //InvtUserId: 操作的使用者ID
     quantity: String, //InvtNum: 數量
     recordDate: String, //CreatedAt: 紀錄創建時間（出庫入庫時間，格式YYYY-MM-DD-HH-MM-SS）
-    storageArrivalId: String, //CreatedAt: 紀錄創建時間（出庫入庫時間，格式YYYY-MM-DD-HH-MM-SS）
+    storageArrivalId: String,
     isUpdate: Boolean = true,
     itemId: Int
 ) : Serializable {

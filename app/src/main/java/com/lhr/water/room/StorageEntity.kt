@@ -8,21 +8,24 @@ import androidx.room.PrimaryKey
 import com.google.gson.annotations.SerializedName
 import java.io.Serializable
 
+/**
+ * 儲櫃資訊
+ */
 @Entity(
     tableName = SqlModel.STORAGE_TABLE_NAME,
-    indices = [Index(value = [SqlModel.id])]
+    indices = [Index(value = [SqlModel.id])] 
 )
 class StorageEntity(
-    storageId: Int,
-    deptNumber: String,
-    mapSeq: Int,
-    storageName: String,
-    storageX: Int,
-    storageY: Int,
+    storageId: Int, // 儲櫃ID
+    deptNumber: String, // 部門編號，用來標識儲櫃所屬部門
+    mapSeq: Int, // 地圖序列，用來標識儲櫃所在的地圖
+    storageName: String, // 儲櫃名稱
+    storageX: Int, // 儲櫃在地圖上的X座標
+    storageY: Int // 儲櫃在地圖上的Y座標
 ) : Serializable {
 
     @NonNull
-    @PrimaryKey(autoGenerate = true)
+    @PrimaryKey(autoGenerate = true) // 自動生成
     var id: Int = 0
 
     @ColumnInfo(name = SqlModel.storageId, typeAffinity = ColumnInfo.INTEGER)
