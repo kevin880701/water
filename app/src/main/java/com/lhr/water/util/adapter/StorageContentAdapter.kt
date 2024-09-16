@@ -2,6 +2,7 @@ package com.lhr.water.util.adapter
 
 import android.content.Context
 import android.view.LayoutInflater
+import android.view.View
 import android.view.ViewGroup
 import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.DiffUtil
@@ -9,6 +10,7 @@ import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.lhr.water.R
 import com.lhr.water.databinding.ItemStorageContentBinding
+import com.lhr.water.room.StorageEntity
 import com.lhr.water.room.StorageRecordEntity
 import com.lhr.water.util.convertToRocDate
 import com.lhr.water.util.materialStatusMap
@@ -31,6 +33,7 @@ class StorageContentAdapter(val listener: Listener, var context: Context): ListA
 
     interface Listener{
         fun onMaterialClick(item: StorageRecordEntity)
+        fun MaterialTransfer(storageRecordEntity: StorageRecordEntity)
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
@@ -59,6 +62,10 @@ class StorageContentAdapter(val listener: Listener, var context: Context): ListA
             binding.textStatus.text = materialStatusMap[storageRecordEntity.materialStatus]
             if(storageRecordEntity.materialStatus == "1"){
                 binding.linearLayoutMaterial.setBackgroundColor(ContextCompat.getColor(context, R.color.disableGray))
+                binding.imageMaterialTransfer.visibility = View.INVISIBLE
+            }
+            binding.imageMaterialTransfer.setOnClickListener {
+                listener.MaterialTransfer(storageRecordEntity)
             }
         }
     }

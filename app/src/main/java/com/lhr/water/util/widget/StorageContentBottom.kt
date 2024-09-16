@@ -16,6 +16,7 @@ import com.lhr.water.ui.map.MapActivity
 import com.lhr.water.ui.map.MapViewModel
 import com.lhr.water.util.adapter.StorageContentAdapter
 import com.lhr.water.util.dialog.MaterialDialog
+import com.lhr.water.util.dialog.MaterialTransferDialog
 import org.json.JSONObject
 
 class StorageContentBottom(
@@ -87,6 +88,14 @@ class StorageContentBottom(
 //            listener = this,
 //        )
 //        materialDialog.show(activity.supportFragmentManager, "MaterialDialog")
+    }
+
+    override fun MaterialTransfer(storageRecordEntity: StorageRecordEntity) {
+        val materialTransferDialog = MaterialTransferDialog(
+            storageEntity = storageEntity,
+            storageRecordEntity = storageRecordEntity,
+        )
+        materialTransferDialog.show(activity.supportFragmentManager, "MaterialDialog")
     }
 
     override fun onGoodsDialogConfirm(formItemJson: JSONObject) {

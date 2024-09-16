@@ -64,6 +64,7 @@
 
     <string name="new_goods">新增貨物</string>
     <string name="goods_information">貨物資訊</string>
+    <string name="goods_transfer">貨物轉移</string>
     <string name="edit_storage_name">修改儲櫃名稱</string>
     <string name="add_storage_data">新增儲櫃資料</string>
     <string name="goods_number">貨物編號</string>

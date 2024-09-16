@@ -10,6 +10,7 @@ import com.lhr.water.room.RegionEntity
 import com.lhr.water.room.StorageEntity
 import com.lhr.water.room.StorageRecordEntity
 import com.lhr.water.ui.base.APP
+import com.lhr.water.util.MapDataList
 import java.time.LocalDate
 import java.time.format.DateTimeFormatter
 
@@ -139,5 +140,36 @@ class MapViewModel(context: Context, var regionRepository: RegionRepository, var
         }
 
         return resultStorageRecordEntities
+    }
+
+
+    fun getInputRegionList(): ArrayList<RegionEntity> {
+        // 只列出使用者可看到的儲櫃
+        val filteredStorageEntities = regionRepository.storageEntities.filter { it.deptNumber == userRepository.userInfo.value!!.deptAno}
+
+        // 篩選掉重複的deptNumber和mapSeq
+        val resultStorageEntities = filteredStorageEntities.distinctBy { it.deptNumber to it.mapSeq }
+
+
+        // 根據篩選後的資料找出對應的ArrayList<RegionEntity>
+        val resultRegionEntities = mutableListOf<RegionEntity>()
+        resultStorageEntities.forEach { storage ->
+            val regionEntity = MapDataList.find { it.deptNumber == storage.deptNumber && it.mapSeq == storage.mapSeq }
+            regionEntity?.let { resultRegionEntities.add(it) }
+        }
+        return ArrayList(resultRegionEntities)
+    }
+
+    fun getDeptSpinnerList(regionNumber: String, regionEntities: ArrayList<RegionEntity>): ArrayList<RegionEntity> {
+
+        return regionEntities.filter { it.regionNumber == regionNumber} as ArrayList<RegionEntity>
+    }
+
+    fun getStorageSpinnerList(specifiedDeptNumber: String, specifiedMapSeq: Int): ArrayList<StorageEntity> {
+        val filteredStorageEntities = regionRepository.storageEntities.filter { storageEntity ->
+            storageEntity.deptNumber == specifiedDeptNumber && storageEntity.mapSeq == specifiedMapSeq
+        }.toMutableList()
+
+        return ArrayList(filteredStorageEntities)
     }
 }
